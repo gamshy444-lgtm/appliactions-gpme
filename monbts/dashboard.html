@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonBTS — Pilotage de moyenne</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#4f46e5;--accent-2:#4338ca;}</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <span class="back-link" style="cursor:default;">📊 MonBTS — Brique 1 : Pilotage de moyenne</span>
+    <button class="reset-btn" id="reset-btn">Réinitialiser mes notes</button>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Moyenne générale pondérée</div>
+    <div class="mb-kpi">
+      <div>
+        <div class="mb-kpi-value" id="kpi-moyenne">—/20</div>
+        <div class="mb-kpi-sub" id="kpi-sub">en attente de notes</div>
+      </div>
+      <div class="mb-gauge">
+        <div class="mb-gauge-track">
+          <div class="mb-gauge-fill" id="gauge-fill" style="width:0%"></div>
+          <div class="mb-gauge-target" id="gauge-target" style="left:60%" title="Cible 12/20"></div>
+        </div>
+        <div class="mb-gauge-labels"><span>0</span><span>Cible 12</span><span>20</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-matieres-grid" id="matieres-grid"></div>
+
+  <div class="card mb-simulateur">
+    <h3 style="margin-top:0;">🎯 Simulateur — quelle note me faut-il ?</h3>
+    <p style="color:var(--muted);font-size:13.5px;margin-top:-6px;">
+      En supposant que toutes les autres matières restent à leur note actuelle, quelle note
+      dois-tu obtenir sur une matière donnée pour atteindre une moyenne générale cible ?
+    </p>
+    <div class="row">
+      <div>
+        <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:4px;">Matière à simuler</label>
+        <select id="sim-matiere"></select>
+      </div>
+      <div>
+        <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:4px;">Moyenne générale visée</label>
+        <input type="number" id="sim-cible" value="12" min="0" max="20" step="0.5">
+      </div>
+      <button class="btn" id="sim-btn">Calculer</button>
+    </div>
+    <div id="sim-result"></div>
+  </div>
+
+  <p class="footer-note">
+    Notes verrouillées (CCF déjà tombé) exclues du simulateur. Tout est stocké localement
+    dans ton navigateur — aucune donnée n'est envoyée sur internet.
+  </p>
+</div>
+
+<script src="config.js"></script>
+<script src="store.js"></script>
+<script>
+(function () {
+  var CFG = MonBTS.CONFIG;
+  var store = MonBTS.store;
+  var matieres = store.chargerMatieres(CFG.MATIERES_SEED);
+
+  var STATUT_LABEL = { a_venir: "À venir", en_cours: "En cours", verrouille: "Verrouillé (CCF)" };
+
+  function persist() {
+    store.sauvegarderMatieres(matieres);
+  }
+
+  function render() {
+    renderKpi();
+    renderMatieres();
+    renderSimulateurOptions();
+  }
+
+  function renderKpi() {
+    var res = store.calculerMoyenneGenerale(matieres);
+    var kpiEl = document.getElementById("kpi-moyenne");
+    var subEl = document.getElementById("kpi-sub");
+    var fill = document.getElementById("gauge-fill");
+    var target = document.getElementById("gauge-target");
+
+    if (res.moyenne === null) {
+      kpiEl.textContent = "—/20";
+      subEl.textContent = "Aucune note saisie pour l'instant";
+    } else {
+      kpiEl.textContent = res.moyenne + "/20";
+      var msg = res.moyenne >= 12 ? "🎉 Objectif de 12/20 atteint (sur les notes connues)" : "Objectif 12/20 pas encore atteint";
+      if (res.matieresManquantes.length) {
+        msg += " · en attente de : " + res.matieresManquantes.join(", ");
+      }
+      subEl.textContent = msg;
+      fill.style.width = Math.max(0, Math.min(100, (res.moyenne / 20) * 100)) + "%";
+    }
+    target.style.left = (12 / 20) * 100 + "%";
+  }
+
+  function renderMatieres() {
+    var grid = document.getElementById("matieres-grid");
+    grid.innerHTML = "";
+    matieres.forEach(function (m) {
+      var alerte = store.calculerAlerte(m, CFG.SEUILS_ALERTE);
+      var impact = store.calculerImpact(m);
+
+      var card = document.createElement("div");
+      card.className = "mb-matiere-card";
+      card.innerHTML =
+        '<div class="mb-matiere-head">' +
+          '<div>' +
+            '<div class="mb-matiere-code">' + m.code + '</div>' +
+            '<h3>' + m.nom + '</h3>' +
+            '<span class="mb-status-tag ' + m.statutEvaluation + '">' + STATUT_LABEL[m.statutEvaluation] + '</span>' +
+          '</div>' +
+          '<div style="text-align:right;">' +
+            '<div class="mb-coef">Coeff. ' + m.coefficient + '</div>' +
+            '<div style="margin-top:8px;"><span class="badge ' + badgeClass(alerte.niveau) + '">' + alerte.icone + ' ' + alerte.label + (alerte.manuelle ? ' · manuel' : '') + '</span></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mb-inputs">' +
+          '<div class="mb-field"><label>Note actuelle /20</label>' +
+            '<input type="number" min="0" max="20" step="0.01" data-field="noteActuelle" data-id="' + m.id + '" value="' + (m.noteActuelle === null ? "" : m.noteActuelle) + '" placeholder="—"></div>' +
+          '<div class="mb-field"><label>Cible /20</label>' +
+            '<input type="number" min="0" max="20" step="0.5" data-field="noteCible" data-id="' + m.id + '" value="' + m.noteCible + '"></div>' +
+        '</div>' +
+        '<div class="mb-matiere-foot">' +
+          '<span class="mb-impact">' + (impact === null ? "Impact inconnu" : "Impact sur la moyenne : " + Math.round(impact * 10) / 10) + '</span>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+
+    grid.querySelectorAll("input[data-field]").forEach(function (input) {
+      input.addEventListener("change", function () {
+        var id = input.getAttribute("data-id");
+        var field = input.getAttribute("data-field");
+        var m = matieres.find(function (x) { return x.id === id; });
+        var v = input.value === "" ? null : parseFloat(input.value);
+        m[field] = v === null || isNaN(v) ? null : v;
+        persist();
+        render();
+      });
+    });
+  }
+
+  function badgeClass(niveau) {
+    if (niveau === "urgent") return "danger";
+    if (niveau === "maintenir" || niveau === "attention") return "warning";
+    if (niveau === "ok") return "success";
+    return "neutral";
+  }
+
+  function renderSimulateurOptions() {
+    var sel = document.getElementById("sim-matiere");
+    var current = sel.value;
+    sel.innerHTML = "";
+    matieres
+      .filter(function (m) { return m.statutEvaluation !== "verrouille"; })
+      .forEach(function (m) {
+        var opt = document.createElement("option");
+        opt.value = m.id;
+        opt.textContent = m.code + " — " + m.nom;
+        sel.appendChild(opt);
+      });
+    if (current) sel.value = current;
+  }
+
+  document.getElementById("sim-btn").addEventListener("click", function () {
+    var matiereId = document.getElementById("sim-matiere").value;
+    var cible = parseFloat(document.getElementById("sim-cible").value) || 12;
+    var res = store.calculerNoteNecessaire(matieres, cible, matiereId);
+    var box = document.getElementById("sim-result");
+    if (!res) {
+      box.className = "mb-sim-result";
+      box.textContent = "Sélectionne une matière.";
+      return;
+    }
+    var m = matieres.find(function (x) { return x.id === matiereId; });
+    if (res.faisable && res.noteNecessaire <= 0) {
+      box.className = "mb-sim-result ok";
+      box.innerHTML = "✅ Objectif déjà atteignable : même un <b>0/20</b> en " + m.code + " ne t'empêche pas d'atteindre " + cible + "/20 (à condition que les autres matières restent stables).";
+    } else if (res.faisable) {
+      box.className = "mb-sim-result ok";
+      box.innerHTML = "Il te faut au moins <b>" + res.noteNecessaire + "/20</b> en " + m.code + " pour atteindre une moyenne générale de " + cible + "/20 (autres matières inchangées).";
+    } else {
+      box.className = "mb-sim-result danger";
+      box.innerHTML = "⚠️ Objectif hors de portée sur cette seule matière : il faudrait <b>" + res.noteNecessaire + "/20</b> en " + m.code + " (impossible, max 20). Il faut aussi progresser sur au moins une autre matière.";
+    }
+  });
+
+  document.getElementById("reset-btn").addEventListener("click", function () {
+    if (confirm("Réinitialiser toutes tes notes MonBTS aux valeurs de départ ?")) {
+      matieres = store.reinitialiser(CFG.MATIERES_SEED);
+      render();
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
