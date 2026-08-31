@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E5 · Risques &amp; RH — Révisions BTS GPME</title>
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#e11d48;--accent-2:#be123c;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html" class="back-link">← Accueil</a>
+    <button class="reset-btn" id="reset-progress">Réinitialiser cette matière</button>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+GPME.initQuiz({
+  id: "e5",
+  code: "E5 · Risques & RH",
+  title: "Management et Gestion des Risques de la PME",
+  subtitle: "Gestion des risques professionnels et gestion des ressources humaines.",
+  coeff: 8,
+  paliers: [
+    {
+      questions: [
+        {
+          q: "Qu'est-ce qu'un risque professionnel ?",
+          choices: [
+            "Un événement pouvant porter atteinte à la santé ou la sécurité d'un salarié dans le cadre de son travail",
+            "Un risque financier uniquement",
+            "Un risque lié à la concurrence",
+            "Une opportunité de développement"
+          ],
+          answer: 0,
+          explain: "Le risque professionnel désigne tout danger potentiel pour la santé ou la sécurité des salariés lié à l'exercice de leur activité."
+        },
+        {
+          q: "Qu'est-ce qu'un CDI ?",
+          choices: [
+            "Un contrat de travail à durée indéterminée",
+            "Un contrat de travail à durée déterminée",
+            "Un contrat d'intérim",
+            "Un stage non rémunéré"
+          ],
+          answer: 0,
+          explain: "Le CDI est la forme normale et générale du contrat de travail en France."
+        },
+        {
+          q: "Qu'est-ce que le DUERP ?",
+          choices: [
+            "Le document unique d'évaluation des risques professionnels, obligatoire dans toute entreprise",
+            "Un contrat de travail spécifique",
+            "Un bilan comptable annuel",
+            "Une déclaration fiscale"
+          ],
+          answer: 0,
+          explain: "Le DUERP recense et évalue l'ensemble des risques professionnels de l'entreprise ; sa tenue est obligatoire dès le premier salarié."
+        },
+        {
+          q: "Qu'est-ce qu'un contrat de travail à temps partiel ?",
+          choices: [
+            "Un contrat dont la durée de travail est inférieure à la durée légale ou conventionnelle à temps plein",
+            "Un contrat à durée déterminée uniquement",
+            "Un contrat sans rémunération",
+            "Un contrat réservé aux stagiaires"
+          ],
+          answer: 0,
+          explain: "Le temps partiel correspond à une durée de travail inférieure à 35h/semaine, quelle que soit la nature du contrat."
+        },
+        {
+          q: "Qu'est-ce que la période d'essai ?",
+          choices: [
+            "Une période au début du contrat permettant d'évaluer la collaboration",
+            "Une période de formation obligatoire",
+            "Une clause de non-concurrence",
+            "Un délai de préavis"
+          ],
+          answer: 0,
+          explain: "La période d'essai permet à chaque partie de rompre librement le contrat si la collaboration ne convient pas."
+        },
+        {
+          q: "Qu'est-ce qu'un accident du travail ?",
+          choices: [
+            "Un événement soudain survenu par le fait ou à l'occasion du travail, causant un dommage corporel",
+            "Toute maladie du salarié",
+            "Un conflit entre collègues",
+            "Une absence injustifiée"
+          ],
+          answer: 0,
+          explain: "L'accident du travail se caractérise par la soudaineté du fait dommageable, survenu par le fait ou à l'occasion du travail."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Quelle est la différence entre un risque et un aléa ?",
+          choices: [
+            "Le risque combine la probabilité d'un aléa et la gravité de ses conséquences ; l'aléa est l'événement potentiel lui-même",
+            "Ce sont des synonymes stricts",
+            "L'aléa est toujours plus grave que le risque",
+            "Le risque ne concerne que la finance"
+          ],
+          answer: 0,
+          explain: "L'aléa est l'événement incertain ; le risque intègre la probabilité de survenue de cet aléa et la gravité de ses conséquences."
+        },
+        {
+          q: "Qu'est-ce que le CSE (Comité Social et Économique) ?",
+          choices: [
+            "L'instance unique de représentation du personnel dans l'entreprise",
+            "Un syndicat professionnel",
+            "Un organisme de contrôle fiscal",
+            "Une assurance collective"
+          ],
+          answer: 0,
+          explain: "Le CSE regroupe les anciennes instances (DP, CE, CHSCT) et représente le personnel, obligatoire à partir de 11 salariés."
+        },
+        {
+          q: "Quelle est la durée légale du travail hebdomadaire en France ?",
+          choices: ["35 heures", "39 heures", "40 heures", "32 heures"],
+          answer: 0,
+          explain: "La durée légale du travail effectif est fixée à 35 heures par semaine."
+        },
+        {
+          q: "Qu'est-ce qu'un plan de prévention des risques ?",
+          choices: [
+            "Un ensemble de mesures organisées pour éviter ou réduire la survenue de risques professionnels",
+            "Un plan de licenciement",
+            "Un plan de formation obligatoire",
+            "Un plan de financement"
+          ],
+          answer: 0,
+          explain: "Le plan de prévention formalise les mesures destinées à supprimer ou réduire les risques identifiés."
+        },
+        {
+          q: "Qu'est-ce que le licenciement pour motif économique ?",
+          choices: [
+            "Une rupture du contrat liée à des difficultés économiques, mutations technologiques ou réorganisation, non liée à la personne du salarié",
+            "Un licenciement dû à une faute du salarié",
+            "Une démission négociée",
+            "Une rupture conventionnelle"
+          ],
+          answer: 0,
+          explain: "Le licenciement économique est motivé par des raisons non inhérentes à la personne du salarié."
+        },
+        {
+          q: "Qu'est-ce qu'une assurance responsabilité civile professionnelle ?",
+          choices: [
+            "Une assurance couvrant les dommages causés à des tiers dans le cadre de l'activité professionnelle",
+            "Une assurance vie du dirigeant",
+            "Une assurance chômage",
+            "Une mutuelle santé obligatoire"
+          ],
+          answer: 0,
+          explain: "La RC Pro couvre les conséquences financières des dommages causés à des tiers du fait de l'activité de l'entreprise."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Qu'est-ce que la cartographie des risques ?",
+          choices: [
+            "Un outil de recensement et de hiérarchisation visuelle des risques selon leur probabilité et leur gravité",
+            "Un plan de communication",
+            "Un organigramme des services",
+            "Un plan comptable"
+          ],
+          answer: 0,
+          explain: "La cartographie des risques permet de visualiser et prioriser les risques identifiés pour orienter les actions de prévention."
+        },
+        {
+          q: "Quelle est la différence entre risque pur et risque spéculatif ?",
+          choices: [
+            "Le risque pur n'entraîne que des pertes possibles, le risque spéculatif peut entraîner un gain ou une perte",
+            "Ce sont des synonymes",
+            "Le risque spéculatif ne concerne que l'État",
+            "Le risque pur est toujours financier"
+          ],
+          answer: 0,
+          explain: "Le risque pur (incendie, accident) ne peut engendrer qu'une perte ; le risque spéculatif peut générer un gain ou une perte."
+        },
+        {
+          q: "Comment le harcèlement moral est-il défini juridiquement ?",
+          choices: [
+            "Des agissements répétés dégradant les conditions de travail et portant atteinte aux droits, à la dignité ou à la santé du salarié",
+            "Un simple désaccord ponctuel entre collègues",
+            "Une sanction disciplinaire légale",
+            "Une clause contractuelle"
+          ],
+          answer: 0,
+          explain: "Le Code du travail définit le harcèlement moral par la répétition d'agissements dégradant les conditions de travail."
+        },
+        {
+          q: "Qu'est-ce qu'un plan de continuité d'activité (PCA) ?",
+          choices: [
+            "Un dispositif prévoyant les mesures pour maintenir l'activité de l'entreprise en cas de sinistre majeur",
+            "Un plan de licenciement collectif",
+            "Un plan marketing annuel",
+            "Un plan de formation des salariés"
+          ],
+          answer: 0,
+          explain: "Le PCA anticipe l'organisation à mettre en place pour assurer la continuité des activités essentielles en cas de crise."
+        },
+        {
+          q: "Que signifie la GPEC ?",
+          choices: [
+            "La Gestion Prévisionnelle des Emplois et des Compétences",
+            "La Gestion des Prestations et Cotisations",
+            "La Garantie de Paiement des Employés en Congé",
+            "La Gestion des Procédures d'Embauche et de Contrôle"
+          ],
+          answer: 0,
+          explain: "La GPEC anticipe les besoins futurs en emplois et compétences pour adapter les ressources humaines à la stratégie de l'entreprise."
+        },
+        {
+          q: "Quelle est la différence entre prévention, protection et réparation des risques ?",
+          choices: [
+            "La prévention évite le risque, la protection en limite les conséquences, la réparation intervient après le dommage",
+            "Ce sont trois synonymes",
+            "La réparation précède toujours la prévention",
+            "La protection supprime totalement le risque"
+          ],
+          answer: 0,
+          explain: "La prévention agit en amont, la protection limite les conséquences si le risque survient, la réparation indemnise après le dommage."
+        }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

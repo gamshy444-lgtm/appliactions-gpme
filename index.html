@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Révisions BTS GPME</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="home-hero">
+    <h1>📘 Révisions BTS GPME</h1>
+    <p>Une matière, trois paliers verrouillés (Facile → Dur → Compliqué), un bilan noté sur 20. Progresse à ton rythme, tout est enregistré sur cet appareil.</p>
+  </div>
+
+  <div id="global-stats" class="global-stats"></div>
+
+  <div id="subjects" class="subjects-grid"></div>
+
+  <div style="text-align:center;margin-top:26px;">
+    <button class="reset-btn" id="reset-all">Réinitialiser toute la progression</button>
+  </div>
+
+  <p class="footer-note">Application 100% locale — aucune donnée n'est envoyée sur internet. Ta progression est sauvegardée dans ton navigateur (localStorage).</p>
+</div>
+
+<script src="app.js"></script>
+<script>
+  var SUBJECTS = [
+    { id: "cejm", code: "E3", title: "Culture Économique, Juridique et Managériale (CEJM)", coeff: 4, href: "cejm.html", accent: "#4f46e5", numPaliers: 3 },
+    { id: "e1",   code: "E1", title: "Culture Générale et Expression", coeff: 4, href: "e1.html", accent: "#0d9488", numPaliers: 3 },
+    { id: "e2",   code: "E2", title: "Anglais — Communication en langue vivante étrangère", coeff: 3, href: "e2.html", accent: "#2563eb", numPaliers: 3 },
+    { id: "e4",   code: "E4", title: "Gestion de la Relation Client et Fournisseurs (GRCF)", coeff: 6, href: "e4.html", accent: "#d97706", numPaliers: 3 },
+    { id: "e5",   code: "E5", title: "Management et Gestion des Risques — RH de la PME", coeff: 8, href: "e5.html", accent: "#e11d48", numPaliers: 3 },
+    { id: "e6",   code: "E6", title: "Soutenir la Performance et le Développement de la PME", coeff: 6, href: "e6.html", accent: "#7c3aed", numPaliers: 3 }
+  ];
+
+  function render() {
+    var grid = document.getElementById("subjects");
+    grid.innerHTML = "";
+    var counts = { "a-revoir": 0, "en-cours": 0, "valide": 0 };
+
+    SUBJECTS.forEach(function (s) {
+      var state = GPME.loadState(s.id, s.numPaliers);
+      var doneCount = state.completed.filter(function (c) { return c; }).length;
+      var totalQ = 0, totalCorrect = 0;
+      // On ne connaît pas les questions ici (pas chargées), le bilan est donc stocké/dérivé
+      // à partir des scores déjà persistés par matière.
+      var bilan = null;
+      if (doneCount === s.numPaliers) {
+        var sumScore = 0, sumTotal = 0;
+        for (var i = 0; i < s.numPaliers; i++) {
+          sumScore += state.scores[i] || 0;
+          sumTotal += state.totals[i] || 0;
+        }
+        if (sumTotal > 0) bilan = Math.round((sumScore / sumTotal) * 20 * 10) / 10;
+      }
+      var status = GPME.statusFromBilan(bilan);
+      counts[status]++;
+
+      var card = document.createElement("a");
+      card.href = s.href;
+      card.className = "subject-card";
+      card.style.setProperty("--sub-accent", s.accent);
+      card.innerHTML =
+        '<div class="s-code">' + s.code + '</div>' +
+        '<div class="s-title">' + s.title + '</div>' +
+        '<div class="s-progress">' + doneCount + '/' + s.numPaliers + ' paliers terminés' +
+          (bilan !== null ? ' · ' + bilan + '/20' : '') + '</div>' +
+        '<div class="s-foot">' +
+          '<span>Coeff. ' + s.coeff + '</span>' +
+          '<span class="badge ' + GPME.statusBadgeClass(status) + '">' +
+            (status === 'a-revoir' ? '🔒 ' : status === 'valide' ? '✅ ' : '🟡 ') + GPME.statusLabel(status) +
+          '</span>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+
+    var statsEl = document.getElementById("global-stats");
+    statsEl.innerHTML =
+      '<div class="stat"><div class="n">' + counts["valide"] + '</div><div class="l">Validées</div></div>' +
+      '<div class="stat"><div class="n">' + counts["en-cours"] + '</div><div class="l">En cours</div></div>' +
+      '<div class="stat"><div class="n">' + counts["a-revoir"] + '</div><div class="l">À revoir</div></div>';
+  }
+
+  document.getElementById("reset-all").addEventListener("click", function () {
+    if (confirm("Réinitialiser la progression sur les 6 matières ?")) {
+      SUBJECTS.forEach(function (s) { GPME.resetState(s.id); });
+      render();
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>

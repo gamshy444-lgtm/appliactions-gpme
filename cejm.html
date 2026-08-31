@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E3 · CEJM — Révisions BTS GPME</title>
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#4f46e5;--accent-2:#4338ca;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html" class="back-link">← Accueil</a>
+    <button class="reset-btn" id="reset-progress">Réinitialiser cette matière</button>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+GPME.initQuiz({
+  id: "cejm",
+  code: "E3 · CEJM",
+  title: "Culture Économique, Juridique et Managériale",
+  subtitle: "Économie, droit des affaires et management des organisations.",
+  coeff: 4,
+  paliers: [
+    {
+      questions: [
+        {
+          q: "Selon la définition européenne, qu'est-ce qui caractérise une PME ?",
+          choices: [
+            "Moins de 250 salariés et un CA ≤ 50 M€ ou un bilan ≤ 43 M€",
+            "Plus de 500 salariés",
+            "Uniquement les entreprises cotées en bourse",
+            "Un chiffre d'affaires supérieur à 100 M€"
+          ],
+          answer: 0,
+          explain: "La Commission européenne définit la PME par un effectif inférieur à 250 salariés et un CA ≤ 50 M€ (ou un total de bilan ≤ 43 M€)."
+        },
+        {
+          q: "Qu'est-ce que la personnalité morale d'une société ?",
+          choices: [
+            "La capacité d'être titulaire de droits et d'obligations, distincte de ses associés",
+            "Le caractère éthique du dirigeant",
+            "Une obligation fiscale spécifique",
+            "Un type de contrat de travail"
+          ],
+          answer: 0,
+          explain: "La personnalité morale permet à la société d'agir en son nom propre (contracter, posséder un patrimoine) indépendamment de ses associés."
+        },
+        {
+          q: "Dans une économie de marché, qu'est-ce qui détermine principalement les prix ?",
+          choices: [
+            "La confrontation de l'offre et de la demande",
+            "La décision unique de l'État",
+            "Le hasard",
+            "Le coût de production uniquement"
+          ],
+          answer: 0,
+          explain: "Le prix d'équilibre résulte de la rencontre entre l'offre des producteurs et la demande des consommateurs."
+        },
+        {
+          q: "Dans une SARL, la responsabilité des associés est limitée...",
+          choices: [
+            "au montant de leurs apports",
+            "à l'infini sur leur patrimoine personnel",
+            "à la moitié du capital social",
+            "aux dettes fiscales uniquement"
+          ],
+          answer: 0,
+          explain: "Dans une SARL, les associés ne répondent des dettes sociales qu'à hauteur de leurs apports."
+        },
+        {
+          q: "Qu'est-ce qu'un contrat au sens juridique ?",
+          choices: [
+            "Un accord de volontés destiné à créer des obligations",
+            "Une simple promesse orale sans valeur",
+            "Un document réservé aux relations avec l'État",
+            "Une loi votée par le Parlement"
+          ],
+          answer: 0,
+          explain: "Le contrat est un accord de volontés entre personnes créant des obligations juridiques (art. 1101 du Code civil)."
+        },
+        {
+          q: "Que désigne la notion de « marché » en économie ?",
+          choices: [
+            "Le lieu réel ou virtuel de rencontre entre l'offre et la demande d'un bien ou service",
+            "Uniquement un marché physique de plein air",
+            "Un service public gratuit",
+            "Une entreprise publique"
+          ],
+          answer: 0,
+          explain: "Le marché est le lieu, concret ou abstrait, où se rencontrent acheteurs et vendeurs pour échanger un bien ou service."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Quelle est la principale différence entre une EURL et une SASU ?",
+          choices: [
+            "Le régime social du dirigeant (assimilé salarié en SASU, TNS en EURL) et la souplesse des statuts",
+            "Elles sont juridiquement identiques",
+            "L'EURL n'a pas de personnalité morale",
+            "La SASU ne peut pas avoir un seul associé"
+          ],
+          answer: 0,
+          explain: "Le gérant associé unique d'EURL relève du régime des travailleurs non-salariés, tandis que le président de SASU est assimilé salarié ; les statuts de SASU sont aussi plus libres."
+        },
+        {
+          q: "Qu'est-ce qu'une externalité négative ?",
+          choices: [
+            "Un effet néfaste subi par un tiers du fait de l'activité d'un agent, sans compensation",
+            "Une taxe payée par l'entreprise",
+            "Un bénéfice non distribué",
+            "Une clause contractuelle abusive"
+          ],
+          answer: 0,
+          explain: "Exemple : la pollution émise par une usine qui affecte les riverains sans qu'ils soient indemnisés."
+        },
+        {
+          q: "Dans une SA de type moniste, quel organe assure la direction générale ?",
+          choices: [
+            "Le conseil d'administration, souvent avec un PDG",
+            "Le directoire seul",
+            "L'assemblée des salariés",
+            "Le commissaire aux comptes"
+          ],
+          answer: 0,
+          explain: "Dans le mode moniste, le conseil d'administration dirige la SA, avec fréquemment un PDG cumulant présidence et direction générale."
+        },
+        {
+          q: "Le principe de la liberté du commerce et de l'industrie signifie que...",
+          choices: [
+            "chacun est libre d'exercer l'activité économique de son choix, dans le respect de la loi",
+            "seules les grandes entreprises peuvent commercer librement",
+            "l'État fixe tous les prix",
+            "le commerce est interdit sans autorisation préalable"
+          ],
+          answer: 0,
+          explain: "Principe posé par le décret d'Allarde (1791) : liberté d'entreprendre, encadrée par la réglementation."
+        },
+        {
+          q: "Un monopole se caractérise par...",
+          choices: [
+            "un seul offreur face à une multitude de demandeurs",
+            "une multitude d'offreurs et un seul demandeur",
+            "l'absence totale de marché",
+            "une concurrence parfaite"
+          ],
+          answer: 0,
+          explain: "Le monopole est une structure de marché où un unique vendeur fait face à de nombreux acheteurs, sans concurrent direct."
+        },
+        {
+          q: "La RSE (Responsabilité Sociétale des Entreprises) désigne...",
+          choices: [
+            "la prise en compte volontaire des enjeux sociaux et environnementaux dans l'activité de l'entreprise",
+            "une obligation fiscale supplémentaire",
+            "un statut juridique particulier",
+            "un type de contrat de travail"
+          ],
+          answer: 0,
+          explain: "La RSE traduit l'intégration volontaire des préoccupations sociales et environnementales dans les activités de l'entreprise et ses relations avec ses parties prenantes."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Quelle est la différence entre une clause de non-concurrence et une clause d'exclusivité ?",
+          choices: [
+            "La non-concurrence s'applique après la rupture du contrat, l'exclusivité pendant son exécution",
+            "Elles sont strictement identiques",
+            "L'exclusivité ne s'applique qu'après la rupture du contrat",
+            "La non-concurrence interdit de travailler pendant les congés"
+          ],
+          answer: 0,
+          explain: "La non-concurrence limite l'activité du salarié après son départ (moyennant contrepartie financière) ; l'exclusivité l'engage à ne travailler que pour son employeur pendant le contrat."
+        },
+        {
+          q: "L'abus de position dominante, en droit de la concurrence, consiste à...",
+          choices: [
+            "exploiter de manière déloyale une position de force sur un marché",
+            "être simplement leader du marché sans pratique déloyale",
+            "fusionner deux entreprises",
+            "créer une entreprise innovante"
+          ],
+          answer: 0,
+          explain: "Une entreprise dominante n'est pas sanctionnée pour sa taille, mais pour l'exploitation abusive de cette position (prix abusifs, éviction de concurrents...)."
+        },
+        {
+          q: "En France, quelle autorité sanctionne les pratiques anticoncurrentielles ?",
+          choices: [
+            "L'Autorité de la concurrence",
+            "Le Conseil constitutionnel",
+            "La Banque de France",
+            "L'URSSAF"
+          ],
+          answer: 0,
+          explain: "L'Autorité de la concurrence est l'organe administratif indépendant chargé de veiller au libre jeu de la concurrence."
+        },
+        {
+          q: "Que distingue la gouvernance actionnariale de la gouvernance partenariale ?",
+          choices: [
+            "La première privilégie l'intérêt des actionnaires, la seconde celui de toutes les parties prenantes",
+            "Elles visent toutes deux uniquement le profit des salariés",
+            "La gouvernance partenariale exclut les dirigeants",
+            "Elles sont interdites en France"
+          ],
+          answer: 0,
+          explain: "La gouvernance actionnariale (shareholder) maximise la valeur pour l'actionnaire ; la gouvernance partenariale (stakeholder) élargit aux salariés, clients, fournisseurs, société civile."
+        },
+        {
+          q: "L'asymétrie d'information, mise en évidence par Akerlof, désigne...",
+          choices: [
+            "une situation où une partie détient plus d'informations que l'autre lors d'une transaction",
+            "une égalité parfaite d'information entre acheteur et vendeur",
+            "une loi sur la transparence bancaire",
+            "un indicateur de performance financière"
+          ],
+          answer: 0,
+          explain: "Akerlof (marché des « lemons ») montre que si le vendeur en sait plus que l'acheteur sur la qualité d'un bien, la qualité moyenne échangée peut se dégrader."
+        },
+        {
+          q: "La théorie des parties prenantes (Freeman) invite l'entreprise à...",
+          choices: [
+            "prendre en compte les intérêts de tous les groupes affectés par son activité",
+            "se concentrer uniquement sur le profit à court terme",
+            "ignorer les salariés dans sa stratégie",
+            "ne dialoguer qu'avec l'État"
+          ],
+          answer: 0,
+          explain: "Selon Freeman, l'entreprise doit gérer ses relations avec l'ensemble de ses parties prenantes : actionnaires, salariés, clients, fournisseurs, société."
+        }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E4 · GRCF — Révisions BTS GPME</title>
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#d97706;--accent-2:#b45309;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html" class="back-link">← Accueil</a>
+    <button class="reset-btn" id="reset-progress">Réinitialiser cette matière</button>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+GPME.initQuiz({
+  id: "e4",
+  code: "E4 · GRCF",
+  title: "Gestion de la Relation Client et Fournisseurs",
+  subtitle: "Processus commerciaux, facturation, relation client et fournisseurs.",
+  coeff: 6,
+  paliers: [
+    {
+      questions: [
+        {
+          q: "Qu'est-ce qu'un devis ?",
+          choices: [
+            "Un document proposant un prix avant la réalisation d'une prestation ou vente",
+            "Une facture définitive",
+            "Un bon de livraison",
+            "Une relance de paiement"
+          ],
+          answer: 0,
+          explain: "Le devis est une proposition commerciale chiffrée, établie avant la vente, que le client peut accepter ou refuser."
+        },
+        {
+          q: "Qu'est-ce qu'une facture ?",
+          choices: [
+            "Un document comptable et juridique qui constate une vente et réclame le paiement",
+            "Un simple devis",
+            "Un contrat de travail",
+            "Une déclaration fiscale annuelle"
+          ],
+          answer: 0,
+          explain: "La facture est le document obligatoire qui matérialise une transaction commerciale et sert de preuve comptable et fiscale."
+        },
+        {
+          q: "Quel document atteste la livraison effective d'une marchandise ?",
+          choices: [
+            "Le bon de livraison",
+            "Le bon de commande",
+            "Le devis",
+            "La facture pro forma"
+          ],
+          answer: 0,
+          explain: "Le bon de livraison accompagne la marchandise et est signé par le client à réception."
+        },
+        {
+          q: "Qu'est-ce que la TVA collectée ?",
+          choices: [
+            "La TVA facturée par l'entreprise à ses clients sur ses ventes",
+            "La TVA payée par l'entreprise à ses fournisseurs",
+            "Un impôt sur les bénéfices",
+            "Une taxe sur les salaires"
+          ],
+          answer: 0,
+          explain: "La TVA collectée est celle que l'entreprise facture à ses clients ; elle la reverse à l'État après déduction de la TVA déductible."
+        },
+        {
+          q: "Qu'est-ce qu'un prospect ?",
+          choices: [
+            "Un client potentiel non encore converti en client réel",
+            "Un client fidèle de longue date",
+            "Un fournisseur stratégique",
+            "Un concurrent direct"
+          ],
+          answer: 0,
+          explain: "Le prospect est une personne ou entreprise identifiée comme cliente potentielle, ciblée par une action commerciale."
+        },
+        {
+          q: "Qu'est-ce que la fidélisation client ?",
+          choices: [
+            "L'ensemble des actions visant à conserver durablement un client",
+            "La recherche de nouveaux clients uniquement",
+            "La négociation avec les fournisseurs",
+            "Le recouvrement des impayés"
+          ],
+          answer: 0,
+          explain: "La fidélisation regroupe les actions destinées à inciter le client à racheter et rester fidèle à l'entreprise."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Quelle est la différence entre un acompte et un escompte ?",
+          choices: [
+            "L'acompte est un paiement partiel anticipé, l'escompte est une réduction pour paiement rapide",
+            "Ce sont deux synonymes",
+            "L'escompte est un paiement anticipé",
+            "L'acompte est une réduction commerciale"
+          ],
+          answer: 0,
+          explain: "L'acompte est versé à la commande en avance sur le prix total ; l'escompte est une réduction accordée pour paiement comptant ou anticipé."
+        },
+        {
+          q: "Qu'est-ce qu'un relevé de compte fournisseur ?",
+          choices: [
+            "Un document récapitulant les factures et paiements entre l'entreprise et un fournisseur sur une période",
+            "Une facture unique",
+            "Un bon de commande",
+            "Un devis groupé"
+          ],
+          answer: 0,
+          explain: "Le relevé de compte permet de vérifier la concordance entre les factures reçues et les règlements effectués auprès d'un fournisseur."
+        },
+        {
+          q: "Comment calcule-t-on le prix de vente HT à partir du coût de revient et d'un taux de marge ?",
+          choices: [
+            "Prix de vente HT = Coût de revient × (1 + taux de marge)",
+            "Prix de vente HT = Coût de revient − taux de marge",
+            "Prix de vente HT = Coût de revient ÷ taux de marge",
+            "Prix de vente HT = Coût de revient uniquement"
+          ],
+          answer: 0,
+          explain: "Le prix de vente HT s'obtient en ajoutant au coût de revient la marge souhaitée, exprimée en pourcentage du coût de revient."
+        },
+        {
+          q: "Qu'est-ce qu'une relance client ?",
+          choices: [
+            "Une action visant à obtenir le paiement d'une facture impayée",
+            "Une action publicitaire",
+            "Un nouveau devis",
+            "Un avoir commercial"
+          ],
+          answer: 0,
+          explain: "La relance (courrier, mail, téléphone) vise à rappeler au client une facture échue et impayée."
+        },
+        {
+          q: "Qu'est-ce qu'un CRM (Customer Relationship Management) ?",
+          choices: [
+            "Un outil/logiciel de gestion de la relation client",
+            "Un logiciel de comptabilité générale",
+            "Un outil de gestion des stocks uniquement",
+            "Un logiciel de paie"
+          ],
+          answer: 0,
+          explain: "Le CRM centralise les informations clients (contacts, historique, opportunités) pour optimiser la relation commerciale."
+        },
+        {
+          q: "Quel est le délai de paiement légal maximal par défaut entre entreprises en France ?",
+          choices: [
+            "60 jours à compter de la date de facturation",
+            "10 jours",
+            "30 jours obligatoirement",
+            "180 jours"
+          ],
+          answer: 0,
+          explain: "Sauf accord contraire, le délai légal de paiement interentreprises est de 60 jours (ou 45 jours fin de mois) à compter de la facturation."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Quelle démarche adopter en cas de litige commercial avec un client ?",
+          choices: [
+            "Dialogue amiable, mise en demeure, puis recours en cas d'échec (médiation ou juridique)",
+            "Rupture immédiate de la relation commerciale",
+            "Saisir le tribunal sans étape préalable",
+            "Ignorer la réclamation"
+          ],
+          answer: 0,
+          explain: "La gestion d'un litige suit une gradation : échange amiable, puis mise en demeure écrite, puis recours à la médiation ou au juge."
+        },
+        {
+          q: "Qu'est-ce que l'affacturage ?",
+          choices: [
+            "Une technique de financement où l'entreprise cède ses créances clients à un organisme (factor) contre liquidités immédiates",
+            "Un crédit bancaire classique",
+            "Une assurance décennale",
+            "Un mode de paiement par carte bancaire"
+          ],
+          answer: 0,
+          explain: "L'affacturage permet d'obtenir rapidement de la trésorerie en cédant ses créances clients à un factor, moyennant commission."
+        },
+        {
+          q: "Quelle est la différence entre marge commerciale et taux de marque ?",
+          choices: [
+            "La marge commerciale est en valeur, le taux de marque est un ratio (marge/prix de vente) exprimé en %",
+            "Ce sont des synonymes stricts",
+            "Le taux de marque se calcule sur le coût d'achat",
+            "La marge commerciale est toujours négative"
+          ],
+          answer: 0,
+          explain: "Marge commerciale = prix de vente HT − coût d'achat HT (en valeur) ; taux de marque = (marge / prix de vente HT) × 100."
+        },
+        {
+          q: "Qu'est-ce qu'une clause de réserve de propriété ?",
+          choices: [
+            "Une clause qui retarde le transfert de propriété du bien vendu jusqu'au paiement intégral",
+            "Une clause interdisant la revente du bien",
+            "Une clause de non-concurrence",
+            "Une clause de confidentialité"
+          ],
+          answer: 0,
+          explain: "Cette clause protège le vendeur : la propriété du bien n'est transférée qu'après paiement complet du prix."
+        },
+        {
+          q: "La méthode ABC de segmentation du portefeuille clients classe les clients selon...",
+          choices: [
+            "leur contribution au chiffre d'affaires (A = les plus gros, C = les plus petits)",
+            "leur ordre alphabétique",
+            "leur ancienneté uniquement",
+            "leur localisation géographique"
+          ],
+          answer: 0,
+          explain: "La méthode ABC (loi de Pareto) hiérarchise les clients selon leur poids dans le chiffre d'affaires."
+        },
+        {
+          q: "À quoi sert juridiquement un accusé de réception de commande ?",
+          choices: [
+            "Il confirme au client l'acceptation de sa commande et engage le vendeur à l'exécuter",
+            "Il annule la commande",
+            "Il remplace la facture",
+            "Il n'a aucune valeur juridique"
+          ],
+          answer: 0,
+          explain: "L'accusé de réception matérialise l'acceptation de l'offre par le vendeur et formalise la formation du contrat de vente."
+        }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

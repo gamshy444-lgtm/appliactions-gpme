@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E2 · Anglais — Révisions BTS GPME</title>
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#2563eb;--accent-2:#1d4ed8;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html" class="back-link">← Accueil</a>
+    <button class="reset-btn" id="reset-progress">Réinitialiser cette matière</button>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+GPME.initQuiz({
+  id: "e2",
+  code: "E2 · Anglais",
+  title: "Communication en langue vivante étrangère — Anglais",
+  subtitle: "Grammaire, vocabulaire professionnel et compréhension.",
+  coeff: 3,
+  paliers: [
+    {
+      questions: [
+        {
+          q: 'Choose the correct form: "She ___ to work every day."',
+          choices: ["goes", "go", "going", "gone"],
+          answer: 0,
+          explain: "Avec 'she' (3e personne du singulier) au présent simple, on ajoute -s : she goes."
+        },
+        {
+          q: 'What does "an invoice" mean in business English?',
+          choices: ["Une facture", "Un devis", "Un contrat", "Un bon de commande"],
+          answer: 0,
+          explain: "An invoice = une facture, document réclamant le paiement d'une vente."
+        },
+        {
+          q: 'Complete: "I have worked here ___ 2020."',
+          choices: ["since", "for", "from", "during"],
+          answer: 0,
+          explain: "'Since' s'utilise avec un point de départ précis dans le temps (2020) ; 'for' avec une durée (for 5 years)."
+        },
+        {
+          q: 'What is the opposite of "supply"?',
+          choices: ["demand", "offer", "stock", "sale"],
+          answer: 0,
+          explain: "En économie, l'offre (supply) s'oppose à la demande (demand)."
+        },
+        {
+          q: 'What does "a board meeting" refer to?',
+          choices: [
+            "Une réunion du conseil d'administration",
+            "Une pause déjeuner",
+            "Un entretien d'embauche",
+            "Une formation"
+          ],
+          answer: 0,
+          explain: "'The board' désigne le conseil d'administration ; a board meeting est une réunion de ce conseil."
+        },
+        {
+          q: 'How do you say "chiffre d\'affaires" in English?',
+          choices: ["Turnover", "Income tax", "Net profit", "Payroll"],
+          answer: 0,
+          explain: "'Turnover' (ou 'revenue') désigne le chiffre d'affaires d'une entreprise."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: 'Choose the correct conditional: "If I ___ more time, I would finish the report."',
+          choices: ["had", "have", "has", "having"],
+          answer: 0,
+          explain: "Second conditionnel (hypothèse irréelle au présent) : If + prétérit, would + base verbale → If I had..."
+        },
+        {
+          q: 'What does "to negotiate a deal" mean?',
+          choices: [
+            "Discuter les termes d'un accord pour parvenir à un compromis",
+            "Signer un contrat sans discussion",
+            "Annuler un contrat",
+            "Payer une facture"
+          ],
+          answer: 0,
+          explain: "'To negotiate' = négocier, discuter pour obtenir un accord mutuellement satisfaisant."
+        },
+        {
+          q: 'What does the abbreviation "HR" stand for?',
+          choices: ["Human Resources", "Head Reception", "High Rate", "Home Report"],
+          answer: 0,
+          explain: "HR = Human Resources, les ressources humaines."
+        },
+        {
+          q: 'Choose the correct passive voice: "The contract ___ signed yesterday."',
+          choices: ["was", "is", "has", "did"],
+          answer: 0,
+          explain: "Passé simple passif : was/were + participe passé. 'Yesterday' impose le prétérit : was signed."
+        },
+        {
+          q: 'What is a "stakeholder"?',
+          choices: [
+            "Toute personne ou organisation ayant un intérêt dans l'entreprise",
+            "Un actionnaire uniquement",
+            "Un simple client",
+            "Un concurrent direct"
+          ],
+          answer: 0,
+          explain: "'Stakeholder' désigne toute partie prenante : actionnaires, salariés, clients, fournisseurs, etc."
+        },
+        {
+          q: 'What does "supply chain" mean?',
+          choices: [
+            "La chaîne d'approvisionnement, du fournisseur au client",
+            "Le service comptable",
+            "Le plan marketing",
+            "Le contrat de travail"
+          ],
+          answer: 0,
+          explain: "'Supply chain' désigne l'ensemble des étapes de production et de distribution d'un produit."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: 'Choose the correct reported speech: "He said he ___ the report the day before."',
+          choices: ["had finished", "has finished", "finished", "will finish"],
+          answer: 0,
+          explain: "Au discours indirect, le passé composé/simple devient le plus-que-parfait : 'had finished'."
+        },
+        {
+          q: 'What does "to downsize a company" mean?',
+          choices: [
+            "Réduire les effectifs ou la taille d'une entreprise",
+            "Agrandir une entreprise",
+            "Créer une filiale",
+            "Augmenter les salaires"
+          ],
+          answer: 0,
+          explain: "'To downsize' = réduire la taille de l'entreprise, souvent en supprimant des emplois."
+        },
+        {
+          q: 'Which phrasal verb means "to postpone"?',
+          choices: ["put off", "put up", "put on", "put out"],
+          answer: 0,
+          explain: "'To put off' signifie reporter, remettre à plus tard."
+        },
+        {
+          q: 'What does "merger and acquisition" (M&A) refer to?',
+          choices: [
+            "La fusion et le rachat d'entreprises",
+            "La création d'une start-up",
+            "Un plan de licenciement",
+            "Un audit comptable"
+          ],
+          answer: 0,
+          explain: "M&A désigne les opérations de fusion (merger) et d'acquisition (acquisition) entre entreprises."
+        },
+        {
+          q: '"___ the economic crisis, the company\'s sales increased."',
+          choices: ["Despite", "Although", "Because", "So"],
+          answer: 0,
+          explain: "'Despite' est suivi d'un groupe nominal (despite the crisis) ; 'although' doit être suivi d'une proposition."
+        },
+        {
+          q: 'What does "cash flow" mean?',
+          choices: [
+            "Le flux de trésorerie, les entrées et sorties d'argent de l'entreprise",
+            "Le chiffre d'affaires annuel",
+            "Le capital social",
+            "La marge brute"
+          ],
+          answer: 0,
+          explain: "'Cash flow' désigne les mouvements de trésorerie entrant et sortant de l'entreprise sur une période donnée."
+        }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

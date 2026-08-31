@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E6 · Soutenir — Révisions BTS GPME</title>
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#7c3aed;--accent-2:#6d28d9;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html" class="back-link">← Accueil</a>
+    <button class="reset-btn" id="reset-progress">Réinitialiser cette matière</button>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+GPME.initQuiz({
+  id: "e6",
+  code: "E6 · Soutenir",
+  title: "Soutenir la Performance et le Développement de la PME",
+  subtitle: "Diagnostic, tableaux de bord, gestion de projet et communication.",
+  coeff: 6,
+  paliers: [
+    {
+      questions: [
+        {
+          q: "Qu'est-ce qu'un tableau de bord ?",
+          choices: [
+            "Un outil de pilotage regroupant des indicateurs clés pour suivre la performance de l'entreprise",
+            "Un document comptable annuel obligatoire",
+            "Un contrat commercial",
+            "Un plan de communication"
+          ],
+          answer: 0,
+          explain: "Le tableau de bord synthétise des indicateurs pertinents pour permettre un suivi régulier et une prise de décision rapide."
+        },
+        {
+          q: "Qu'est-ce qu'un indicateur de performance (KPI) ?",
+          choices: [
+            "Une mesure quantifiable permettant d'évaluer l'atteinte d'un objectif",
+            "Un simple commentaire qualitatif",
+            "Une norme comptable",
+            "Un document juridique"
+          ],
+          answer: 0,
+          explain: "Un KPI est une donnée chiffrée qui permet de mesurer l'atteinte d'un objectif fixé."
+        },
+        {
+          q: "Qu'est-ce que la veille informationnelle ?",
+          choices: [
+            "Une surveillance active et continue de l'environnement pour anticiper les évolutions",
+            "Un contrôle fiscal",
+            "Une opération de communication publicitaire",
+            "Un audit financier"
+          ],
+          answer: 0,
+          explain: "La veille consiste à collecter et analyser en continu des informations sur l'environnement pour anticiper les changements."
+        },
+        {
+          q: "Qu'est-ce qu'un diagnostic interne ?",
+          choices: [
+            "Une analyse des forces et faiblesses propres à l'entreprise",
+            "Une analyse exclusivement du marché externe",
+            "Un bilan comptable",
+            "Un plan de licenciement"
+          ],
+          answer: 0,
+          explain: "Le diagnostic interne évalue les ressources et compétences de l'entreprise, en complément du diagnostic externe."
+        },
+        {
+          q: "Qu'est-ce qu'un projet, au sens de la gestion de projet ?",
+          choices: [
+            "Un ensemble d'actions coordonnées avec un objectif précis, un début et une fin définis",
+            "Une activité répétitive et permanente",
+            "Un simple objectif sans échéance",
+            "Une tâche administrative courante"
+          ],
+          answer: 0,
+          explain: "Un projet se caractérise par un objectif défini, des ressources allouées et un début/une fin identifiés."
+        },
+        {
+          q: "Qu'est-ce qu'un objectif SMART ?",
+          choices: [
+            "Un objectif Spécifique, Mesurable, Atteignable, Réaliste et Temporellement défini",
+            "Un objectif purement qualitatif",
+            "Un objectif fixé sans échéance",
+            "Un objectif financier uniquement"
+          ],
+          answer: 0,
+          explain: "La méthode SMART structure la formulation d'objectifs clairs et opérationnels."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Qu'est-ce que l'analyse SWOT (FFOM) ?",
+          choices: [
+            "Un outil croisant forces/faiblesses internes et opportunités/menaces externes",
+            "Un outil de calcul de la marge",
+            "Une méthode de recrutement",
+            "Un plan de trésorerie"
+          ],
+          answer: 0,
+          explain: "Le SWOT croise le diagnostic interne (forces/faiblesses) et externe (opportunités/menaces) de l'entreprise."
+        },
+        {
+          q: "Qu'est-ce que le seuil de rentabilité ?",
+          choices: [
+            "Le niveau de chiffre d'affaires à partir duquel l'entreprise couvre ses charges sans bénéfice ni perte",
+            "Le montant du capital social minimum",
+            "Le chiffre d'affaires maximum autorisé",
+            "La marge brute annuelle"
+          ],
+          answer: 0,
+          explain: "Le seuil de rentabilité (point mort) correspond au CA pour lequel le résultat de l'entreprise est nul."
+        },
+        {
+          q: "Qu'est-ce qu'un rétroplanning ?",
+          choices: [
+            "Un planning établi à partir de la date de fin d'un projet en remontant vers les tâches à réaliser",
+            "Un planning de congés payés",
+            "Un bilan financier rétroactif",
+            "Un contrat à durée déterminée"
+          ],
+          answer: 0,
+          explain: "Le rétroplanning organise les tâches d'un projet en partant de la date d'échéance finale."
+        },
+        {
+          q: "Que permet d'évaluer la matrice BCG ?",
+          choices: [
+            "Le positionnement des activités d'une entreprise selon leur croissance et leur part de marché relative",
+            "Le niveau de risque financier",
+            "La satisfaction des salariés",
+            "Le taux d'endettement"
+          ],
+          answer: 0,
+          explain: "La matrice BCG classe les activités en vedettes, vaches à lait, dilemmes et poids morts."
+        },
+        {
+          q: "Qu'est-ce que la communication interne descendante ?",
+          choices: [
+            "Une communication qui part de la direction vers les salariés",
+            "Une communication entre salariés de même niveau",
+            "Une communication vers les clients",
+            "Une communication vers les fournisseurs uniquement"
+          ],
+          answer: 0,
+          explain: "La communication descendante circule de la hiérarchie vers les collaborateurs."
+        },
+        {
+          q: "Qu'est-ce qu'un budget prévisionnel ?",
+          choices: [
+            "Une estimation chiffrée des recettes et dépenses futures de l'entreprise sur une période donnée",
+            "Un bilan comptable clos",
+            "Un contrat de prêt bancaire",
+            "Un rapport d'audit externe"
+          ],
+          answer: 0,
+          explain: "Le budget prévisionnel anticipe les flux financiers futurs afin de piloter l'activité."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Comment calcule-t-on, de façon simplifiée, la capacité d'autofinancement (CAF) ?",
+          choices: [
+            "CAF = Résultat net + dotations aux amortissements et provisions − reprises sur provisions",
+            "CAF = Chiffre d'affaires − charges variables",
+            "CAF = Capital social − dettes",
+            "CAF = Trésorerie disponible uniquement"
+          ],
+          answer: 0,
+          explain: "La CAF s'obtient en ajoutant au résultat net les charges non décaissées et en retranchant les produits non encaissés."
+        },
+        {
+          q: "Qu'est-ce que le benchmarking ?",
+          choices: [
+            "Une méthode consistant à comparer ses pratiques à celles des entreprises les plus performantes du secteur",
+            "Un audit fiscal obligatoire",
+            "Une technique de recrutement",
+            "Un outil de gestion des stocks"
+          ],
+          answer: 0,
+          explain: "Le benchmarking permet d'identifier les meilleures pratiques du marché pour améliorer sa propre performance."
+        },
+        {
+          q: "Que doit contenir un plan d'action correctif suite à un écart de tableau de bord ?",
+          choices: [
+            "L'identification de la cause de l'écart, les actions à mener, les responsables et les délais",
+            "Uniquement un nouveau chiffrage comptable",
+            "Une lettre de licenciement",
+            "Un changement de statut juridique"
+          ],
+          answer: 0,
+          explain: "Un plan d'action correctif structure la réponse à un écart : diagnostic, actions concrètes, pilotage et échéances."
+        },
+        {
+          q: "Que permet d'analyser la méthode PESTEL ?",
+          choices: [
+            "Les facteurs macro-environnementaux Politiques, Économiques, Socioculturels, Technologiques, Écologiques et Légaux",
+            "Uniquement la concurrence directe",
+            "La structure financière de l'entreprise",
+            "Les compétences internes des salariés"
+          ],
+          answer: 0,
+          explain: "PESTEL est un outil de diagnostic externe analysant les grandes tendances macro-environnementales."
+        },
+        {
+          q: "Que mesure le ROI (retour sur investissement) ?",
+          choices: [
+            "Le rapport entre le gain généré par un investissement et son coût initial",
+            "Le chiffre d'affaires total de l'entreprise",
+            "La masse salariale annuelle",
+            "Le taux de TVA applicable"
+          ],
+          answer: 0,
+          explain: "Le ROI évalue la rentabilité d'un investissement en rapportant le gain obtenu au capital investi."
+        },
+        {
+          q: "En quoi consiste la conduite du changement en entreprise ?",
+          choices: [
+            "L'ensemble des démarches visant à accompagner les collaborateurs lors d'une transformation organisationnelle",
+            "Le remplacement immédiat de tous les salariés",
+            "Une simple communication descendante ponctuelle",
+            "Un audit financier annuel"
+          ],
+          answer: 0,
+          explain: "La conduite du changement mobilise communication, formation et accompagnement pour faciliter l'adhésion des équipes."
+        }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

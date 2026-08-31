@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E1 · Culture Générale — Révisions BTS GPME</title>
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#0d9488;--accent-2:#0f766e;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html" class="back-link">← Accueil</a>
+    <button class="reset-btn" id="reset-progress">Réinitialiser cette matière</button>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+GPME.initQuiz({
+  id: "e1",
+  code: "E1 · Culture Générale",
+  title: "Culture Générale et Expression",
+  subtitle: "Synthèse de documents, expression écrite et argumentation.",
+  coeff: 4,
+  paliers: [
+    {
+      questions: [
+        {
+          q: "Quel est l'objectif principal de la synthèse de documents ?",
+          choices: [
+            "Restituer objectivement et de façon hiérarchisée les idées de plusieurs documents",
+            "Donner son avis personnel sur les documents",
+            "Résumer un seul document au choix",
+            "Recopier les documents dans l'ordre"
+          ],
+          answer: 0,
+          explain: "La synthèse exige neutralité et objectivité : il s'agit de confronter et hiérarchiser les idées des documents, sans opinion personnelle."
+        },
+        {
+          q: "Qu'est-ce qu'une connotation ?",
+          choices: [
+            "Le sens subjectif et affectif associé à un mot, au-delà de son sens premier",
+            "Le sens strictement défini dans le dictionnaire",
+            "Une figure de style uniquement",
+            "Un synonyme"
+          ],
+          answer: 0,
+          explain: "La connotation s'oppose à la dénotation (sens objectif du dictionnaire) : elle ajoute une charge affective ou culturelle au mot."
+        },
+        {
+          q: "Quel connecteur logique exprime l'opposition ?",
+          choices: ["Cependant", "Ainsi", "De plus", "Par conséquent"],
+          answer: 0,
+          explain: "« Cependant » marque une opposition ou une concession ; « ainsi » et « par conséquent » introduisent une conséquence."
+        },
+        {
+          q: "Qu'est-ce qu'un paradoxe ?",
+          choices: [
+            "Une idée qui semble contredire le sens commun mais qui peut être vraie",
+            "Une erreur de raisonnement volontaire",
+            "Un synonyme d'hyperbole",
+            "Une citation sans auteur"
+          ],
+          answer: 0,
+          explain: "Le paradoxe énonce une idée qui heurte l'opinion commune ou semble contradictoire, tout en pouvant être fondée."
+        },
+        {
+          q: "Dans un texte argumentatif, la thèse désigne...",
+          choices: [
+            "l'opinion ou l'idée défendue par l'auteur",
+            "le titre du texte",
+            "la liste des exemples utilisés",
+            "la biographie de l'auteur"
+          ],
+          answer: 0,
+          explain: "La thèse est la position que l'auteur cherche à défendre et à faire partager au lecteur."
+        },
+        {
+          q: "Qu'est-ce qu'un argument, dans un raisonnement ?",
+          choices: [
+            "Une preuve ou une raison avancée pour soutenir une thèse",
+            "Un exemple sans lien avec la thèse",
+            "Une simple répétition de la thèse",
+            "Une question rhétorique"
+          ],
+          answer: 0,
+          explain: "L'argument est l'élément logique qui vient étayer la thèse défendue, souvent illustré par un exemple."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Quelle est la différence essentielle entre synthèse et commentaire ?",
+          choices: [
+            "La synthèse est objective et confronte plusieurs documents, le commentaire exprime une analyse personnelle",
+            "Elles sont identiques",
+            "Le commentaire ne porte que sur des images",
+            "La synthèse autorise l'avis personnel"
+          ],
+          answer: 0,
+          explain: "La synthèse impose neutralité et confrontation objective de sources ; le commentaire autorise un point de vue argumenté."
+        },
+        {
+          q: "Qu'est-ce qu'un sophisme ?",
+          choices: [
+            "Un raisonnement fallacieux présenté comme valide pour tromper",
+            "Une figure de style poétique",
+            "Un synonyme de thèse",
+            "Une citation exacte d'un auteur"
+          ],
+          answer: 0,
+          explain: "Le sophisme est un raisonnement volontairement trompeur, qui a l'apparence de la logique mais conduit à une conclusion fausse."
+        },
+        {
+          q: "Qu'appelle-t-on l'implicite dans un texte ?",
+          choices: [
+            "Ce qui n'est pas dit explicitement mais que le lecteur doit déduire",
+            "Ce qui est écrit en toutes lettres",
+            "Le titre du texte",
+            "La ponctuation du texte"
+          ],
+          answer: 0,
+          explain: "L'implicite renvoie aux sous-entendus ou présupposés que le lecteur doit reconstruire à partir du texte."
+        },
+        {
+          q: "Qu'est-ce qu'une antithèse ?",
+          choices: [
+            "Une figure de style rapprochant deux idées ou termes opposés",
+            "Un synonyme de paradoxe",
+            "Une thèse défendue en introduction",
+            "Un raisonnement par l'absurde"
+          ],
+          answer: 0,
+          explain: "L'antithèse met en regard deux réalités ou expressions opposées afin de souligner un contraste."
+        },
+        {
+          q: "Un registre polémique se caractérise par...",
+          choices: [
+            "une expression vive et critique visant à dénoncer, souvent avec ironie ou indignation",
+            "un ton neutre et factuel",
+            "l'absence de tout jugement",
+            "une tonalité exclusivement comique"
+          ],
+          answer: 0,
+          explain: "Le registre polémique cherche à attaquer ou dénoncer une opinion, avec vivacité, ironie ou indignation."
+        },
+        {
+          q: "Qu'est-ce qu'un présupposé ?",
+          choices: [
+            "Une information admise comme vraie sans être affirmée explicitement",
+            "Une hypothèse scientifique",
+            "La conclusion d'un raisonnement",
+            "Un exemple concret"
+          ],
+          answer: 0,
+          explain: "Le présupposé est une information tenue pour acquise, contenue implicitement dans la formulation même d'une phrase."
+        }
+      ]
+    },
+    {
+      questions: [
+        {
+          q: "Pour construire une problématique de synthèse à partir d'un corpus hétérogène, il faut...",
+          choices: [
+            "dégager la question commune qui relie les différents points de vue des documents",
+            "choisir le document le plus long comme référence",
+            "ignorer les documents qui se contredisent",
+            "reprendre le titre du corpus tel quel"
+          ],
+          answer: 0,
+          explain: "La problématique doit englober tensions et convergences entre documents, en formulant la question centrale qui les relie."
+        },
+        {
+          q: "Dans la rhétorique aristotélicienne, que désigne le « pathos » ?",
+          choices: [
+            "L'appel aux émotions du destinataire pour le persuader",
+            "La crédibilité de l'orateur",
+            "La logique du raisonnement",
+            "Le style du discours"
+          ],
+          answer: 0,
+          explain: "Aristote distingue l'éthos (crédibilité), le pathos (émotions) et le logos (arguments rationnels)."
+        },
+        {
+          q: "Qu'est-ce que la doxa ?",
+          choices: [
+            "L'opinion commune, les idées reçues partagées par une société",
+            "Une preuve scientifique incontestable",
+            "Un genre littéraire antique",
+            "Une figure de style rare"
+          ],
+          answer: 0,
+          explain: "La doxa désigne l'opinion commune, souvent interrogée et remise en cause par l'argumentation critique."
+        },
+        {
+          q: "Quelle est la différence entre un raisonnement inductif et déductif ?",
+          choices: [
+            "L'inductif part de cas particuliers vers une loi générale, le déductif applique une règle générale à un cas particulier",
+            "Ils désignent la même démarche",
+            "Le déductif part toujours de l'expérience",
+            "L'inductif est réservé aux mathématiques"
+          ],
+          answer: 0,
+          explain: "L'induction généralise à partir d'observations ; la déduction applique une règle générale déjà établie à un cas particulier."
+        },
+        {
+          q: "Qu'est-ce qu'un chiasme ?",
+          choices: [
+            "Une figure de style où les termes sont disposés en miroir (AB/BA)",
+            "Une antithèse simple",
+            "Une accumulation de mots",
+            "Un raisonnement logique"
+          ],
+          answer: 0,
+          explain: "Le chiasme croise l'ordre des mots ou des idées, par exemple : « Il faut manger pour vivre, et non vivre pour manger »."
+        },
+        {
+          q: "L'ironie, comme procédé argumentatif, consiste à...",
+          choices: [
+            "dire le contraire de ce que l'on pense pour souligner une critique",
+            "affirmer littéralement sa pensée sans détour",
+            "citer un auteur sans commentaire",
+            "décrire un fait de manière neutre"
+          ],
+          answer: 0,
+          explain: "L'ironie joue sur le décalage entre ce qui est dit et ce qui est réellement pensé, souvent à des fins critiques."
+        }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>
