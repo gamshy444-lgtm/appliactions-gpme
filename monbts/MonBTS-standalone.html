@@ -1,0 +1,1450 @@
+<title>MonBTS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#F1F2EC;
+  --surface:#FFFFFF;
+  --surface-2:#E9EBE3;
+  --ink:#1D2420;
+  --muted:#666B62;
+  --border:#DBDED3;
+  --accent:#2B4C3F;
+  --accent-strong:#1D362D;
+  --accent-tint:#E4EBE6;
+  --success:#2E7D46;
+  --success-bg:#E3F2E6;
+  --warning:#9C6B0B;
+  --warning-bg:#F6ECD9;
+  --danger:#A83232;
+  --danger-bg:#F5E2E0;
+  --shadow:0 10px 28px -14px rgba(29,36,32,.28);
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12140F;
+    --surface:#1B1F19;
+    --surface-2:#242923;
+    --ink:#ECEEE7;
+    --muted:#A2A79A;
+    --border:#2C312A;
+    --accent:#7FBB9B;
+    --accent-strong:#9ED0B4;
+    --accent-tint:#213027;
+    --success:#5CBE86;
+    --success-bg:#1E3227;
+    --warning:#E0B357;
+    --warning-bg:#3A2F14;
+    --danger:#E58A8A;
+    --danger-bg:#3A1F1F;
+    --shadow:0 10px 28px -14px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12140F;
+  --surface:#1B1F19;
+  --surface-2:#242923;
+  --ink:#ECEEE7;
+  --muted:#A2A79A;
+  --border:#2C312A;
+  --accent:#7FBB9B;
+  --accent-strong:#9ED0B4;
+  --accent-tint:#213027;
+  --success:#5CBE86;
+  --success-bg:#1E3227;
+  --warning:#E0B357;
+  --warning-bg:#3A2F14;
+  --danger:#E58A8A;
+  --danger-bg:#3A1F1F;
+  --shadow:0 10px 28px -14px rgba(0,0,0,.55);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0 0 .4em;}
+a{color:inherit;}
+button,input,select,textarea{font-family:inherit;}
+::selection{background:var(--accent-tint);}
+
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 80px;}
+
+/* ---- Masthead + dossier-tab nav ---- */
+.masthead{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:16px;margin-bottom:18px;flex-wrap:wrap;
+}
+.masthead .brand{
+  font-family:var(--font-display);font-weight:600;font-size:22px;letter-spacing:.01em;
+}
+.masthead .brand small{
+  display:block;font-family:var(--font-body);font-weight:600;font-size:11px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-top:2px;
+}
+
+.mb-nav{
+  display:flex;flex-wrap:wrap;gap:4px;
+  border-bottom:1.5px solid var(--border);
+  margin-bottom:26px;
+}
+.mb-nav a{
+  display:inline-block;
+  padding:9px 15px 10px;
+  font-size:13.5px;font-weight:600;
+  color:var(--muted);
+  text-decoration:none;
+  border:1.5px solid transparent;
+  border-bottom:none;
+  border-radius:9px 9px 0 0;
+  transform:translateY(1.5px);
+}
+.mb-nav a.current{
+  color:var(--ink);
+  background:var(--surface);
+  border-color:var(--border);
+  border-bottom:1.5px solid var(--surface);
+}
+
+/* ---- Sheets / cards ---- */
+.card,.sheet{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  padding:20px 22px;
+}
+.card + .card{margin-top:14px;}
+
+.hero{
+  border-radius:16px;
+  padding:26px 26px 24px;
+  background:var(--accent);
+  color:#F5F7F3;
+  box-shadow:var(--shadow);
+  margin-bottom:20px;
+}
+.hero .kicker{
+  font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  opacity:.8;margin-bottom:8px;
+}
+.hero h1{font-size:clamp(21px,3.2vw,28px);color:#fff;margin-bottom:8px;}
+.hero p{margin:0;opacity:.92;font-size:14px;max-width:58ch;}
+
+.home-hero{text-align:left;margin-bottom:22px;}
+.home-hero h1{font-size:clamp(26px,4vw,34px);}
+.home-hero p{color:var(--muted);max-width:60ch;margin:0;font-size:15px;}
+
+.footer-note{text-align:center;font-size:12px;color:var(--muted);margin-top:34px;}
+
+/* ---- Badges / status chips ---- */
+.badge{
+  display:inline-block;font-size:11.5px;font-weight:700;
+  padding:4px 10px;border-radius:999px;font-family:var(--font-body);
+}
+.badge.success{background:var(--success-bg);color:var(--success);}
+.badge.warning{background:var(--warning-bg);color:var(--warning);}
+.badge.danger{background:var(--danger-bg);color:var(--danger);}
+.badge.neutral{background:var(--surface-2);color:var(--muted);}
+
+/* ---- Buttons ---- */
+.btn{
+  display:inline-block;padding:10px 18px;border-radius:9px;border:none;
+  background:var(--accent);color:#fff;font-weight:600;font-size:14px;cursor:pointer;
+}
+.btn:hover{background:var(--accent-strong);}
+.btn.secondary{background:var(--surface-2);color:var(--ink);}
+.btn.secondary:hover{background:var(--border);}
+.reset-btn{
+  font-size:12.5px;font-weight:600;color:var(--muted);background:var(--surface);
+  border:1px solid var(--border);padding:7px 12px;border-radius:9px;cursor:pointer;
+}
+.reset-btn:hover{color:var(--danger);border-color:var(--danger);}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;
+  color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:9px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;}
+
+/* ---- Quiz mechanics ---- */
+.progress-line{font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;}
+.question-text{font-size:17px;font-weight:600;margin:0 0 16px;line-height:1.4;}
+.choices{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;}
+.choice-btn{
+  text-align:left;padding:12px 15px;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--bg);font-size:14.5px;cursor:pointer;color:var(--ink);
+}
+.choice-btn:hover:not(:disabled){border-color:var(--accent);}
+.choice-btn:disabled{cursor:default;}
+.choice-btn.correct{border-color:var(--success);background:var(--success-bg);font-weight:600;}
+.choice-btn.incorrect{border-color:var(--danger);background:var(--danger-bg);font-weight:600;}
+.explain{
+  font-size:13.5px;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);
+  border-radius:10px;padding:12px 14px;margin-bottom:16px;
+}
+.result-box{text-align:center;padding:16px 8px 4px;}
+.result-box .score{font-family:var(--font-mono);font-size:38px;font-weight:600;margin:6px 0;font-variant-numeric:tabular-nums;}
+.result-box .msg{font-size:14px;color:var(--muted);max-width:46ch;margin:0 auto 18px;}
+
+/* ---- Mode/palier tiles ---- */
+.paliers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+@media (max-width:640px){.paliers-grid{grid-template-columns:1fr;}}
+.palier-card{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px;
+  text-align:left;cursor:pointer;font-family:inherit;
+}
+.palier-card:hover:not(:disabled){border-color:var(--accent);}
+.palier-card:disabled{cursor:not-allowed;opacity:.5;}
+.palier-card .p-icon{font-size:20px;}
+.palier-card .p-name{font-weight:700;font-size:15px;margin:8px 0 2px;font-family:var(--font-display);}
+.palier-card .p-sub{font-size:12px;color:var(--muted);}
+
+/* ---- Tabs (chapitre engine) ---- */
+.mb-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;}
+.mb-tab-btn{
+  padding:8px 13px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);
+  font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);
+}
+.mb-tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* ---- Checklists ---- */
+.mb-checklist{display:flex;flex-direction:column;gap:7px;}
+.mb-check-item{
+  display:flex;align-items:center;gap:10px;font-size:14px;padding:9px 11px;
+  border-radius:9px;background:var(--bg);border:1px solid var(--border);cursor:pointer;
+}
+.mb-check-item input{width:17px;height:17px;flex-shrink:0;accent-color:var(--accent);}
+
+/* ---- Dashboard ---- */
+.mb-kpi{display:flex;align-items:center;gap:26px;flex-wrap:wrap;}
+.mb-kpi-value{font-family:var(--font-mono);font-size:48px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;}
+.mb-kpi-sub{font-size:13px;opacity:.9;margin-top:6px;}
+.mb-gauge{flex:1;min-width:220px;}
+.mb-gauge-track{position:relative;height:11px;border-radius:999px;background:rgba(255,255,255,.28);overflow:hidden;}
+.mb-gauge-fill{height:100%;border-radius:999px;background:#fff;}
+.mb-gauge-target{position:absolute;top:-3px;bottom:-3px;width:2px;background:#F5C453;}
+.mb-gauge-labels{display:flex;justify-content:space-between;font-size:11.5px;margin-top:6px;opacity:.85;font-family:var(--font-mono);}
+
+.mb-matieres-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;margin:18px 0;}
+@media (max-width:700px){.mb-matieres-grid{grid-template-columns:1fr;}}
+.mb-matiere-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:16px 17px;}
+.mb-matiere-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.mb-matiere-head h3{margin:2px 0 2px;font-size:14.5px;font-family:var(--font-body);font-weight:700;}
+.mb-matiere-code{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-family:var(--font-mono);}
+.mb-coef{font-size:11px;font-weight:700;color:var(--muted);background:var(--surface-2);padding:3px 8px;border-radius:999px;white-space:nowrap;font-family:var(--font-mono);}
+.mb-status-tag{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;display:inline-block;margin-top:4px;}
+.mb-status-tag.verrouille{background:var(--danger-bg);color:var(--danger);}
+.mb-status-tag.en_cours{background:var(--accent-tint);color:var(--accent);}
+.mb-status-tag.a_venir{background:var(--surface-2);color:var(--muted);}
+.mb-inputs{display:flex;gap:10px;margin:10px 0;}
+.mb-field{flex:1;}
+.mb-field label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;}
+.mb-field input{width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);font-size:14px;background:var(--bg);color:var(--ink);font-family:var(--font-mono);}
+.mb-field input:focus{outline:none;border-color:var(--accent);}
+.mb-matiere-foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.mb-impact{font-size:11.5px;color:var(--muted);}
+
+.mb-simulateur .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px;}
+.mb-simulateur select,.mb-simulateur input{
+  padding:9px 11px;border-radius:8px;border:1.5px solid var(--border);font-size:14px;
+  background:var(--bg);color:var(--ink);
+}
+.mb-sim-result{padding:13px 15px;border-radius:11px;background:var(--surface-2);border:1px solid var(--border);font-size:14px;}
+.mb-sim-result.ok{background:var(--success-bg);border-color:transparent;}
+.mb-sim-result.danger{background:var(--danger-bg);border-color:transparent;}
+.mb-sim-result b{font-family:var(--font-mono);font-size:16.5px;}
+
+/* ---- Chapitres grid / home tiles ---- */
+.mb-chapitres-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;}
+@media (max-width:640px){.mb-chapitres-grid{grid-template-columns:1fr;}}
+.mb-chapitre-card{
+  display:block;padding:16px 18px;border-radius:12px;background:var(--surface);
+  border:1px solid var(--border);box-shadow:var(--shadow);text-decoration:none;color:var(--ink);
+  cursor:pointer;
+}
+.mb-chapitre-card:hover{border-color:var(--accent);}
+.mc-matiere{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-family:var(--font-mono);}
+.mb-chapitre-card h4{margin:4px 0 8px;font-size:15px;font-family:var(--font-body);font-weight:700;}
+
+.global-stats{display:flex;gap:26px;margin:18px 0 26px;flex-wrap:wrap;}
+.global-stats .stat{text-align:left;}
+.global-stats .stat .n{font-family:var(--font-mono);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;}
+.global-stats .stat .l{font-size:11.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+
+/* ---- Timer / flashcards ---- */
+.mb-timer{font-family:var(--font-mono);font-size:20px;font-weight:600;padding:6px 14px;border-radius:9px;background:var(--surface-2);}
+.mb-timer.warn{background:var(--danger-bg);color:var(--danger);}
+.mb-flashcard{padding:24px;border-radius:14px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);text-align:center;}
+.mb-flashcard .fc-meta{font-size:11.5px;color:var(--muted);margin-bottom:10px;font-family:var(--font-mono);}
+.mb-flashcard .fc-question{font-size:17px;font-weight:600;margin-bottom:14px;font-family:var(--font-display);}
+.mb-flashcard .fc-answer{font-size:13.5px;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:12px;border:1px solid var(--border);}
+
+/* ---- Journal ---- */
+.mb-journal-entry{padding:14px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--border);margin-bottom:10px;}
+.mb-journal-entry .je-meta{font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px;}
+.mb-journal-entry .je-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.mb-journal-entry .je-tag{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);}
+.mb-form-row{margin-bottom:14px;}
+.mb-form-row label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:5px;}
+.mb-form-row textarea,.mb-form-row input[type="text"],.mb-form-row input[type="date"]{
+  width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--border);font-size:14px;
+  background:var(--surface);color:var(--ink);
+}
+.mb-checkbox-row{display:flex;gap:14px;flex-wrap:wrap;}
+.mb-checkbox-row label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink);}
+
+.wide-scroll{overflow-x:auto;}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="brand">MonBTS<small>Copilote BTS GPME</small></div>
+  </div>
+  <nav class="mb-nav" id="mb-nav"></nav>
+  <div id="view"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ======================================================================
+   DONNÉES
+   ====================================================================== */
+
+var CIBLE_GENERALE_DEFAUT = 12;
+var SEUILS_ALERTE = { urgent: 20, maintenir: 8 };
+
+var MATIERES_SEED = [
+  { id:"cejm", code:"CEJM", nom:"Culture Économique, Juridique et Managériale", coefficient:6, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:5.71, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
+  { id:"e4", code:"E4", nom:"Gestion de la Relation Client et Fournisseurs", coefficient:6, typeEvaluation:"ccf", statutEvaluation:"en_cours", noteActuelle:8.0, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
+  { id:"e5", code:"E5", nom:"Management et Gestion des Risques — RH de la PME", coefficient:8, typeEvaluation:"ccf", statutEvaluation:"en_cours", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"maintenir", dateEcheance:null },
+  { id:"e6", code:"E6", nom:"Soutenir la Performance et le Développement de la PME", coefficient:6, typeEvaluation:"oral", statutEvaluation:"en_cours", noteActuelle:8.59, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
+  { id:"e1", code:"E1", nom:"Culture Générale et Expression", coefficient:4, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"maintenir", dateEcheance:null },
+  { id:"e2", code:"E2", nom:"Anglais — Communication en langue vivante étrangère", coefficient:3, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"urgent", dateEcheance:null }
+];
+
+var PROCESSUS_LIST = [
+  { id:"p1", label:"P1 — Gestion de la relation avec la clientèle" },
+  { id:"p2", label:"P2 — Gestion de la relation avec les fournisseurs" },
+  { id:"p3", label:"P3 — Gestion des risques de la PME" },
+  { id:"p4", label:"P4 — Gestion et développement des ressources humaines" }
+];
+
+var CONFORMITE_SEED = {
+  E4: [
+    { id:"e4-1", regle:"Chaque situation professionnelle respecte le nombre de pages maximum fixé par ton centre d'examen." },
+    { id:"e4-2", regle:"Les situations présentées couvrent des processus différents (pas de doublon de processus)." },
+    { id:"e4-3", regle:"Les documents supports (factures, devis, extraits CRM...) sont anonymisés avant remise (RGPD)." },
+    { id:"e4-4", regle:"La date de chaque situation est cohérente avec le calendrier réel de la période en entreprise." },
+    { id:"e4-5", regle:"Une attestation sur l'honneur de non-plagiat est signée et jointe au dossier." },
+    { id:"e4-6", regle:"Le dossier est déposé avant la date limite fixée par le centre d'examen." }
+  ],
+  E5: [
+    { id:"e5-1", regle:"Le dossier présente au moins le nombre de situations minimum exigé par ton référentiel." },
+    { id:"e5-2", regle:"Chaque situation identifie clairement un risque et la démarche de prévention associée." },
+    { id:"e5-3", regle:"Les annexes (DUERP, grilles, tableaux) sont bien référencées dans le corps du dossier." },
+    { id:"e5-4", regle:"Le dossier respecte la pagination maximale imposée." },
+    { id:"e5-5", regle:"La confidentialité des données de l'entreprise d'accueil est respectée (accord de diffusion si nécessaire)." }
+  ],
+  E6: [
+    { id:"e6-1", regle:"Le dossier-projet répond à une problématique de performance clairement formulée." },
+    { id:"e6-2", regle:"Le plan d'action proposé est réaliste et chiffré." },
+    { id:"e6-3", regle:"Le support de soutenance orale respecte la durée imposée (préparation / exposé / entretien)." },
+    { id:"e6-4", regle:"Les sources et références utilisées sont citées." },
+    { id:"e6-5", regle:"Une version imprimée ou déposée est prête avant la date limite fixée par le centre d'examen." }
+  ]
+};
+
+var CHAPITRES_SEED = [
+  {
+    id:"cejm-structures-juridiques", matiereId:"cejm", titre:"Les structures juridiques de l'entreprise",
+    motsCles:["Personnalité morale","EURL","SASU","Responsabilité limitée","Capital social","Statuts","Associé unique","Immatriculation RCS"],
+    niveau1:{
+      ficheCourseSynthese:"Le choix d'une structure juridique détermine la responsabilité du dirigeant, le régime fiscal et social, et les règles de fonctionnement de l'entreprise. Pour un entrepreneur seul, les deux formes principales sont l'EURL (SARL à associé unique, gérant travailleur non salarié) et la SASU (président assimilé salarié, statuts très souples). Dans ces structures à responsabilité limitée, les associés ne répondent des dettes qu'à hauteur de leurs apports au capital social. La société est créée par la rédaction des statuts puis l'immatriculation au Registre du Commerce et des Sociétés (RCS), qui lui donne la personnalité morale.",
+      exercices:[
+        { enonce:"Cite deux conséquences pratiques de la personnalité morale d'une société.", correction:"La société peut posséder un patrimoine propre, distinct de celui des associés, et elle peut agir en justice en son nom propre." },
+        { enonce:"Un entrepreneur seul veut protéger son patrimoine personnel tout en gardant des statuts très souples pour faire entrer des investisseurs plus tard. Quelle structure lui conseiller, et pourquoi ?", correction:"La SASU : la responsabilité y est limitée aux apports comme en EURL, mais les statuts de la SAS/SASU sont beaucoup plus libres et permettent d'organiser facilement l'entrée de nouveaux associés." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Léa crée seule « Néo Solutions », une société de conseil. Elle vous demande de rédiger un court paragraphe expliquant à sa banque pourquoi sa responsabilité personnelle est protégée si elle choisit l'EURL, en citant les bons termes juridiques.",
+      bareme:[
+        { critere:"Mentionne la responsabilité limitée aux apports", pointsMax:6, feedbackSiManquant:"Tu n'as pas explicitement dit que la responsabilité est limitée au montant des apports.", methodePourAtteindre15:"Commence toujours par la règle générale : « Dans une EURL, l'associé unique n'est responsable des dettes sociales qu'à hauteur de ses apports au capital social. »" },
+        { critere:"Cite la notion de personnalité morale", pointsMax:5, feedbackSiManquant:"Oubli de la personnalité morale : c'est elle qui justifie juridiquement la séparation des patrimoines.", methodePourAtteindre15:"Relie toujours « responsabilité limitée » à sa cause juridique : la personnalité morale." },
+        { critere:"Emploie un vocabulaire juridique précis (EURL, associé unique, capital social)", pointsMax:5, feedbackSiManquant:"Vocabulaire trop généraliste : le correcteur attend les termes techniques exacts.", methodePourAtteindre15:"Note les 3-4 mots-clés du chapitre avant de rédiger et coche-les au fur et à mesure." },
+        { critere:"Formule une phrase de conclusion claire pour la banque", pointsMax:4, feedbackSiManquant:"Une bonne copie professionnelle se termine par une phrase de synthèse.", methodePourAtteindre15:"Termine par : « Ainsi, le patrimoine personnel de Léa est protégé, sauf faute de gestion grave. »" }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Dans une EURL, l'associé unique peut-il perdre plus que ses apports en cas de faillite ?", choices:["Non, sauf en cas de faute de gestion grave ou de confusion des patrimoines","Oui, systématiquement","Non, jamais, même en cas de fraude","Oui, mais seulement si le capital social dépasse 10 000 €"], answer:0, pointDeVigilance:"La responsabilité limitée n'est pas absolue, elle tombe en cas de faute de gestion ou de confusion des patrimoines.", correction:"Un juge peut lever la protection en cas de faute de gestion caractérisée ou de confusion des patrimoines." },
+      { enonce:"Une SASU peut-elle avoir un capital social de 1 € ?", choices:["Oui, aucun capital minimum n'est légalement exigé","Non, il faut au moins 1 000 €","Non, il faut au moins 37 000 €","Non, il faut au moins 7 500 €"], answer:0, pointDeVigilance:"Beaucoup confondent avec l'ancienne SA (37 000 €).", correction:"Le capital social minimum a été supprimé pour SARL/EURL/SAS/SASU ; seule la SA impose 37 000 €." },
+      { enonce:"La personnalité morale d'une société naît...", choices:["à son immatriculation au RCS","à la signature des statuts","au premier jour d'activité commerciale","à l'ouverture du compte bancaire professionnel"], answer:0, pointDeVigilance:"Les statuts signés ne suffisent pas, c'est l'immatriculation qui déclenche la personnalité morale.", correction:"La société n'existe juridiquement qu'à compter de son immatriculation au RCS." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Qu'est-ce que le capital social ?", choices:["L'ensemble des apports des associés formant le patrimoine initial","Le chiffre d'affaires annuel","Le bénéfice net de l'exercice","Le salaire du dirigeant"], answer:0, explain:"Le capital social correspond aux apports effectués par les associés." },
+      { q:"Dans une SASU, quel est le statut social du président ?", choices:["Assimilé salarié","Travailleur non salarié (TNS)","Fonctionnaire","Auto-entrepreneur"], answer:0, explain:"Le président de SASU relève du régime général (assimilé salarié)." },
+      { q:"Que désignent les statuts d'une société ?", choices:["Le contrat qui organise son fonctionnement","Le bilan comptable annuel","La déclaration de TVA","Le contrat de travail des salariés"], answer:0, explain:"Les statuts régissent le fonctionnement interne de la société." },
+      { q:"Quelle structure impose un capital minimum de 37 000 € ?", choices:["La SA","La SASU","L'EURL","La SARL"], answer:0, explain:"Seule la SA conserve un capital social minimum légal." },
+      { q:"Qu'est-ce que l'immatriculation au RCS ?", choices:["La formalité qui donne naissance à la personnalité morale","Une déclaration fiscale annuelle","Une autorisation réservée aux professions réglementées","Le dépôt des comptes annuels"], answer:0, explain:"L'immatriculation confère la personnalité morale à la société." },
+      { q:"La confusion des patrimoines concerne surtout...", choices:["Le dirigeant qui mélange ses comptes personnels et ceux de la société","Le client qui ne paie pas sa facture","Le fournisseur qui retarde une livraison","Le salarié en période d'essai"], answer:0, explain:"Un juge peut lever la protection de responsabilité limitée dans ce cas." }
+    ]}
+  },
+  {
+    id:"e1-synthese", matiereId:"e1", titre:"La synthèse de documents : méthode et pièges",
+    motsCles:["Objectivité","Problématique","Hiérarchisation des idées","Confrontation des sources","Plan thématique","Reformulation","Connecteurs logiques","Neutralité"],
+    niveau1:{
+      ficheCourseSynthese:"La synthèse consiste à confronter plusieurs documents pour en restituer les idées principales de façon neutre, organisée et hiérarchisée, sans jamais donner son avis personnel. Méthode : repérer le thème commun et les convergences/divergences, formuler une problématique qui relie tous les documents, construire un plan thématique (2-3 axes), puis rédiger en reformulant avec ses propres mots, en citant la source, avec des connecteurs logiques.",
+      exercices:[
+        { enonce:"Pourquoi est-il interdit de traiter les documents dans l'ordre où on les a lus plutôt que par thème ?", correction:"Parce que la synthèse doit être organisée par idées communes : suivre l'ordre des documents produit un simple résumé juxtaposé, ce qui est sanctionné." },
+        { enonce:"Un document affirme une opinion tranchée. Peux-tu la reprendre telle quelle sans précaution ?", correction:"Non : il faut la reformuler avec des marques de distance (« l'auteur affirme que... ») pour montrer que c'est une idée du document, pas ton avis." }
+      ]
+    },
+    niveau2:{
+      casPratique:"On te donne trois documents sur le télétravail (un article favorable, une étude nuançant les gains de productivité, un témoignage critique). Rédige l'introduction de ta synthèse (accroche, corpus, problématique, plan), en 5 à 8 lignes.",
+      bareme:[
+        { critere:"Présente le corpus sans le juger", pointsMax:6, feedbackSiManquant:"L'introduction ne dit pas clairement de quoi parlent les documents ni leur nature.", methodePourAtteindre15:"Une phrase suffit : « Ce corpus de trois documents traite du télétravail. »" },
+        { critere:"Formule une problématique qui engage une véritable question", pointsMax:6, feedbackSiManquant:"Pas de vraie question posée : une problématique en « Nous verrons que... » n'en est pas une.", methodePourAtteindre15:"Utilise un tour interrogatif direct : « Dans quelle mesure... ? »" },
+        { critere:"Annonce un plan en 2-3 axes cohérents", pointsMax:5, feedbackSiManquant:"Le plan annoncé ne reflète pas les tensions réelles entre les documents.", methodePourAtteindre15:"Fais correspondre chaque axe à une tension identifiée (bénéfices vs limites)." },
+        { critere:"Ton neutre, aucune opinion personnelle", pointsMax:3, feedbackSiManquant:"Une trace de jugement personnel fait perdre des points.", methodePourAtteindre15:"Relis-toi en traquant les « je », « à mon avis »." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Un document contredit les deux autres sur un point précis. Que doit faire le rédacteur ?", choices:["Signaler explicitement ce désaccord, sans trancher","Ignorer le document qui contredit les autres","Trancher lui-même en faveur de la majorité","Supprimer ce point de la synthèse"], answer:0, pointDeVigilance:"Croire qu'il faut « lisser » les documents en une opinion unique.", correction:"La synthèse met en lumière convergences ET divergences, sans que le rédacteur ne prenne parti." },
+      { enonce:"Reformuler un document, c'est...", choices:["Exprimer son idée avec d'autres mots, en conservant le sens exact","Recopier le document en changeant juste quelques mots","Résumer en donnant son avis dessus","Traduire le document dans un registre plus soutenu"], answer:0, pointDeVigilance:"Une reformulation trop proche du texte original est sanctionnée.", correction:"Reformuler exige de s'approprier l'idée avec un vocabulaire différent." },
+      { enonce:"La longueur imposée pour la synthèse doit être...", choices:["Respectée avec une tolérance limitée","Ignorée si le sujet est riche","Doublée pour montrer sa maîtrise","Réduite de moitié"], answer:0, pointDeVigilance:"Penser que « plus c'est long, mieux c'est ».", correction:"Le non-respect du nombre de mots imposé est sanctionné dans le barème officiel." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Quel est le principal interdit dans une synthèse ?", choices:["Exprimer son opinion personnelle","Utiliser des connecteurs logiques","Reformuler les idées des documents","Organiser sa réponse en plan"], answer:0, explain:"La synthèse impose une stricte neutralité." },
+      { q:"Le plan d'une synthèse doit être organisé...", choices:["Par thèmes communs aux documents","Document par document","Par ordre alphabétique des auteurs","Par ordre de longueur"], answer:0, explain:"Un plan thématique croise les documents entre eux." },
+      { q:"Que doit contenir l'introduction ?", choices:["Présentation du corpus, problématique, plan","Uniquement le titre du sujet","La conclusion personnelle","La liste des auteurs"], answer:0, explain:"L'introduction pose le cadre, la question et la structure." },
+      { q:"Reformuler un document sert à...", choices:["Montrer qu'on s'est approprié l'idée","Gagner du temps en copiant plus vite","Éviter de citer la source","Allonger artificiellement la synthèse"], answer:0, explain:"La reformulation prouve la compréhension réelle du document." },
+      { q:"Que faire si deux documents se contredisent ?", choices:["Signaler la contradiction sans trancher","Ne garder que le document le plus récent","Fusionner les deux points de vue","Ne pas en parler"], answer:0, explain:"Le rédacteur met en évidence les tensions, il ne les résout pas." },
+      { q:"Le non-respect de la longueur imposée est...", choices:["Sanctionné dans la notation","Sans aucune conséquence","Toléré au-delà de 50%","Positif si plus long"], answer:0, explain:"La maîtrise du nombre de mots fait partie des compétences évaluées." }
+    ]}
+  },
+  {
+    id:"e2-negotiating", matiereId:"e2", titre:"Negotiating a business deal",
+    motsCles:["Negotiation","Terms and conditions","Trade-off","Deadline","Counter-offer","Draft contract","Bottom line","Win-win agreement"],
+    niveau1:{
+      ficheCourseSynthese:"En anglais des affaires, négocier un accord commercial suppose de maîtriser un vocabulaire précis : « terms and conditions » (conditions générales), « trade-off » (compromis), « counter-offer » (contre-proposition), « bottom line » (minimum acceptable), « win-win agreement » (accord gagnant-gagnant). Phrases types : proposer (« We would like to offer... »), objecter poliment (« I'm afraid that won't be possible, however... »), conclure (« Let's shake hands on this deal. »).",
+      exercices:[
+        { enonce:"Translate: « Nous ne pouvons pas accepter ce délai, mais nous proposons un compromis. »", correction:"« We cannot accept this deadline, but we propose a trade-off. »" },
+        { enonce:"Complete politely: « Your price is too high. ___ »", correction:"« Your price is too high. Would you consider a 10% discount if we commit to a larger order? »" }
+      ]
+    },
+    niveau2:{
+      casPratique:"You are negotiating a supply contract with a British supplier. Their initial offer is £50,000 for a 12-month contract, but your budget is £42,000. Write 4-5 sentences replying, using at least one negotiation phrase.",
+      bareme:[
+        { critere:"Uses at least one negotiation phrase (trade-off, counter-offer, bottom line...)", pointsMax:6, feedbackSiManquant:"Aucune expression de négociation vue en cours n'est utilisée.", methodePourAtteindre15:"Réutilise littéralement une expression du cours." },
+        { critere:"Grammatically correct conditional / polite request form", pointsMax:5, feedbackSiManquant:"Le ton est trop direct (« I want », « you must »).", methodePourAtteindre15:"Utilise « would you consider... », « we would be able to... »." },
+        { critere:"Gives a concrete counter-figure", pointsMax:5, feedbackSiManquant:"Une négociation efficace donne un chiffre précis.", methodePourAtteindre15:"Chiffre toujours ta contre-proposition." },
+        { critere:"Correct business register (no slang)", pointsMax:4, feedbackSiManquant:"Le registre est trop familier pour un contexte professionnel écrit.", methodePourAtteindre15:"Évite les contractions trop familières." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"What does 'bottom line' mean in a negotiation?", choices:["The minimum acceptable outcome for one party","The first offer made","The final signature line of a contract","The total revenue of a company"], answer:0, pointDeVigilance:"'Bottom line' est confondu avec 'first offer'.", correction:"It refers to the lowest acceptable position a party is willing to accept." },
+      { enonce:"Choose the most diplomatic way to reject an offer:", choices:["\"I'm afraid that won't be possible, however we could consider...\"","\"No, that's impossible.\"","\"That's a terrible offer.\"","\"We refuse.\""], answer:0, pointDeVigilance:"Un refus direct et sec est perçu comme agressif.", correction:"Business English favours softened refusals followed by a constructive alternative." },
+      { enonce:"What is a 'counter-offer'?", choices:["A new proposal made in response to a rejected offer","The final accepted price","A written contract","A cancellation of the negotiation"], answer:0, pointDeVigilance:"Ce n'est pas le contrat final.", correction:"A counter-offer is a new proposal made after the initial offer is rejected." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"What does 'trade-off' mean?", choices:["A compromise between two conflicting objectives","A type of contract","A final signature","A shipping delay"], answer:0, explain:"A trade-off is a balance between two incompatible outcomes." },
+      { q:"'Terms and conditions' refers to...", choices:["The detailed rules governing an agreement","Only the price of a deal","The names of the negotiators","The location of the meeting"], answer:0, explain:"Terms and conditions define an agreement's obligations." },
+      { q:"Choose the polite negotiation opener:", choices:["\"We would like to offer...\"","\"Give us your best price now.\"","\"Take it or leave it.\"","\"You have no choice.\""], answer:0, explain:"Negotiations open with softened, collaborative phrasing." },
+      { q:"A 'win-win agreement' means...", choices:["Both parties gain something from the deal","Only one party benefits","The negotiation fails","The contract is cancelled"], answer:0, explain:"A win-win agreement satisfies both sides." },
+      { q:"An appropriate way to end a successful negotiation:", choices:["\"Let's shake hands on this deal.\"","\"This is over.\"","\"Whatever.\"","\"I don't care anymore.\""], answer:0, explain:"This phrase formally signals agreement." },
+      { q:"A 'deadline' in a business context is...", choices:["The final date by which something must be completed","A type of penalty clause","A synonym for budget","A meeting agenda"], answer:0, explain:"A deadline is the time limit for completing a task." }
+    ]}
+  },
+  {
+    id:"e4-facturation", matiereId:"e4", titre:"La facturation et le suivi des règlements clients",
+    motsCles:["Facture","TVA collectée","Délai de paiement","Relance client","Escompte","Acompte","Lettrage","Créance client"],
+    niveau1:{
+      ficheCourseSynthese:"La facture matérialise juridiquement une vente et déclenche l'obligation de paiement du client. Elle mentionne le montant HT, la TVA collectée et le montant TTC. Le délai légal de paiement entre professionnels est de 60 jours à compter de la facturation (ou 45 jours fin de mois). Le suivi passe par le lettrage des comptes clients et, en cas de retard, par une relance progressive. Un acompte est un paiement partiel anticipé ; un escompte est une réduction pour paiement comptant ou anticipé.",
+      exercices:[
+        { enonce:"Une facture de 1 200 € HT est soumise à une TVA de 20%. Calcule le montant TTC.", correction:"TVA = 1 200 × 20% = 240 €. Montant TTC = 1 440 €." },
+        { enonce:"Un client paie 10 jours avant l'échéance et bénéficie d'un escompte de 2% sur 1 440 € TTC. Quel montant règle-t-il ?", correction:"Escompte = 28,80 €. Montant à régler = 1 411,20 €." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Un client, « Atelier Dubois », n'a pas réglé une facture de 2 400 € échue depuis 15 jours. Rédige le contenu (3-4 phrases) d'un premier email de relance, ton ferme mais courtois.",
+      bareme:[
+        { critere:"Rappelle précisément le numéro et le montant de la facture", pointsMax:5, feedbackSiManquant:"Une relance vague sans référence précise est peu professionnelle.", methodePourAtteindre15:"Cite le numéro de facture, l'échéance et le montant exact dès la première phrase." },
+        { critere:"Ton courtois mais ferme", pointsMax:6, feedbackSiManquant:"Le ton est soit trop mou, soit trop agressif.", methodePourAtteindre15:"Structure : politesse → rappel des faits → demande claire → délai → clôture." },
+        { critere:"Propose une action concrète et un délai", pointsMax:5, feedbackSiManquant:"Pas de délai fixé : la relance reste sans effet contraignant.", methodePourAtteindre15:"Termine toujours par une échéance précise." },
+        { critere:"Mentionne la suite en cas de non-paiement", pointsMax:4, feedbackSiManquant:"Aucune mention des conséquences en cas de non-régularisation.", methodePourAtteindre15:"Une phrase suffit sur la mise en demeure à venir." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Le délai légal de paiement par défaut entre professionnels en France est de...", choices:["60 jours à compter de la date de facturation","30 jours à compter de la livraison","90 jours calendaires","15 jours ouvrés"], answer:0, pointDeVigilance:"Confusion avec le délai de livraison ou les 30 jours des marchés publics.", correction:"Le délai légal maximal par défaut est de 60 jours nets, ou 45 jours fin de mois." },
+      { enonce:"Un escompte pour paiement comptant réduit...", choices:["Le montant réellement encaissé, en échange d'un paiement plus rapide","La TVA due sur la facture","Le délai de paiement légal","Le montant du capital social"], answer:0, pointDeVigilance:"Confondre l'escompte avec une remise commerciale classique.", correction:"L'escompte est une réduction financière pour paiement anticipé." },
+      { enonce:"Le lettrage d'un compte client sert à...", choices:["Rapprocher chaque facture émise du règlement correspondant","Calculer la TVA collectée du mois","Fixer le prix de vente d'un produit","Rédiger les statuts d'une société"], answer:0, pointDeVigilance:"Le lettrage est confondu avec le simple enregistrement comptable.", correction:"Le lettrage associe chaque facture à son règlement pour repérer les impayés." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Que représente la TVA collectée ?", choices:["La TVA facturée au client, reversée à l'État","La TVA payée aux fournisseurs","Une charge définitive","Le bénéfice net réalisé"], answer:0, explain:"La TVA collectée est perçue pour le compte de l'État." },
+      { q:"Un acompte est...", choices:["Un paiement partiel versé avant la fin de la prestation","Une réduction pour paiement rapide","Une pénalité de retard","Le montant total de la facture"], answer:0, explain:"L'acompte est versé en avance sur le prix total." },
+      { q:"Quel est le délai légal maximal de paiement interentreprises par défaut ?", choices:["60 jours à compter de la facturation","10 jours","6 mois","Aucun délai n'est fixé"], answer:0, explain:"Ce délai est de 60 jours, ou 45 jours fin de mois." },
+      { q:"Le lettrage d'un compte client permet de...", choices:["Identifier les factures encore impayées","Calculer le taux de marge","Déterminer le capital social","Rédiger un contrat de travail"], answer:0, explain:"Le lettrage rapproche chaque facture de son règlement." },
+      { q:"Un escompte est accordé en échange de...", choices:["Un paiement comptant ou anticipé","Une commande groupée","Une livraison retardée","Un CDI"], answer:0, explain:"L'escompte récompense la rapidité de paiement." },
+      { q:"Une première relance client doit contenir...", choices:["La référence précise de la facture et un délai","Une menace immédiate de poursuites","Une nouvelle offre commerciale","Le bilan comptable"], answer:0, explain:"Une relance efficace rappelle les faits et fixe un délai clair." }
+    ]}
+  },
+  {
+    id:"e5-duerp", matiereId:"e5", titre:"Le document unique d'évaluation des risques (DUERP)",
+    motsCles:["DUERP","Risque professionnel","Prévention","Cartographie des risques","Unité de travail","Plan d'action","Obligation de sécurité","Mise à jour annuelle"],
+    niveau1:{
+      ficheCourseSynthese:"Le DUERP est obligatoire dans toute entreprise dès le premier salarié. Il recense, par unité de travail, les risques identifiés, évalue leur fréquence et gravité, puis débouche sur un plan d'action de prévention. L'employeur a une obligation de sécurité de résultat : ne pas tenir le DUERP à jour (au moins annuellement, ou lors d'un changement important) l'expose à une sanction pénale en cas d'accident. Le DUERP doit être accessible aux salariés, au CSE et à la médecine du travail.",
+      exercices:[
+        { enonce:"Cite deux situations qui doivent déclencher une mise à jour du DUERP en dehors de la révision annuelle.", correction:"L'introduction d'une nouvelle machine ou d'un nouveau procédé, et un accident du travail révélant un risque non identifié." },
+        { enonce:"Qui doit avoir accès au DUERP ?", correction:"Les salariés, les membres du CSE, le médecin du travail, et l'inspection du travail sur demande." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Une PME de 12 salariés vient d'acheter une nouvelle machine de découpe. Le dirigeant te demande d'expliquer pourquoi il doit mettre à jour le DUERP avant la mise en service, et ce qu'il risque sinon.",
+      bareme:[
+        { critere:"Explique que l'achat d'une nouvelle machine impose une mise à jour", pointsMax:6, feedbackSiManquant:"La copie ne relie pas explicitement l'achat de la machine à l'obligation de mise à jour.", methodePourAtteindre15:"Pose la règle générale d'abord, puis applique-la au cas." },
+        { critere:"Mentionne l'obligation de sécurité de résultat de l'employeur", pointsMax:5, feedbackSiManquant:"Oubli du fondement juridique précis.", methodePourAtteindre15:"Cite la notion exacte : « obligation de sécurité de résultat »." },
+        { critere:"Cite un risque concret en cas de non-mise à jour", pointsMax:5, feedbackSiManquant:"Aucune conséquence concrète n'est indiquée.", methodePourAtteindre15:"Donne une conséquence juridique concrète (sanction pénale)." },
+        { critere:"Propose une méthode concrète", pointsMax:4, feedbackSiManquant:"Pas de recommandation opérationnelle.", methodePourAtteindre15:"Termine par une recommandation claire et actionnable." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Le DUERP est-il obligatoire uniquement pour les entreprises de plus de 11 salariés ?", choices:["Non, il est obligatoire dès le premier salarié","Oui, en dessous de 11 salariés il est facultatif","Non, seulement à partir de 20 salariés","Non, seulement pour l'industrie"], answer:0, pointDeVigilance:"Confondre le seuil du DUERP (1 salarié) avec celui du CSE (11 salariés).", correction:"Le DUERP est obligatoire pour toute entreprise employant au moins un salarié." },
+      { enonce:"À quelle fréquence minimale le DUERP doit-il être mis à jour ?", choices:["Au moins une fois par an, et à chaque changement important","Une seule fois, à la création","Tous les 5 ans","Uniquement après un accident"], answer:0, pointDeVigilance:"Croire que le DUERP est un document figé.", correction:"La mise à jour est au minimum annuelle, et lors de tout changement significatif." },
+      { enonce:"L'obligation de sécurité de l'employeur est qualifiée d'obligation de...", choices:["Résultat","Moyens uniquement","Diligence facultative","Bonne foi commerciale"], answer:0, pointDeVigilance:"Penser qu'il suffit de « faire de son mieux ».", correction:"L'employeur doit garantir un résultat, pas seulement mettre en œuvre des moyens." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Le DUERP est obligatoire...", choices:["Dès le premier salarié","Seulement au-delà de 50 salariés","Seulement dans l'industrie","Sur demande de l'inspection du travail"], answer:0, explain:"Aucun seuil d'effectif n'exempte l'entreprise." },
+      { q:"Le DUERP recense les risques par...", choices:["Unité de travail","Ordre alphabétique des salariés","Ancienneté","Montant du salaire"], answer:0, explain:"L'évaluation se fait par unité de travail." },
+      { q:"Qui doit pouvoir consulter le DUERP ?", choices:["Les salariés, le CSE et le médecin du travail","Uniquement le dirigeant","Uniquement les actionnaires","Uniquement l'expert-comptable"], answer:0, explain:"Le DUERP est accessible aux représentants du personnel et acteurs de santé au travail." },
+      { q:"Fréquence minimale de mise à jour du DUERP ?", choices:["Au moins une fois par an","Tous les 3 ans","Une seule fois à la création","Tous les 10 ans"], answer:0, explain:"La mise à jour annuelle est un minimum légal." },
+      { q:"L'obligation de sécurité de l'employeur est une obligation de...", choices:["Résultat","Moyens simples","Courtoisie","Discrétion"], answer:0, explain:"La jurisprudence qualifie cette obligation de résultat." },
+      { q:"Ne pas tenir de DUERP à jour expose l'employeur à...", choices:["Une sanction pénale, notamment en cas d'accident","Aucune conséquence","Une amende civile de 10 €","Une fermeture immédiate"], answer:0, explain:"L'absence ou la non-mise à jour peut être sanctionnée pénalement." }
+    ]}
+  },
+  {
+    id:"e6-tableau-bord", matiereId:"e6", titre:"Le tableau de bord et le pilotage de la performance",
+    motsCles:["Tableau de bord","Indicateur (KPI)","Écart","Plan d'action correctif","Objectif SMART","Fréquence de suivi","Seuil d'alerte","Reporting"],
+    niveau1:{
+      ficheCourseSynthese:"Le tableau de bord rassemble un nombre limité d'indicateurs clés (KPI) pour suivre l'atteinte des objectifs et détecter rapidement les écarts. Chaque indicateur est relié à un objectif SMART, un seuil d'alerte, et une fréquence de suivi adaptée. Face à un écart significatif, il faut en identifier la cause puis définir un plan d'action correctif (actions, responsables, délais). Le tableau de bord n'a de valeur que s'il déclenche des décisions.",
+      exercices:[
+        { enonce:"Un objectif de CA mensuel est de 50 000 €, le réalisé est de 41 000 €. Calcule l'écart en valeur et en %.", correction:"Écart = −9 000 €, soit −18%." },
+        { enonce:"Cite les 3 éléments indispensables d'un plan d'action correctif.", correction:"Diagnostic de la cause, actions concrètes, responsables et délais." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Le tableau de bord commercial d'une PME montre un taux de satisfaction client en baisse de 92% à 78% en un trimestre, sans cause identifiée. Rédige un court plan d'action correctif (4-5 phrases).",
+      bareme:[
+        { critere:"Propose d'abord d'investiguer la cause avant d'agir", pointsMax:6, feedbackSiManquant:"Le plan propose des actions directement, sans chercher la cause.", methodePourAtteindre15:"Commence systématiquement par une étape de diagnostic." },
+        { critere:"Propose au moins une action concrète et réaliste", pointsMax:5, feedbackSiManquant:"Le plan reste trop théorique.", methodePourAtteindre15:"Donne une action précise et réalisable." },
+        { critere:"Associe un responsable et un délai à l'action", pointsMax:5, feedbackSiManquant:"Sans responsable ni délai, une action reste théorique.", methodePourAtteindre15:"Précise toujours « qui fait quoi, pour quand »." },
+        { critere:"Prévoit un nouveau point de suivi", pointsMax:4, feedbackSiManquant:"Aucun mécanisme de vérification n'est prévu.", methodePourAtteindre15:"Termine par une clause de suivi." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Un tableau de bord efficace doit contenir...", choices:["Un nombre limité d'indicateurs réellement pilotables","Le plus grand nombre d'indicateurs possible","Uniquement des indicateurs financiers","Des indicateurs choisis au hasard"], answer:0, pointDeVigilance:"Croire qu'un bon tableau de bord doit être exhaustif.", correction:"Un tableau de bord efficace se limite à quelques indicateurs réellement actionnables." },
+      { enonce:"Face à un écart constaté, la première étape est...", choices:["Identifier la cause de l'écart avant d'agir","Sanctionner immédiatement les équipes","Supprimer l'indicateur qui pose problème","Augmenter l'objectif"], answer:0, pointDeVigilance:"Agir dans la précipitation sans diagnostic préalable.", correction:"Il faut comprendre la cause réelle de l'écart avant toute action corrective." },
+      { enonce:"Un objectif SMART doit notamment être...", choices:["Temporellement défini","Volontairement flou","Fixé sans lien avec la stratégie","Impossible à mesurer"], answer:0, pointDeVigilance:"Un objectif sans échéance claire n'est pas SMART.", correction:"Le « T » de SMART impose une échéance précise." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Un tableau de bord sert avant tout à...", choices:["Détecter rapidement les écarts et déclencher des décisions","Remplacer la comptabilité générale","Communiquer avec les clients","Fixer le prix de vente"], answer:0, explain:"Sa finalité est le pilotage, pas la simple observation." },
+      { q:"Un bon indicateur doit être...", choices:["Relié à un objectif et facilement mesurable","Le plus complexe possible","Calculé une seule fois par an","Sans lien avec la stratégie"], answer:0, explain:"Un indicateur utile découle directement d'un objectif." },
+      { q:"Priorité face à un écart important ?", choices:["Identifier la cause de l'écart","Modifier l'objectif immédiatement","Ignorer l'écart s'il est isolé","Licencier le responsable"], answer:0, explain:"Le diagnostic précède toujours le plan d'action correctif." },
+      { q:"Un plan d'action correctif doit préciser...", choices:["Les actions, responsables et délais","Uniquement le budget disponible","Le nom du logiciel utilisé","La liste des concurrents"], answer:0, explain:"Sans responsable ni délai, un plan reste une intention." },
+      { q:"Le 'S' d'un objectif SMART signifie...", choices:["Spécifique","Simple à deviner","Secret","Statique"], answer:0, explain:"SMART = Spécifique, Mesurable, Atteignable, Réaliste, Temporellement défini." },
+      { q:"Un tableau de bord avec trop d'indicateurs risque de...", choices:["Noyer l'information utile et ralentir la décision","Toujours améliorer la décision","Remplacer le plan d'action","Supprimer les écarts automatiquement"], answer:0, explain:"La surcharge d'indicateurs nuit à la lisibilité du pilotage." }
+    ]}
+  }
+];
+
+/* ======================================================================
+   MOTEUR DE CALCUL (dashboard)
+   ====================================================================== */
+
+var MATIERES_KEY = "monbts_matieres_v1";
+
+function chargerMatieres(){
+  try{ var raw=localStorage.getItem(MATIERES_KEY); if(raw){ var p=JSON.parse(raw); if(Array.isArray(p)&&p.length) return p; } }catch(e){}
+  return JSON.parse(JSON.stringify(MATIERES_SEED));
+}
+function sauvegarderMatieres(m){ try{ localStorage.setItem(MATIERES_KEY, JSON.stringify(m)); }catch(e){} }
+function reinitialiserMatieres(){ try{ localStorage.removeItem(MATIERES_KEY); }catch(e){} return JSON.parse(JSON.stringify(MATIERES_SEED)); }
+
+function calculerMoyenneGenerale(matieres){
+  var coefTotal=0, coefConnu=0, sommePonderee=0, manquantes=[];
+  matieres.forEach(function(m){
+    coefTotal += m.coefficient;
+    if(m.noteActuelle===null||m.noteActuelle===undefined){ manquantes.push(m.code); return; }
+    coefConnu += m.coefficient; sommePonderee += m.coefficient*m.noteActuelle;
+  });
+  var moyenne = coefConnu>0 ? sommePonderee/coefConnu : null;
+  return { moyenne: moyenne!==null?Math.round(moyenne*100)/100:null, coefTotal:coefTotal, matieresManquantes:manquantes };
+}
+function calculerImpact(m){
+  if(m.noteActuelle===null||m.noteActuelle===undefined) return null;
+  return m.coefficient*Math.max(m.noteCible-m.noteActuelle,0);
+}
+function calculerAlerte(m, seuils){
+  if(m.prioriteManuelle) return alerteDepuisNiveau(m.prioriteManuelle,true);
+  if(m.noteActuelle===null||m.noteActuelle===undefined) return {niveau:"inconnu",label:"Non renseigné",icone:"○",manuelle:false};
+  var impact=calculerImpact(m);
+  if(m.noteCible-m.noteActuelle<=0) return {niveau:"ok",label:"Objectif atteint",icone:"●",manuelle:false};
+  if(impact>=seuils.urgent) return {niveau:"urgent",label:"Urgent",icone:"●",manuelle:false};
+  if(impact>=seuils.maintenir) return {niveau:"maintenir",label:"Maintenir",icone:"●",manuelle:false};
+  return {niveau:"attention",label:"À surveiller",icone:"●",manuelle:false};
+}
+function alerteDepuisNiveau(niveau,manuelle){
+  var table={urgent:{label:"Urgent"},maintenir:{label:"Maintenir"},ok:{label:"Objectif atteint"}};
+  var t=table[niveau]||{label:niveau};
+  return {niveau:niveau,label:t.label,icone:"●",manuelle:!!manuelle};
+}
+function calculerNoteNecessaire(matieres,cibleGenerale,matiereId){
+  var coefTotal=matieres.reduce(function(s,m){return s+m.coefficient;},0);
+  var cible=matieres.find(function(m){return m.id===matiereId;});
+  if(!cible) return null;
+  var sommeAutres=matieres.reduce(function(s,m){
+    if(m.id===matiereId) return s;
+    var note=(m.noteActuelle===null||m.noteActuelle===undefined)?0:m.noteActuelle;
+    return s+m.coefficient*note;
+  },0);
+  var noteNecessaire=(cibleGenerale*coefTotal-sommeAutres)/cible.coefficient;
+  return { noteNecessaire:Math.round(noteNecessaire*100)/100, faisable:noteNecessaire<=20 };
+}
+function badgeClassFromNiveau(niveau){
+  if(niveau==="urgent") return "danger";
+  if(niveau==="maintenir"||niveau==="attention") return "warning";
+  if(niveau==="ok") return "success";
+  return "neutral";
+}
+
+/* ======================================================================
+   MOTEUR CHAPITRES
+   ====================================================================== */
+
+var PROGRESS_KEY="monbts_chapitres_progress_v1";
+var ERREURS_KEY="monbts_erreurs_v1";
+
+function loadAllProgress(){ try{ var raw=localStorage.getItem(PROGRESS_KEY); if(raw) return JSON.parse(raw); }catch(e){} return {}; }
+function saveAllProgress(all){ try{ localStorage.setItem(PROGRESS_KEY, JSON.stringify(all)); }catch(e){} }
+function defaultProgress(ch){
+  return {
+    motsClesChecked: ch.motsCles.map(function(){return false;}),
+    niveau1ExercicesVus: ch.niveau1.exercices.map(function(){return false;}),
+    niveau2CritereChecked: ch.niveau2.bareme.map(function(){return false;}),
+    niveau3:{completed:false,score:0,total:ch.niveau3.questionsPieges.length},
+    quizValidation:{completed:false,score:0,total:ch.quizValidation.questions.length,statut:"non_commence"}
+  };
+}
+function loadProgress(ch){
+  var all=loadAllProgress(); var p=all[ch.id]; var def=defaultProgress(ch);
+  if(!p) return def;
+  return {
+    motsClesChecked: (p.motsClesChecked&&p.motsClesChecked.length===def.motsClesChecked.length)?p.motsClesChecked:def.motsClesChecked,
+    niveau1ExercicesVus: (p.niveau1ExercicesVus&&p.niveau1ExercicesVus.length===def.niveau1ExercicesVus.length)?p.niveau1ExercicesVus:def.niveau1ExercicesVus,
+    niveau2CritereChecked: (p.niveau2CritereChecked&&p.niveau2CritereChecked.length===def.niveau2CritereChecked.length)?p.niveau2CritereChecked:def.niveau2CritereChecked,
+    niveau3: p.niveau3||def.niveau3,
+    quizValidation: p.quizValidation||def.quizValidation
+  };
+}
+function saveProgress(chId,progress){ var all=loadAllProgress(); all[chId]=progress; saveAllProgress(all); }
+function statutChapitre(progress){ if(!progress.quizValidation.completed) return "non_commence"; return progress.quizValidation.statut==="acquis"?"acquis":"a_revoir"; }
+function loadErreurs(){ try{ var raw=localStorage.getItem(ERREURS_KEY); if(raw) return JSON.parse(raw); }catch(e){} return []; }
+function logErreur(entry){
+  var erreurs=loadErreurs(); entry.date=new Date().toISOString(); erreurs.unshift(entry);
+  if(erreurs.length>300) erreurs.length=300;
+  try{ localStorage.setItem(ERREURS_KEY, JSON.stringify(erreurs)); }catch(e){}
+}
+function erreursRecentes(joursMax){
+  var seuil=Date.now()-joursMax*24*60*60*1000;
+  return loadErreurs().filter(function(e){ return new Date(e.date).getTime()>=seuil; });
+}
+
+/* ======================================================================
+   DOM HELPER
+   ====================================================================== */
+
+function el(tag,attrs,children){
+  var node=document.createElement(tag); attrs=attrs||{};
+  Object.keys(attrs).forEach(function(k){
+    var v=attrs[k]; if(v===null||v===undefined) return;
+    if(k==="class") node.className=v;
+    else if(k==="html") node.innerHTML=v;
+    else if(k.indexOf("on")===0 && typeof v==="function") node[k]=v;
+    else if(k==="disabled") node.disabled=true;
+    else node.setAttribute(k,v);
+  });
+  (children||[]).forEach(function(c){ if(c) node.appendChild(typeof c==="string"?document.createTextNode(c):c); });
+  return node;
+}
+function escapeHtml(s){ var d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+
+/* ======================================================================
+   NAVIGATION
+   ====================================================================== */
+
+var NAV_LINKS=[
+  {id:"accueil",label:"Accueil",href:"#/"},
+  {id:"dashboard",label:"Dashboard",href:"#/dashboard"},
+  {id:"chapitres",label:"Chapitres",href:"#/chapitres"},
+  {id:"examens",label:"Examens",href:"#/examens"},
+  {id:"journal",label:"Journal alternance",href:"#/journal"},
+  {id:"conformite",label:"Conformité dossiers",href:"#/conformite"}
+];
+function renderNav(active){
+  var nav=document.getElementById("mb-nav");
+  nav.innerHTML = NAV_LINKS.map(function(l){
+    return '<a href="'+l.href+'" class="'+(l.id===active?"current":"")+'">'+l.label+'</a>';
+  }).join("");
+}
+
+/* ======================================================================
+   VUE : ACCUEIL
+   ====================================================================== */
+
+function renderAccueil(container){
+  var matieres=chargerMatieres();
+  var moyenneRes=calculerMoyenneGenerale(matieres);
+  var acquisCount=0, aRevoirCount=0;
+  CHAPITRES_SEED.forEach(function(ch){
+    var p=loadProgress(ch); var s=statutChapitre(p);
+    if(s==="acquis") acquisCount++; if(s==="a_revoir") aRevoirCount++;
+  });
+  var erreurs30j=erreursRecentes(30).length;
+
+  container.innerHTML="";
+  container.appendChild(el("div",{class:"home-hero"},[
+    el("h1",{},["Ton copilote BTS GPME"]),
+    el("p",{},["Moyenne pondérée, chapitres gamifiés, examens blancs, journal d'alternance et conformité des dossiers — tout au même endroit, sauvegardé dans ce navigateur."])
+  ]));
+
+  var stats=el("div",{class:"global-stats"},[
+    statTile(moyenneRes.moyenne!==null?moyenneRes.moyenne+"/20":"—","Moyenne générale"),
+    statTile(acquisCount+"/"+CHAPITRES_SEED.length,"Chapitres acquis"),
+    statTile(String(aRevoirCount),"Chapitres à revoir"),
+    statTile(String(erreurs30j),"Erreurs (30j) à réviser")
+  ]);
+  container.appendChild(stats);
+
+  var grid=el("div",{class:"mb-chapitres-grid"});
+  var tiles=[
+    {href:"#/dashboard", tag:"Pilotage", title:"Dashboard de pilotage", desc:"Moyenne générale, alertes par matière, simulateur d'objectif."},
+    {href:"#/chapitres", tag:"Révision", title:"Chapitres gamifiés", desc:"3 niveaux + Correcteur Virtuel + quiz de validation."},
+    {href:"#/examens", tag:"Entraînement", title:"Modes examens", desc:"BTS Blanc extrême/normal + Turbo-Flash."},
+    {href:"#/journal", tag:"Alternance", title:"Journal d'alternance", desc:"3 questions/semaine → situations professionnelles E5/E6."},
+    {href:"#/conformite", tag:"Administratif", title:"Conformité des dossiers", desc:"Checklist E4 / E5 / E6."}
+  ];
+  tiles.forEach(function(t){
+    var a=el("a",{class:"mb-chapitre-card",href:t.href},[
+      el("div",{class:"mc-matiere"},[t.tag]),
+      el("h4",{},[t.title]),
+      el("p",{style:"color:var(--muted);font-size:13px;margin:0;"},[t.desc])
+    ]);
+    grid.appendChild(a);
+  });
+  container.appendChild(grid);
+  container.appendChild(el("p",{class:"footer-note"},["100% local, sans backend : tes notes, ta progression et ton journal restent dans ce navigateur."]));
+}
+function statTile(n,l){ return el("div",{class:"stat"},[ el("div",{class:"n"},[n]), el("div",{class:"l"},[l]) ]); }
+
+/* ======================================================================
+   VUE : DASHBOARD
+   ====================================================================== */
+
+function renderDashboard(container){
+  var matieres=chargerMatieres();
+  var STATUT_LABEL={a_venir:"À venir",en_cours:"En cours",verrouille:"Verrouillé (CCF)"};
+
+  container.innerHTML="";
+  var top=el("div",{class:"topbar"},[
+    el("span",{},[]),
+    el("button",{class:"reset-btn",onclick:function(){
+      if(confirm("Réinitialiser toutes tes notes aux valeurs de départ ?")){ matieres=reinitialiserMatieres(); draw(); }
+    }},["Réinitialiser mes notes"])
+  ]);
+  container.appendChild(top);
+
+  var hero=el("div",{class:"hero"},[
+    el("div",{class:"kicker"},["Moyenne générale pondérée"]),
+    (function(){
+      var wrap=el("div",{class:"mb-kpi"});
+      var left=el("div",{},[ el("div",{class:"mb-kpi-value",id:"kpi-moyenne"},["—/20"]), el("div",{class:"mb-kpi-sub",id:"kpi-sub"},["en attente de notes"]) ]);
+      var gauge=el("div",{class:"mb-gauge"},[
+        el("div",{class:"mb-gauge-track"},[ el("div",{class:"mb-gauge-fill",id:"gauge-fill",style:"width:0%"}), el("div",{class:"mb-gauge-target",style:"left:60%"}) ]),
+        el("div",{class:"mb-gauge-labels"},[el("span",{},["0"]),el("span",{},["Cible 12"]),el("span",{},["20"])])
+      ]);
+      wrap.appendChild(left); wrap.appendChild(gauge);
+      return wrap;
+    })()
+  ]);
+  container.appendChild(hero);
+
+  var grid=el("div",{class:"mb-matieres-grid",id:"matieres-grid"});
+  container.appendChild(grid);
+
+  var sim=el("div",{class:"card mb-simulateur"},[
+    el("h3",{style:"margin-top:0;"},["Simulateur — quelle note me faut-il ?"]),
+    el("p",{style:"color:var(--muted);font-size:13.5px;margin-top:-6px;"},["En supposant que toutes les autres matières restent à leur note actuelle, quelle note dois-tu obtenir sur une matière donnée pour atteindre une moyenne générale cible ?"]),
+    (function(){
+      var row=el("div",{class:"row"});
+      var selWrap=el("div",{},[ el("label",{style:"display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:4px;"},["Matière à simuler"]), el("select",{id:"sim-matiere"}) ]);
+      var cibleWrap=el("div",{},[ el("label",{style:"display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:4px;"},["Moyenne générale visée"]), el("input",{type:"number",id:"sim-cible",value:"12",min:"0",max:"20",step:"0.5"}) ]);
+      row.appendChild(selWrap); row.appendChild(cibleWrap);
+      row.appendChild(el("button",{class:"btn",id:"sim-btn"},["Calculer"]));
+      return row;
+    })(),
+    el("div",{id:"sim-result"})
+  ]);
+  container.appendChild(sim);
+
+  container.appendChild(el("p",{class:"footer-note"},["Notes verrouillées (CCF déjà tombé) exclues du simulateur."]));
+
+  function draw(){ renderKpi(); renderMatieres(); renderSimOptions(); }
+
+  function renderKpi(){
+    var res=calculerMoyenneGenerale(matieres);
+    var kpiEl=document.getElementById("kpi-moyenne"), subEl=document.getElementById("kpi-sub"), fill=document.getElementById("gauge-fill");
+    if(res.moyenne===null){ kpiEl.textContent="—/20"; subEl.textContent="Aucune note saisie pour l'instant"; }
+    else{
+      kpiEl.textContent=res.moyenne+"/20";
+      var msg = res.moyenne>=12 ? "Objectif de 12/20 atteint (sur les notes connues)" : "Objectif 12/20 pas encore atteint";
+      if(res.matieresManquantes.length) msg += " · en attente de : "+res.matieresManquantes.join(", ");
+      subEl.textContent=msg;
+      fill.style.width=Math.max(0,Math.min(100,(res.moyenne/20)*100))+"%";
+    }
+  }
+
+  function renderMatieres(){
+    var g=document.getElementById("matieres-grid"); g.innerHTML="";
+    matieres.forEach(function(m){
+      var alerte=calculerAlerte(m,SEUILS_ALERTE); var impact=calculerImpact(m);
+      var card=document.createElement("div"); card.className="mb-matiere-card";
+      card.innerHTML =
+        '<div class="mb-matiere-head"><div>'+
+          '<div class="mb-matiere-code">'+m.code+'</div>'+
+          '<h3>'+m.nom+'</h3>'+
+          '<span class="mb-status-tag '+m.statutEvaluation+'">'+STATUT_LABEL[m.statutEvaluation]+'</span>'+
+        '</div><div style="text-align:right;">'+
+          '<div class="mb-coef">Coeff. '+m.coefficient+'</div>'+
+          '<div style="margin-top:8px;"><span class="badge '+badgeClassFromNiveau(alerte.niveau)+'">'+alerte.label+(alerte.manuelle?" · manuel":"")+'</span></div>'+
+        '</div></div>'+
+        '<div class="mb-inputs">'+
+          '<div class="mb-field"><label>Note actuelle /20</label><input type="number" min="0" max="20" step="0.01" data-field="noteActuelle" data-id="'+m.id+'" value="'+(m.noteActuelle===null?"":m.noteActuelle)+'" placeholder="—"></div>'+
+          '<div class="mb-field"><label>Cible /20</label><input type="number" min="0" max="20" step="0.5" data-field="noteCible" data-id="'+m.id+'" value="'+m.noteCible+'"></div>'+
+        '</div>'+
+        '<div class="mb-matiere-foot"><span class="mb-impact">'+(impact===null?"Impact inconnu":"Impact sur la moyenne : "+Math.round(impact*10)/10)+'</span></div>';
+      g.appendChild(card);
+    });
+    g.querySelectorAll("input[data-field]").forEach(function(input){
+      input.addEventListener("change",function(){
+        var id=input.getAttribute("data-id"), field=input.getAttribute("data-field");
+        var m=matieres.find(function(x){return x.id===id;});
+        var v=input.value===""?null:parseFloat(input.value);
+        m[field]=(v===null||isNaN(v))?null:v;
+        sauvegarderMatieres(matieres); draw();
+      });
+    });
+  }
+
+  function renderSimOptions(){
+    var sel=document.getElementById("sim-matiere"); var current=sel.value; sel.innerHTML="";
+    matieres.forEach(function(m){
+      var opt=document.createElement("option"); opt.value=m.id; opt.textContent=m.code+" — "+m.nom; sel.appendChild(opt);
+    });
+    if(current) sel.value=current;
+  }
+
+  document.getElementById("sim-btn").addEventListener("click",function(){
+    var matiereId=document.getElementById("sim-matiere").value;
+    var cible=parseFloat(document.getElementById("sim-cible").value)||12;
+    var res=calculerNoteNecessaire(matieres,cible,matiereId);
+    var box=document.getElementById("sim-result");
+    var m=matieres.find(function(x){return x.id===matiereId;});
+    if(res.faisable && res.noteNecessaire<=0){ box.className="mb-sim-result ok"; box.innerHTML="Objectif déjà atteignable : même un <b>0/20</b> en "+m.code+" ne t'empêche pas d'atteindre "+cible+"/20 (autres matières stables)."; }
+    else if(res.faisable){ box.className="mb-sim-result ok"; box.innerHTML="Il te faut au moins <b>"+res.noteNecessaire+"/20</b> en "+m.code+" pour atteindre une moyenne générale de "+cible+"/20."; }
+    else{ box.className="mb-sim-result danger"; box.innerHTML="Objectif hors de portée sur cette seule matière : il faudrait <b>"+res.noteNecessaire+"/20</b> en "+m.code+" (impossible). Il faut aussi progresser ailleurs."; }
+  });
+
+  draw();
+}
+
+/* ======================================================================
+   VUE : LISTE DES CHAPITRES
+   ====================================================================== */
+
+function renderChapitresListe(container){
+  var MATIERES_MAP={}; MATIERES_SEED.forEach(function(m){ MATIERES_MAP[m.id]=m; });
+  container.innerHTML="";
+  container.appendChild(el("div",{class:"home-hero"},[
+    el("h1",{},["Parcours par chapitre"]),
+    el("p",{},["Pour chaque chapitre : mots-clés → Niveau 1 (Facile) → Niveau 2 (Dur, avec Correcteur Virtuel) → Niveau 3 (Compliqué) → quiz de validation."])
+  ]));
+  var grid=el("div",{class:"mb-chapitres-grid"});
+  CHAPITRES_SEED.forEach(function(ch){
+    var progress=loadProgress(ch); var statut=statutChapitre(progress);
+    var bClass=statut==="acquis"?"success":statut==="a_revoir"?"danger":"neutral";
+    var bLabel=statut==="acquis"?"Acquis":statut==="a_revoir"?"À revoir":"Non commencé";
+    var matiere=MATIERES_MAP[ch.matiereId];
+    var card=el("a",{class:"mb-chapitre-card",href:"#/chapitre/"+ch.id},[
+      el("div",{class:"mc-matiere"},[matiere?matiere.code:ch.matiereId.toUpperCase()]),
+      el("h4",{},[ch.titre]),
+      el("span",{class:"badge "+bClass},[bLabel])
+    ]);
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
+
+/* ======================================================================
+   VUE : DÉTAIL D'UN CHAPITRE
+   ====================================================================== */
+
+function renderChapitreDetail(container, chapId){
+  var chapitre=CHAPITRES_SEED.find(function(c){return c.id===chapId;});
+  container.innerHTML="";
+  if(!chapitre){
+    container.appendChild(el("div",{class:"card"},["Chapitre introuvable."]));
+    return;
+  }
+  container.appendChild(el("div",{class:"topbar"},[ el("a",{class:"back-link",href:"#/chapitres"},["← Tous les chapitres"]) ]));
+
+  var appDiv=el("div",{});
+  container.appendChild(appDiv);
+
+  var progress=loadProgress(chapitre);
+  var view={
+    tab:"motscles",
+    niveau3Index: progress.niveau3.completed?chapitre.niveau3.questionsPieges.length:0,
+    niveau3Answered:false, niveau3Selected:null, _score_niveau3:progress.niveau3.score,
+    validationIndex: progress.quizValidation.completed?chapitre.quizValidation.questions.length:0,
+    validationAnswered:false, validationSelected:null, _score_quizValidation:progress.quizValidation.score
+  };
+  function persist(){ saveProgress(chapitre.id, progress); }
+  function draw(){
+    appDiv.innerHTML="";
+    appDiv.appendChild(renderHeader());
+    appDiv.appendChild(renderTabs());
+    appDiv.appendChild(renderActiveTab());
+  }
+  function renderHeader(){
+    var statut=statutChapitre(progress);
+    var statutLabel=statut==="acquis"?"Acquis":statut==="a_revoir"?"À revoir":"Non commencé";
+    var statutClass=statut==="acquis"?"success":statut==="a_revoir"?"danger":"neutral";
+    return el("div",{class:"hero"},[
+      el("div",{class:"kicker"},[chapitre.matiereId.toUpperCase()]),
+      el("h1",{},[chapitre.titre]),
+      el("span",{class:"badge "+statutClass},[statutLabel])
+    ]);
+  }
+  function renderTabs(){
+    var tabs=[
+      {id:"motscles",label:"Mots-clés"},{id:"niveau1",label:"Niveau 1 · Facile"},
+      {id:"niveau2",label:"Niveau 2 · Dur"},{id:"niveau3",label:"Niveau 3 · Compliqué"},
+      {id:"validation",label:"Quiz de validation"}
+    ];
+    var nav=el("div",{class:"mb-tabs"});
+    tabs.forEach(function(t){
+      nav.appendChild(el("button",{class:"mb-tab-btn"+(view.tab===t.id?" active":""),onclick:function(){view.tab=t.id;draw();}},[t.label]));
+    });
+    return nav;
+  }
+  function renderActiveTab(){
+    if(view.tab==="motscles") return renderMotsCles();
+    if(view.tab==="niveau1") return renderNiveau1();
+    if(view.tab==="niveau2") return renderNiveau2();
+    if(view.tab==="niveau3") return renderNiveau3();
+    return renderValidation();
+  }
+  function renderMotsCles(){
+    var card=el("div",{class:"card"});
+    var checkedCount=progress.motsClesChecked.filter(Boolean).length;
+    card.appendChild(el("h3",{style:"margin-top:0;"},["Connais-tu ton cours ?"]));
+    card.appendChild(el("p",{style:"color:var(--muted);font-size:13.5px;"},["Coche chaque notion que tu es capable d'expliquer sans regarder le cours. "+checkedCount+"/"+chapitre.motsCles.length+" maîtrisées."]));
+    var list=el("div",{class:"mb-checklist"});
+    chapitre.motsCles.forEach(function(mot,i){
+      var input=el("input",{type:"checkbox"}); input.checked=progress.motsClesChecked[i];
+      input.addEventListener("change",function(){ progress.motsClesChecked[i]=input.checked; persist(); draw(); });
+      list.appendChild(el("label",{class:"mb-check-item"},[input, el("span",{},[mot])]));
+    });
+    card.appendChild(list);
+    return card;
+  }
+  function renderNiveau1(){
+    var wrap=document.createDocumentFragment();
+    wrap.appendChild(el("div",{class:"card"},[ el("h3",{style:"margin-top:0;"},["Fiche de cours synthétique"]), el("p",{},[chapitre.niveau1.ficheCourseSynthese]) ]));
+    chapitre.niveau1.exercices.forEach(function(ex,i){
+      var revealed=progress.niveau1ExercicesVus[i];
+      var card=el("div",{class:"card"});
+      card.appendChild(el("div",{class:"progress-line"},["Exercice guidé "+(i+1)+"/"+chapitre.niveau1.exercices.length]));
+      card.appendChild(el("div",{class:"question-text"},[ex.enonce]));
+      if(revealed) card.appendChild(el("div",{class:"explain"},["Correction : "+ex.correction]));
+      else card.appendChild(el("button",{class:"btn secondary",onclick:function(){progress.niveau1ExercicesVus[i]=true;persist();draw();}},["Voir la correction"]));
+      wrap.appendChild(card);
+    });
+    return wrap;
+  }
+  function renderNiveau2(){
+    var wrap=document.createDocumentFragment();
+    wrap.appendChild(el("div",{class:"card"},[
+      el("h3",{style:"margin-top:0;"},["Mini-cas pratique"]),
+      el("p",{},[chapitre.niveau2.casPratique]),
+      el("textarea",{rows:"5",placeholder:"Rédige ta réponse ici (non enregistrée), puis fais-toi corriger ci-dessous.",style:"width:100%;padding:10px;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:14px;background:var(--bg);color:var(--ink);"})
+    ]));
+    var total=chapitre.niveau2.bareme.reduce(function(s,c){return s+c.pointsMax;},0);
+    var obtenu=0; chapitre.niveau2.bareme.forEach(function(crit,i){ if(progress.niveau2CritereChecked[i]) obtenu+=crit.pointsMax; });
+    var noteEstimee=Math.round((obtenu/total)*20*10)/10;
+    var correcteur=el("div",{class:"card"});
+    correcteur.appendChild(el("h3",{style:"margin-top:0;"},["Correcteur Virtuel — auto-évaluation guidée"]));
+    correcteur.appendChild(el("p",{style:"color:var(--muted);font-size:13px;"},["Pas de correction automatique de texte libre ici (application 100% locale, sans IA distante) : coche ce que ta réponse contient réellement, comme le ferait un examinateur avec sa grille."]));
+    var grille=el("div",{class:"mb-checklist"});
+    chapitre.niveau2.bareme.forEach(function(crit,i){
+      var input=el("input",{type:"checkbox"}); input.checked=progress.niveau2CritereChecked[i];
+      input.addEventListener("change",function(){ progress.niveau2CritereChecked[i]=input.checked; persist(); draw(); });
+      grille.appendChild(el("label",{class:"mb-check-item"},[input, el("span",{},[crit.critere+" ("+crit.pointsMax+" pts)"])]));
+      if(!progress.niveau2CritereChecked[i]){
+        grille.appendChild(el("div",{class:"explain",style:"margin-left:26px;margin-bottom:8px;"},[crit.feedbackSiManquant+" → Méthode pour atteindre 15+ : "+crit.methodePourAtteindre15]));
+      }
+    });
+    correcteur.appendChild(grille);
+    var resultClass=noteEstimee>=15?"ok":noteEstimee>=10?"":"danger";
+    correcteur.appendChild(el("div",{class:"mb-sim-result "+resultClass,style:"margin-top:12px;"},[
+      el("b",{},["Note estimée : "+noteEstimee+"/20 "]),
+      document.createTextNode(noteEstimee>=15?"— Excellent, ta structure de copie est solide.":noteEstimee>=10?"— Correct, mais regarde les points manquants ci-dessus pour viser 15+.":"— À retravailler : reprends chaque critère manquant avant de continuer.")
+    ]));
+    wrap.appendChild(correcteur);
+    return wrap;
+  }
+  function renderNiveau3(){
+    return renderMcqFlow({
+      niveau:"3",
+      items:chapitre.niveau3.questionsPieges.map(function(q){return {q:q.enonce,choices:q.choices,answer:q.answer,explain:q.pointDeVigilance+" — "+q.correction};}),
+      indexKey:"niveau3Index", answeredKey:"niveau3Answered", selectedKey:"niveau3Selected", progressField:"niveau3",
+      onFinish:function(score,total){ progress.niveau3={completed:true,score:score,total:total}; persist(); }
+    });
+  }
+  function renderValidation(){
+    return renderMcqFlow({
+      niveau:"validation",
+      items:chapitre.quizValidation.questions.map(function(q){return {q:q.q,choices:q.choices,answer:q.answer,explain:q.explain};}),
+      indexKey:"validationIndex", answeredKey:"validationAnswered", selectedKey:"validationSelected", progressField:"quizValidation",
+      seuilPct:chapitre.quizValidation.seuilValidationPct,
+      onFinish:function(score,total,seuilPct){ var pct=(score/total)*100; progress.quizValidation={completed:true,score:score,total:total,statut:pct>=seuilPct?"acquis":"a_revoir"}; persist(); }
+    });
+  }
+  function renderMcqFlow(cfg){
+    var wrap=el("div",{class:"card quiz-area"});
+    var idx=view[cfg.indexKey]; var items=cfg.items;
+    if(idx>=items.length){
+      var total=items.length; var score=view["_score_"+cfg.progressField]||0; var pct=Math.round((score/total)*100);
+      var passed=cfg.seuilPct?pct>=cfg.seuilPct:true;
+      wrap.appendChild(el("div",{class:"result-box"},[
+        el("div",{class:"score"},[score+"/"+total]),
+        el("div",{class:"msg"},[cfg.seuilPct?(passed?"Chapitre validé : "+pct+"% ≥ seuil de "+cfg.seuilPct+"%. Statut : Acquis.":pct+"% < seuil de "+cfg.seuilPct+"%. Statut : À revoir — retente ce quiz après avoir revu la fiche."):"Terminé."])
+      ]));
+      wrap.appendChild(el("button",{class:"btn secondary",onclick:function(){ view[cfg.indexKey]=0; view[cfg.answeredKey]=false; view["_score_"+cfg.progressField]=0; draw(); }},["Refaire"]));
+      return wrap;
+    }
+    var q=items[idx];
+    wrap.appendChild(el("div",{class:"progress-line"},["Question "+(idx+1)+"/"+items.length]));
+    wrap.appendChild(el("div",{class:"question-text"},[q.q]));
+    var choicesWrap=el("div",{class:"choices"});
+    q.choices.forEach(function(choice,ci){
+      choicesWrap.appendChild(el("button",{class:"choice-btn",onclick:function(){
+        if(view[cfg.answeredKey]) return;
+        view[cfg.answeredKey]=true; view[cfg.selectedKey]=ci;
+        var scoreKey="_score_"+cfg.progressField; if(view[scoreKey]===undefined) view[scoreKey]=0;
+        if(ci===q.answer) view[scoreKey]++;
+        else logErreur({chapitreId:chapitre.id,matiereId:chapitre.matiereId,niveau:cfg.niveau,enonce:q.q,correction:q.explain});
+        draw();
+      }},[choice]));
+    });
+    wrap.appendChild(choicesWrap);
+    if(view[cfg.answeredKey]){
+      wrap.appendChild(el("div",{class:"explain"},[q.explain]));
+      var isLast=idx===items.length-1;
+      wrap.appendChild(el("button",{class:"btn",onclick:function(){
+        if(isLast){ var finalScore=view["_score_"+cfg.progressField]||0; cfg.onFinish(finalScore,items.length,cfg.seuilPct); view[cfg.indexKey]=items.length; }
+        else view[cfg.indexKey]++;
+        view[cfg.answeredKey]=false; view[cfg.selectedKey]=null; draw();
+      }},[isLast?"Terminer":"Question suivante"]));
+      setTimeout(function(){
+        var btns=wrap.querySelectorAll(".choice-btn");
+        btns.forEach(function(b,ci){ b.disabled=true; if(ci===q.answer) b.classList.add("correct"); else if(ci===view[cfg.selectedKey]) b.classList.add("incorrect"); });
+      },0);
+    }
+    return wrap;
+  }
+  draw();
+}
+
+/* ======================================================================
+   VUE : EXAMENS
+   ====================================================================== */
+
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var tmp=a[i];a[i]=a[j];a[j]=tmp; }
+  return a;
+}
+function renderExamens(container){
+  container.innerHTML="";
+  container.appendChild(el("div",{class:"hero"},[
+    el("div",{class:"kicker"},["Modes examens & sprint"]),
+    el("h1",{},["BTS Blanc & Turbo-Flash"]),
+    el("p",{},["Entraîne-toi en conditions proches de l'examen, ou fais une révision de dernière minute ciblée sur tes erreurs récentes."])
+  ]));
+  var selector=el("div",{class:"paliers-grid"});
+  var area=el("div",{});
+
+  var activeInterval=null;
+  function stopInterval(){ if(activeInterval){ clearInterval(activeInterval); activeInterval=null; } }
+
+  function buildExtremeItems(){
+    var items=[];
+    CHAPITRES_SEED.forEach(function(ch){ ch.niveau3.questionsPieges.forEach(function(q){ items.push({q:q.enonce,choices:q.choices,answer:q.answer,explain:q.pointDeVigilance+" — "+q.correction,chapitreId:ch.id,matiereId:ch.matiereId}); }); });
+    return shuffle(items);
+  }
+  function buildNormalItems(){
+    var cibles=["e4","e5","cejm"]; var items=[];
+    CHAPITRES_SEED.filter(function(ch){return cibles.indexOf(ch.matiereId)!==-1;}).forEach(function(ch){
+      ch.quizValidation.questions.forEach(function(q){ items.push({q:q.q,choices:q.choices,answer:q.answer,explain:q.explain,chapitreId:ch.id,matiereId:ch.matiereId}); });
+    });
+    return shuffle(items);
+  }
+  function runQuiz(items,opts){
+    opts=opts||{};
+    var state={idx:0,score:0,answered:false,selected:null,timeLeft:opts.timedSeconds||null};
+    function draw(){
+      area.innerHTML="";
+      if(state.idx>=items.length){
+        stopInterval();
+        var pct=items.length?Math.round((state.score/items.length)*100):0;
+        area.appendChild(el("div",{class:"card result-box"},[
+          el("div",{class:"progress-line"},[opts.title]),
+          el("div",{class:"score"},[state.score+"/"+items.length+" ("+pct+"%)"]),
+          el("div",{class:"msg"},[opts.title.indexOf("Extrême")!==-1?"Score en conditions extrêmes : ces questions ciblent volontairement les pièges.":"Score en conditions proches de l'épreuve officielle."]),
+          el("button",{class:"btn secondary",onclick:function(){area.innerHTML="";}},["Retour au menu"])
+        ]));
+        return;
+      }
+      var q=items[state.idx];
+      var card=el("div",{class:"card quiz-area"});
+      var headRow=el("div",{style:"display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"});
+      headRow.appendChild(el("div",{class:"progress-line",style:"margin-bottom:0;"},["Question "+(state.idx+1)+"/"+items.length+" — score "+state.score]));
+      if(opts.timedSeconds) headRow.appendChild(el("div",{class:"mb-timer"+(state.timeLeft<=10?" warn":""),id:"mb-timer"},[state.timeLeft+"s"]));
+      card.appendChild(headRow);
+      card.appendChild(el("div",{class:"question-text"},[q.q]));
+      var choicesWrap=el("div",{class:"choices"});
+      q.choices.forEach(function(choice,ci){ choicesWrap.appendChild(el("button",{class:"choice-btn",onclick:function(){answer(ci);}},[choice])); });
+      card.appendChild(choicesWrap);
+      if(state.answered){
+        card.appendChild(el("div",{class:"explain"},[q.explain]));
+        card.appendChild(el("button",{class:"btn",onclick:next},[state.idx===items.length-1?"Terminer":"Suivant"]));
+      }
+      area.appendChild(card);
+      if(state.answered){
+        setTimeout(function(){
+          var btns=card.querySelectorAll(".choice-btn");
+          btns.forEach(function(b,ci){ b.disabled=true; if(ci===q.answer) b.classList.add("correct"); else if(ci===state.selected) b.classList.add("incorrect"); });
+        },0);
+      }
+      if(opts.timedSeconds && !state.answered) startTimer();
+    }
+    function startTimer(){
+      stopInterval();
+      activeInterval=setInterval(function(){
+        state.timeLeft--;
+        var t=document.getElementById("mb-timer");
+        if(t){ t.textContent=state.timeLeft+"s"; if(state.timeLeft<=10) t.classList.add("warn"); }
+        if(state.timeLeft<=0){ stopInterval(); answer(-1); }
+      },1000);
+    }
+    function answer(ci){
+      if(state.answered) return;
+      stopInterval(); state.answered=true; state.selected=ci;
+      var q=items[state.idx];
+      if(ci===q.answer) state.score++;
+      else if(q.chapitreId) logErreur({chapitreId:q.chapitreId,matiereId:q.matiereId,niveau:opts.logNiveau||"examen",enonce:q.q,correction:q.explain});
+      draw();
+    }
+    function next(){ state.idx++; state.answered=false; state.selected=null; state.timeLeft=opts.timedSeconds||null; draw(); }
+    draw();
+  }
+  function runTurboFlash(){
+    var erreurs=erreursRecentes(30); var idx=0, revealed=false;
+    function draw(){
+      area.innerHTML="";
+      if(!erreurs.length){ area.appendChild(el("div",{class:"card"},["Aucune erreur enregistrée sur les 30 derniers jours. Rien à réviser en urgence !"])); return; }
+      if(idx>=erreurs.length){
+        area.appendChild(el("div",{class:"card result-box"},[
+          el("div",{class:"msg"},["Tu as parcouru les "+erreurs.length+" erreurs récentes."]),
+          el("button",{class:"btn secondary",onclick:function(){idx=0;revealed=false;draw();}},["Recommencer"])
+        ]));
+        return;
+      }
+      var e=erreurs[idx];
+      var card=el("div",{class:"mb-flashcard"},[
+        el("div",{class:"fc-meta"},[(idx+1)+"/"+erreurs.length+" — "+e.matiereId.toUpperCase()+" · "+new Date(e.date).toLocaleDateString("fr-FR")]),
+        el("div",{class:"fc-question"},[e.enonce])
+      ]);
+      if(revealed) card.appendChild(el("div",{class:"fc-answer"},[e.correction]));
+      else card.appendChild(el("button",{class:"btn secondary",onclick:function(){revealed=true;draw();}},["Voir la correction"]));
+      area.appendChild(card);
+      area.appendChild(el("div",{style:"text-align:center;margin-top:14px;"},[ el("button",{class:"btn",onclick:function(){idx++;revealed=false;draw();}},["Suivant →"]) ]));
+    }
+    draw();
+  }
+
+  selector.appendChild(el("button",{class:"palier-card level-2",onclick:function(){ runQuiz(buildExtremeItems(),{title:"Mode Extrême",timedSeconds:40,logNiveau:"examen-extreme"}); }},[
+    el("div",{class:"p-icon"},["⏱"]), el("div",{class:"p-name"},["Mode Extrême"]), el("div",{class:"p-sub"},["Niveau 3 uniquement, chronométré"])
+  ]));
+  selector.appendChild(el("button",{class:"palier-card level-1",onclick:function(){ runQuiz(buildNormalItems(),{title:"Mode Normal (E4 / E5 / CEJM)",logNiveau:"examen-normal"}); }},[
+    el("div",{class:"p-icon"},["✎"]), el("div",{class:"p-name"},["Mode Normal"]), el("div",{class:"p-sub"},["Mix officiel E4 / E5 / CEJM"])
+  ]));
+  selector.appendChild(el("button",{class:"palier-card level-0",onclick:function(){ runTurboFlash(); }},[
+    el("div",{class:"p-icon"},["⚡"]), el("div",{class:"p-name"},["Turbo-Flash"]), el("div",{class:"p-sub"},["Erreurs des 30 derniers jours"])
+  ]));
+
+  container.appendChild(selector);
+  container.appendChild(area);
+
+  return function cleanup(){ stopInterval(); };
+}
+
+/* ======================================================================
+   VUE : JOURNAL D'ALTERNANCE
+   ====================================================================== */
+
+function renderJournal(container){
+  var JOURNAL_KEY="monbts_journal_v1", SITUATIONS_KEY="monbts_situations_v1";
+  function load(key){ try{ var raw=localStorage.getItem(key); if(raw) return JSON.parse(raw); }catch(e){} return []; }
+  function save(key,data){ try{ localStorage.setItem(key, JSON.stringify(data)); }catch(e){} }
+  var journal=load(JOURNAL_KEY), situations=load(SITUATIONS_KEY);
+  function processusLabel(id){ var p=PROCESSUS_LIST.find(function(x){return x.id===id;}); return p?p.label:id; }
+
+  container.innerHTML="";
+  container.appendChild(el("div",{class:"hero"},[
+    el("div",{class:"kicker"},["Pont alternance"]),
+    el("h1",{},["Journal de bord hebdomadaire"]),
+    el("p",{},["Trois questions, une minute par semaine. Ces retours terrain alimentent ensuite tes situations professionnelles pour E5/E6."])
+  ]));
+
+  var formCard=el("div",{class:"card"});
+  formCard.appendChild(el("h3",{style:"margin-top:0;"},["Nouvelle entrée"]));
+  var activiteTa=el("textarea",{rows:"3",placeholder:"Ex : j'ai relancé 5 clients en impayé et mis à jour le CRM..."});
+  formCard.appendChild(el("div",{class:"mb-form-row"},[ el("label",{},["1. Qu'as-tu fait en entreprise cette semaine ?"]), activiteTa ]));
+  var processusWrap=el("div",{class:"mb-checkbox-row"});
+  PROCESSUS_LIST.forEach(function(p){
+    var input=el("input",{type:"checkbox",value:p.id});
+    processusWrap.appendChild(el("label",{},[input, document.createTextNode(" "+p.label)]));
+  });
+  formCard.appendChild(el("div",{class:"mb-form-row"},[ el("label",{},["2. Quel(s) processus cela touche-t-il ?"]), processusWrap ]));
+  var risqueTa=el("textarea",{rows:"2",placeholder:"Ex : risque d'impayé client, traité par une relance graduée..."});
+  formCard.appendChild(el("div",{class:"mb-form-row"},[ el("label",{},["3. Quel risque as-tu managé ?"]), risqueTa ]));
+  var dateInput=el("input",{type:"date"}); dateInput.value=new Date().toISOString().slice(0,10);
+  formCard.appendChild(el("div",{class:"mb-form-row",style:"max-width:220px;"},[ el("label",{},["Date"]), dateInput ]));
+  var saveBtn=el("button",{class:"btn"},["Enregistrer l'entrée"]);
+  formCard.appendChild(saveBtn);
+  container.appendChild(formCard);
+
+  var histCard=el("div",{class:"card"},[ el("h3",{style:"margin-top:0;"},["Historique"]) ]);
+  var journalList=el("div",{}); histCard.appendChild(journalList);
+  container.appendChild(histCard);
+
+  var spCard=el("div",{class:"card"});
+  spCard.appendChild(el("h3",{style:"margin-top:0;"},["Situations professionnelles (E5 / E6)"]));
+  spCard.appendChild(el("p",{style:"color:var(--muted);font-size:13.5px;"},["Regroupe plusieurs entrées de journal en une situation professionnelle, puis génère un texte de base pour ton dossier."]));
+  var titreInput=el("input",{type:"text",placeholder:"Ex : Gestion d'un impayé client récurrent"});
+  spCard.appendChild(el("div",{class:"mb-form-row"},[ el("label",{},["Titre de la situation"]), titreInput ]));
+  var epreuveRow=el("div",{class:"mb-checkbox-row",style:"margin-bottom:14px;"});
+  var radioE5=el("input",{type:"radio",name:"sp-epreuve",value:"E5"}); radioE5.checked=true;
+  var radioE6=el("input",{type:"radio",name:"sp-epreuve",value:"E6"});
+  epreuveRow.appendChild(el("label",{},[radioE5,document.createTextNode(" E5")]));
+  epreuveRow.appendChild(el("label",{},[radioE6,document.createTextNode(" E6")]));
+  spCard.appendChild(epreuveRow);
+  var picker=el("div",{class:"mb-checklist"});
+  spCard.appendChild(el("div",{class:"mb-form-row"},[ el("label",{},["Entrées de journal à rattacher"]), picker ]));
+  var spSaveBtn=el("button",{class:"btn"},["Créer la situation"]);
+  spCard.appendChild(spSaveBtn);
+  var situationsList=el("div",{style:"margin-top:18px;"});
+  spCard.appendChild(situationsList);
+  container.appendChild(spCard);
+
+  function renderJournalList(){
+    journalList.innerHTML="";
+    if(!journal.length){ journalList.appendChild(el("p",{style:"color:var(--muted);"},["Aucune entrée pour le moment."])); return; }
+    journal.forEach(function(entry){
+      var div=document.createElement("div"); div.className="mb-journal-entry";
+      var tags=entry.processus.map(function(id){ return '<span class="je-tag">'+processusLabel(id)+'</span>'; }).join("");
+      div.innerHTML =
+        '<div class="je-meta"><span>'+entry.date+'</span><button class="reset-btn" data-id="'+entry.id+'" style="padding:3px 9px;">Supprimer</button></div>'+
+        '<div>'+escapeHtml(entry.activite)+'</div>'+
+        (entry.risqueManage?'<div style="margin-top:6px;font-size:13px;color:var(--muted);">Risque managé : '+escapeHtml(entry.risqueManage)+'</div>':'')+
+        '<div class="je-tags">'+tags+'</div>';
+      journalList.appendChild(div);
+    });
+    journalList.querySelectorAll("button[data-id]").forEach(function(btn){
+      btn.addEventListener("click",function(){
+        journal=journal.filter(function(e){return e.id!==btn.getAttribute("data-id");});
+        save(JOURNAL_KEY,journal); renderJournalList(); renderPicker();
+      });
+    });
+  }
+  function renderPicker(){
+    picker.innerHTML="";
+    if(!journal.length){ picker.appendChild(el("p",{style:"color:var(--muted);font-size:13px;"},["Ajoute d'abord des entrées de journal."])); return; }
+    journal.forEach(function(entry){
+      var input=el("input",{type:"checkbox",value:entry.id});
+      picker.appendChild(el("label",{class:"mb-check-item"},[input, document.createTextNode(entry.date+" — "+entry.activite.slice(0,60)+(entry.activite.length>60?"...":""))]));
+    });
+  }
+  function genererTexte(situation){
+    var entries=journal.filter(function(e){return situation.journalEntreeIds.indexOf(e.id)!==-1;});
+    entries.sort(function(a,b){return a.date.localeCompare(b.date);});
+    var lignes=["SITUATION PROFESSIONNELLE — "+situation.epreuve,"Titre : "+situation.titre,""];
+    entries.forEach(function(e){
+      lignes.push("Le "+e.date+" :"); lignes.push(e.activite);
+      if(e.processus.length) lignes.push("Processus mobilisé(s) : "+e.processus.map(processusLabel).join(", "));
+      if(e.risqueManage) lignes.push("Risque managé : "+e.risqueManage);
+      lignes.push("");
+    });
+    return lignes.join("\n");
+  }
+  function renderSituationsList(){
+    situationsList.innerHTML="";
+    situations.forEach(function(sp){
+      var div=document.createElement("div"); div.className="mb-journal-entry";
+      var textareaId="txt-"+sp.id;
+      div.innerHTML =
+        '<div class="je-meta"><span><b>'+sp.epreuve+'</b> — '+escapeHtml(sp.titre)+' ('+sp.journalEntreeIds.length+' entrée(s))</span>'+
+        '<button class="reset-btn" data-del="'+sp.id+'" style="padding:3px 9px;">Supprimer</button></div>'+
+        '<button class="btn secondary" data-gen="'+sp.id+'" style="margin-bottom:8px;">Générer le texte pour mon dossier</button>'+
+        '<button class="btn secondary" data-copy="'+sp.id+'" style="margin-bottom:8px;margin-left:8px;display:none;" id="copy-'+sp.id+'">Copier</button>'+
+        '<textarea id="'+textareaId+'" rows="6" style="width:100%;display:none;padding:10px;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;background:var(--bg);color:var(--ink);"></textarea>';
+      situationsList.appendChild(div);
+    });
+    situationsList.querySelectorAll("button[data-gen]").forEach(function(btn){
+      btn.addEventListener("click",function(){
+        var id=btn.getAttribute("data-gen"); var sp=situations.find(function(s){return s.id===id;});
+        var ta=document.getElementById("txt-"+id); ta.value=genererTexte(sp); ta.style.display="block";
+        document.getElementById("copy-"+id).style.display="inline-block";
+      });
+    });
+    situationsList.querySelectorAll("button[data-copy]").forEach(function(btn){
+      btn.addEventListener("click",function(){
+        var id=btn.getAttribute("data-copy"); var ta=document.getElementById("txt-"+id); ta.select();
+        if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).catch(function(){});
+        else { try{ document.execCommand("copy"); }catch(e){} }
+        btn.textContent="Copié ✓"; setTimeout(function(){btn.textContent="Copier";},1500);
+      });
+    });
+    situationsList.querySelectorAll("button[data-del]").forEach(function(btn){
+      btn.addEventListener("click",function(){
+        situations=situations.filter(function(s){return s.id!==btn.getAttribute("data-del");});
+        save(SITUATIONS_KEY,situations); renderSituationsList();
+      });
+    });
+  }
+
+  saveBtn.addEventListener("click",function(){
+    var activite=activiteTa.value.trim(), risque=risqueTa.value.trim(), date=dateInput.value;
+    var processus=Array.prototype.slice.call(processusWrap.querySelectorAll("input:checked")).map(function(i){return i.value;});
+    if(!activite){ alert("Décris au moins ce que tu as fait cette semaine."); return; }
+    journal.unshift({id:"je-"+Date.now(),date:date,activite:activite,processus:processus,risqueManage:risque});
+    save(JOURNAL_KEY,journal);
+    activiteTa.value=""; risqueTa.value=""; processusWrap.querySelectorAll("input").forEach(function(i){i.checked=false;});
+    renderJournalList(); renderPicker();
+  });
+  spSaveBtn.addEventListener("click",function(){
+    var titre=titreInput.value.trim();
+    var epreuve=document.querySelector('input[name="sp-epreuve"]:checked').value;
+    var entryIds=Array.prototype.slice.call(picker.querySelectorAll("input:checked")).map(function(i){return i.value;});
+    if(!titre){ alert("Donne un titre à la situation."); return; }
+    if(!entryIds.length){ alert("Sélectionne au moins une entrée de journal à rattacher."); return; }
+    situations.unshift({id:"sp-"+Date.now(),epreuve:epreuve,titre:titre,journalEntreeIds:entryIds});
+    save(SITUATIONS_KEY,situations); titreInput.value=""; renderSituationsList();
+  });
+
+  renderJournalList(); renderPicker(); renderSituationsList();
+}
+
+/* ======================================================================
+   VUE : CONFORMITÉ
+   ====================================================================== */
+
+function renderConformite(container){
+  var STORAGE_KEY="monbts_conformite_v1";
+  function loadState(){ try{ var raw=localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }catch(e){} return {}; }
+  function saveState(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+  var state=loadState();
+
+  container.innerHTML="";
+  container.appendChild(el("div",{class:"hero"},[
+    el("div",{class:"kicker"},["Angle mort n°2"]),
+    el("h1",{},["Conformité administrative des dossiers"]),
+    el("p",{},["Une moyenne suffisante ne sauve pas un dossier hors délai ou incomplet. Coche chaque règle une fois vérifiée — et confirme-les avec ton centre d'examen, elles sont indicatives."])
+  ]));
+  container.appendChild(el("div",{class:"card",style:"margin-bottom:16px;background:var(--warning-bg);border-color:transparent;"},[
+    "Ces checklists sont des modèles généralistes. Les exigences réelles (nombre de situations, pagination, dates) dépendent de ton établissement et de la session d'examen : vérifie-les avec ton formateur référent."
+  ]));
+
+  var sections=el("div",{});
+  container.appendChild(sections);
+
+  function render(){
+    sections.innerHTML="";
+    Object.keys(CONFORMITE_SEED).forEach(function(epreuve){
+      var items=CONFORMITE_SEED[epreuve];
+      var checkedCount=items.filter(function(it){return state[it.id];}).length;
+      var pct=Math.round((checkedCount/items.length)*100);
+      var bClass=pct===100?"success":pct>0?"warning":"neutral";
+      var card=el("div",{class:"card"});
+      card.appendChild(el("div",{style:"display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"},[
+        el("h3",{style:"margin:0;"},[epreuve]),
+        el("span",{class:"badge "+bClass},[checkedCount+"/"+items.length+" vérifiées"])
+      ]));
+      var list=el("div",{class:"mb-checklist"});
+      items.forEach(function(it){
+        var input=el("input",{type:"checkbox"}); input.checked=!!state[it.id];
+        input.addEventListener("change",function(){ state[it.id]=input.checked; saveState(state); render(); });
+        list.appendChild(el("label",{class:"mb-check-item"},[input, el("span",{},[it.regle])]));
+      });
+      card.appendChild(list);
+      sections.appendChild(card);
+    });
+  }
+  render();
+}
+
+/* ======================================================================
+   ROUTEUR
+   ====================================================================== */
+
+var routes={ "":renderAccueil, "dashboard":renderDashboard, "chapitres":renderChapitresListe, "examens":renderExamens, "journal":renderJournal, "conformite":renderConformite };
+var currentCleanup=null;
+
+function route(){
+  if(currentCleanup){ try{ currentCleanup(); }catch(e){} currentCleanup=null; }
+  var raw=location.hash.replace(/^#\/?/,"");
+  var parts=raw.split("/").filter(Boolean);
+  var view=document.getElementById("view");
+  renderNav(parts[0]||"accueil");
+  var result;
+  if(parts[0]==="chapitre" && parts[1]) result=renderChapitreDetail(view,parts[1]);
+  else { var fn=routes[parts[0]||""]; result=(fn||renderAccueil)(view); }
+  if(typeof result==="function") currentCleanup=result;
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);
+route();
+
+})();
+</script>
