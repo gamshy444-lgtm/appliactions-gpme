@@ -93,11 +93,21 @@
     }
   ];
 
+  // Taxonomie indicative des processus GPME pour le journal d'alternance.
+  // ⚠️ À adapter aux codes processus exacts utilisés par ton établissement.
+  var PROCESSUS_LIST = [
+    { id: "p1", label: "P1 — Gestion de la relation avec la clientèle" },
+    { id: "p2", label: "P2 — Gestion de la relation avec les fournisseurs" },
+    { id: "p3", label: "P3 — Gestion des risques de la PME" },
+    { id: "p4", label: "P4 — Gestion et développement des ressources humaines" }
+  ];
+
   root.MonBTS = root.MonBTS || {};
   root.MonBTS.CONFIG = {
     CIBLE_GENERALE_DEFAUT: CIBLE_GENERALE_DEFAUT,
     SEUILS_ALERTE: SEUILS_ALERTE,
-    MATIERES_SEED: MATIERES
+    MATIERES_SEED: MATIERES,
+    PROCESSUS_LIST: PROCESSUS_LIST
   };
 
   if (typeof module !== "undefined" && module.exports) {

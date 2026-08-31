@@ -11,8 +11,10 @@
 <body>
 <div class="wrap">
 
+  <div class="mb-nav" id="mb-nav"></div>
+
   <div class="topbar">
-    <span class="back-link" style="cursor:default;">📊 MonBTS — Brique 1 : Pilotage de moyenne</span>
+    <span class="back-link" style="cursor:default;">📊 Brique 1 : Pilotage de moyenne</span>
     <button class="reset-btn" id="reset-btn">Réinitialiser mes notes</button>
   </div>
 
@@ -63,8 +65,10 @@
 
 <script src="config.js"></script>
 <script src="store.js"></script>
+<script src="nav.js"></script>
 <script>
 (function () {
+  document.getElementById("mb-nav").innerHTML = MonBTS.navHtml("dashboard");
   var CFG = MonBTS.CONFIG;
   var store = MonBTS.store;
   var matieres = store.chargerMatieres(CFG.MATIERES_SEED);

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonBTS</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#4f46e5;--accent-2:#4338ca;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mb-nav" id="mb-nav"></div>
+
+  <div class="home-hero">
+    <h1>🎓 MonBTS</h1>
+    <p>Ton copilote de révision et de pilotage pour le BTS GPME : moyenne, chapitres gamifiés, examens blancs, alternance et conformité des dossiers.</p>
+  </div>
+
+  <div class="global-stats" id="global-stats"></div>
+
+  <div class="mb-chapitres-grid" style="grid-template-columns:repeat(3,1fr);">
+    <a class="mb-chapitre-card" href="dashboard.html">
+      <div class="mc-matiere">Brique 1</div>
+      <h4>📊 Dashboard de pilotage</h4>
+      <p style="color:var(--muted);font-size:13px;margin:0;">Moyenne générale, alertes par matière, simulateur d'objectif.</p>
+    </a>
+    <a class="mb-chapitre-card" href="chapitres.html">
+      <div class="mc-matiere">Brique 2</div>
+      <h4>📚 Chapitres gamifiés</h4>
+      <p style="color:var(--muted);font-size:13px;margin:0;">3 niveaux + Correcteur Virtuel + quiz de validation.</p>
+    </a>
+    <a class="mb-chapitre-card" href="examens.html">
+      <div class="mc-matiere">Brique 3</div>
+      <h4>🧪 Modes examens</h4>
+      <p style="color:var(--muted);font-size:13px;margin:0;">BTS Blanc extrême/normal + Turbo-Flash.</p>
+    </a>
+    <a class="mb-chapitre-card" href="journal.html">
+      <div class="mc-matiere">Brique 4</div>
+      <h4>📓 Journal d'alternance</h4>
+      <p style="color:var(--muted);font-size:13px;margin:0;">3 questions/semaine → situations professionnelles E5/E6.</p>
+    </a>
+    <a class="mb-chapitre-card" href="conformite.html">
+      <div class="mc-matiere">Brique 4</div>
+      <h4>✅ Conformité des dossiers</h4>
+      <p style="color:var(--muted);font-size:13px;margin:0;">Checklist administrative E4 / E5 / E6.</p>
+    </a>
+    <a class="mb-chapitre-card" href="../index.html">
+      <div class="mc-matiere">Ancienne appli</div>
+      <h4>📘 Révisions BTS GPME (v1)</h4>
+      <p style="color:var(--muted);font-size:13px;margin:0;">Les quiz par matière construits avant MonBTS.</p>
+    </a>
+  </div>
+
+  <p class="footer-note">100% local, sans backend : tes notes, ta progression et ton journal restent dans ton navigateur.</p>
+</div>
+
+<script src="config.js"></script>
+<script src="data/chapitres.js"></script>
+<script src="store.js"></script>
+<script src="chapitre-engine.js"></script>
+<script src="nav.js"></script>
+<script>
+  document.getElementById("mb-nav").innerHTML = MonBTS.navHtml("accueil");
+
+  var matieres = MonBTS.store.chargerMatieres(MonBTS.CONFIG.MATIERES_SEED);
+  var moyenneRes = MonBTS.store.calculerMoyenneGenerale(matieres);
+
+  var chapitres = MonBTS.CONFIG.CHAPITRES_SEED;
+  var acquisCount = 0, aRevoirCount = 0;
+  chapitres.forEach(function (ch) {
+    var p = MonBTS.chapitreEngine.loadProgress(ch);
+    var statut = MonBTS.chapitreEngine.statutChapitre(p);
+    if (statut === "acquis") acquisCount++;
+    if (statut === "a_revoir") aRevoirCount++;
+  });
+
+  var erreurs30j = MonBTS.chapitreEngine.erreursRecentes(30).length;
+
+  document.getElementById("global-stats").innerHTML =
+    '<div class="stat"><div class="n">' + (moyenneRes.moyenne !== null ? moyenneRes.moyenne : "—") + '/20</div><div class="l">Moyenne générale</div></div>' +
+    '<div class="stat"><div class="n">' + acquisCount + '/' + chapitres.length + '</div><div class="l">Chapitres acquis</div></div>' +
+    '<div class="stat"><div class="n">' + aRevoirCount + '</div><div class="l">Chapitres à revoir</div></div>' +
+    '<div class="stat"><div class="n">' + erreurs30j + '</div><div class="l">Erreurs (30j) à réviser</div></div>';
+</script>
+</body>
+</html>

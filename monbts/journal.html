@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonBTS — Journal d'alternance</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#d97706;--accent-2:#b45309;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mb-nav" id="mb-nav"></div>
+
+  <div class="hero">
+    <div class="kicker">Pont alternance</div>
+    <h1>📓 Journal de bord hebdomadaire</h1>
+    <p>Trois questions, une minute par semaine. Ces retours terrain alimentent ensuite tes situations professionnelles pour E5/E6.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3 style="margin-top:0;">Nouvelle entrée</h3>
+    <div class="mb-form-row">
+      <label>1. Qu'as-tu fait en entreprise cette semaine ?</label>
+      <textarea id="je-activite" rows="3" placeholder="Ex : j'ai relancé 5 clients en impayé et mis à jour le CRM..."></textarea>
+    </div>
+    <div class="mb-form-row">
+      <label>2. Quel(s) processus cela touche-t-il ?</label>
+      <div class="mb-checkbox-row" id="je-processus"></div>
+    </div>
+    <div class="mb-form-row">
+      <label>3. Quel risque as-tu managé ?</label>
+      <textarea id="je-risque" rows="2" placeholder="Ex : risque d'impayé client, traité par une relance graduée..."></textarea>
+    </div>
+    <div class="mb-form-row" style="max-width:220px;">
+      <label>Date</label>
+      <input type="date" id="je-date">
+    </div>
+    <button class="btn" id="je-save">Enregistrer l'entrée</button>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3 style="margin-top:0;">Historique</h3>
+    <div id="journal-list"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0;">🗂️ Situations professionnelles (E5 / E6)</h3>
+    <p style="color:var(--muted);font-size:13.5px;">Regroupe plusieurs entrées de journal en une situation professionnelle, puis génère un texte de base pour ton dossier.</p>
+    <div class="mb-form-row">
+      <label>Titre de la situation</label>
+      <input type="text" id="sp-titre" placeholder="Ex : Gestion d'un impayé client récurrent">
+    </div>
+    <div class="mb-checkbox-row" style="margin-bottom:14px;">
+      <label><input type="radio" name="sp-epreuve" value="E5" checked> E5</label>
+      <label><input type="radio" name="sp-epreuve" value="E6"> E6</label>
+    </div>
+    <div class="mb-form-row">
+      <label>Entrées de journal à rattacher</label>
+      <div id="sp-entries-picker" class="mb-checklist"></div>
+    </div>
+    <button class="btn" id="sp-save">Créer la situation</button>
+
+    <div id="situations-list" style="margin-top:20px;"></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="nav.js"></script>
+<script>
+  document.getElementById("mb-nav").innerHTML = MonBTS.navHtml("journal");
+
+  var JOURNAL_KEY = "monbts_journal_v1";
+  var SITUATIONS_KEY = "monbts_situations_v1";
+  var PROCESSUS_LIST = MonBTS.CONFIG.PROCESSUS_LIST;
+
+  function load(key) {
+    try { var raw = localStorage.getItem(key); if (raw) return JSON.parse(raw); } catch (e) {}
+    return [];
+  }
+  function save(key, data) {
+    try { localStorage.setItem(key, JSON.stringify(data)); } catch (e) {}
+  }
+
+  var journal = load(JOURNAL_KEY);
+  var situations = load(SITUATIONS_KEY);
+
+  function processusLabel(id) {
+    var p = PROCESSUS_LIST.find(function (x) { return x.id === id; });
+    return p ? p.label : id;
+  }
+
+  // ---- Formulaire nouvelle entrée ----
+  var processusWrap = document.getElementById("je-processus");
+  PROCESSUS_LIST.forEach(function (p) {
+    var label = document.createElement("label");
+    var input = document.createElement("input");
+    input.type = "checkbox";
+    input.value = p.id;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + p.label));
+    processusWrap.appendChild(label);
+  });
+  document.getElementById("je-date").value = new Date().toISOString().slice(0, 10);
+
+  document.getElementById("je-save").addEventListener("click", function () {
+    var activite = document.getElementById("je-activite").value.trim();
+    var risque = document.getElementById("je-risque").value.trim();
+    var date = document.getElementById("je-date").value;
+    var processus = Array.prototype.slice.call(processusWrap.querySelectorAll("input:checked")).map(function (i) { return i.value; });
+    if (!activite) { alert("Décris au moins ce que tu as fait cette semaine."); return; }
+
+    journal.unshift({
+      id: "je-" + Date.now(),
+      date: date,
+      activite: activite,
+      processus: processus,
+      risqueManage: risque
+    });
+    save(JOURNAL_KEY, journal);
+    document.getElementById("je-activite").value = "";
+    document.getElementById("je-risque").value = "";
+    processusWrap.querySelectorAll("input").forEach(function (i) { i.checked = false; });
+    renderJournalList();
+    renderEntriesPicker();
+  });
+
+  function renderJournalList() {
+    var list = document.getElementById("journal-list");
+    list.innerHTML = "";
+    if (!journal.length) {
+      list.innerHTML = '<p style="color:var(--muted);">Aucune entrée pour le moment.</p>';
+      return;
+    }
+    journal.forEach(function (entry) {
+      var div = document.createElement("div");
+      div.className = "mb-journal-entry";
+      var tags = entry.processus.map(function (id) { return '<span class="je-tag">' + processusLabel(id) + '</span>'; }).join("");
+      div.innerHTML =
+        '<div class="je-meta"><span>' + entry.date + '</span><button class="reset-btn" data-id="' + entry.id + '" style="padding:3px 9px;">Supprimer</button></div>' +
+        '<div>' + escapeHtml(entry.activite) + '</div>' +
+        (entry.risqueManage ? '<div style="margin-top:6px;font-size:13px;color:var(--muted);">⚠️ Risque managé : ' + escapeHtml(entry.risqueManage) + '</div>' : '') +
+        '<div class="je-tags">' + tags + '</div>';
+      list.appendChild(div);
+    });
+    list.querySelectorAll("button[data-id]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        journal = journal.filter(function (e) { return e.id !== btn.getAttribute("data-id"); });
+        save(JOURNAL_KEY, journal);
+        renderJournalList();
+        renderEntriesPicker();
+      });
+    });
+  }
+
+  function escapeHtml(s) {
+    var div = document.createElement("div");
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  // ---- Sélecteur d'entrées pour une situation ----
+  function renderEntriesPicker() {
+    var picker = document.getElementById("sp-entries-picker");
+    picker.innerHTML = "";
+    if (!journal.length) {
+      picker.innerHTML = '<p style="color:var(--muted);font-size:13px;">Ajoute d\'abord des entrées de journal.</p>';
+      return;
+    }
+    journal.forEach(function (entry) {
+      var label = document.createElement("label");
+      label.className = "mb-check-item";
+      var input = document.createElement("input");
+      input.type = "checkbox";
+      input.value = entry.id;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(entry.date + " — " + entry.activite.slice(0, 60) + (entry.activite.length > 60 ? "..." : "")));
+      picker.appendChild(label);
+    });
+  }
+
+  document.getElementById("sp-save").addEventListener("click", function () {
+    var titre = document.getElementById("sp-titre").value.trim();
+    var epreuve = document.querySelector('input[name="sp-epreuve"]:checked').value;
+    var entryIds = Array.prototype.slice.call(document.querySelectorAll("#sp-entries-picker input:checked")).map(function (i) { return i.value; });
+    if (!titre) { alert("Donne un titre à la situation."); return; }
+    if (!entryIds.length) { alert("Sélectionne au moins une entrée de journal à rattacher."); return; }
+
+    situations.unshift({ id: "sp-" + Date.now(), epreuve: epreuve, titre: titre, journalEntreeIds: entryIds });
+    save(SITUATIONS_KEY, situations);
+    document.getElementById("sp-titre").value = "";
+    renderSituationsList();
+  });
+
+  function genererTexte(situation) {
+    var entries = journal.filter(function (e) { return situation.journalEntreeIds.indexOf(e.id) !== -1; });
+    entries.sort(function (a, b) { return a.date.localeCompare(b.date); });
+    var lignes = [];
+    lignes.push("SITUATION PROFESSIONNELLE — " + situation.epreuve);
+    lignes.push("Titre : " + situation.titre);
+    lignes.push("");
+    entries.forEach(function (e) {
+      lignes.push("Le " + e.date + " :");
+      lignes.push(e.activite);
+      if (e.processus.length) lignes.push("Processus mobilisé(s) : " + e.processus.map(processusLabel).join(", "));
+      if (e.risqueManage) lignes.push("Risque managé : " + e.risqueManage);
+      lignes.push("");
+    });
+    return lignes.join("\n");
+  }
+
+  function renderSituationsList() {
+    var wrap = document.getElementById("situations-list");
+    wrap.innerHTML = "";
+    situations.forEach(function (sp) {
+      var div = document.createElement("div");
+      div.className = "mb-journal-entry";
+      var textareaId = "txt-" + sp.id;
+      div.innerHTML =
+        '<div class="je-meta"><span><b>' + sp.epreuve + '</b> — ' + escapeHtml(sp.titre) + ' (' + sp.journalEntreeIds.length + ' entrée(s))</span>' +
+        '<button class="reset-btn" data-del="' + sp.id + '" style="padding:3px 9px;">Supprimer</button></div>' +
+        '<button class="btn secondary" data-gen="' + sp.id + '" style="margin-bottom:8px;">Générer le texte pour mon dossier</button>' +
+        '<button class="btn secondary" data-copy="' + sp.id + '" style="margin-bottom:8px;margin-left:8px;display:none;" id="copy-' + sp.id + '">Copier</button>' +
+        '<textarea id="' + textareaId + '" rows="6" style="width:100%;display:none;padding:10px;border-radius:10px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;"></textarea>';
+      wrap.appendChild(div);
+    });
+    wrap.querySelectorAll("button[data-gen]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-gen");
+        var sp = situations.find(function (s) { return s.id === id; });
+        var ta = document.getElementById("txt-" + id);
+        ta.value = genererTexte(sp);
+        ta.style.display = "block";
+        document.getElementById("copy-" + id).style.display = "inline-block";
+      });
+    });
+    wrap.querySelectorAll("button[data-copy]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-copy");
+        var ta = document.getElementById("txt-" + id);
+        ta.select();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(ta.value).catch(function () {});
+        } else {
+          try { document.execCommand("copy"); } catch (e) {}
+        }
+        btn.textContent = "Copié ✓";
+        setTimeout(function () { btn.textContent = "Copier"; }, 1500);
+      });
+    });
+    wrap.querySelectorAll("button[data-del]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        situations = situations.filter(function (s) { return s.id !== btn.getAttribute("data-del"); });
+        save(SITUATIONS_KEY, situations);
+        renderSituationsList();
+      });
+    });
+  }
+
+  renderJournalList();
+  renderEntriesPicker();
+  renderSituationsList();
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonBTS — Chapitres</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#4f46e5;--accent-2:#4338ca;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mb-nav" id="mb-nav"></div>
+
+  <div class="home-hero">
+    <h1>📚 Parcours par chapitre</h1>
+    <p>Pour chaque chapitre : mots-clés → Niveau 1 (Facile) → Niveau 2 (Dur, avec Correcteur Virtuel) → Niveau 3 (Compliqué) → quiz de validation.</p>
+  </div>
+
+  <div class="mb-chapitres-grid" id="chapitres-grid"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="data/chapitres.js"></script>
+<script src="chapitre-engine.js"></script>
+<script src="nav.js"></script>
+<script>
+  document.getElementById("mb-nav").innerHTML = MonBTS.navHtml("chapitres");
+
+  var MATIERES_MAP = {};
+  MonBTS.CONFIG.MATIERES_SEED.forEach(function (m) { MATIERES_MAP[m.id] = m; });
+
+  var grid = document.getElementById("chapitres-grid");
+  MonBTS.CONFIG.CHAPITRES_SEED.forEach(function (ch) {
+    var progress = MonBTS.chapitreEngine.loadProgress(ch);
+    var statut = MonBTS.chapitreEngine.statutChapitre(progress);
+    var badgeClass = statut === "acquis" ? "success" : statut === "a_revoir" ? "danger" : "neutral";
+    var badgeLabel = statut === "acquis" ? "✅ Acquis" : statut === "a_revoir" ? "🔁 À revoir" : "⚪ Non commencé";
+    var matiere = MATIERES_MAP[ch.matiereId];
+
+    var card = document.createElement("a");
+    card.href = "chapitre.html?id=" + encodeURIComponent(ch.id);
+    card.className = "mb-chapitre-card";
+    card.innerHTML =
+      '<div class="mc-matiere">' + (matiere ? matiere.code : ch.matiereId.toUpperCase()) + '</div>' +
+      '<h4>' + ch.titre + '</h4>' +
+      '<span class="badge ' + badgeClass + '">' + badgeLabel + '</span>';
+    grid.appendChild(card);
+  });
+</script>
+</body>
+</html>

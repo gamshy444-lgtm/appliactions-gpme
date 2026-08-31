@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonBTS — Chapitre</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#4f46e5;--accent-2:#4338ca;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="chapitres.html" class="back-link">← Tous les chapitres</a>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="data/chapitres.js"></script>
+<script src="chapitre-engine.js"></script>
+<script>
+  var params = new URLSearchParams(window.location.search);
+  var chapId = params.get("id");
+  var chapitre = MonBTS.CONFIG.CHAPITRES_SEED.find(function (c) { return c.id === chapId; });
+  var app = document.getElementById("app");
+
+  if (!chapitre) {
+    app.innerHTML = '<div class="card">Chapitre introuvable. <a href="chapitres.html">Retour à la liste</a>.</div>';
+  } else {
+    MonBTS.chapitreEngine.render(app, chapitre);
+  }
+</script>
+</body>
+</html>

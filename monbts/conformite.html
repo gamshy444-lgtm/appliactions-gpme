@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonBTS — Conformité des dossiers</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#0d9488;--accent-2:#0f766e;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mb-nav" id="mb-nav"></div>
+
+  <div class="hero">
+    <div class="kicker">Angle mort n°2</div>
+    <h1>✅ Conformité administrative des dossiers</h1>
+    <p>Une moyenne suffisante ne sauve pas un dossier hors délai ou incomplet. Coche chaque règle une fois vérifiée — et confirme-les avec ton centre d'examen, elles sont indicatives.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;background:var(--warning-bg);border-color:transparent;">
+    ⚠️ Ces checklists sont des modèles généralistes construits pour ce cahier des charges. Les exigences réelles
+    (nombre de situations, pagination, dates) dépendent de ton établissement et de la session d'examen : vérifie-les
+    avec ton formateur référent avant de t'y fier à 100%.
+  </div>
+
+  <div id="conformite-sections"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="data/conformite.js"></script>
+<script src="nav.js"></script>
+<script>
+  document.getElementById("mb-nav").innerHTML = MonBTS.navHtml("conformite");
+
+  var STORAGE_KEY = "monbts_conformite_v1";
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return {};
+  }
+  function saveState(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  var state = loadState();
+  var CONFORMITE = MonBTS.CONFIG.CONFORMITE_SEED;
+  var container = document.getElementById("conformite-sections");
+
+  function render() {
+    container.innerHTML = "";
+    Object.keys(CONFORMITE).forEach(function (epreuve) {
+      var items = CONFORMITE[epreuve];
+      var checkedCount = items.filter(function (it) { return state[it.id]; }).length;
+      var pct = Math.round((checkedCount / items.length) * 100);
+
+      var card = document.createElement("div");
+      card.className = "card";
+      card.style.marginBottom = "16px";
+
+      var badgeClass = pct === 100 ? "success" : pct > 0 ? "warning" : "neutral";
+      card.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">' +
+          '<h3 style="margin:0;">' + epreuve + '</h3>' +
+          '<span class="badge ' + badgeClass + '">' + checkedCount + '/' + items.length + ' vérifiées</span>' +
+        '</div>';
+
+      var list = document.createElement("div");
+      list.className = "mb-checklist";
+      items.forEach(function (it) {
+        var label = document.createElement("label");
+        label.className = "mb-check-item";
+        var input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = !!state[it.id];
+        input.addEventListener("change", function () {
+          state[it.id] = input.checked;
+          saveState(state);
+          render();
+        });
+        var span = document.createElement("span");
+        span.textContent = it.regle;
+        label.appendChild(input);
+        label.appendChild(span);
+        list.appendChild(label);
+      });
+      card.appendChild(list);
+      container.appendChild(card);
+    });
+  }
+
+  render();
+</script>
+</body>
+</html>

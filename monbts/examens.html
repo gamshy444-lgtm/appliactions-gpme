@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonBTS — Modes Examens</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<style>:root{--accent:#e11d48;--accent-2:#be123c;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mb-nav" id="mb-nav"></div>
+
+  <div class="hero">
+    <div class="kicker">Modes examens & sprint</div>
+    <h1>🧪 BTS Blanc & Turbo-Flash</h1>
+    <p>Entraîne-toi en conditions proches de l'examen, ou fais une révision de dernière minute ciblée sur tes erreurs récentes.</p>
+  </div>
+
+  <div class="paliers-grid" id="mode-selector" style="margin-bottom:20px;">
+    <button class="palier-card level-2" id="btn-extreme">
+      <div class="p-icon">⏱️</div>
+      <div class="p-name">Mode Extrême</div>
+      <div class="p-sub">Niveau 3 uniquement, chronométré</div>
+    </button>
+    <button class="palier-card level-1" id="btn-normal">
+      <div class="p-icon">📝</div>
+      <div class="p-name">Mode Normal</div>
+      <div class="p-sub">Mix officiel E4 / E5 / CEJM</div>
+    </button>
+    <button class="palier-card level-0" id="btn-turbo">
+      <div class="p-icon">⚡</div>
+      <div class="p-name">Turbo-Flash</div>
+      <div class="p-sub">Erreurs des 30 derniers jours</div>
+    </button>
+  </div>
+
+  <div id="exam-area"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="data/chapitres.js"></script>
+<script src="chapitre-engine.js"></script>
+<script src="nav.js"></script>
+<script>
+  document.getElementById("mb-nav").innerHTML = MonBTS.navHtml("examens");
+  var area = document.getElementById("exam-area");
+  var SECONDS_PER_QUESTION_EXTREME = 40;
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function buildExtremeItems() {
+    var items = [];
+    MonBTS.CONFIG.CHAPITRES_SEED.forEach(function (ch) {
+      ch.niveau3.questionsPieges.forEach(function (q) {
+        items.push({ q: q.enonce, choices: q.choices, answer: q.answer, explain: "⚠️ " + q.pointDeVigilance + " — " + q.correction, chapitreId: ch.id, matiereId: ch.matiereId });
+      });
+    });
+    return shuffle(items);
+  }
+
+  function buildNormalItems() {
+    var matieresCibles = ["e4", "e5", "cejm"];
+    var items = [];
+    MonBTS.CONFIG.CHAPITRES_SEED.filter(function (ch) { return matieresCibles.indexOf(ch.matiereId) !== -1; }).forEach(function (ch) {
+      ch.quizValidation.questions.forEach(function (q) {
+        items.push({ q: q.q, choices: q.choices, answer: q.answer, explain: q.explain, chapitreId: ch.id, matiereId: ch.matiereId });
+      });
+    });
+    return shuffle(items);
+  }
+
+  function runQuiz(items, opts) {
+    opts = opts || {};
+    var state = { idx: 0, score: 0, answered: false, selected: null, timeLeft: opts.timedSeconds || null, timer: null };
+
+    function stopTimer() { if (state.timer) { clearInterval(state.timer); state.timer = null; } }
+
+    function draw() {
+      area.innerHTML = "";
+      if (state.idx >= items.length) {
+        stopTimer();
+        var pct = items.length ? Math.round((state.score / items.length) * 100) : 0;
+        area.appendChild(el("div", { class: "card result-box" }, [
+          el("div", { class: "progress-line" }, [opts.title]),
+          el("div", { class: "score" }, [state.score + "/" + items.length + " (" + pct + "%)"]),
+          el("div", { class: "msg" }, [opts.title.indexOf("Extrême") !== -1
+            ? "Score en conditions extrêmes : garde en tête que ces questions ciblent volontairement les pièges."
+            : "Score en conditions proches de l'épreuve officielle."]),
+          el("button", { class: "btn secondary", onclick: function () { area.innerHTML = ""; } }, ["Retour au menu"])
+        ]));
+        return;
+      }
+
+      var q = items[state.idx];
+      var card = el("div", { class: "card quiz-area" });
+
+      var headRow = el("div", { style: "display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;" });
+      headRow.appendChild(el("div", { class: "progress-line", style: "margin-bottom:0;" }, ["Question " + (state.idx + 1) + "/" + items.length + " — score " + state.score]));
+      if (opts.timedSeconds) {
+        headRow.appendChild(el("div", { class: "mb-timer" + (state.timeLeft <= 10 ? " warn" : ""), id: "mb-timer" }, [state.timeLeft + "s"]));
+      }
+      card.appendChild(headRow);
+      card.appendChild(el("div", { class: "question-text" }, [q.q]));
+
+      var choicesWrap = el("div", { class: "choices" });
+      q.choices.forEach(function (choice, ci) {
+        choicesWrap.appendChild(el("button", {
+          class: "choice-btn",
+          onclick: function () { answer(ci); }
+        }, [choice]));
+      });
+      card.appendChild(choicesWrap);
+
+      if (state.answered) {
+        card.appendChild(el("div", { class: "explain" }, [q.explain]));
+        card.appendChild(el("button", { class: "btn", onclick: next }, [state.idx === items.length - 1 ? "Terminer" : "Suivant"]));
+      }
+
+      area.appendChild(card);
+
+      if (state.answered) {
+        setTimeout(function () {
+          var btns = card.querySelectorAll(".choice-btn");
+          btns.forEach(function (b, ci) {
+            b.disabled = true;
+            if (ci === q.answer) b.classList.add("correct");
+            else if (ci === state.selected) b.classList.add("incorrect");
+          });
+        }, 0);
+      }
+
+      if (opts.timedSeconds && !state.answered) {
+        startTimer();
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      state.timer = setInterval(function () {
+        state.timeLeft--;
+        var t = document.getElementById("mb-timer");
+        if (t) {
+          t.textContent = state.timeLeft + "s";
+          if (state.timeLeft <= 10) t.classList.add("warn");
+        }
+        if (state.timeLeft <= 0) {
+          stopTimer();
+          answer(-1); // temps écoulé = mauvaise réponse
+        }
+      }, 1000);
+    }
+
+    function answer(ci) {
+      if (state.answered) return;
+      stopTimer();
+      state.answered = true;
+      state.selected = ci;
+      var q = items[state.idx];
+      if (ci === q.answer) {
+        state.score++;
+      } else if (q.chapitreId) {
+        MonBTS.chapitreEngine.logErreur({ chapitreId: q.chapitreId, matiereId: q.matiereId, niveau: opts.logNiveau || "examen", enonce: q.q, correction: q.explain });
+      }
+      draw();
+    }
+
+    function next() {
+      state.idx++;
+      state.answered = false;
+      state.selected = null;
+      state.timeLeft = opts.timedSeconds || null;
+      draw();
+    }
+
+    draw();
+  }
+
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    attrs = attrs || {};
+    Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k];
+      if (v === null || v === undefined) return;
+      if (k === "class") node.className = v;
+      else if (k.indexOf("on") === 0 && typeof v === "function") node[k] = v;
+      else node.setAttribute(k, v);
+    });
+    (children || []).forEach(function (c) { if (c) node.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return node;
+  }
+
+  document.getElementById("btn-extreme").addEventListener("click", function () {
+    var items = buildExtremeItems();
+    runQuiz(items, { title: "🔴 Mode Extrême", timedSeconds: SECONDS_PER_QUESTION_EXTREME, logNiveau: "examen-extreme" });
+  });
+
+  document.getElementById("btn-normal").addEventListener("click", function () {
+    var items = buildNormalItems();
+    runQuiz(items, { title: "📝 Mode Normal (E4 / E5 / CEJM)", logNiveau: "examen-normal" });
+  });
+
+  document.getElementById("btn-turbo").addEventListener("click", function () {
+    runTurboFlash();
+  });
+
+  function runTurboFlash() {
+    var erreurs = MonBTS.chapitreEngine.erreursRecentes(30);
+    var idx = 0;
+    var revealed = false;
+
+    function draw() {
+      area.innerHTML = "";
+      if (!erreurs.length) {
+        area.appendChild(el("div", { class: "card" }, ["🎉 Aucune erreur enregistrée sur les 30 derniers jours. Rien à réviser en urgence !"]));
+        return;
+      }
+      if (idx >= erreurs.length) {
+        area.appendChild(el("div", { class: "card result-box" }, [
+          el("div", { class: "msg" }, ["Tu as parcouru les " + erreurs.length + " erreurs récentes."]),
+          el("button", { class: "btn secondary", onclick: function () { idx = 0; revealed = false; draw(); } }, ["Recommencer"])
+        ]));
+        return;
+      }
+      var e = erreurs[idx];
+      var card = el("div", { class: "mb-flashcard" });
+      card.appendChild(el("div", { class: "fc-meta" }, [(idx + 1) + "/" + erreurs.length + " — " + e.matiereId.toUpperCase() + " · " + new Date(e.date).toLocaleDateString("fr-FR")]));
+      card.appendChild(el("div", { class: "fc-question" }, [e.enonce]));
+      if (revealed) {
+        card.appendChild(el("div", { class: "fc-answer" }, [e.correction]));
+      } else {
+        card.appendChild(el("button", { class: "btn secondary", onclick: function () { revealed = true; draw(); } }, ["Voir la correction"]));
+      }
+      area.appendChild(card);
+      area.appendChild(el("div", { style: "text-align:center;margin-top:14px;" }, [
+        el("button", { class: "btn", onclick: function () { idx++; revealed = false; draw(); } }, ["Suivant →"])
+      ]));
+    }
+    draw();
+  }
+</script>
+</body>
+</html>
