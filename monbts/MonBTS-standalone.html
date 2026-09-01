@@ -1,63 +1,62 @@
 <title>MonBTS</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
 :root{
-  --bg:#F1F2EC;
+  --bg:#F3F5FB;
   --surface:#FFFFFF;
-  --surface-2:#E9EBE3;
-  --ink:#1D2420;
-  --muted:#666B62;
-  --border:#DBDED3;
-  --accent:#2B4C3F;
-  --accent-strong:#1D362D;
-  --accent-tint:#E4EBE6;
-  --success:#2E7D46;
-  --success-bg:#E3F2E6;
-  --warning:#9C6B0B;
-  --warning-bg:#F6ECD9;
-  --danger:#A83232;
-  --danger-bg:#F5E2E0;
-  --shadow:0 10px 28px -14px rgba(29,36,32,.28);
-  --font-display:'Fraunces',Georgia,serif;
-  --font-body:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;
-  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --surface-2:#EEF0F6;
+  --ink:#1C2233;
+  --muted:#6B7280;
+  --border:#E5E7EB;
+  --accent:#4F46E5;
+  --accent-strong:#7C3AED;
+  --accent-tint:#EEF0FF;
+  --success:#16A34A;
+  --success-bg:#DCFCE7;
+  --warning:#D97706;
+  --warning-bg:#FEF3C7;
+  --danger:#DC2626;
+  --danger-bg:#FEE2E2;
+  --shadow:0 10px 30px -12px rgba(30,41,59,.18);
+  --font-display:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-body:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-mono:ui-monospace,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#12140F;
-    --surface:#1B1F19;
-    --surface-2:#242923;
-    --ink:#ECEEE7;
-    --muted:#A2A79A;
-    --border:#2C312A;
-    --accent:#7FBB9B;
-    --accent-strong:#9ED0B4;
-    --accent-tint:#213027;
-    --success:#5CBE86;
-    --success-bg:#1E3227;
-    --warning:#E0B357;
-    --warning-bg:#3A2F14;
-    --danger:#E58A8A;
-    --danger-bg:#3A1F1F;
+    --bg:#12131A;
+    --surface:#1C1E29;
+    --surface-2:#262838;
+    --ink:#EEF0FA;
+    --muted:#9CA3AF;
+    --border:#33354A;
+    --accent:#818CF8;
+    --accent-strong:#A78BFA;
+    --accent-tint:#232544;
+    --success:#4ADE80;
+    --success-bg:#0F2E1A;
+    --warning:#FBBF24;
+    --warning-bg:#3A2A0A;
+    --danger:#F87171;
+    --danger-bg:#3A1414;
     --shadow:0 10px 28px -14px rgba(0,0,0,.55);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#12140F;
-  --surface:#1B1F19;
-  --surface-2:#242923;
-  --ink:#ECEEE7;
-  --muted:#A2A79A;
-  --border:#2C312A;
-  --accent:#7FBB9B;
-  --accent-strong:#9ED0B4;
-  --accent-tint:#213027;
-  --success:#5CBE86;
-  --success-bg:#1E3227;
-  --warning:#E0B357;
-  --warning-bg:#3A2F14;
-  --danger:#E58A8A;
-  --danger-bg:#3A1F1F;
+  --bg:#12131A;
+  --surface:#1C1E29;
+  --surface-2:#262838;
+  --ink:#EEF0FA;
+  --muted:#9CA3AF;
+  --border:#33354A;
+  --accent:#818CF8;
+  --accent-strong:#A78BFA;
+  --accent-tint:#232544;
+  --success:#4ADE80;
+  --success-bg:#0F2E1A;
+  --warning:#FBBF24;
+  --warning-bg:#3A2A0A;
+  --danger:#F87171;
+  --danger-bg:#3A1414;
   --shadow:0 10px 28px -14px rgba(0,0,0,.55);
 }
 
@@ -92,46 +91,44 @@ button,input,select,textarea{font-family:inherit;}
 }
 
 .mb-nav{
-  display:flex;flex-wrap:wrap;gap:4px;
-  border-bottom:1.5px solid var(--border);
-  margin-bottom:26px;
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-bottom:22px;
   position:sticky;top:0;z-index:20;
   background:var(--bg);
-  padding-top:6px;
+  padding:8px 0;
 }
 .mb-nav a{
   display:inline-block;
-  padding:9px 15px 10px;
-  font-size:13.5px;font-weight:600;
+  padding:8px 13px;
+  font-size:13px;font-weight:700;
   color:var(--muted);
   text-decoration:none;
-  border:1.5px solid transparent;
-  border-bottom:none;
-  border-radius:9px 9px 0 0;
-  transform:translateY(1.5px);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  box-shadow:var(--shadow);
 }
 .mb-nav a.current{
-  color:var(--ink);
-  background:var(--surface);
-  border-color:var(--border);
-  border-bottom:1.5px solid var(--surface);
+  color:#fff;
+  background:var(--accent);
+  border-color:var(--accent);
 }
 
 /* ---- Sheets / cards ---- */
 .card,.sheet{
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:14px;
+  border-radius:18px;
   box-shadow:var(--shadow);
   padding:20px 22px;
 }
 .card + .card{margin-top:14px;}
 
 .hero{
-  border-radius:16px;
+  border-radius:20px;
   padding:26px 26px 24px;
-  background:var(--accent);
-  color:#F5F7F3;
+  background:linear-gradient(135deg,var(--accent),var(--accent-strong));
+  color:#fff;
   box-shadow:var(--shadow);
   margin-bottom:20px;
 }
@@ -202,7 +199,7 @@ button,input,select,textarea{font-family:inherit;}
 .paliers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
 @media (max-width:640px){.paliers-grid{grid-template-columns:1fr;}}
 .palier-card{
-  background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px;
+  background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:16px;
   text-align:left;cursor:pointer;font-family:inherit;
 }
 .palier-card:hover:not(:disabled){border-color:var(--accent);}
@@ -239,7 +236,7 @@ button,input,select,textarea{font-family:inherit;}
 
 .mb-matieres-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;margin:18px 0;}
 @media (max-width:700px){.mb-matieres-grid{grid-template-columns:1fr;}}
-.mb-matiere-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:16px 17px;}
+.mb-matiere-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:16px 17px;}
 .mb-matiere-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;}
 .mb-matiere-head h3{margin:2px 0 2px;font-size:14.5px;font-family:var(--font-body);font-weight:700;}
 .mb-matiere-code{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-family:var(--font-mono);}
@@ -270,7 +267,7 @@ button,input,select,textarea{font-family:inherit;}
 .mb-chapitres-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;}
 @media (max-width:640px){.mb-chapitres-grid{grid-template-columns:1fr;}}
 .mb-chapitre-card{
-  display:block;padding:16px 18px;border-radius:12px;background:var(--surface);
+  display:block;padding:16px 18px;border-radius:16px;background:var(--surface);
   border:1px solid var(--border);box-shadow:var(--shadow);text-decoration:none;color:var(--ink);
   cursor:pointer;
 }
@@ -286,13 +283,13 @@ button,input,select,textarea{font-family:inherit;}
 /* ---- Timer / flashcards ---- */
 .mb-timer{font-family:var(--font-mono);font-size:20px;font-weight:600;padding:6px 14px;border-radius:9px;background:var(--surface-2);}
 .mb-timer.warn{background:var(--danger-bg);color:var(--danger);}
-.mb-flashcard{padding:24px;border-radius:14px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);text-align:center;}
+.mb-flashcard{padding:24px;border-radius:16px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);text-align:center;}
 .mb-flashcard .fc-meta{font-size:11.5px;color:var(--muted);margin-bottom:10px;font-family:var(--font-mono);}
 .mb-flashcard .fc-question{font-size:17px;font-weight:600;margin-bottom:14px;font-family:var(--font-display);}
 .mb-flashcard .fc-answer{font-size:13.5px;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:12px;border:1px solid var(--border);}
 
 /* ---- Journal ---- */
-.mb-journal-entry{padding:14px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--border);margin-bottom:10px;}
+.mb-journal-entry{padding:14px 16px;border-radius:14px;background:var(--bg);border:1px solid var(--border);margin-bottom:10px;}
 .mb-journal-entry .je-meta{font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px;}
 .mb-journal-entry .je-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
 .mb-journal-entry .je-tag{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);}
@@ -577,6 +574,210 @@ var CHAPITRES_SEED = [
       { q:"Un plan d'action correctif doit préciser...", choices:["Les actions, responsables et délais","Uniquement le budget disponible","Le nom du logiciel utilisé","La liste des concurrents"], answer:0, explain:"Sans responsable ni délai, un plan reste une intention." },
       { q:"Le 'S' d'un objectif SMART signifie...", choices:["Spécifique","Simple à deviner","Secret","Statique"], answer:0, explain:"SMART = Spécifique, Mesurable, Atteignable, Réaliste, Temporellement défini." },
       { q:"Un tableau de bord avec trop d'indicateurs risque de...", choices:["Noyer l'information utile et ralentir la décision","Toujours améliorer la décision","Remplacer le plan d'action","Supprimer les écarts automatiquement"], answer:0, explain:"La surcharge d'indicateurs nuit à la lisibilité du pilotage." }
+    ]}
+  },
+
+  {
+    id:"cejm-contrat-responsabilite", matiereId:"cejm", titre:"Le contrat et la responsabilité contractuelle",
+    motsCles:["Contrat","Consentement","Clause","Inexécution","Responsabilité contractuelle","Dommages-intérêts","Résolution","Force majeure"],
+    niveau1:{
+      ficheCourseSynthese:"Un contrat est un accord de volontés qui crée des obligations entre les parties (article 1101 du Code civil). Sa validité suppose un consentement libre et éclairé, une capacité à contracter et un contenu licite. Lorsqu'une partie n'exécute pas ses obligations, l'autre partie peut engager sa responsabilité contractuelle : elle doit prouver l'inexécution, un préjudice et un lien de causalité, afin d'obtenir des dommages-intérêts, l'exécution forcée, ou la résolution du contrat. La force majeure (événement imprévisible, irrésistible et extérieur) peut exonérer le débiteur défaillant.",
+      exercices:[
+        { enonce:"Quelles sont les trois conditions de validité d'un contrat ?", correction:"Le consentement des parties (libre et éclairé), leur capacité à contracter, et un contenu licite et certain." },
+        { enonce:"Un fournisseur ne livre pas la marchandise commandée dans les délais. Quelles sont les options du client ?", correction:"Le client peut demander l'exécution forcée du contrat, la résolution du contrat, et/ou des dommages-intérêts, à condition de prouver la faute, le préjudice et le lien de causalité." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Un client a commandé une machine à un fournisseur, livrable sous 30 jours. Le fournisseur livre avec 45 jours de retard, sans justification, causant une perte d'exploitation au client. Rédige un paragraphe expliquant sur quel fondement juridique le client peut agir et ce qu'il peut obtenir.",
+      bareme:[
+        { critere:"Identifie l'inexécution contractuelle (retard de livraison)", pointsMax:5, feedbackSiManquant:"Il faut nommer précisément la faute : le non-respect du délai contractuel.", methodePourAtteindre15:"Qualifie les faits : « Le fournisseur n'a pas exécuté son obligation de livrer dans le délai convenu. »" },
+        { critere:"Cite la responsabilité contractuelle comme fondement", pointsMax:5, feedbackSiManquant:"Le fondement juridique doit être explicitement nommé.", methodePourAtteindre15:"Rattache les faits à la notion exacte : « responsabilité contractuelle pour inexécution »." },
+        { critere:"Mentionne les 3 conditions (faute, préjudice, lien de causalité)", pointsMax:6, feedbackSiManquant:"Une réponse complète vérifie les 3 conditions cumulatives.", methodePourAtteindre15:"Structure en 3 temps : la faute, le préjudice, le lien de causalité." },
+        { critere:"Propose une conséquence concrète (dommages-intérêts)", pointsMax:4, feedbackSiManquant:"La réponse doit aboutir à une conséquence concrète pour le client.", methodePourAtteindre15:"Termine par : « Le client peut obtenir des dommages-intérêts réparant sa perte d'exploitation. »" }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"La force majeure exonère-t-elle automatiquement le débiteur de toute responsabilité ?", choices:["Non, elle doit être imprévisible, irrésistible et extérieure au débiteur","Oui, dans tous les cas","Non, la force majeure n'existe pas en droit français","Oui, mais seulement pour les contrats commerciaux"], answer:0, pointDeVigilance:"La force majeure n'est pas automatique, elle répond à des critères cumulatifs stricts.", correction:"Les trois critères (imprévisibilité, irrésistibilité, extériorité) doivent être réunis." },
+      { enonce:"Pour engager la responsabilité contractuelle, faut-il prouver une faute intentionnelle ?", choices:["Non, une simple inexécution ou mauvaise exécution suffit","Oui, il faut prouver l'intention de nuire","Non, aucune preuve n'est nécessaire","Oui, uniquement en cas de dol"], answer:0, pointDeVigilance:"La responsabilité contractuelle ne nécessite pas d'intention.", correction:"Le simple manquement à une obligation contractuelle engage la responsabilité." },
+      { enonce:"Que signifie la résolution d'un contrat ?", choices:["L'anéantissement rétroactif du contrat en cas d'inexécution grave","La simple suspension temporaire du contrat","La renégociation des clauses du contrat","La transmission du contrat à un tiers"], answer:0, pointDeVigilance:"Ne pas confondre résolution (rétroactive) et résiliation (pour l'avenir).", correction:"La résolution efface le contrat rétroactivement, comme s'il n'avait jamais existé." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Qu'est-ce qu'un contrat ?", choices:["Un accord de volontés créant des obligations","Une loi votée par le Parlement","Un simple échange verbal sans valeur","Une décision unilatérale d'une entreprise"], answer:0, explain:"Le contrat suppose un accord entre volontés, créateur d'obligations juridiques." },
+      { q:"Quelles sont les conditions de validité d'un contrat ?", choices:["Consentement, capacité, contenu licite","Uniquement la signature des parties","Un prix obligatoire","La présence d'un avocat"], answer:0, explain:"Ces trois conditions cumulatives sont posées par le Code civil." },
+      { q:"La responsabilité contractuelle suppose de prouver...", choices:["Une faute, un préjudice et un lien de causalité","Uniquement une intention de nuire","Uniquement un préjudice financier","Rien, elle est automatique"], answer:0, explain:"Ces trois éléments cumulatifs doivent être démontrés." },
+      { q:"La force majeure doit être...", choices:["Imprévisible, irrésistible et extérieure","Seulement imprévisible","Seulement extérieure","Prévisible mais grave"], answer:0, explain:"Les trois critères cumulatifs caractérisent la force majeure." },
+      { q:"La résolution d'un contrat entraîne...", choices:["Son anéantissement rétroactif","Sa simple suspension","Son maintien avec pénalités","Sa transmission automatique"], answer:0, explain:"La résolution efface le contrat comme s'il n'avait jamais existé." },
+      { q:"Que peut obtenir un créancier face à une inexécution contractuelle ?", choices:["L'exécution forcée, la résolution, et/ou des dommages-intérêts","Uniquement une excuse écrite","Rien sans procès pénal","Uniquement la résiliation du contrat de travail"], answer:0, explain:"Ce sont les trois principales sanctions civiles de l'inexécution contractuelle." }
+    ]}
+  },
+
+  {
+    id:"e1-ecriture-personnelle", matiereId:"e1", titre:"L'écriture personnelle argumentée",
+    motsCles:["Essai","Thèse personnelle","Argument","Exemple","Registre","Cohérence","Nuance","Point de vue"],
+    niveau1:{
+      ficheCourseSynthese:"Contrairement à la synthèse, l'écriture personnelle (essai) invite le candidat à exprimer et défendre son propre point de vue sur une question liée au thème du programme, en s'appuyant sur les documents du corpus et sa culture personnelle. Démarche : dégager une position claire (thèse), l'organiser en arguments hiérarchisés, illustrer chaque argument par un exemple précis, et nuancer son propos en envisageant des objections. Le style doit rester soutenu et le raisonnement progresser logiquement.",
+      exercices:[
+        { enonce:"Quelle est la différence essentielle entre la synthèse et l'écriture personnelle ?", correction:"La synthèse impose la neutralité et interdit l'opinion personnelle, alors que l'écriture personnelle demande de défendre un point de vue argumenté et personnel." },
+        { enonce:"Pourquoi un argument sans exemple est-il fragile ?", correction:"Un argument non illustré reste abstrait et peu convaincant : l'exemple concret prouve et rend tangible l'idée avancée." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Sur le thème « Le travail transforme-t-il l'individu ? », rédige un paragraphe argumentatif (une thèse + un argument + un exemple précis) défendant un point de vue personnel.",
+      bareme:[
+        { critere:"Formule une thèse personnelle claire", pointsMax:5, feedbackSiManquant:"La position défendue n'est pas assez explicite dès le début.", methodePourAtteindre15:"Annonce ta thèse dans la première phrase." },
+        { critere:"Développe un argument logique et cohérent", pointsMax:6, feedbackSiManquant:"L'argument n'est pas assez développé ou ne soutient pas la thèse.", methodePourAtteindre15:"Explique le raisonnement en 2-3 phrases avant l'exemple." },
+        { critere:"Illustre par un exemple précis et pertinent", pointsMax:5, feedbackSiManquant:"L'exemple est trop vague ou absent.", methodePourAtteindre15:"Utilise un exemple daté, nommé, vérifiable plutôt qu'une généralité." },
+        { critere:"Registre soutenu et syntaxe correcte", pointsMax:4, feedbackSiManquant:"Le registre est trop familier ou la syntaxe est fautive.", methodePourAtteindre15:"Relis-toi en évitant les tournures orales et les répétitions." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Dans l'écriture personnelle, peut-on totalement ignorer les documents du corpus ?", choices:["Non, ils doivent nourrir la réflexion sans être la seule source","Oui, l'exercice est entièrement libre","Non, il faut les citer mot pour mot","Oui, mais seulement pour l'introduction"], answer:0, pointDeVigilance:"L'écriture personnelle doit se nourrir du corpus tout en le dépassant.", correction:"Elle s'appuie sur le corpus et la culture personnelle, sans se limiter à un commentaire des documents." },
+      { enonce:"Une bonne argumentation doit-elle ignorer les objections possibles ?", choices:["Non, nuancer son propos en envisageant des objections renforce l'argumentation","Oui, toute objection affaiblit la thèse","Non, il faut les rejeter sans les mentionner","Oui, sauf en conclusion"], answer:0, pointDeVigilance:"Une argumentation forte n'est pas nécessairement unilatérale.", correction:"Envisager une objection montre la solidité de la réflexion et évite un discours simpliste." },
+      { enonce:"Le registre de l'écriture personnelle doit être...", choices:["Soutenu et cohérent, même en exprimant une opinion","Familier, pour être plus personnel","Strictement neutre comme la synthèse","Poétique avant tout"], answer:0, pointDeVigilance:"Ne pas confondre expression personnelle et registre familier.", correction:"Exprimer un avis n'autorise pas un registre relâché." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"L'écriture personnelle permet de...", choices:["Défendre un point de vue argumenté et personnel","Rester strictement neutre","Résumer un seul document","Traduire un texte"], answer:0, explain:"Contrairement à la synthèse, l'essai autorise et demande un point de vue assumé." },
+      { q:"Un bon argument doit être...", choices:["Illustré par un exemple précis","Laissé sans exemple pour rester général","Répété plusieurs fois sans le développer","Emprunté mot pour mot au corpus"], answer:0, explain:"L'exemple rend l'argument concret et convaincant." },
+      { q:"Nuancer son propos consiste à...", choices:["Envisager une objection possible à sa thèse","Changer d'avis en cours de rédaction","Éviter de prendre position","Répéter la thèse plusieurs fois"], answer:0, explain:"La nuance renforce l'argumentation en anticipant les contre-arguments." },
+      { q:"Le registre attendu dans l'écriture personnelle est...", choices:["Soutenu et cohérent","Familier et spontané","Strictement neutre","Humoristique"], answer:0, explain:"Même en exprimant un avis, le niveau de langue doit rester soutenu." },
+      { q:"L'écriture personnelle s'appuie...", choices:["Sur le corpus et la culture personnelle du candidat","Uniquement sur le corpus","Uniquement sur des connaissances extérieures","Sur aucune référence"], answer:0, explain:"Elle articule les documents proposés et les connaissances du candidat." },
+      { q:"Une thèse personnelle doit être formulée...", choices:["Clairement, dès le début du développement","Seulement en conclusion","De façon implicite","Sous forme de question"], answer:0, explain:"Une thèse explicite dès le départ guide la lecture de toute l'argumentation." }
+    ]}
+  },
+
+  {
+    id:"e2-professional-email", matiereId:"e2", titre:"Writing a professional email",
+    motsCles:["Subject line","Formal greeting","Attachment","Follow-up","CC/BCC","Closing remarks","Tone","Request"],
+    niveau1:{
+      ficheCourseSynthese:"A professional email follows a clear structure: a precise subject line, a formal greeting (Dear Mr/Ms X, or Dear Sir/Madam if unknown), a brief introduction stating the purpose, a body organised in short paragraphs, and a polite closing (Best regards, Kind regards) with a signature. Useful phrases: opening (« I am writing to inquire about... »), requesting (« I would be grateful if you could... »), attaching (« Please find attached... »), following up (« I look forward to hearing from you. »).",
+      exercices:[
+        { enonce:"Translate: « Je vous écris pour vous informer d'un retard de livraison. »", correction:"« I am writing to inform you of a delay in delivery. »" },
+        { enonce:"Complete: « ___ send me the updated invoice? » (formule polie de demande)", correction:"« Could you please send me the updated invoice? » — 'Could you please' est une formule standard et polie pour une demande professionnelle." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Write a short professional email (4-5 sentences) to a supplier, asking them to confirm the delivery date of an order that is now one week late.",
+      bareme:[
+        { critere:"Uses a formal greeting and closing", pointsMax:5, feedbackSiManquant:"L'email manque une formule d'ouverture ou de clôture formelle.", methodePourAtteindre15:"Utilise 'Dear [Name],' pour ouvrir et 'Best regards,' pour clore." },
+        { critere:"States the purpose clearly in the opening lines", pointsMax:5, feedbackSiManquant:"L'objet de l'email n'est pas clair dès le début.", methodePourAtteindre15:"Commence par « I am writing to follow up on... »." },
+        { critere:"Makes a clear, polite request", pointsMax:6, feedbackSiManquant:"La demande n'est pas assez claire ou trop directe.", methodePourAtteindre15:"Utilise « Could you please confirm... » plutôt qu'un ordre direct." },
+        { critere:"Correct grammar and professional register", pointsMax:4, feedbackSiManquant:"Des fautes de grammaire ou un registre trop familier nuisent au professionnalisme.", methodePourAtteindre15:"Relis-toi en vérifiant les temps verbaux et le registre." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Which greeting is appropriate when you don't know the recipient's name?", choices:["Dear Sir/Madam","Hey there","Hi guys","To whom this may involve"], answer:0, pointDeVigilance:"'To whom it may concern' est souvent mal orthographié ; 'Dear Sir/Madam' reste le plus sûr.", correction:"'Dear Sir/Madam' is the standard formal greeting when the recipient's name is unknown." },
+      { enonce:"What is the purpose of a clear subject line?", choices:["To let the recipient immediately understand the email's purpose","To make the email look longer","To replace the greeting","To avoid writing a closing"], answer:0, pointDeVigilance:"Sous-estimer l'importance de l'objet, souvent la seule chose lue avant ouverture.", correction:"A precise subject line helps the recipient prioritise and understand the email." },
+      { enonce:"Which closing phrase is most appropriate for a formal business email?", choices:["Best regards,","Bye bye!","Later,","xx"], answer:0, pointDeVigilance:"Éviter un registre trop familier dans un contexte professionnel écrit.", correction:"'Best regards' or 'Kind regards' are standard, professional closing phrases." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"What should a professional email's subject line do?", choices:["Clearly summarise the email's purpose","Be left blank","Contain jokes","Repeat the greeting"], answer:0, explain:"A clear subject line helps prioritise and understand the message quickly." },
+      { q:"Which is a polite way to make a request?", choices:["Could you please...","You must...","Do it now.","I demand that..."], answer:0, explain:"'Could you please' softens the request and stays professional." },
+      { q:"What replaces 'Dear Mr Smith' when the name is unknown?", choices:["Dear Sir/Madam","Hey","Yo","Dear whoever"], answer:0, explain:"This is the standard formal greeting when the recipient is unknown." },
+      { q:"'Please find attached...' is used to...", choices:["Refer to a file included in the email","Ask a question","Close the email","Greet the recipient"], answer:0, explain:"This phrase introduces an attachment." },
+      { q:"An appropriate closing for a formal email is...", choices:["Kind regards,","Cheers mate,","See ya,","Whatever,"], answer:0, explain:"'Kind regards' is professional and widely used." },
+      { q:"A professional email body should be...", choices:["Organised in short, clear paragraphs","One long paragraph","Written only in bullet points","As long as possible"], answer:0, explain:"Short paragraphs improve readability in professional communication." }
+    ]}
+  },
+
+  {
+    id:"e4-gestion-stocks", matiereId:"e4", titre:"La gestion des stocks et des approvisionnements",
+    motsCles:["Stock de sécurité","Seuil de réapprovisionnement","Rupture de stock","Coût de stockage","Délai de livraison","Rotation des stocks","Bon de commande","Inventaire"],
+    niveau1:{
+      ficheCourseSynthese:"La gestion des stocks vise à équilibrer deux risques opposés : la rupture de stock (perte de ventes, insatisfaction client) et le surstockage (coûts de stockage, immobilisation de trésorerie). Le stock de sécurité est une quantité tampon destinée à absorber les aléas de la demande ou des délais de livraison. Le seuil de réapprovisionnement déclenche une nouvelle commande avant la rupture, en tenant compte du délai de livraison fournisseur. La rotation des stocks mesure la vitesse à laquelle le stock est renouvelé : plus elle est élevée, plus la gestion est efficace.",
+      exercices:[
+        { enonce:"Une entreprise vend 20 unités par jour, le délai de livraison fournisseur est de 5 jours, et elle souhaite un stock de sécurité de 30 unités. Calcule le seuil de réapprovisionnement.", correction:"Seuil = (consommation journalière × délai de livraison) + stock de sécurité = (20 × 5) + 30 = 130 unités." },
+        { enonce:"Cite deux conséquences négatives d'un surstockage.", correction:"L'immobilisation inutile de trésorerie et l'augmentation des coûts de stockage (espace, assurance, risque d'obsolescence)." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Un magasin constate des ruptures de stock répétées sur son produit le plus vendu, entraînant des ventes perdues. Rédige un court plan d'action pour le responsable des achats.",
+      bareme:[
+        { critere:"Propose de recalculer le seuil de réapprovisionnement", pointsMax:6, feedbackSiManquant:"La cause probable (seuil mal calibré) n'est pas identifiée.", methodePourAtteindre15:"Commence par : « Il convient de revoir le seuil de réapprovisionnement à partir de la consommation réelle et du délai fournisseur. »" },
+        { critere:"Mentionne l'augmentation du stock de sécurité si la demande est irrégulière", pointsMax:5, feedbackSiManquant:"Aucune solution face à la variabilité de la demande n'est proposée.", methodePourAtteindre15:"Ajoute une marge de sécurité si les ventes sont difficiles à prévoir." },
+        { critere:"Propose de discuter les délais avec le fournisseur", pointsMax:5, feedbackSiManquant:"Le rôle du fournisseur dans la rupture n'est pas évoqué.", methodePourAtteindre15:"Une négociation d'un délai plus court réduit le risque de rupture." },
+        { critere:"Prévoit un suivi (indicateur de rupture de stock)", pointsMax:4, feedbackSiManquant:"Aucun mécanisme de suivi n'est prévu.", methodePourAtteindre15:"Termine par la mise en place d'un indicateur de suivi des ruptures." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Le stock de sécurité sert principalement à...", choices:["Absorber les aléas de la demande ou des délais de livraison","Remplacer totalement les commandes régulières","Éviter de payer les fournisseurs à temps","Réduire systématiquement les coûts"], answer:0, pointDeVigilance:"Le stock de sécurité est une marge de précaution, pas un stock ordinaire.", correction:"Il protège contre les variations imprévues de la demande ou des délais de livraison." },
+      { enonce:"Une rotation des stocks élevée signifie généralement...", choices:["Une gestion efficace, avec un stock renouvelé rapidement","Un surstockage important","Une entreprise en difficulté","Une absence totale de stock"], answer:0, pointDeVigilance:"Ne pas confondre rotation élevée (bon signe) avec rupture de stock.", correction:"Une rotation élevée indique que le stock se vend et se renouvelle rapidement." },
+      { enonce:"Le seuil de réapprovisionnement doit tenir compte de...", choices:["La consommation pendant le délai de livraison, plus le stock de sécurité","Uniquement du prix d'achat","Uniquement du nombre de fournisseurs","Du chiffre d'affaires annuel total"], answer:0, pointDeVigilance:"Oublier d'intégrer le délai de livraison dans le calcul du seuil.", correction:"Le seuil = consommation pendant le délai de livraison + stock de sécurité." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Le stock de sécurité sert à...", choices:["Absorber les aléas de demande ou de livraison","Remplacer les commandes régulières","Réduire les prix d'achat","Éviter la TVA"], answer:0, explain:"C'est une marge de précaution contre les imprévus." },
+      { q:"Le seuil de réapprovisionnement déclenche...", choices:["Une nouvelle commande avant la rupture de stock","La vente à prix réduit","Un audit comptable","Un changement de fournisseur automatique"], answer:0, explain:"Il permet de commander à temps pour éviter la rupture." },
+      { q:"Une rotation des stocks élevée traduit généralement...", choices:["Une gestion efficace des stocks","Un surstockage","Une rupture permanente","Une baisse du chiffre d'affaires"], answer:0, explain:"Elle montre que le stock se renouvelle rapidement, limitant les coûts." },
+      { q:"Un surstockage entraîne notamment...", choices:["Une immobilisation inutile de trésorerie","Une hausse du chiffre d'affaires","Une baisse de la TVA","Une meilleure rotation des stocks"], answer:0, explain:"Le capital immobilisé dans un stock excessif ne peut être utilisé ailleurs." },
+      { q:"Le calcul du seuil de réapprovisionnement intègre...", choices:["La consommation pendant le délai de livraison et le stock de sécurité","Uniquement le prix de vente","Uniquement la marge commerciale","Le nombre de salariés"], answer:0, explain:"Ces deux éléments permettent de commander au bon moment." },
+      { q:"Une rupture de stock entraîne principalement...", choices:["Une perte de ventes et une insatisfaction client","Une baisse des coûts de stockage","Une hausse de la rotation des stocks","Un avantage concurrentiel"], answer:0, explain:"C'est un risque commercial direct pour l'entreprise." }
+    ]}
+  },
+
+  {
+    id:"e5-contrat-travail", matiereId:"e5", titre:"Le contrat de travail et ses clauses essentielles",
+    motsCles:["CDI","CDD","Période d'essai","Clause de non-concurrence","Clause de mobilité","Préavis","Rupture conventionnelle","Requalification"],
+    niveau1:{
+      ficheCourseSynthese:"Le contrat de travail formalise la relation entre employeur et salarié : nature du contrat (CDI, CDD), rémunération, durée du travail, et parfois des clauses spécifiques (non-concurrence, mobilité, exclusivité). Un CDD ne peut être conclu que pour un motif précis et limité dans le temps (remplacement, accroissement temporaire d'activité) ; à défaut, il peut être requalifié en CDI. La rupture du contrat obéit à des règles protectrices : préavis, procédure de licenciement, ou rupture conventionnelle (accord amiable homologué).",
+      exercices:[
+        { enonce:"Quelles sont les principales différences entre un CDI et un CDD ?", correction:"Le CDI est conclu sans limitation de durée et constitue la norme ; le CDD est conclu pour une durée déterminée et un motif précis, encadré par des règles strictes." },
+        { enonce:"Qu'est-ce que la requalification d'un CDD en CDI, et quand intervient-elle ?", correction:"C'est la transformation judiciaire d'un CDD irrégulier (motif absent, renouvellements abusifs, absence d'écrit) en CDI, décidée par le conseil de prud'hommes." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Une PME a recruté un salarié en CDD « accroissement temporaire d'activité » depuis 3 ans, en renouvelant le contrat tous les 6 mois. Le salarié saisit les prud'hommes. Rédige un paragraphe expliquant le risque juridique encouru par l'employeur.",
+      bareme:[
+        { critere:"Identifie le risque de requalification en CDI", pointsMax:6, feedbackSiManquant:"Le risque juridique central n'est pas nommé.", methodePourAtteindre15:"Nomme directement le risque : « L'employeur s'expose à une requalification du CDD en CDI. »" },
+        { critere:"Explique pourquoi (motif non renouvelable indéfiniment)", pointsMax:6, feedbackSiManquant:"La raison du risque n'est pas expliquée.", methodePourAtteindre15:"Précise que l'accroissement temporaire ne peut justifier un besoin permanent de 3 ans." },
+        { critere:"Mentionne une conséquence concrète pour l'employeur", pointsMax:5, feedbackSiManquant:"Aucune conséquence pratique n'est indiquée.", methodePourAtteindre15:"Ajoute : « Le salarié serait considéré CDI depuis le premier contrat, avec les indemnités associées. »" },
+        { critere:"Formule une recommandation pour l'avenir", pointsMax:3, feedbackSiManquant:"Pas de conseil pour éviter que la situation se reproduise.", methodePourAtteindre15:"Recommande un CDI si le besoin est structurel." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Un CDD peut-il être renouvelé indéfiniment pour le même motif ?", choices:["Non, le nombre de renouvellements et la durée totale sont encadrés par la loi","Oui, sans aucune limite","Non, un seul renouvellement est autorisé à vie","Oui, si le salarié est d'accord"], answer:0, pointDeVigilance:"L'accord du salarié ne suffit pas à contourner les règles légales.", correction:"La durée totale et le nombre de renouvellements d'un CDD sont strictement encadrés." },
+      { enonce:"La clause de non-concurrence est valable si...", choices:["Elle est limitée dans le temps, l'espace, et prévoit une contrepartie financière","Elle interdit indéfiniment toute activité professionnelle","Elle est signée sans contrepartie","Elle s'applique uniquement pendant le contrat"], answer:0, pointDeVigilance:"Ne pas oublier la contrepartie financière, condition de validité essentielle.", correction:"Une clause de non-concurrence doit être limitée, proportionnée, et donner lieu à une contrepartie financière." },
+      { enonce:"La rupture conventionnelle nécessite...", choices:["Un accord des deux parties, homologué par l'administration","Une décision unilatérale de l'employeur","Une décision unilatérale du salarié","Aucune formalité particulière"], answer:0, pointDeVigilance:"Ne pas confondre rupture conventionnelle avec démission ou licenciement.", correction:"Elle repose sur un accord mutuel, soumis à homologation par la DREETS." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Le CDI est...", choices:["La forme normale et générale du contrat de travail","Réservé aux stagiaires","Toujours à temps partiel","Limité à 3 ans maximum"], answer:0, explain:"Le CDI est le contrat de droit commun en France." },
+      { q:"Un CDD doit obligatoirement comporter...", choices:["Un motif précis et une durée déterminée","Une clause de non-concurrence","Un salaire supérieur au CDI","Une période d'essai d'un an"], answer:0, explain:"Le motif et la durée sont des mentions obligatoires et encadrées du CDD." },
+      { q:"La requalification d'un CDD en CDI intervient si...", choices:["Le CDD est irrégulier (motif, forme, renouvellements abusifs)","Le salarié le demande sans raison particulière","L'employeur change d'avis","Le contrat dépasse 6 mois"], answer:0, explain:"C'est une sanction judiciaire d'un CDD non conforme aux règles légales." },
+      { q:"Une clause de non-concurrence valable doit prévoir...", choices:["Une contrepartie financière et des limites de temps/espace","Une interdiction totale et permanente","L'accord oral du salarié uniquement","Rien de particulier"], answer:0, explain:"Ce sont des conditions cumulatives de validité posées par la jurisprudence." },
+      { q:"La rupture conventionnelle est...", choices:["Un accord amiable homologué par l'administration","Un licenciement déguisé","Une démission simple","Réservée aux CDD"], answer:0, explain:"Elle suppose le consentement des deux parties et une homologation administrative." },
+      { q:"Le préavis en cas de rupture du contrat sert à...", choices:["Laisser le temps à chaque partie de s'organiser avant la fin du contrat","Prolonger indéfiniment le contrat","Annuler la rupture","Justifier un licenciement pour faute"], answer:0, explain:"Le préavis est une période de transition prévue avant la cessation effective du contrat." }
+    ]}
+  },
+
+  {
+    id:"e6-diagnostic-strategique", matiereId:"e6", titre:"Le diagnostic stratégique (SWOT / PESTEL)",
+    motsCles:["Diagnostic interne","Diagnostic externe","SWOT","PESTEL","Forces","Faiblesses","Opportunités","Menaces"],
+    niveau1:{
+      ficheCourseSynthese:"Le diagnostic stratégique évalue la situation d'une entreprise pour éclairer ses décisions. Le diagnostic interne identifie les forces et faiblesses propres à l'entreprise (ressources, compétences, organisation) ; le diagnostic externe identifie les opportunités et menaces de l'environnement. L'analyse PESTEL structure ce diagnostic externe autour de six familles de facteurs : Politiques, Économiques, Socioculturels, Technologiques, Écologiques, Légaux. Le croisement des deux diagnostics dans une matrice SWOT permet de formuler des orientations stratégiques cohérentes.",
+      exercices:[
+        { enonce:"Classe ces éléments pour une PME : (a) une équipe très qualifiée, (b) l'arrivée d'un concurrent low-cost, (c) une trésorerie fragile, (d) une nouvelle réglementation favorable au secteur.", correction:"(a) Force ; (b) Menace ; (c) Faiblesse ; (d) Opportunité." },
+        { enonce:"Cite les 6 familles de facteurs de l'analyse PESTEL.", correction:"Politique, Économique, Socioculturel, Technologique, Écologique, Légal." }
+      ]
+    },
+    niveau2:{
+      casPratique:"Une PME de menuiserie constate une hausse du prix du bois (facteur externe) et dispose d'un savoir-faire artisanal reconnu (facteur interne). Rédige un court diagnostic SWOT simplifié à partir de ces deux éléments, puis propose une orientation stratégique cohérente.",
+      bareme:[
+        { critere:"Classe correctement chaque élément (force/menace)", pointsMax:6, feedbackSiManquant:"Le savoir-faire et la hausse du prix ne sont pas correctement qualifiés.", methodePourAtteindre15:"Rappelle la règle : interne+positif=force, externe+négatif=menace." },
+        { critere:"Relie le diagnostic à une orientation stratégique cohérente", pointsMax:7, feedbackSiManquant:"Le diagnostic n'aboutit à aucune recommandation stratégique.", methodePourAtteindre15:"Propose de valoriser la force pour contrer la menace, ex : monter en gamme plutôt que rivaliser sur les prix." },
+        { critere:"Utilise le vocabulaire précis (SWOT, force, menace)", pointsMax:4, feedbackSiManquant:"Vocabulaire trop généraliste.", methodePourAtteindre15:"Utilise explicitement les mots du cours." },
+        { critere:"Conclusion claire et actionnable", pointsMax:3, feedbackSiManquant:"Pas de conclusion opérationnelle nette.", methodePourAtteindre15:"Termine par une recommandation concrète et applicable." }
+      ]
+    },
+    niveau3:{ questionsPieges:[
+      { enonce:"Une opportunité dans une analyse SWOT est...", choices:["Un facteur externe favorable à l'entreprise","Un facteur interne favorable","Un facteur externe défavorable","Une compétence de l'entreprise"], answer:0, pointDeVigilance:"Ne pas confondre force (interne) et opportunité (externe).", correction:"L'opportunité vient de l'environnement externe, contrairement à la force qui est interne." },
+      { enonce:"Le 'E' écologique de PESTEL concerne...", choices:["Les facteurs environnementaux (réglementation verte, climat, ressources)","Les facteurs économiques uniquement","Les facteurs technologiques","Les facteurs politiques uniquement"], answer:0, pointDeVigilance:"Ne pas confondre le 'E' écologique avec le 'E' économique.", correction:"Le facteur écologique couvre les enjeux environnementaux, distinct du facteur économique." },
+      { enonce:"Le diagnostic stratégique doit-il rester purement descriptif ?", choices:["Non, il doit déboucher sur des orientations stratégiques concrètes","Oui, il ne sert qu'à lister des faits","Non, il sert uniquement à remplir un rapport annuel","Oui, la décision n'est jamais liée au diagnostic"], answer:0, pointDeVigilance:"Ne pas réduire le diagnostic à une simple liste sans décision.", correction:"Le diagnostic n'a de valeur que s'il éclaire des décisions et oriente une stratégie." }
+    ]},
+    quizValidation:{ seuilValidationPct:70, questions:[
+      { q:"Le diagnostic interne identifie...", choices:["Les forces et faiblesses de l'entreprise","Les opportunités et menaces externes","Uniquement les concurrents","Uniquement la réglementation"], answer:0, explain:"Le diagnostic interne porte sur les ressources et compétences propres de l'entreprise." },
+      { q:"L'analyse PESTEL structure...", choices:["Le diagnostic externe autour de 6 familles de facteurs","Le diagnostic interne uniquement","Le bilan comptable","La politique de rémunération"], answer:0, explain:"PESTEL = Politique, Économique, Socioculturel, Technologique, Écologique, Légal." },
+      { q:"Une force est un facteur...", choices:["Interne et favorable à l'entreprise","Externe et favorable","Interne et défavorable","Externe et défavorable"], answer:0, explain:"La force est une caractéristique interne positive de l'entreprise." },
+      { q:"Une menace est un facteur...", choices:["Externe et défavorable à l'entreprise","Interne et défavorable","Externe et favorable","Interne et favorable"], answer:0, explain:"La menace vient de l'environnement externe et représente un risque." },
+      { q:"Le diagnostic stratégique doit permettre...", choices:["D'orienter des décisions stratégiques concrètes","De remplir une formalité administrative sans suite","D'ignorer l'environnement externe","De se concentrer uniquement sur la concurrence"], answer:0, explain:"Sa finalité est d'éclairer la prise de décision stratégique." },
+      { q:"Le 'S' de PESTEL désigne...", choices:["Socioculturel","Stratégique","Salarial","Statistique"], answer:0, explain:"Le facteur socioculturel couvre les modes de vie, valeurs et démographie." }
     ]}
   }
 ];
