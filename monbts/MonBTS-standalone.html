@@ -955,7 +955,6 @@ function escapeHtml(s){ var d=document.createElement("div"); d.textContent=s; re
 
 var NAV_LINKS=[
   {id:"accueil",label:"Accueil",href:"#/"},
-  {id:"dashboard",label:"Dashboard",href:"#/dashboard"},
   {id:"chapitres",label:"Chapitres",href:"#/chapitres"},
   {id:"examens",label:"Examens",href:"#/examens"},
   {id:"journal",label:"Journal alternance",href:"#/journal"},
@@ -974,7 +973,6 @@ function renderNav(active){
 
 function renderAccueil(container){
   var matieres=chargerMatieres();
-  var moyenneRes=calculerMoyenneGenerale(matieres);
   var acquisCount=0, aRevoirCount=0;
   CHAPITRES_SEED.forEach(function(ch){
     var p=loadProgress(ch); var s=statutChapitre(p);
@@ -985,11 +983,10 @@ function renderAccueil(container){
   container.innerHTML="";
   container.appendChild(el("div",{class:"home-hero"},[
     el("h1",{},["Ton copilote BTS GPME"]),
-    el("p",{},["Moyenne pondérée, chapitres gamifiés, examens blancs, journal d'alternance et conformité des dossiers — tout au même endroit, sauvegardé dans ce navigateur."])
+    el("p",{},["Chapitres gamifiés, examens blancs, journal d'alternance et conformité des dossiers — tout au même endroit, sauvegardé dans ce navigateur."])
   ]));
 
   var stats=el("div",{class:"global-stats"},[
-    statTile(moyenneRes.moyenne!==null?moyenneRes.moyenne+"/20":"—","Moyenne générale"),
     statTile(acquisCount+"/"+CHAPITRES_SEED.length,"Chapitres acquis"),
     statTile(String(aRevoirCount),"Chapitres à revoir"),
     statTile(String(erreursDuesCount),"Fiches Turbo-Flash dues")
@@ -1016,7 +1013,6 @@ function renderAccueil(container){
 
   var grid=el("div",{class:"mb-chapitres-grid"});
   var tiles=[
-    {href:"#/dashboard", tag:"Pilotage", title:"Dashboard de pilotage", desc:"Moyenne générale, alertes par matière, simulateur d'objectif."},
     {href:"#/chapitres", tag:"Révision", title:"Chapitres gamifiés", desc:"3 niveaux + Correcteur Virtuel + quiz de validation."},
     {href:"#/examens", tag:"Entraînement", title:"Modes examens", desc:"BTS Blanc extrême/normal + Turbo-Flash."},
     {href:"#/journal", tag:"Alternance", title:"Journal d'alternance", desc:"3 questions/semaine → situations professionnelles E5/E6."},
@@ -1853,7 +1849,7 @@ function renderConformite(container){
    ROUTEUR
    ====================================================================== */
 
-var routes={ "":renderAccueil, "dashboard":renderDashboard, "chapitres":renderChapitresListe, "examens":renderExamens, "journal":renderJournal, "conformite":renderConformite };
+var routes={ "":renderAccueil, "chapitres":renderChapitresListe, "examens":renderExamens, "journal":renderJournal, "conformite":renderConformite };
 var currentCleanup=null;
 
 function route(){
