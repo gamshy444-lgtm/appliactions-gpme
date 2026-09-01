@@ -95,6 +95,9 @@ button,input,select,textarea{font-family:inherit;}
   display:flex;flex-wrap:wrap;gap:4px;
   border-bottom:1.5px solid var(--border);
   margin-bottom:26px;
+  position:sticky;top:0;z-index:20;
+  background:var(--bg);
+  padding-top:6px;
 }
 .mb-nav a{
   display:inline-block;
@@ -245,8 +248,8 @@ button,input,select,textarea{font-family:inherit;}
 .mb-status-tag.verrouille{background:var(--danger-bg);color:var(--danger);}
 .mb-status-tag.en_cours{background:var(--accent-tint);color:var(--accent);}
 .mb-status-tag.a_venir{background:var(--surface-2);color:var(--muted);}
-.mb-inputs{display:flex;gap:10px;margin:10px 0;}
-.mb-field{flex:1;}
+.mb-inputs{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap;}
+.mb-field{flex:1;min-width:110px;}
 .mb-field label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;}
 .mb-field input{width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);font-size:14px;background:var(--bg);color:var(--ink);font-family:var(--font-mono);}
 .mb-field input:focus{outline:none;border-color:var(--accent);}
@@ -338,6 +341,18 @@ var PROCESSUS_LIST = [
   { id:"p2", label:"P2 — Gestion de la relation avec les fournisseurs" },
   { id:"p3", label:"P3 — Gestion des risques de la PME" },
   { id:"p4", label:"P4 — Gestion et développement des ressources humaines" }
+];
+
+// Regroupement indicatif par matière(s) — à renommer/regrouper toi-même
+// selon les blocs de compétences exacts de ton référentiel : la règle de
+// validation (moyenne, ou bloc par bloc) dépend de ton établissement.
+var BLOCS_SEED = [
+  { id:"bloc-grcf", intitule:"Gestion de la relation client et fournisseurs", matiereIds:["e4"] },
+  { id:"bloc-risques-rh", intitule:"Management et gestion des risques / RH", matiereIds:["e5"] },
+  { id:"bloc-soutien", intitule:"Soutenir la performance et le développement", matiereIds:["e6"] },
+  { id:"bloc-cejm", intitule:"Culture économique, juridique et managériale", matiereIds:["cejm"] },
+  { id:"bloc-generale", intitule:"Culture générale et expression", matiereIds:["e1"] },
+  { id:"bloc-anglais", intitule:"Communication en langue vivante étrangère", matiereIds:["e2"] }
 ];
 
 var CONFORMITE_SEED = {
@@ -579,6 +594,18 @@ function chargerMatieres(){
 function sauvegarderMatieres(m){ try{ localStorage.setItem(MATIERES_KEY, JSON.stringify(m)); }catch(e){} }
 function reinitialiserMatieres(){ try{ localStorage.removeItem(MATIERES_KEY); }catch(e){} return JSON.parse(JSON.stringify(MATIERES_SEED)); }
 
+var AI_UNAVAILABLE = false; // vrai dès qu'un appel sample() renvoie une erreur permanente (session courante)
+
+var BLOCS_KEY = "monbts_blocs_v1";
+function chargerBlocsStatuts(){
+  try{ var raw=localStorage.getItem(BLOCS_KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  return {};
+}
+function sauvegarderBlocStatut(blocId,statut){
+  var all=chargerBlocsStatuts(); all[blocId]=statut;
+  try{ localStorage.setItem(BLOCS_KEY, JSON.stringify(all)); }catch(e){}
+}
+
 function calculerMoyenneGenerale(matieres){
   var coefTotal=0, coefConnu=0, sommePonderee=0, manquantes=[];
   matieres.forEach(function(m){
@@ -593,10 +620,19 @@ function calculerImpact(m){
   if(m.noteActuelle===null||m.noteActuelle===undefined) return null;
   return m.coefficient*Math.max(m.noteCible-m.noteActuelle,0);
 }
+/* Un même écart de points devient plus urgent si l'échéance approche :
+   multiplicateur d'impact selon le nombre de jours restants. */
+function multiplicateurEcheance(m){
+  if(!m.dateEcheance) return 1;
+  var jours=(new Date(m.dateEcheance).getTime()-Date.now())/(24*60*60*1000);
+  if(jours<=14) return 1.5;
+  if(jours<=30) return 1.2;
+  return 1;
+}
 function calculerAlerte(m, seuils){
   if(m.prioriteManuelle) return alerteDepuisNiveau(m.prioriteManuelle,true);
   if(m.noteActuelle===null||m.noteActuelle===undefined) return {niveau:"inconnu",label:"Non renseigné",icone:"○",manuelle:false};
-  var impact=calculerImpact(m);
+  var impact=calculerImpact(m)*multiplicateurEcheance(m);
   if(m.noteCible-m.noteActuelle<=0) return {niveau:"ok",label:"Objectif atteint",icone:"●",manuelle:false};
   if(impact>=seuils.urgent) return {niveau:"urgent",label:"Urgent",icone:"●",manuelle:false};
   if(impact>=seuils.maintenir) return {niveau:"maintenir",label:"Maintenir",icone:"●",manuelle:false};
@@ -658,14 +694,39 @@ function loadProgress(ch){
 function saveProgress(chId,progress){ var all=loadAllProgress(); all[chId]=progress; saveAllProgress(all); }
 function statutChapitre(progress){ if(!progress.quizValidation.completed) return "non_commence"; return progress.quizValidation.statut==="acquis"?"acquis":"a_revoir"; }
 function loadErreurs(){ try{ var raw=localStorage.getItem(ERREURS_KEY); if(raw) return JSON.parse(raw); }catch(e){} return []; }
+function saveErreurs(erreurs){ try{ localStorage.setItem(ERREURS_KEY, JSON.stringify(erreurs)); }catch(e){} }
+
+/* Répétition espacée (Leitner à 5 boîtes). box 1→revoir demain, ...,
+   box 5→revoir dans 30 jours ; un box 5 réussi = maîtrisé, sort de la file. */
+var LEITNER_INTERVALS_JOURS=[null,1,3,7,14,30];
 function logErreur(entry){
-  var erreurs=loadErreurs(); entry.date=new Date().toISOString(); erreurs.unshift(entry);
-  if(erreurs.length>300) erreurs.length=300;
-  try{ localStorage.setItem(ERREURS_KEY, JSON.stringify(erreurs)); }catch(e){}
+  var erreurs=loadErreurs();
+  entry.id="err-"+Date.now()+"-"+Math.random().toString(36).slice(2,7);
+  entry.date=new Date().toISOString();
+  entry.box=1;
+  entry.nextReview=new Date().toISOString(); // due immédiatement
+  entry.mastered=false;
+  erreurs.unshift(entry);
+  if(erreurs.length>500) erreurs.length=500;
+  saveErreurs(erreurs);
 }
-function erreursRecentes(joursMax){
-  var seuil=Date.now()-joursMax*24*60*60*1000;
-  return loadErreurs().filter(function(e){ return new Date(e.date).getTime()>=seuil; });
+function erreursDues(){
+  var now=Date.now();
+  return loadErreurs().filter(function(e){ return !e.mastered && new Date(e.nextReview).getTime()<=now; });
+}
+function reviewErreur(id, connaissais){
+  var erreurs=loadErreurs();
+  var e=erreurs.find(function(x){return x.id===id;});
+  if(!e) return;
+  if(connaissais){
+    e.box=Math.min((e.box||1)+1,5);
+    if(e.box>=5){ e.mastered=true; }
+  } else {
+    e.box=1;
+  }
+  var joursAttente=LEITNER_INTERVALS_JOURS[e.box]||1;
+  e.nextReview=new Date(Date.now()+joursAttente*24*60*60*1000).toISOString();
+  saveErreurs(erreurs);
 }
 
 /* ======================================================================
@@ -718,7 +779,7 @@ function renderAccueil(container){
     var p=loadProgress(ch); var s=statutChapitre(p);
     if(s==="acquis") acquisCount++; if(s==="a_revoir") aRevoirCount++;
   });
-  var erreurs30j=erreursRecentes(30).length;
+  var erreursDuesCount=erreursDues().length;
 
   container.innerHTML="";
   container.appendChild(el("div",{class:"home-hero"},[
@@ -730,9 +791,27 @@ function renderAccueil(container){
     statTile(moyenneRes.moyenne!==null?moyenneRes.moyenne+"/20":"—","Moyenne générale"),
     statTile(acquisCount+"/"+CHAPITRES_SEED.length,"Chapitres acquis"),
     statTile(String(aRevoirCount),"Chapitres à revoir"),
-    statTile(String(erreurs30j),"Erreurs (30j) à réviser")
+    statTile(String(erreursDuesCount),"Fiches Turbo-Flash dues")
   ]);
   container.appendChild(stats);
+
+  var echeances=matieres.filter(function(m){return m.dateEcheance;}).sort(function(a,b){return a.dateEcheance.localeCompare(b.dateEcheance);});
+  if(echeances.length){
+    var echCard=el("div",{class:"card"},[ el("h3",{style:"margin-top:0;"},["Prochaines échéances"]) ]);
+    var list=el("div",{class:"mb-checklist"});
+    var now=Date.now();
+    echeances.forEach(function(m){
+      var jours=Math.ceil((new Date(m.dateEcheance).getTime()-now)/(24*60*60*1000));
+      var urgClass = jours<0?"danger":jours<=14?"danger":jours<=30?"warning":"neutral";
+      var label = jours<0 ? "Dépassée de "+Math.abs(jours)+"j" : jours===0 ? "Aujourd'hui" : "J-"+jours;
+      list.appendChild(el("div",{class:"mb-check-item",style:"justify-content:space-between;cursor:default;"},[
+        el("span",{},[m.code+" — "+m.nom]),
+        el("span",{class:"badge "+urgClass},[label+" · "+new Date(m.dateEcheance).toLocaleDateString("fr-FR")])
+      ]));
+    });
+    echCard.appendChild(list);
+    container.appendChild(echCard);
+  }
 
   var grid=el("div",{class:"mb-chapitres-grid"});
   var tiles=[
@@ -805,7 +884,36 @@ function renderDashboard(container){
   ]);
   container.appendChild(sim);
 
+  var blocsCard=el("div",{class:"card"});
+  blocsCard.appendChild(el("h3",{style:"margin-top:0;"},["Blocs de compétences"]));
+  blocsCard.appendChild(el("p",{style:"color:var(--muted);font-size:13px;margin-top:-6px;"},["La validation par bloc (en plus ou à la place de la moyenne pondérée) dépend de ton établissement — statuts à confirmer avec lui, tu les fixes toi-même ici."]));
+  var blocsList=el("div",{id:"blocs-list"});
+  blocsCard.appendChild(blocsList);
+  container.appendChild(blocsCard);
+
   container.appendChild(el("p",{class:"footer-note"},["Notes verrouillées (CCF déjà tombé) exclues du simulateur."]));
+
+  function renderBlocs(){
+    var statuts=chargerBlocsStatuts();
+    blocsList.innerHTML="";
+    var STATUTS=[{v:"non_valide",l:"Non validé",c:"danger"},{v:"en_cours",l:"En cours",c:"warning"},{v:"valide",l:"Validé",c:"success"}];
+    BLOCS_SEED.forEach(function(bloc){
+      var current=statuts[bloc.id]||"en_cours";
+      var row=el("div",{class:"mb-check-item",style:"justify-content:space-between;cursor:default;"});
+      row.appendChild(el("span",{},[bloc.intitule]));
+      var btnGroup=el("div",{style:"display:flex;gap:6px;"});
+      STATUTS.forEach(function(s){
+        btnGroup.appendChild(el("button",{
+          class:"badge "+(s.v===current?s.c:"neutral"),
+          style:"border:none;cursor:pointer;",
+          onclick:function(){ sauvegarderBlocStatut(bloc.id,s.v); renderBlocs(); }
+        },[s.l]));
+      });
+      row.appendChild(btnGroup);
+      blocsList.appendChild(row);
+    });
+  }
+  renderBlocs();
 
   function draw(){ renderKpi(); renderMatieres(); renderSimOptions(); }
 
@@ -839,6 +947,7 @@ function renderDashboard(container){
         '<div class="mb-inputs">'+
           '<div class="mb-field"><label>Note actuelle /20</label><input type="number" min="0" max="20" step="0.01" data-field="noteActuelle" data-id="'+m.id+'" value="'+(m.noteActuelle===null?"":m.noteActuelle)+'" placeholder="—"></div>'+
           '<div class="mb-field"><label>Cible /20</label><input type="number" min="0" max="20" step="0.5" data-field="noteCible" data-id="'+m.id+'" value="'+m.noteCible+'"></div>'+
+          '<div class="mb-field"><label>Échéance</label><input type="date" data-field="dateEcheance" data-id="'+m.id+'" value="'+(m.dateEcheance||"")+'"></div>'+
         '</div>'+
         '<div class="mb-matiere-foot"><span class="mb-impact">'+(impact===null?"Impact inconnu":"Impact sur la moyenne : "+Math.round(impact*10)/10)+'</span></div>';
       g.appendChild(card);
@@ -847,8 +956,12 @@ function renderDashboard(container){
       input.addEventListener("change",function(){
         var id=input.getAttribute("data-id"), field=input.getAttribute("data-field");
         var m=matieres.find(function(x){return x.id===id;});
-        var v=input.value===""?null:parseFloat(input.value);
-        m[field]=(v===null||isNaN(v))?null:v;
+        if(field==="dateEcheance"){
+          m.dateEcheance = input.value===""?null:input.value;
+        } else {
+          var v=input.value===""?null:parseFloat(input.value);
+          m[field]=(v===null||isNaN(v))?null:v;
+        }
         sauvegarderMatieres(matieres); draw();
       });
     });
@@ -914,7 +1027,17 @@ function renderChapitreDetail(container, chapId){
     container.appendChild(el("div",{class:"card"},["Chapitre introuvable."]));
     return;
   }
-  container.appendChild(el("div",{class:"topbar"},[ el("a",{class:"back-link",href:"#/chapitres"},["← Tous les chapitres"]) ]));
+  var matiere=MATIERES_SEED.find(function(m){return m.id===chapitre.matiereId;});
+  var chapitresMemeMatiere=CHAPITRES_SEED.filter(function(c){return c.matiereId===chapitre.matiereId;});
+  var posIndex=chapitresMemeMatiere.findIndex(function(c){return c.id===chapitre.id;});
+  var precedent=chapitresMemeMatiere[posIndex-1], suivant=chapitresMemeMatiere[posIndex+1];
+
+  var topRow=el("div",{class:"topbar"},[ el("a",{class:"back-link",href:"#/chapitres"},["← Tous les chapitres"]) ]);
+  var prevNext=el("div",{style:"display:flex;gap:8px;"});
+  if(precedent) prevNext.appendChild(el("a",{class:"back-link",href:"#/chapitre/"+precedent.id},["← "+precedent.titre.slice(0,24)+(precedent.titre.length>24?"...":"")]));
+  if(suivant) prevNext.appendChild(el("a",{class:"back-link",href:"#/chapitre/"+suivant.id},[suivant.titre.slice(0,24)+(suivant.titre.length>24?"...":"")+" →"]));
+  topRow.appendChild(prevNext);
+  container.appendChild(topRow);
 
   var appDiv=el("div",{});
   container.appendChild(appDiv);
@@ -939,7 +1062,7 @@ function renderChapitreDetail(container, chapId){
     var statutLabel=statut==="acquis"?"Acquis":statut==="a_revoir"?"À revoir":"Non commencé";
     var statutClass=statut==="acquis"?"success":statut==="a_revoir"?"danger":"neutral";
     return el("div",{class:"hero"},[
-      el("div",{class:"kicker"},[chapitre.matiereId.toUpperCase()]),
+      el("div",{class:"kicker"},[(matiere?matiere.code+" — "+matiere.nom:chapitre.matiereId.toUpperCase())+" · Chapitre "+(posIndex+1)+"/"+chapitresMemeMatiere.length]),
       el("h1",{},[chapitre.titre]),
       el("span",{class:"badge "+statutClass},[statutLabel])
     ]);
@@ -993,17 +1116,57 @@ function renderChapitreDetail(container, chapId){
   }
   function renderNiveau2(){
     var wrap=document.createDocumentFragment();
+    var reponseTextarea=el("textarea",{rows:"6",placeholder:"Rédige ta réponse ici, puis demande une correction.",style:"width:100%;padding:10px;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:14px;background:var(--bg);color:var(--ink);"});
+    reponseTextarea.value=view.niveau2Reponse||"";
+    reponseTextarea.addEventListener("input",function(){ view.niveau2Reponse=reponseTextarea.value; });
     wrap.appendChild(el("div",{class:"card"},[
       el("h3",{style:"margin-top:0;"},["Mini-cas pratique"]),
       el("p",{},[chapitre.niveau2.casPratique]),
-      el("textarea",{rows:"5",placeholder:"Rédige ta réponse ici (non enregistrée), puis fais-toi corriger ci-dessous.",style:"width:100%;padding:10px;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:14px;background:var(--bg);color:var(--ink);"})
+      reponseTextarea
     ]));
+
+    // ---- Correction IA (capacité "sample", si disponible côté viewer) ----
+    var aiCard=el("div",{class:"card"});
+    aiCard.appendChild(el("h3",{style:"margin-top:0;"},["Correcteur Virtuel — correction par l'IA"]));
+    aiCard.appendChild(el("p",{style:"color:var(--muted);font-size:13px;"},["Claude lit ta réponse et la corrige contre le barème du chapitre, comme un examinateur. Coût : ton propre usage Claude ; rien n'est envoyé sans que tu cliques."]));
+    var aiResult=el("div",{});
+    var aiBtn=el("button",{class:"btn"},["Demander une correction IA"]);
+    aiCard.appendChild(aiBtn);
+    aiCard.appendChild(aiResult);
+    if(!AI_UNAVAILABLE) wrap.appendChild(aiCard);
+
+    aiBtn.addEventListener("click",function(){
+      var texte=(reponseTextarea.value||"").trim();
+      if(!texte){ aiResult.innerHTML=""; aiResult.appendChild(el("div",{class:"explain",style:"margin-top:10px;"},["Écris d'abord ta réponse dans le champ ci-dessus."])); return; }
+      aiBtn.disabled=true;
+      aiResult.innerHTML="";
+      aiResult.appendChild(el("div",{class:"explain",style:"margin-top:10px;"},["Analyse en cours..."]));
+      demanderCorrectionIA(chapitre, texte).then(function(res){
+        aiBtn.disabled=false;
+        renderAiResult(aiResult, res);
+      }).catch(function(err){
+        aiBtn.disabled=false;
+        aiResult.innerHTML="";
+        var HIDE_CODES=["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"];
+        if(err && HIDE_CODES.indexOf(err.code)!==-1){
+          AI_UNAVAILABLE=true;
+          var notice=el("div",{class:"card"},["Correction IA indisponible sur ce compte/cette vue — utilise l'auto-évaluation manuelle ci-dessous."]);
+          if(aiCard.parentNode) aiCard.parentNode.replaceChild(notice, aiCard);
+        } else {
+          var msg = err && err.code==="rate_limited" ? "Trop de demandes pour l'instant, réessaie dans un instant."
+            : err && err.code==="cancelled" ? ""
+            : "La correction IA a échoué. Réessaie, ou utilise l'auto-évaluation manuelle ci-dessous.";
+          if(msg) aiResult.appendChild(el("div",{class:"explain"},[msg]));
+        }
+      });
+    });
+
     var total=chapitre.niveau2.bareme.reduce(function(s,c){return s+c.pointsMax;},0);
     var obtenu=0; chapitre.niveau2.bareme.forEach(function(crit,i){ if(progress.niveau2CritereChecked[i]) obtenu+=crit.pointsMax; });
     var noteEstimee=Math.round((obtenu/total)*20*10)/10;
     var correcteur=el("div",{class:"card"});
-    correcteur.appendChild(el("h3",{style:"margin-top:0;"},["Correcteur Virtuel — auto-évaluation guidée"]));
-    correcteur.appendChild(el("p",{style:"color:var(--muted);font-size:13px;"},["Pas de correction automatique de texte libre ici (application 100% locale, sans IA distante) : coche ce que ta réponse contient réellement, comme le ferait un examinateur avec sa grille."]));
+    correcteur.appendChild(el("h3",{style:"margin-top:0;"},["Auto-évaluation manuelle (sans IA)"]));
+    correcteur.appendChild(el("p",{style:"color:var(--muted);font-size:13px;"},["Coche ce que ta réponse contient réellement, comme le ferait un examinateur avec sa grille — utile hors-ligne ou pour double-vérifier la correction IA."]));
     var grille=el("div",{class:"mb-checklist"});
     chapitre.niveau2.bareme.forEach(function(crit,i){
       var input=el("input",{type:"checkbox"}); input.checked=progress.niveau2CritereChecked[i];
@@ -1021,6 +1184,47 @@ function renderChapitreDetail(container, chapId){
     ]));
     wrap.appendChild(correcteur);
     return wrap;
+  }
+  function renderAiResult(container, res){
+    container.innerHTML="";
+    var noteClass=res.noteEstimee>=15?"ok":res.noteEstimee>=10?"":"danger";
+    var box=el("div",{class:"mb-sim-result "+noteClass,style:"margin-top:12px;"},[
+      el("b",{},["Note estimée par l'IA : "+res.noteEstimee+"/20"])
+    ]);
+    container.appendChild(box);
+    var grille=el("div",{class:"mb-checklist",style:"margin-top:10px;"});
+    (res.criteres||[]).forEach(function(c){
+      grille.appendChild(el("div",{class:"mb-check-item",style:"cursor:default;"},[
+        el("span",{},[(c.obtenu?"✓ ":"✗ ")+c.critere])
+      ]));
+      grille.appendChild(el("div",{class:"explain",style:"margin-left:12px;margin-bottom:8px;"},[c.commentaire||""]));
+    });
+    container.appendChild(grille);
+    if(res.conseilGlobal){
+      container.appendChild(el("div",{class:"explain"},["Conseil global : "+res.conseilGlobal]));
+    }
+  }
+  function demanderCorrectionIA(chapitre, reponseEtudiant){
+    var bareme=chapitre.niveau2.bareme.map(function(c,i){ return (i+1)+". "+c.critere+" ("+c.pointsMax+" points)"; }).join("\n");
+    var totalPoints=chapitre.niveau2.bareme.reduce(function(s,c){return s+c.pointsMax;},0);
+    var prompt =
+      "Tu es un examinateur de BTS GPME qui corrige la réponse d'un étudiant à un mini-cas pratique, selon un barème précis.\n\n"+
+      "SUJET DU CAS PRATIQUE :\n"+chapitre.niveau2.casPratique+"\n\n"+
+      "BARÈME (total "+totalPoints+" points) :\n"+bareme+"\n\n"+
+      "RÉPONSE DE L'ÉTUDIANT :\n"+reponseEtudiant+"\n\n"+
+      "Pour CHAQUE critère du barème, décide s'il est rempli par la réponse de l'étudiant (obtenu=true/false) et rédige un commentaire court (1-2 phrases) spécifique à ce que l'étudiant a réellement écrit — pas une remarque générique. "+
+      "Calcule une noteEstimee sur 20 en additionnant les points des critères obtenus puis en ramenant sur 20 (proportionnellement au barème total), arrondie à 0,5 près. "+
+      "Rédige aussi un conseilGlobal (2-3 phrases) expliquant concrètement comment progresser vers 15+.\n\n"+
+      "Réponds UNIQUEMENT avec un objet JSON de cette forme, sans texte autour :\n"+
+      '{"criteres":[{"critere":"...","obtenu":true,"commentaire":"..."}],"noteEstimee":14.5,"conseilGlobal":"..."}';
+
+    return new Promise(function(resolve,reject){
+      if(typeof window==="undefined" || !window.claude || typeof window.claude.use!=="function"){ reject({code:"not_declared"}); return; }
+      window.claude.use("sample").then(function(sample){
+        if(!sample){ reject({code:"not_declared"}); return; }
+        sample.json(prompt, {modelTier:"default"}).then(resolve).catch(reject);
+      }).catch(function(){ reject({code:"not_declared"}); });
+    });
   }
   function renderNiveau3(){
     return renderMcqFlow({
@@ -1179,26 +1383,40 @@ function renderExamens(container){
     draw();
   }
   function runTurboFlash(){
-    var erreurs=erreursRecentes(30); var idx=0, revealed=false;
+    var queue=erreursDues(); var revealed=false;
+    var doneCount=0, startCount=queue.length;
     function draw(){
       area.innerHTML="";
-      if(!erreurs.length){ area.appendChild(el("div",{class:"card"},["Aucune erreur enregistrée sur les 30 derniers jours. Rien à réviser en urgence !"])); return; }
-      if(idx>=erreurs.length){
-        area.appendChild(el("div",{class:"card result-box"},[
-          el("div",{class:"msg"},["Tu as parcouru les "+erreurs.length+" erreurs récentes."]),
-          el("button",{class:"btn secondary",onclick:function(){idx=0;revealed=false;draw();}},["Recommencer"])
-        ]));
+      if(!queue.length){
+        var totalStock=loadErreurs().filter(function(e){return !e.mastered;}).length;
+        var msg = startCount>0
+          ? "Bravo, tu as traité les "+startCount+" fiche(s) dues aujourd'hui."
+          : totalStock>0
+            ? "Rien à réviser maintenant : tes prochaines fiches reviendront à leur date planifiée (répétition espacée)."
+            : "Aucune erreur en attente. Continue les quiz pour alimenter le Turbo-Flash !";
+        area.appendChild(el("div",{class:"card"},[msg]));
         return;
       }
-      var e=erreurs[idx];
+      var e=queue[0];
+      var boxLabel="Boîte "+(e.box||1)+"/5";
       var card=el("div",{class:"mb-flashcard"},[
-        el("div",{class:"fc-meta"},[(idx+1)+"/"+erreurs.length+" — "+e.matiereId.toUpperCase()+" · "+new Date(e.date).toLocaleDateString("fr-FR")]),
+        el("div",{class:"fc-meta"},[boxLabel+" · "+e.matiereId.toUpperCase()+" · "+(startCount-queue.length+1)+"/"+startCount]),
         el("div",{class:"fc-question"},[e.enonce])
       ]);
-      if(revealed) card.appendChild(el("div",{class:"fc-answer"},[e.correction]));
-      else card.appendChild(el("button",{class:"btn secondary",onclick:function(){revealed=true;draw();}},["Voir la correction"]));
-      area.appendChild(card);
-      area.appendChild(el("div",{style:"text-align:center;margin-top:14px;"},[ el("button",{class:"btn",onclick:function(){idx++;revealed=false;draw();}},["Suivant →"]) ]));
+      if(revealed){
+        card.appendChild(el("div",{class:"fc-answer"},[e.correction]));
+        var row=el("div",{style:"display:flex;gap:10px;justify-content:center;margin-top:14px;"});
+        row.appendChild(el("button",{class:"btn secondary",onclick:function(){
+          reviewErreur(e.id,false); queue.shift(); revealed=false; draw();
+        }},["Je ne savais pas — revoir demain"]));
+        row.appendChild(el("button",{class:"btn",onclick:function(){
+          reviewErreur(e.id,true); queue.shift(); revealed=false; draw();
+        }},["Je savais — espacer davantage"]));
+        area.appendChild(card); area.appendChild(row);
+      } else {
+        card.appendChild(el("button",{class:"btn secondary",onclick:function(){revealed=true;draw();}},["Voir la correction"]));
+        area.appendChild(card);
+      }
     }
     draw();
   }
@@ -1210,7 +1428,7 @@ function renderExamens(container){
     el("div",{class:"p-icon"},["✎"]), el("div",{class:"p-name"},["Mode Normal"]), el("div",{class:"p-sub"},["Mix officiel E4 / E5 / CEJM"])
   ]));
   selector.appendChild(el("button",{class:"palier-card level-0",onclick:function(){ runTurboFlash(); }},[
-    el("div",{class:"p-icon"},["⚡"]), el("div",{class:"p-name"},["Turbo-Flash"]), el("div",{class:"p-sub"},["Erreurs des 30 derniers jours"])
+    el("div",{class:"p-icon"},["⚡"]), el("div",{class:"p-name"},["Turbo-Flash"]), el("div",{class:"p-sub"},["Répétition espacée de tes erreurs"])
   ]));
 
   container.appendChild(selector);
