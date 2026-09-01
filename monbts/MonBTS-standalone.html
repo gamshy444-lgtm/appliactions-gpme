@@ -1002,18 +1002,24 @@ function renderChapitresListe(container){
   ]));
   var grid=el("div",{class:"mb-chapitres-grid"});
   CHAPITRES_SEED.forEach(function(ch){
-    var progress=loadProgress(ch); var statut=statutChapitre(progress);
-    var bClass=statut==="acquis"?"success":statut==="a_revoir"?"danger":"neutral";
-    var bLabel=statut==="acquis"?"Acquis":statut==="a_revoir"?"À revoir":"Non commencé";
-    var matiere=MATIERES_MAP[ch.matiereId];
-    var card=el("a",{class:"mb-chapitre-card",href:"#/chapitre/"+ch.id},[
-      el("div",{class:"mc-matiere"},[matiere?matiere.code:ch.matiereId.toUpperCase()]),
-      el("h4",{},[ch.titre]),
-      el("span",{class:"badge "+bClass},[bLabel])
-    ]);
-    grid.appendChild(card);
+    try{
+      var progress=loadProgress(ch); var statut=statutChapitre(progress);
+      var bClass=statut==="acquis"?"success":statut==="a_revoir"?"danger":"neutral";
+      var bLabel=statut==="acquis"?"Acquis":statut==="a_revoir"?"À revoir":"Non commencé";
+      var matiere=MATIERES_MAP[ch.matiereId];
+      var card=el("a",{class:"mb-chapitre-card",href:"#/chapitre/"+ch.id},[
+        el("div",{class:"mc-matiere"},[matiere?matiere.code:ch.matiereId.toUpperCase()]),
+        el("h4",{},[ch.titre]),
+        el("span",{class:"badge "+bClass},[bLabel])
+      ]);
+      grid.appendChild(card);
+    }catch(e){
+      console.error("Erreur d'affichage du chapitre", ch && ch.id, e);
+      grid.appendChild(el("div",{class:"mb-chapitre-card"},["Erreur d'affichage : "+(ch?ch.id:"?")+" — "+e.message]));
+    }
   });
   container.appendChild(grid);
+  console.log("MonBTS: "+CHAPITRES_SEED.length+" chapitres dans CHAPITRES_SEED, "+grid.children.length+" cartes rendues.");
 }
 
 /* ======================================================================
@@ -1062,7 +1068,7 @@ function renderChapitreDetail(container, chapId){
     var statutLabel=statut==="acquis"?"Acquis":statut==="a_revoir"?"À revoir":"Non commencé";
     var statutClass=statut==="acquis"?"success":statut==="a_revoir"?"danger":"neutral";
     return el("div",{class:"hero"},[
-      el("div",{class:"kicker"},[(matiere?matiere.code+" — "+matiere.nom:chapitre.matiereId.toUpperCase())+" · Chapitre "+(posIndex+1)+"/"+chapitresMemeMatiere.length]),
+      el("div",{class:"kicker"},[(matiere?matiere.code+" — "+matiere.nom:chapitre.matiereId.toUpperCase())+(chapitresMemeMatiere.length>1?" · Chapitre "+(posIndex+1)+"/"+chapitresMemeMatiere.length:"")]),
       el("h1",{},[chapitre.titre]),
       el("span",{class:"badge "+statutClass},[statutLabel])
     ]);
@@ -1654,11 +1660,17 @@ function route(){
   var raw=location.hash.replace(/^#\/?/,"");
   var parts=raw.split("/").filter(Boolean);
   var view=document.getElementById("view");
-  renderNav(parts[0]||"accueil");
-  var result;
-  if(parts[0]==="chapitre" && parts[1]) result=renderChapitreDetail(view,parts[1]);
-  else { var fn=routes[parts[0]||""]; result=(fn||renderAccueil)(view); }
-  if(typeof result==="function") currentCleanup=result;
+  try{
+    renderNav(parts[0]||"accueil");
+    var result;
+    if(parts[0]==="chapitre" && parts[1]) result=renderChapitreDetail(view,parts[1]);
+    else { var fn=routes[parts[0]||""]; result=(fn||renderAccueil)(view); }
+    if(typeof result==="function") currentCleanup=result;
+  }catch(e){
+    console.error("MonBTS route() error:",e);
+    view.innerHTML="";
+    view.appendChild(el("div",{class:"card"},["Une erreur est survenue en affichant cette page : "+e.message+". Essaie de recharger la page (Ctrl/Cmd+Maj+R) ou reviens à l'accueil.",el("br",{},[]),el("a",{class:"back-link",href:"#/",style:"display:inline-block;margin-top:10px;"},["← Accueil"])]));
+  }
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange",route);
