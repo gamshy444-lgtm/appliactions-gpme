@@ -326,8 +326,6 @@ var SEUILS_ALERTE = { urgent: 20, maintenir: 8 };
 
 var MATIERES_SEED = [
   { id:"cejm", code:"CEJM", nom:"Culture Économique, Juridique et Managériale", coefficient:6, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:5.71, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
-  { id:"e4", code:"E4", nom:"Gestion de la Relation Client et Fournisseurs", coefficient:6, typeEvaluation:"ccf", statutEvaluation:"en_cours", noteActuelle:8.0, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
-  { id:"e5", code:"E5", nom:"Management et Gestion des Risques — RH de la PME", coefficient:8, typeEvaluation:"ccf", statutEvaluation:"en_cours", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"maintenir", dateEcheance:null },
   { id:"e6", code:"E6", nom:"Soutenir la Performance et le Développement de la PME", coefficient:6, typeEvaluation:"oral", statutEvaluation:"en_cours", noteActuelle:8.59, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
   { id:"e1", code:"E1", nom:"Culture Générale et Expression", coefficient:4, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"maintenir", dateEcheance:null },
   { id:"e2", code:"E2", nom:"Anglais — Communication en langue vivante étrangère", coefficient:3, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"urgent", dateEcheance:null }
@@ -344,8 +342,6 @@ var PROCESSUS_LIST = [
 // selon les blocs de compétences exacts de ton référentiel : la règle de
 // validation (moyenne, ou bloc par bloc) dépend de ton établissement.
 var BLOCS_SEED = [
-  { id:"bloc-grcf", intitule:"Gestion de la relation client et fournisseurs", matiereIds:["e4"] },
-  { id:"bloc-risques-rh", intitule:"Management et gestion des risques / RH", matiereIds:["e5"] },
   { id:"bloc-soutien", intitule:"Soutenir la performance et le développement", matiereIds:["e6"] },
   { id:"bloc-cejm", intitule:"Culture économique, juridique et managériale", matiereIds:["cejm"] },
   { id:"bloc-generale", intitule:"Culture générale et expression", matiereIds:["e1"] },
@@ -353,21 +349,6 @@ var BLOCS_SEED = [
 ];
 
 var CONFORMITE_SEED = {
-  E4: [
-    { id:"e4-1", regle:"Chaque situation professionnelle respecte le nombre de pages maximum fixé par ton centre d'examen." },
-    { id:"e4-2", regle:"Les situations présentées couvrent des processus différents (pas de doublon de processus)." },
-    { id:"e4-3", regle:"Les documents supports (factures, devis, extraits CRM...) sont anonymisés avant remise (RGPD)." },
-    { id:"e4-4", regle:"La date de chaque situation est cohérente avec le calendrier réel de la période en entreprise." },
-    { id:"e4-5", regle:"Une attestation sur l'honneur de non-plagiat est signée et jointe au dossier." },
-    { id:"e4-6", regle:"Le dossier est déposé avant la date limite fixée par le centre d'examen." }
-  ],
-  E5: [
-    { id:"e5-1", regle:"Le dossier présente au moins le nombre de situations minimum exigé par ton référentiel." },
-    { id:"e5-2", regle:"Chaque situation identifie clairement un risque et la démarche de prévention associée." },
-    { id:"e5-3", regle:"Les annexes (DUERP, grilles, tableaux) sont bien référencées dans le corps du dossier." },
-    { id:"e5-4", regle:"Le dossier respecte la pagination maximale imposée." },
-    { id:"e5-5", regle:"La confidentialité des données de l'entreprise d'accueil est respectée (accord de diffusion si nécessaire)." }
-  ],
   E6: [
     { id:"e6-1", regle:"Le dossier-projet répond à une problématique de performance clairement formulée." },
     { id:"e6-2", regle:"Le plan d'action proposé est réaliste et chiffré." },
@@ -411,6 +392,7 @@ var CHAPITRES_SEED = [
       { q:"La confusion des patrimoines concerne surtout...", choices:["Le dirigeant qui mélange ses comptes personnels et ceux de la société","Le client qui ne paie pas sa facture","Le fournisseur qui retarde une livraison","Le salarié en période d'essai"], answer:0, explain:"Un juge peut lever la protection de responsabilité limitée dans ce cas." }
     ]}
   },
+
   {
     id:"e1-synthese", matiereId:"e1", titre:"La synthèse de documents : méthode et pièges",
     motsCles:["Objectivité","Problématique","Hiérarchisation des idées","Confrontation des sources","Plan thématique","Reformulation","Connecteurs logiques","Neutralité"],
@@ -444,6 +426,7 @@ var CHAPITRES_SEED = [
       { q:"Le non-respect de la longueur imposée est...", choices:["Sanctionné dans la notation","Sans aucune conséquence","Toléré au-delà de 50%","Positif si plus long"], answer:0, explain:"La maîtrise du nombre de mots fait partie des compétences évaluées." }
     ]}
   },
+
   {
     id:"e2-negotiating", matiereId:"e2", titre:"Negotiating a business deal",
     motsCles:["Negotiation","Terms and conditions","Trade-off","Deadline","Counter-offer","Draft contract","Bottom line","Win-win agreement"],
@@ -477,72 +460,7 @@ var CHAPITRES_SEED = [
       { q:"A 'deadline' in a business context is...", choices:["The final date by which something must be completed","A type of penalty clause","A synonym for budget","A meeting agenda"], answer:0, explain:"A deadline is the time limit for completing a task." }
     ]}
   },
-  {
-    id:"e4-facturation", matiereId:"e4", titre:"La facturation et le suivi des règlements clients",
-    motsCles:["Facture","TVA collectée","Délai de paiement","Relance client","Escompte","Acompte","Lettrage","Créance client"],
-    niveau1:{
-      ficheCourseSynthese:"La facture matérialise juridiquement une vente et déclenche l'obligation de paiement du client. Elle mentionne le montant HT, la TVA collectée et le montant TTC. Le délai légal de paiement entre professionnels est de 60 jours à compter de la facturation (ou 45 jours fin de mois). Le suivi passe par le lettrage des comptes clients et, en cas de retard, par une relance progressive. Un acompte est un paiement partiel anticipé ; un escompte est une réduction pour paiement comptant ou anticipé.",
-      exercices:[
-        { enonce:"Une facture de 1 200 € HT est soumise à une TVA de 20%. Calcule le montant TTC.", correction:"TVA = 1 200 × 20% = 240 €. Montant TTC = 1 440 €." },
-        { enonce:"Un client paie 10 jours avant l'échéance et bénéficie d'un escompte de 2% sur 1 440 € TTC. Quel montant règle-t-il ?", correction:"Escompte = 28,80 €. Montant à régler = 1 411,20 €." }
-      ]
-    },
-    niveau2:{
-      casPratique:"Un client, « Atelier Dubois », n'a pas réglé une facture de 2 400 € échue depuis 15 jours. Rédige le contenu (3-4 phrases) d'un premier email de relance, ton ferme mais courtois.",
-      bareme:[
-        { critere:"Rappelle précisément le numéro et le montant de la facture", pointsMax:5, feedbackSiManquant:"Une relance vague sans référence précise est peu professionnelle.", methodePourAtteindre15:"Cite le numéro de facture, l'échéance et le montant exact dès la première phrase." },
-        { critere:"Ton courtois mais ferme", pointsMax:6, feedbackSiManquant:"Le ton est soit trop mou, soit trop agressif.", methodePourAtteindre15:"Structure : politesse → rappel des faits → demande claire → délai → clôture." },
-        { critere:"Propose une action concrète et un délai", pointsMax:5, feedbackSiManquant:"Pas de délai fixé : la relance reste sans effet contraignant.", methodePourAtteindre15:"Termine toujours par une échéance précise." },
-        { critere:"Mentionne la suite en cas de non-paiement", pointsMax:4, feedbackSiManquant:"Aucune mention des conséquences en cas de non-régularisation.", methodePourAtteindre15:"Une phrase suffit sur la mise en demeure à venir." }
-      ]
-    },
-    niveau3:{ questionsPieges:[
-      { enonce:"Le délai légal de paiement par défaut entre professionnels en France est de...", choices:["60 jours à compter de la date de facturation","30 jours à compter de la livraison","90 jours calendaires","15 jours ouvrés"], answer:0, pointDeVigilance:"Confusion avec le délai de livraison ou les 30 jours des marchés publics.", correction:"Le délai légal maximal par défaut est de 60 jours nets, ou 45 jours fin de mois." },
-      { enonce:"Un escompte pour paiement comptant réduit...", choices:["Le montant réellement encaissé, en échange d'un paiement plus rapide","La TVA due sur la facture","Le délai de paiement légal","Le montant du capital social"], answer:0, pointDeVigilance:"Confondre l'escompte avec une remise commerciale classique.", correction:"L'escompte est une réduction financière pour paiement anticipé." },
-      { enonce:"Le lettrage d'un compte client sert à...", choices:["Rapprocher chaque facture émise du règlement correspondant","Calculer la TVA collectée du mois","Fixer le prix de vente d'un produit","Rédiger les statuts d'une société"], answer:0, pointDeVigilance:"Le lettrage est confondu avec le simple enregistrement comptable.", correction:"Le lettrage associe chaque facture à son règlement pour repérer les impayés." }
-    ]},
-    quizValidation:{ seuilValidationPct:70, questions:[
-      { q:"Que représente la TVA collectée ?", choices:["La TVA facturée au client, reversée à l'État","La TVA payée aux fournisseurs","Une charge définitive","Le bénéfice net réalisé"], answer:0, explain:"La TVA collectée est perçue pour le compte de l'État." },
-      { q:"Un acompte est...", choices:["Un paiement partiel versé avant la fin de la prestation","Une réduction pour paiement rapide","Une pénalité de retard","Le montant total de la facture"], answer:0, explain:"L'acompte est versé en avance sur le prix total." },
-      { q:"Quel est le délai légal maximal de paiement interentreprises par défaut ?", choices:["60 jours à compter de la facturation","10 jours","6 mois","Aucun délai n'est fixé"], answer:0, explain:"Ce délai est de 60 jours, ou 45 jours fin de mois." },
-      { q:"Le lettrage d'un compte client permet de...", choices:["Identifier les factures encore impayées","Calculer le taux de marge","Déterminer le capital social","Rédiger un contrat de travail"], answer:0, explain:"Le lettrage rapproche chaque facture de son règlement." },
-      { q:"Un escompte est accordé en échange de...", choices:["Un paiement comptant ou anticipé","Une commande groupée","Une livraison retardée","Un CDI"], answer:0, explain:"L'escompte récompense la rapidité de paiement." },
-      { q:"Une première relance client doit contenir...", choices:["La référence précise de la facture et un délai","Une menace immédiate de poursuites","Une nouvelle offre commerciale","Le bilan comptable"], answer:0, explain:"Une relance efficace rappelle les faits et fixe un délai clair." }
-    ]}
-  },
-  {
-    id:"e5-duerp", matiereId:"e5", titre:"Le document unique d'évaluation des risques (DUERP)",
-    motsCles:["DUERP","Risque professionnel","Prévention","Cartographie des risques","Unité de travail","Plan d'action","Obligation de sécurité","Mise à jour annuelle"],
-    niveau1:{
-      ficheCourseSynthese:"Le DUERP est obligatoire dans toute entreprise dès le premier salarié. Il recense, par unité de travail, les risques identifiés, évalue leur fréquence et gravité, puis débouche sur un plan d'action de prévention. L'employeur a une obligation de sécurité de résultat : ne pas tenir le DUERP à jour (au moins annuellement, ou lors d'un changement important) l'expose à une sanction pénale en cas d'accident. Le DUERP doit être accessible aux salariés, au CSE et à la médecine du travail.",
-      exercices:[
-        { enonce:"Cite deux situations qui doivent déclencher une mise à jour du DUERP en dehors de la révision annuelle.", correction:"L'introduction d'une nouvelle machine ou d'un nouveau procédé, et un accident du travail révélant un risque non identifié." },
-        { enonce:"Qui doit avoir accès au DUERP ?", correction:"Les salariés, les membres du CSE, le médecin du travail, et l'inspection du travail sur demande." }
-      ]
-    },
-    niveau2:{
-      casPratique:"Une PME de 12 salariés vient d'acheter une nouvelle machine de découpe. Le dirigeant te demande d'expliquer pourquoi il doit mettre à jour le DUERP avant la mise en service, et ce qu'il risque sinon.",
-      bareme:[
-        { critere:"Explique que l'achat d'une nouvelle machine impose une mise à jour", pointsMax:6, feedbackSiManquant:"La copie ne relie pas explicitement l'achat de la machine à l'obligation de mise à jour.", methodePourAtteindre15:"Pose la règle générale d'abord, puis applique-la au cas." },
-        { critere:"Mentionne l'obligation de sécurité de résultat de l'employeur", pointsMax:5, feedbackSiManquant:"Oubli du fondement juridique précis.", methodePourAtteindre15:"Cite la notion exacte : « obligation de sécurité de résultat »." },
-        { critere:"Cite un risque concret en cas de non-mise à jour", pointsMax:5, feedbackSiManquant:"Aucune conséquence concrète n'est indiquée.", methodePourAtteindre15:"Donne une conséquence juridique concrète (sanction pénale)." },
-        { critere:"Propose une méthode concrète", pointsMax:4, feedbackSiManquant:"Pas de recommandation opérationnelle.", methodePourAtteindre15:"Termine par une recommandation claire et actionnable." }
-      ]
-    },
-    niveau3:{ questionsPieges:[
-      { enonce:"Le DUERP est-il obligatoire uniquement pour les entreprises de plus de 11 salariés ?", choices:["Non, il est obligatoire dès le premier salarié","Oui, en dessous de 11 salariés il est facultatif","Non, seulement à partir de 20 salariés","Non, seulement pour l'industrie"], answer:0, pointDeVigilance:"Confondre le seuil du DUERP (1 salarié) avec celui du CSE (11 salariés).", correction:"Le DUERP est obligatoire pour toute entreprise employant au moins un salarié." },
-      { enonce:"À quelle fréquence minimale le DUERP doit-il être mis à jour ?", choices:["Au moins une fois par an, et à chaque changement important","Une seule fois, à la création","Tous les 5 ans","Uniquement après un accident"], answer:0, pointDeVigilance:"Croire que le DUERP est un document figé.", correction:"La mise à jour est au minimum annuelle, et lors de tout changement significatif." },
-      { enonce:"L'obligation de sécurité de l'employeur est qualifiée d'obligation de...", choices:["Résultat","Moyens uniquement","Diligence facultative","Bonne foi commerciale"], answer:0, pointDeVigilance:"Penser qu'il suffit de « faire de son mieux ».", correction:"L'employeur doit garantir un résultat, pas seulement mettre en œuvre des moyens." }
-    ]},
-    quizValidation:{ seuilValidationPct:70, questions:[
-      { q:"Le DUERP est obligatoire...", choices:["Dès le premier salarié","Seulement au-delà de 50 salariés","Seulement dans l'industrie","Sur demande de l'inspection du travail"], answer:0, explain:"Aucun seuil d'effectif n'exempte l'entreprise." },
-      { q:"Le DUERP recense les risques par...", choices:["Unité de travail","Ordre alphabétique des salariés","Ancienneté","Montant du salaire"], answer:0, explain:"L'évaluation se fait par unité de travail." },
-      { q:"Qui doit pouvoir consulter le DUERP ?", choices:["Les salariés, le CSE et le médecin du travail","Uniquement le dirigeant","Uniquement les actionnaires","Uniquement l'expert-comptable"], answer:0, explain:"Le DUERP est accessible aux représentants du personnel et acteurs de santé au travail." },
-      { q:"Fréquence minimale de mise à jour du DUERP ?", choices:["Au moins une fois par an","Tous les 3 ans","Une seule fois à la création","Tous les 10 ans"], answer:0, explain:"La mise à jour annuelle est un minimum légal." },
-      { q:"L'obligation de sécurité de l'employeur est une obligation de...", choices:["Résultat","Moyens simples","Courtoisie","Discrétion"], answer:0, explain:"La jurisprudence qualifie cette obligation de résultat." },
-      { q:"Ne pas tenir de DUERP à jour expose l'employeur à...", choices:["Une sanction pénale, notamment en cas d'accident","Aucune conséquence","Une amende civile de 10 €","Une fermeture immédiate"], answer:0, explain:"L'absence ou la non-mise à jour peut être sanctionnée pénalement." }
-    ]}
-  },
+
   {
     id:"e6-tableau-bord", matiereId:"e6", titre:"Le tableau de bord et le pilotage de la performance",
     motsCles:["Tableau de bord","Indicateur (KPI)","Écart","Plan d'action correctif","Objectif SMART","Fréquence de suivi","Seuil d'alerte","Reporting"],
@@ -676,74 +594,6 @@ var CHAPITRES_SEED = [
       { q:"'Please find attached...' is used to...", choices:["Refer to a file included in the email","Ask a question","Close the email","Greet the recipient"], answer:0, explain:"This phrase introduces an attachment." },
       { q:"An appropriate closing for a formal email is...", choices:["Kind regards,","Cheers mate,","See ya,","Whatever,"], answer:0, explain:"'Kind regards' is professional and widely used." },
       { q:"A professional email body should be...", choices:["Organised in short, clear paragraphs","One long paragraph","Written only in bullet points","As long as possible"], answer:0, explain:"Short paragraphs improve readability in professional communication." }
-    ]}
-  },
-
-  {
-    id:"e4-gestion-stocks", matiereId:"e4", titre:"La gestion des stocks et des approvisionnements",
-    motsCles:["Stock de sécurité","Seuil de réapprovisionnement","Rupture de stock","Coût de stockage","Délai de livraison","Rotation des stocks","Bon de commande","Inventaire"],
-    niveau1:{
-      ficheCourseSynthese:"La gestion des stocks vise à équilibrer deux risques opposés : la rupture de stock (perte de ventes, insatisfaction client) et le surstockage (coûts de stockage, immobilisation de trésorerie). Le stock de sécurité est une quantité tampon destinée à absorber les aléas de la demande ou des délais de livraison. Le seuil de réapprovisionnement déclenche une nouvelle commande avant la rupture, en tenant compte du délai de livraison fournisseur. La rotation des stocks mesure la vitesse à laquelle le stock est renouvelé : plus elle est élevée, plus la gestion est efficace.",
-      exercices:[
-        { enonce:"Une entreprise vend 20 unités par jour, le délai de livraison fournisseur est de 5 jours, et elle souhaite un stock de sécurité de 30 unités. Calcule le seuil de réapprovisionnement.", correction:"Seuil = (consommation journalière × délai de livraison) + stock de sécurité = (20 × 5) + 30 = 130 unités." },
-        { enonce:"Cite deux conséquences négatives d'un surstockage.", correction:"L'immobilisation inutile de trésorerie et l'augmentation des coûts de stockage (espace, assurance, risque d'obsolescence)." }
-      ]
-    },
-    niveau2:{
-      casPratique:"Un magasin constate des ruptures de stock répétées sur son produit le plus vendu, entraînant des ventes perdues. Rédige un court plan d'action pour le responsable des achats.",
-      bareme:[
-        { critere:"Propose de recalculer le seuil de réapprovisionnement", pointsMax:6, feedbackSiManquant:"La cause probable (seuil mal calibré) n'est pas identifiée.", methodePourAtteindre15:"Commence par : « Il convient de revoir le seuil de réapprovisionnement à partir de la consommation réelle et du délai fournisseur. »" },
-        { critere:"Mentionne l'augmentation du stock de sécurité si la demande est irrégulière", pointsMax:5, feedbackSiManquant:"Aucune solution face à la variabilité de la demande n'est proposée.", methodePourAtteindre15:"Ajoute une marge de sécurité si les ventes sont difficiles à prévoir." },
-        { critere:"Propose de discuter les délais avec le fournisseur", pointsMax:5, feedbackSiManquant:"Le rôle du fournisseur dans la rupture n'est pas évoqué.", methodePourAtteindre15:"Une négociation d'un délai plus court réduit le risque de rupture." },
-        { critere:"Prévoit un suivi (indicateur de rupture de stock)", pointsMax:4, feedbackSiManquant:"Aucun mécanisme de suivi n'est prévu.", methodePourAtteindre15:"Termine par la mise en place d'un indicateur de suivi des ruptures." }
-      ]
-    },
-    niveau3:{ questionsPieges:[
-      { enonce:"Le stock de sécurité sert principalement à...", choices:["Absorber les aléas de la demande ou des délais de livraison","Remplacer totalement les commandes régulières","Éviter de payer les fournisseurs à temps","Réduire systématiquement les coûts"], answer:0, pointDeVigilance:"Le stock de sécurité est une marge de précaution, pas un stock ordinaire.", correction:"Il protège contre les variations imprévues de la demande ou des délais de livraison." },
-      { enonce:"Une rotation des stocks élevée signifie généralement...", choices:["Une gestion efficace, avec un stock renouvelé rapidement","Un surstockage important","Une entreprise en difficulté","Une absence totale de stock"], answer:0, pointDeVigilance:"Ne pas confondre rotation élevée (bon signe) avec rupture de stock.", correction:"Une rotation élevée indique que le stock se vend et se renouvelle rapidement." },
-      { enonce:"Le seuil de réapprovisionnement doit tenir compte de...", choices:["La consommation pendant le délai de livraison, plus le stock de sécurité","Uniquement du prix d'achat","Uniquement du nombre de fournisseurs","Du chiffre d'affaires annuel total"], answer:0, pointDeVigilance:"Oublier d'intégrer le délai de livraison dans le calcul du seuil.", correction:"Le seuil = consommation pendant le délai de livraison + stock de sécurité." }
-    ]},
-    quizValidation:{ seuilValidationPct:70, questions:[
-      { q:"Le stock de sécurité sert à...", choices:["Absorber les aléas de demande ou de livraison","Remplacer les commandes régulières","Réduire les prix d'achat","Éviter la TVA"], answer:0, explain:"C'est une marge de précaution contre les imprévus." },
-      { q:"Le seuil de réapprovisionnement déclenche...", choices:["Une nouvelle commande avant la rupture de stock","La vente à prix réduit","Un audit comptable","Un changement de fournisseur automatique"], answer:0, explain:"Il permet de commander à temps pour éviter la rupture." },
-      { q:"Une rotation des stocks élevée traduit généralement...", choices:["Une gestion efficace des stocks","Un surstockage","Une rupture permanente","Une baisse du chiffre d'affaires"], answer:0, explain:"Elle montre que le stock se renouvelle rapidement, limitant les coûts." },
-      { q:"Un surstockage entraîne notamment...", choices:["Une immobilisation inutile de trésorerie","Une hausse du chiffre d'affaires","Une baisse de la TVA","Une meilleure rotation des stocks"], answer:0, explain:"Le capital immobilisé dans un stock excessif ne peut être utilisé ailleurs." },
-      { q:"Le calcul du seuil de réapprovisionnement intègre...", choices:["La consommation pendant le délai de livraison et le stock de sécurité","Uniquement le prix de vente","Uniquement la marge commerciale","Le nombre de salariés"], answer:0, explain:"Ces deux éléments permettent de commander au bon moment." },
-      { q:"Une rupture de stock entraîne principalement...", choices:["Une perte de ventes et une insatisfaction client","Une baisse des coûts de stockage","Une hausse de la rotation des stocks","Un avantage concurrentiel"], answer:0, explain:"C'est un risque commercial direct pour l'entreprise." }
-    ]}
-  },
-
-  {
-    id:"e5-contrat-travail", matiereId:"e5", titre:"Le contrat de travail et ses clauses essentielles",
-    motsCles:["CDI","CDD","Période d'essai","Clause de non-concurrence","Clause de mobilité","Préavis","Rupture conventionnelle","Requalification"],
-    niveau1:{
-      ficheCourseSynthese:"Le contrat de travail formalise la relation entre employeur et salarié : nature du contrat (CDI, CDD), rémunération, durée du travail, et parfois des clauses spécifiques (non-concurrence, mobilité, exclusivité). Un CDD ne peut être conclu que pour un motif précis et limité dans le temps (remplacement, accroissement temporaire d'activité) ; à défaut, il peut être requalifié en CDI. La rupture du contrat obéit à des règles protectrices : préavis, procédure de licenciement, ou rupture conventionnelle (accord amiable homologué).",
-      exercices:[
-        { enonce:"Quelles sont les principales différences entre un CDI et un CDD ?", correction:"Le CDI est conclu sans limitation de durée et constitue la norme ; le CDD est conclu pour une durée déterminée et un motif précis, encadré par des règles strictes." },
-        { enonce:"Qu'est-ce que la requalification d'un CDD en CDI, et quand intervient-elle ?", correction:"C'est la transformation judiciaire d'un CDD irrégulier (motif absent, renouvellements abusifs, absence d'écrit) en CDI, décidée par le conseil de prud'hommes." }
-      ]
-    },
-    niveau2:{
-      casPratique:"Une PME a recruté un salarié en CDD « accroissement temporaire d'activité » depuis 3 ans, en renouvelant le contrat tous les 6 mois. Le salarié saisit les prud'hommes. Rédige un paragraphe expliquant le risque juridique encouru par l'employeur.",
-      bareme:[
-        { critere:"Identifie le risque de requalification en CDI", pointsMax:6, feedbackSiManquant:"Le risque juridique central n'est pas nommé.", methodePourAtteindre15:"Nomme directement le risque : « L'employeur s'expose à une requalification du CDD en CDI. »" },
-        { critere:"Explique pourquoi (motif non renouvelable indéfiniment)", pointsMax:6, feedbackSiManquant:"La raison du risque n'est pas expliquée.", methodePourAtteindre15:"Précise que l'accroissement temporaire ne peut justifier un besoin permanent de 3 ans." },
-        { critere:"Mentionne une conséquence concrète pour l'employeur", pointsMax:5, feedbackSiManquant:"Aucune conséquence pratique n'est indiquée.", methodePourAtteindre15:"Ajoute : « Le salarié serait considéré CDI depuis le premier contrat, avec les indemnités associées. »" },
-        { critere:"Formule une recommandation pour l'avenir", pointsMax:3, feedbackSiManquant:"Pas de conseil pour éviter que la situation se reproduise.", methodePourAtteindre15:"Recommande un CDI si le besoin est structurel." }
-      ]
-    },
-    niveau3:{ questionsPieges:[
-      { enonce:"Un CDD peut-il être renouvelé indéfiniment pour le même motif ?", choices:["Non, le nombre de renouvellements et la durée totale sont encadrés par la loi","Oui, sans aucune limite","Non, un seul renouvellement est autorisé à vie","Oui, si le salarié est d'accord"], answer:0, pointDeVigilance:"L'accord du salarié ne suffit pas à contourner les règles légales.", correction:"La durée totale et le nombre de renouvellements d'un CDD sont strictement encadrés." },
-      { enonce:"La clause de non-concurrence est valable si...", choices:["Elle est limitée dans le temps, l'espace, et prévoit une contrepartie financière","Elle interdit indéfiniment toute activité professionnelle","Elle est signée sans contrepartie","Elle s'applique uniquement pendant le contrat"], answer:0, pointDeVigilance:"Ne pas oublier la contrepartie financière, condition de validité essentielle.", correction:"Une clause de non-concurrence doit être limitée, proportionnée, et donner lieu à une contrepartie financière." },
-      { enonce:"La rupture conventionnelle nécessite...", choices:["Un accord des deux parties, homologué par l'administration","Une décision unilatérale de l'employeur","Une décision unilatérale du salarié","Aucune formalité particulière"], answer:0, pointDeVigilance:"Ne pas confondre rupture conventionnelle avec démission ou licenciement.", correction:"Elle repose sur un accord mutuel, soumis à homologation par la DREETS." }
-    ]},
-    quizValidation:{ seuilValidationPct:70, questions:[
-      { q:"Le CDI est...", choices:["La forme normale et générale du contrat de travail","Réservé aux stagiaires","Toujours à temps partiel","Limité à 3 ans maximum"], answer:0, explain:"Le CDI est le contrat de droit commun en France." },
-      { q:"Un CDD doit obligatoirement comporter...", choices:["Un motif précis et une durée déterminée","Une clause de non-concurrence","Un salaire supérieur au CDI","Une période d'essai d'un an"], answer:0, explain:"Le motif et la durée sont des mentions obligatoires et encadrées du CDD." },
-      { q:"La requalification d'un CDD en CDI intervient si...", choices:["Le CDD est irrégulier (motif, forme, renouvellements abusifs)","Le salarié le demande sans raison particulière","L'employeur change d'avis","Le contrat dépasse 6 mois"], answer:0, explain:"C'est une sanction judiciaire d'un CDD non conforme aux règles légales." },
-      { q:"Une clause de non-concurrence valable doit prévoir...", choices:["Une contrepartie financière et des limites de temps/espace","Une interdiction totale et permanente","L'accord oral du salarié uniquement","Rien de particulier"], answer:0, explain:"Ce sont des conditions cumulatives de validité posées par la jurisprudence." },
-      { q:"La rupture conventionnelle est...", choices:["Un accord amiable homologué par l'administration","Un licenciement déguisé","Une démission simple","Réservée aux CDD"], answer:0, explain:"Elle suppose le consentement des deux parties et une homologation administrative." },
-      { q:"Le préavis en cas de rupture du contrat sert à...", choices:["Laisser le temps à chaque partie de s'organiser avant la fin du contrat","Prolonger indéfiniment le contrat","Annuler la rupture","Justifier un licenciement pour faute"], answer:0, explain:"Le préavis est une période de transition prévue avant la cessation effective du contrat." }
     ]}
   },
 
@@ -1015,8 +865,8 @@ function renderAccueil(container){
   var tiles=[
     {href:"#/chapitres", tag:"Révision", title:"Chapitres gamifiés", desc:"3 niveaux + Correcteur Virtuel + quiz de validation."},
     {href:"#/examens", tag:"Entraînement", title:"Modes examens", desc:"BTS Blanc extrême/normal + Turbo-Flash."},
-    {href:"#/journal", tag:"Alternance", title:"Journal d'alternance", desc:"3 questions/semaine → situations professionnelles E5/E6."},
-    {href:"#/conformite", tag:"Administratif", title:"Conformité des dossiers", desc:"Checklist E4 / E5 / E6."}
+    {href:"#/journal", tag:"Alternance", title:"Journal d'alternance", desc:"3 questions/semaine → situations professionnelles E6."},
+    {href:"#/conformite", tag:"Administratif", title:"Conformité des dossiers", desc:"Checklist E6."}
   ];
   tiles.forEach(function(t){
     var a=el("a",{class:"mb-chapitre-card",href:t.href},[
@@ -1520,7 +1370,7 @@ function renderExamens(container){
     return shuffle(items);
   }
   function buildNormalItems(){
-    var cibles=["e4","e5","cejm"]; var items=[];
+    var cibles=["cejm","e1","e2","e6"]; var items=[];
     CHAPITRES_SEED.filter(function(ch){return cibles.indexOf(ch.matiereId)!==-1;}).forEach(function(ch){
       ch.quizValidation.questions.forEach(function(q){ items.push({q:q.q,choices:q.choices,answer:q.answer,explain:q.explain,chapitreId:ch.id,matiereId:ch.matiereId}); });
     });
@@ -1627,8 +1477,8 @@ function renderExamens(container){
   selector.appendChild(el("button",{class:"palier-card level-2",onclick:function(){ runQuiz(buildExtremeItems(),{title:"Mode Extrême",timedSeconds:40,logNiveau:"examen-extreme"}); }},[
     el("div",{class:"p-icon"},["⏱"]), el("div",{class:"p-name"},["Mode Extrême"]), el("div",{class:"p-sub"},["Niveau 3 uniquement, chronométré"])
   ]));
-  selector.appendChild(el("button",{class:"palier-card level-1",onclick:function(){ runQuiz(buildNormalItems(),{title:"Mode Normal (E4 / E5 / CEJM)",logNiveau:"examen-normal"}); }},[
-    el("div",{class:"p-icon"},["✎"]), el("div",{class:"p-name"},["Mode Normal"]), el("div",{class:"p-sub"},["Mix officiel E4 / E5 / CEJM"])
+  selector.appendChild(el("button",{class:"palier-card level-1",onclick:function(){ runQuiz(buildNormalItems(),{title:"Mode Normal (CEJM / E1 / E2 / E6)",logNiveau:"examen-normal"}); }},[
+    el("div",{class:"p-icon"},["✎"]), el("div",{class:"p-name"},["Mode Normal"]), el("div",{class:"p-sub"},["Mix officiel CEJM / E1 / E2 / E6"])
   ]));
   selector.appendChild(el("button",{class:"palier-card level-0",onclick:function(){ runTurboFlash(); }},[
     el("div",{class:"p-icon"},["⚡"]), el("div",{class:"p-name"},["Turbo-Flash"]), el("div",{class:"p-sub"},["Répétition espacée de tes erreurs"])
@@ -1655,7 +1505,7 @@ function renderJournal(container){
   container.appendChild(el("div",{class:"hero"},[
     el("div",{class:"kicker"},["Pont alternance"]),
     el("h1",{},["Journal de bord hebdomadaire"]),
-    el("p",{},["Trois questions, une minute par semaine. Ces retours terrain alimentent ensuite tes situations professionnelles pour E5/E6."])
+    el("p",{},["Trois questions, une minute par semaine. Ces retours terrain alimentent ensuite tes situations professionnelles pour E6."])
   ]));
 
   var formCard=el("div",{class:"card"});
@@ -1681,15 +1531,12 @@ function renderJournal(container){
   container.appendChild(histCard);
 
   var spCard=el("div",{class:"card"});
-  spCard.appendChild(el("h3",{style:"margin-top:0;"},["Situations professionnelles (E5 / E6)"]));
+  spCard.appendChild(el("h3",{style:"margin-top:0;"},["Situations professionnelles (E6)"]));
   spCard.appendChild(el("p",{style:"color:var(--muted);font-size:13.5px;"},["Regroupe plusieurs entrées de journal en une situation professionnelle, puis génère un texte de base pour ton dossier."]));
   var titreInput=el("input",{type:"text",placeholder:"Ex : Gestion d'un impayé client récurrent"});
   spCard.appendChild(el("div",{class:"mb-form-row"},[ el("label",{},["Titre de la situation"]), titreInput ]));
-  var epreuveRow=el("div",{class:"mb-checkbox-row",style:"margin-bottom:14px;"});
-  var radioE5=el("input",{type:"radio",name:"sp-epreuve",value:"E5"}); radioE5.checked=true;
-  var radioE6=el("input",{type:"radio",name:"sp-epreuve",value:"E6"});
-  epreuveRow.appendChild(el("label",{},[radioE5,document.createTextNode(" E5")]));
-  epreuveRow.appendChild(el("label",{},[radioE6,document.createTextNode(" E6")]));
+  var radioE6=el("input",{type:"radio",name:"sp-epreuve",value:"E6"}); radioE6.checked=true;
+  var epreuveRow=el("div",{style:"display:none;"},[radioE6]);
   spCard.appendChild(epreuveRow);
   var picker=el("div",{class:"mb-checklist"});
   spCard.appendChild(el("div",{class:"mb-form-row"},[ el("label",{},["Entrées de journal à rattacher"]), picker ]));
