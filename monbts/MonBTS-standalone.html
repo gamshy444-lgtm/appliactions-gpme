@@ -326,9 +326,9 @@ var SEUILS_ALERTE = { urgent: 20, maintenir: 8 };
 
 var MATIERES_SEED = [
   { id:"cejm", code:"CEJM", nom:"Culture Économique, Juridique et Managériale", coefficient:6, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:5.71, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
-  { id:"e6", code:"E6", nom:"Soutenir la Performance et le Développement de la PME", coefficient:6, typeEvaluation:"oral", statutEvaluation:"en_cours", noteActuelle:8.59, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
-  { id:"e1", code:"E1", nom:"Culture Générale et Expression", coefficient:4, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"maintenir", dateEcheance:null },
-  { id:"e2", code:"E2", nom:"Anglais — Communication en langue vivante étrangère", coefficient:3, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"urgent", dateEcheance:null }
+  { id:"e6", code:"Soutenir la Performance", nom:"Soutenir la Performance et le Développement de la PME", coefficient:6, typeEvaluation:"oral", statutEvaluation:"en_cours", noteActuelle:8.59, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:null, dateEcheance:null },
+  { id:"e1", code:"Culture Générale", nom:"Culture Générale et Expression", coefficient:4, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"maintenir", dateEcheance:null },
+  { id:"e2", code:"Anglais", nom:"Communication en langue vivante étrangère", coefficient:3, typeEvaluation:"ponctuel", statutEvaluation:"a_venir", noteActuelle:null, noteCible:CIBLE_GENERALE_DEFAUT, prioriteManuelle:"urgent", dateEcheance:null }
 ];
 
 var PROCESSUS_LIST = [
@@ -806,9 +806,7 @@ function escapeHtml(s){ var d=document.createElement("div"); d.textContent=s; re
 var NAV_LINKS=[
   {id:"accueil",label:"Accueil",href:"#/"},
   {id:"chapitres",label:"Chapitres",href:"#/chapitres"},
-  {id:"examens",label:"Examens",href:"#/examens"},
-  {id:"journal",label:"Journal alternance",href:"#/journal"},
-  {id:"conformite",label:"Conformité dossiers",href:"#/conformite"}
+  {id:"examens",label:"Examens",href:"#/examens"}
 ];
 function renderNav(active){
   var nav=document.getElementById("mb-nav");
@@ -853,7 +851,7 @@ function renderAccueil(container){
       var urgClass = jours<0?"danger":jours<=14?"danger":jours<=30?"warning":"neutral";
       var label = jours<0 ? "Dépassée de "+Math.abs(jours)+"j" : jours===0 ? "Aujourd'hui" : "J-"+jours;
       list.appendChild(el("div",{class:"mb-check-item",style:"justify-content:space-between;cursor:default;"},[
-        el("span",{},[m.code+" — "+m.nom]),
+        el("span",{},[m.nom]),
         el("span",{class:"badge "+urgClass},[label+" · "+new Date(m.dateEcheance).toLocaleDateString("fr-FR")])
       ]));
     });
@@ -865,8 +863,6 @@ function renderAccueil(container){
   var tiles=[
     {href:"#/chapitres", tag:"Révision", title:"Chapitres gamifiés", desc:"3 niveaux + Correcteur Virtuel + quiz de validation."},
     {href:"#/examens", tag:"Entraînement", title:"Modes examens", desc:"BTS Blanc extrême/normal + Turbo-Flash."},
-    {href:"#/journal", tag:"Alternance", title:"Journal d'alternance", desc:"3 questions/semaine → situations professionnelles E6."},
-    {href:"#/conformite", tag:"Administratif", title:"Conformité des dossiers", desc:"Checklist E6."}
   ];
   tiles.forEach(function(t){
     var a=el("a",{class:"mb-chapitre-card",href:t.href},[
@@ -1115,7 +1111,7 @@ function renderChapitreDetail(container, chapId){
     var statutLabel=statut==="acquis"?"Acquis":statut==="a_revoir"?"À revoir":"Non commencé";
     var statutClass=statut==="acquis"?"success":statut==="a_revoir"?"danger":"neutral";
     return el("div",{class:"hero"},[
-      el("div",{class:"kicker"},[(matiere?matiere.code+" — "+matiere.nom:chapitre.matiereId.toUpperCase())+(chapitresMemeMatiere.length>1?" · Chapitre "+(posIndex+1)+"/"+chapitresMemeMatiere.length:"")]),
+      el("div",{class:"kicker"},[(matiere?matiere.nom:chapitre.matiereId.toUpperCase())+(chapitresMemeMatiere.length>1?" · Chapitre "+(posIndex+1)+"/"+chapitresMemeMatiere.length:"")]),
       el("h1",{},[chapitre.titre]),
       el("span",{class:"badge "+statutClass},[statutLabel])
     ]);
@@ -1696,7 +1692,7 @@ function renderConformite(container){
    ROUTEUR
    ====================================================================== */
 
-var routes={ "":renderAccueil, "chapitres":renderChapitresListe, "examens":renderExamens, "journal":renderJournal, "conformite":renderConformite };
+var routes={ "":renderAccueil, "chapitres":renderChapitresListe, "examens":renderExamens };
 var currentCleanup=null;
 
 function route(){
