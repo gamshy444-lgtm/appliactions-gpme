@@ -93,7 +93,7 @@ main{max-width:640px;margin:0 auto;padding:18px 16px 110px;}
 
 /* ---------- Bottom nav ---------- */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:2px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);}
-.tabs-in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
+.tabs-in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);}
 .tab{background:none;border:none;padding:10px 4px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
 .tab .ico{width:26px;height:26px;}
 .tab[aria-current="page"]{color:var(--sel);}
@@ -220,6 +220,44 @@ main{max-width:640px;margin:0 auto;padding:18px 16px 110px;}
 .key p{margin:4px 0 10px;}
 .key p:last-child{margin-bottom:0;}
 
+/* cours */
+.c-unit{margin-bottom:22px;}
+.c-unit h3{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px;display:flex;align-items:center;gap:8px;}
+.c-unit h3 i{width:10px;height:10px;border-radius:3px;flex:none;}
+.c-row{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;padding:12px 14px;margin-bottom:8px;}
+.c-row .c-num{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;}
+.c-row .c-num .ico{width:20px;height:20px;}
+.c-row .c-t{display:block;font-weight:800;line-height:1.25;}
+.c-row .c-m{font-size:13px;color:var(--muted);font-weight:700;}
+.c-row .c-state{margin-left:auto;flex:none;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--surface-2);color:var(--muted);}
+.c-row .c-state.read{background:var(--ok-bg);color:var(--ok-ink);}
+.reader{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);}
+.r-top{border-bottom:2px solid var(--line);}
+.r-top-in{max-width:720px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;}
+.r-top-in .r-t{font-weight:800;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.r-prog{height:4px;background:var(--line);}
+.r-prog i{display:block;height:100%;width:0;background:var(--u);}
+.r-body{flex:1;overflow-y:auto;}
+.r-in{max-width:680px;margin:0 auto;padding:22px 16px calc(40px + env(safe-area-inset-bottom,0px));}
+.r-in .eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+.r-in h1{font-size:30px;font-weight:800;line-height:1.15;margin:6px 0;}
+.r-in .meta{color:var(--muted);font-size:14px;font-weight:700;margin-bottom:22px;}
+.r-sec{margin-bottom:26px;}
+.r-sec h2{font-size:20px;font-weight:800;margin-bottom:8px;display:flex;gap:10px;align-items:baseline;}
+.r-sec h2 span{font-family:var(--body);font-size:13px;color:var(--u);font-weight:800;font-variant-numeric:tabular-nums;}
+.r-sec p{margin:0 0 10px;max-width:65ch;font-size:17px;line-height:1.6;}
+.r-sec ul{margin:0 0 10px;padding-left:20px;font-size:17px;line-height:1.55;max-width:65ch;}
+.r-sec li{margin-bottom:6px;}
+.r-sec li::marker{color:var(--u);}
+.art{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.04em;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:3px 8px;margin-bottom:10px;}
+.exbox{background:var(--surface);border:2px solid var(--line);border-left:6px solid var(--u);border-radius:12px;padding:10px 14px;font-size:15px;}
+.exbox b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px;}
+.recap{background:var(--surface);border:2px solid var(--u);border-radius:16px;padding:16px;margin-bottom:22px;}
+.recap .kl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--u);}
+.recap p{margin:4px 0 0;font-size:16px;}
+.r-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.r-nav .btn{font-size:13px;padding:11px 8px;letter-spacing:.02em;}
+
 @media (prefers-reduced-motion: reduce){
   *{animation:none!important;transition:none!important;}
 }
@@ -242,6 +280,7 @@ main{max-width:640px;margin:0 auto;padding:18px 16px 110px;}
 
 <main>
   <section class="view" id="v-path"></section>
+  <section class="view" id="v-cours" hidden></section>
   <section class="view" id="v-review" hidden></section>
   <section class="view" id="v-lex" hidden></section>
   <section class="view" id="v-profile" hidden></section>
@@ -546,12 +585,374 @@ var UNITS = [
 ];
 
 /* =====================================================================
+   FICHES DE COURS — une par leçon (h : titre, p : texte, li : liste,
+   ex : exemple, art : référence juridique)
+   ===================================================================== */
+var METHODE = [
+  {h:"Pourquoi une méthode ?", p:"À l'épreuve de CEJM, chaque question juridique se traite avec le syllogisme juridique. Le correcteur attend ce raisonnement en 5 temps, même pour une réponse courte."},
+  {h:"Les 5 étapes", li:[
+    "Les faits : résume la situation en termes juridiques (« un contrat de vente a été conclu entre un vendeur professionnel et un mineur »).",
+    "Le problème juridique : pose une question générale, sans prénoms (« Un contrat conclu par un mineur non émancipé est-il valable ? »).",
+    "Les règles de droit : cite l'article ou le principe et ses conditions (« Selon l'article 1128 du Code civil, un contrat est valable si… »).",
+    "L'application : vérifie chaque condition une par une avec les faits du cas.",
+    "La conclusion : réponds clairement à la question posée."
+  ]},
+  {h:"Les pièges à éviter", li:[
+    "Répondre directement sans citer de règle : c'est la moitié des points perdus.",
+    "Réciter le cours sans l'appliquer aux faits.",
+    "Oublier de conclure, ou conclure sur autre chose que le problème posé."
+  ], ex:"Astuce : repère dans l'énoncé les mots qui ressemblent à ceux du cours (« mensonge » → dol, « 17 ans » → capacité). Ils t'indiquent la règle à mobiliser."}
+];
+
+var COURS = {
+u1l1:[
+  {h:"Qu'est-ce qu'une entreprise ?", p:"Une entreprise est une organisation qui combine des moyens humains, matériels et financiers pour produire des biens ou des services vendus sur un marché. Elle cherche en général à réaliser un profit.", li:[
+    "Organisation : groupe de personnes qui coordonnent leurs actions vers un but commun.",
+    "Entreprise : organisation à but lucratif qui produit pour le marché.",
+    "Association (loi 1901) : but non lucratif, elle ne partage pas ses bénéfices entre ses membres.",
+    "Organisation publique : sert l'intérêt général (mairie, hôpital, lycée)."
+  ]},
+  {h:"Classer les entreprises par taille", li:[
+    "Microentreprise : moins de 10 salariés et CA ou bilan ≤ 2 M€.",
+    "PME : moins de 250 salariés et CA ≤ 50 M€ ou bilan ≤ 43 M€.",
+    "ETI (entreprise de taille intermédiaire) : moins de 5 000 salariés.",
+    "Grande entreprise : au-delà."
+  ], ex:"Une boulangerie de 6 salariés est une microentreprise. Une entreprise de 120 salariés est une PME."},
+  {h:"La valeur ajoutée", p:"La valeur ajoutée (VA) mesure la richesse réellement créée par l'entreprise. VA = chiffre d'affaires – consommations intermédiaires. Les consommations intermédiaires sont les biens et services détruits ou transformés pendant la production : matières premières, énergie, sous-traitance, loyers.", ex:"Un restaurant réalise 300 000 € de CA et achète pour 120 000 € de nourriture, d'énergie et de services. Sa VA est de 180 000 €."},
+  {h:"Le partage de la valeur ajoutée", li:[
+    "Les salariés : salaires.",
+    "L'État et la Sécurité sociale : impôts et cotisations.",
+    "Les prêteurs : intérêts.",
+    "Les associés : dividendes.",
+    "L'entreprise elle-même : autofinancement pour investir."
+  ]},
+  {h:"Les parties prenantes", p:"Une partie prenante est un acteur qui influence l'entreprise ou qui est affecté par ses décisions. Les parties prenantes internes sont les salariés, les dirigeants et les associés. Les parties prenantes externes sont les clients, les fournisseurs, les banques, l'État, les collectivités, les associations et les riverains. Leurs attentes peuvent s'opposer : partager la valeur ajoutée, c'est arbitrer entre elles.", ex:"Augmenter les salaires satisfait les salariés mais réduit les dividendes des associés."}
+],
+u1l2:[
+  {h:"Le marché", p:"Un marché est le lieu, réel ou virtuel, où se rencontrent l'offre et la demande d'un bien ou d'un service.", li:[
+    "L'offre : quantité que les producteurs sont prêts à vendre. Elle augmente quand le prix monte.",
+    "La demande : quantité que les acheteurs veulent acheter. Elle baisse quand le prix monte."
+  ]},
+  {h:"Le prix d'équilibre", p:"Le prix d'équilibre est celui pour lequel la quantité offerte est égale à la quantité demandée. Si l'offre dépasse la demande, les vendeurs baissent leurs prix. Si la demande dépasse l'offre, les prix montent.", ex:"Les places d'un concert très attendu sont rares : la demande dépasse l'offre, et les prix de revente s'envolent."},
+  {h:"La concurrence pure et parfaite (CPP)", p:"C'est un modèle théorique qui repose sur 5 conditions. Dans la réalité, elles sont rarement toutes réunies.", li:[
+    "Atomicité : un très grand nombre de vendeurs et d'acheteurs, aucun ne peut influencer le prix.",
+    "Homogénéité : les produits sont identiques.",
+    "Transparence : tout le monde dispose de la même information.",
+    "Libre entrée et sortie du marché.",
+    "Libre circulation des facteurs de production (travail, capital)."
+  ]},
+  {h:"Les structures de marché", li:[
+    "Monopole : un seul vendeur face à de nombreux acheteurs.",
+    "Oligopole : quelques vendeurs (opérateurs téléphoniques, constructeurs d'avions).",
+    "Concurrence monopolistique : beaucoup de vendeurs, mais des produits différenciés par la marque ou la qualité.",
+    "Monopsone : un seul acheteur. Oligopsone : quelques acheteurs."
+  ], ex:"Face à des milliers d'agriculteurs, quelques centrales d'achat de la grande distribution forment un oligopsone : elles pèsent fortement sur les prix."}
+],
+u1l3:[
+  {h:"Définition et grands principes", art:"Art. 1101 à 1104 du Code civil", p:"Le contrat est un accord de volontés entre deux ou plusieurs personnes destiné à créer, modifier, transmettre ou éteindre des obligations.", li:[
+    "Liberté contractuelle (art. 1102) : chacun est libre de contracter ou non, de choisir son cocontractant et le contenu du contrat, dans le respect de l'ordre public.",
+    "Force obligatoire (art. 1103) : le contrat tient lieu de loi à ceux qui l'ont fait.",
+    "Bonne foi (art. 1104) : le contrat doit être négocié, formé et exécuté de bonne foi."
+  ]},
+  {h:"La formation du contrat", p:"Le contrat se forme par la rencontre d'une offre et d'une acceptation. En principe, il est consensuel : l'échange des consentements suffit, l'écrit sert surtout de preuve. Certains contrats exigent cependant un écrit, comme le CDD."},
+  {h:"Les 3 conditions de validité", art:"Art. 1128 du Code civil", li:[
+    "Le consentement des parties : il doit exister et être libre et éclairé.",
+    "La capacité de contracter : les mineurs non émancipés et certains majeurs protégés sont incapables, sauf pour les actes courants.",
+    "Un contenu licite et certain : la prestation doit être possible, déterminée ou déterminable, et conforme à l'ordre public."
+  ]},
+  {h:"Les vices du consentement", li:[
+    "L'erreur (art. 1132) : se tromper soi-même sur une qualité essentielle de la prestation. L'erreur sur la valeur ne compte pas.",
+    "Le dol (art. 1137) : être trompé par l'autre partie par des manœuvres, des mensonges ou une dissimulation intentionnelle d'information.",
+    "La violence (art. 1140) : contracter sous la contrainte physique ou morale, y compris l'abus d'un état de dépendance."
+  ], p:"Sanction : la nullité relative. Seule la victime peut la demander, dans un délai de 5 ans. Le contrat est anéanti rétroactivement. En cas de dol, la victime peut aussi obtenir des dommages et intérêts."},
+  {h:"Contrat d'adhésion et clauses abusives", art:"Art. 1110 et 1171 du Code civil", p:"Dans un contrat d'adhésion, les conditions sont fixées à l'avance par une seule partie (abonnement téléphonique, assurance). Une clause non négociable qui crée un déséquilibre significatif entre les droits des parties est réputée non écrite : elle est supprimée et le reste du contrat s'applique."}
+],
+u2l1:[
+  {h:"Pourquoi protéger la concurrence ?", p:"La concurrence pousse les entreprises à baisser leurs prix, à améliorer leur qualité et à innover. L'État et l'Union européenne la protègent contre les comportements qui la faussent."},
+  {h:"Les pratiques anticoncurrentielles", art:"Art. L. 420-1 et L. 420-2 du Code de commerce", li:[
+    "Les ententes : accords entre concurrents pour fixer les prix, se partager les marchés ou limiter la production (cartels).",
+    "L'abus de position dominante : être leader n'est pas interdit, mais abuser de cette position l'est (prix prédateurs pour éliminer un concurrent, ventes liées, refus de vente)."
+  ], p:"L'Autorité de la concurrence enquête et sanctionne, jusqu'à 10 % du chiffre d'affaires mondial de l'entreprise."},
+  {h:"Le contrôle des concentrations", p:"Au-delà de certains seuils de chiffre d'affaires, une fusion ou un rachat doit être autorisé à l'avance par l'Autorité de la concurrence ou par la Commission européenne. Elle peut l'interdire ou imposer des conditions, par exemple revendre des magasins."},
+  {h:"La concurrence déloyale", art:"Art. 1240 du Code civil", p:"Il s'agit de comportements fautifs entre concurrents. La victime agit en responsabilité civile et doit prouver une faute, un préjudice et un lien de causalité.", li:[
+    "Le dénigrement : critiquer publiquement les produits d'un concurrent.",
+    "La confusion : imiter son nom, son logo ou ses produits pour tromper les clients.",
+    "La désorganisation : débaucher massivement ses salariés, détourner ses fichiers clients.",
+    "Le parasitisme : profiter sans frais des efforts et de la notoriété d'autrui."
+  ]}
+],
+u2l2:[
+  {h:"Les défaillances du marché", p:"Le marché ne produit pas toujours un résultat satisfaisant. On parle alors de défaillance du marché.", li:[
+    "Externalité : effet d'une activité sur un tiers sans compensation. Négative (pollution, bruit) ou positive (formation, recherche).",
+    "Bien collectif : non rival (ma consommation ne réduit pas la tienne) et non excluable (on ne peut pas empêcher quelqu'un d'en profiter). Personne ne veut le payer : c'est le problème du passager clandestin.",
+    "Asymétrie d'information : une partie en sait plus que l'autre (le vendeur d'une voiture d'occasion connaît ses défauts).",
+    "Pouvoir de marché : un monopole peut fixer des prix trop élevés."
+  ]},
+  {h:"Comment l'État corrige-t-il ?", li:[
+    "Taxer les externalités négatives : principe pollueur-payeur.",
+    "Subventionner les externalités positives : aides à la recherche, à la formation.",
+    "Réglementer : normes, interdictions, obligations d'information.",
+    "Créer un marché de quotas d'émission de CO₂.",
+    "Produire lui-même les biens collectifs : défense, éclairage public."
+  ]},
+  {h:"Les 3 fonctions de l'État (Musgrave)", li:[
+    "Allocation : fournir les biens collectifs et corriger les défaillances.",
+    "Redistribution : réduire les inégalités (impôt progressif, prestations sociales).",
+    "Stabilisation : lisser la conjoncture pour limiter le chômage et l'inflation."
+  ]},
+  {h:"Les politiques économiques", li:[
+    "Politique budgétaire : l'État agit par ses dépenses et ses impôts, votés dans la loi de finances.",
+    "Politique monétaire : la Banque centrale européenne agit sur ses taux directeurs pour maintenir l'inflation proche de 2 % dans la zone euro."
+  ]}
+],
+u2l3:[
+  {h:"Les sanctions de l'inexécution", art:"Art. 1217 du Code civil", p:"Quand une partie n'exécute pas son obligation, ou l'exécute mal, la victime peut choisir parmi 5 sanctions. Elles se cumulent si elles sont compatibles, et les dommages et intérêts peuvent toujours s'y ajouter.", li:[
+    "L'exception d'inexécution (art. 1219) : refuser d'exécuter sa propre obligation tant que l'autre n'exécute pas la sienne, si l'inexécution est suffisamment grave.",
+    "L'exécution forcée en nature (art. 1221) : obtenir la prestation promise, sauf impossibilité ou coût manifestement disproportionné.",
+    "La réduction du prix (art. 1223) : payer moins en cas d'exécution imparfaite.",
+    "La résolution (art. 1224) : anéantir le contrat, par clause résolutoire, par notification ou par décision de justice.",
+    "La réparation : des dommages et intérêts (art. 1231-1), en principe après une mise en demeure."
+  ]},
+  {h:"La responsabilité contractuelle", p:"Pour obtenir des dommages et intérêts, le créancier doit prouver 3 conditions cumulatives : une inexécution du contrat, un dommage et un lien de causalité entre les deux.", li:[
+    "Obligation de moyens : le débiteur promet de faire de son mieux. Le créancier doit prouver sa faute (un médecin).",
+    "Obligation de résultat : le débiteur promet un résultat précis. L'absence de résultat suffit (un transporteur doit livrer)."
+  ]},
+  {h:"Les causes d'exonération", art:"Art. 1218 du Code civil", p:"La force majeure libère le débiteur. C'est un événement qui échappe à son contrôle, qui était imprévisible au moment du contrat et dont les effets sont irrésistibles.", ex:"Une tempête exceptionnelle qui détruit l'entrepôt peut être un cas de force majeure. Une simple panne de camion ne l'est pas."},
+  {h:"Les clauses utiles", li:[
+    "Clause pénale (art. 1231-5) : fixe à l'avance le montant de l'indemnité. Le juge peut la modérer si elle est manifestement excessive.",
+    "Clause limitative de responsabilité : plafonne l'indemnisation, sauf faute lourde ou dolosive.",
+    "Imprévision (art. 1195) : si un changement imprévisible rend l'exécution excessivement coûteuse, une partie peut demander une renégociation."
+  ]}
+],
+u3l1:[
+  {h:"Entreprise individuelle ou société ?", p:"Dans une entreprise individuelle (EI), l'entrepreneur exerce seul, sans créer de personne morale. Depuis le 15 mai 2022, son patrimoine professionnel est séparé par défaut de son patrimoine personnel. Le régime de la micro-entreprise simplifie ses obligations fiscales et sociales."},
+  {h:"La société et la personnalité morale", art:"Art. 1832 du Code civil", p:"La société est instituée par deux ou plusieurs personnes (ou une seule dans les cas prévus par la loi) qui mettent en commun des apports pour partager un bénéfice. Elle acquiert la personnalité morale à son immatriculation au RCS : elle a un nom, un siège, un patrimoine propre et peut agir en justice.", li:[
+    "Apport en numéraire : de l'argent.",
+    "Apport en nature : un bien (local, véhicule, fonds de commerce).",
+    "Apport en industrie : du travail ou un savoir-faire. Il ne compte pas dans le capital."
+  ]},
+  {h:"Les principales formes", li:[
+    "SARL : 2 à 100 associés, dirigée par un gérant, capital libre, responsabilité limitée aux apports. L'EURL est la SARL à associé unique.",
+    "SAS : statuts très libres, dirigée obligatoirement par un président, responsabilité limitée. La SASU est la SAS à associé unique.",
+    "SA : au moins 2 actionnaires (7 si cotée), capital minimum de 37 000 €, adaptée aux grands projets.",
+    "SNC : associés commerçants, responsabilité indéfinie et solidaire sur leurs biens personnels."
+  ]},
+  {h:"Les critères de choix", li:[
+    "Le nombre d'associés et la volonté de protéger son patrimoine.",
+    "La souplesse de fonctionnement souhaitée.",
+    "La fiscalité : impôt sur le revenu ou impôt sur les sociétés.",
+    "Le statut social du dirigeant : un gérant majoritaire de SARL est travailleur non salarié, un président de SAS est assimilé salarié.",
+    "La crédibilité face aux banques et aux partenaires."
+  ]}
+],
+u3l2:[
+  {h:"La structure de l'organisation", p:"La structure décrit la répartition des tâches, des responsabilités et de l'autorité. Elle est représentée par un organigramme.", li:[
+    "Simple : tout passe par le dirigeant. Typique des petites entreprises.",
+    "Fonctionnelle : découpage par métiers (production, commercial, finance). Avantage : spécialisation. Inconvénient : services cloisonnés.",
+    "Divisionnelle : découpage par produits, marchés ou zones. Avantage : réactivité. Inconvénient : doublons coûteux.",
+    "Matricielle : double rattachement, à un chef de métier et à un chef de projet. Avantage : transversalité. Inconvénient : conflits d'autorité."
+  ]},
+  {h:"Centraliser ou déléguer ?", p:"Une organisation centralisée concentre les décisions au sommet. Une organisation décentralisée les rapproche du terrain. La délégation consiste à confier une partie de son pouvoir de décision à un subordonné : elle allège le dirigeant et motive les équipes, mais demande de la confiance et un contrôle."},
+  {h:"Les styles de management (Likert)", li:[
+    "Autoritaire : le dirigeant décide seul et impose.",
+    "Paternaliste : il décide seul mais se montre bienveillant.",
+    "Consultatif : il demande l'avis des salariés avant de décider.",
+    "Participatif : les salariés participent réellement à la décision."
+  ], p:"Il n'existe pas de style idéal. Le management situationnel (Hersey et Blanchard) adapte le style au niveau d'autonomie de chaque collaborateur."},
+  {h:"La coordination (Mintzberg)", li:[
+    "Ajustement mutuel : communication informelle entre collègues.",
+    "Supervision directe : un responsable donne les ordres.",
+    "Standardisation : des procédures, des résultats attendus, des qualifications ou des normes communes."
+  ]}
+],
+u3l3:[
+  {h:"Les besoins de financement", li:[
+    "Besoins d'investissement : acheter des équipements, des locaux, des logiciels, sur le long terme.",
+    "Besoin en fonds de roulement (BFR) : financer le décalage entre les dépenses et les encaissements. BFR = stocks + créances clients – dettes fournisseurs."
+  ]},
+  {h:"Le financement interne", p:"L'autofinancement repose sur les ressources générées par l'activité : autofinancement = CAF – dividendes. Il préserve l'indépendance de l'entreprise mais reste limité par sa rentabilité. L'entreprise peut aussi vendre des actifs dont elle n'a plus besoin."},
+  {h:"Le financement externe", li:[
+    "Augmentation de capital : nouveaux apports des associés, de business angels ou de fonds de capital-risque. Pas de remboursement, mais un risque de dilution du pouvoir.",
+    "Emprunt bancaire : remboursé avec intérêts, sans perte de pouvoir, mais il alourdit l'endettement.",
+    "Crédit-bail : location d'un bien avec option d'achat à la fin.",
+    "Financement participatif (crowdfunding) : dons, prêts ou capital apportés par des particuliers via une plateforme.",
+    "Subventions publiques : aides de l'État, de la région ou de Bpifrance."
+  ]},
+  {h:"L'effet de levier", p:"S'endetter augmente la rentabilité des capitaux propres quand la rentabilité économique de l'entreprise est supérieure au taux d'intérêt de l'emprunt. Dans le cas contraire, l'effet s'inverse : c'est l'effet de massue. Règle d'équilibre : financer les investissements durables par des ressources durables."}
+],
+u4l1:[
+  {h:"Le cadre : le RGPD", p:"Le Règlement général sur la protection des données (UE 2016/679) s'applique depuis le 25 mai 2018 à toute organisation qui traite des données de personnes situées dans l'Union européenne.", li:[
+    "Donnée personnelle : toute information se rapportant à une personne physique identifiée ou identifiable (nom, email, adresse IP, photo, numéro de client).",
+    "Données sensibles (santé, opinions politiques, origine, orientation sexuelle…) : leur traitement est interdit, sauf exceptions."
+  ]},
+  {h:"Les grands principes", li:[
+    "Licéité : le traitement repose sur une base légale (consentement, contrat, obligation légale, intérêt légitime…).",
+    "Finalité : les données sont collectées pour un objectif précis.",
+    "Minimisation : seules les données nécessaires sont collectées.",
+    "Exactitude : elles sont tenues à jour.",
+    "Conservation limitée : elles sont supprimées quand elles ne servent plus.",
+    "Sécurité : elles sont protégées contre les fuites."
+  ], p:"Principe de responsabilité (accountability) : l'entreprise doit pouvoir prouver sa conformité, notamment grâce à un registre des traitements."},
+  {h:"Les droits des personnes", li:[
+    "Droit d'accès : savoir quelles données sont détenues.",
+    "Droit de rectification : corriger des données inexactes.",
+    "Droit à l'effacement (droit à l'oubli).",
+    "Droit d'opposition : refuser un traitement, par exemple la prospection.",
+    "Droit à la portabilité : récupérer ses données pour les transférer."
+  ], p:"L'entreprise doit répondre dans un délai d'un mois."},
+  {h:"Contrôle et sanctions", p:"En France, la CNIL contrôle et sanctionne. En cas de violation de données (fuite, piratage), l'entreprise doit la notifier à la CNIL dans les 72 heures. Un délégué à la protection des données (DPO) est obligatoire pour les organismes publics et pour les traitements à grande échelle. Amende maximale : 20 M€ ou 4 % du CA mondial, le montant le plus élevé étant retenu."}
+],
+u4l2:[
+  {h:"Le contrat électronique", p:"Un contrat conclu en ligne obéit aux mêmes règles de formation qu'un contrat papier. La loi pour la confiance dans l'économie numérique (LCEN, 2004) impose un processus précis :", li:[
+    "L'offre en ligne présente clairement les caractéristiques, le prix et les conditions générales de vente (CGV).",
+    "Le client vérifie le récapitulatif de sa commande avant de la confirmer : c'est le « double clic ».",
+    "Le vendeur accuse réception de la commande sans délai, par voie électronique."
+  ]},
+  {h:"La preuve électronique", art:"Art. 1366 et 1367 du Code civil", p:"L'écrit électronique a la même force probante que l'écrit papier, à condition que son auteur soit identifiable et que son intégrité soit garantie. La signature électronique fiable a la même valeur que la signature manuscrite."},
+  {h:"La protection du consommateur", li:[
+    "Information précontractuelle : prix, caractéristiques, délais de livraison, existence du droit de rétractation.",
+    "Droit de rétractation de 14 jours, sans motif ni pénalité, à compter de la réception du bien (ou de la conclusion du contrat pour un service).",
+    "Remboursement dans les 14 jours suivant la rétractation.",
+    "Exceptions : biens personnalisés, denrées périssables, contenus numériques déjà téléchargés avec accord…",
+    "Garantie légale de conformité : 2 ans pour un bien neuf."
+  ], ex:"Le droit de rétractation ne s'applique ni aux achats en magasin ni aux contrats entre professionnels."},
+  {h:"Les plateformes", p:"Les places de marché mettent en relation vendeurs et acheteurs. Le règlement européen sur les services numériques (DSA) leur impose de lutter contre les contenus et produits illicites. Le règlement sur les marchés numériques (DMA) encadre les très grandes plateformes pour préserver la concurrence."}
+],
+u4l3:[
+  {h:"La propriété intellectuelle", p:"Elle protège les créations de l'esprit, qui sont des actifs immatériels souvent décisifs pour l'entreprise. Elle comprend la propriété littéraire et artistique (droit d'auteur) et la propriété industrielle (brevets, marques, dessins et modèles)."},
+  {h:"Le droit d'auteur", p:"Il protège toute œuvre originale (texte, musique, photo, logiciel) dès sa création, sans aucune formalité. Il protège la forme, pas les idées.", li:[
+    "Droits patrimoniaux : autoriser et rémunérer l'exploitation, jusqu'à 70 ans après la mort de l'auteur.",
+    "Droits moraux : paternité et respect de l'œuvre, perpétuels et incessibles.",
+    "Logiciel créé par un salarié dans ses fonctions : les droits patrimoniaux appartiennent à l'employeur."
+  ]},
+  {h:"La propriété industrielle (dépôt à l'INPI)", li:[
+    "Brevet : protège une invention nouvelle, inventive et susceptible d'application industrielle, pendant 20 ans. En échange, l'invention est rendue publique.",
+    "Marque : signe distinctif (nom, logo, son) qui doit être distinctif, disponible et licite. Protégée 10 ans, renouvelable indéfiniment.",
+    "Dessins et modèles : protègent l'apparence d'un produit, 5 ans renouvelables jusqu'à 25 ans."
+  ]},
+  {h:"Valoriser et défendre", li:[
+    "Céder ses droits, ou concéder une licence en échange de redevances.",
+    "Agir en contrefaçon contre toute reproduction ou utilisation non autorisée. La contrefaçon est sanctionnée au civil (dommages et intérêts) et au pénal."
+  ]}
+],
+u5l1:[
+  {h:"Qu'est-ce qu'un contrat de travail ?", p:"C'est le contrat par lequel une personne s'engage à travailler pour le compte d'une autre, sous sa subordination, en échange d'une rémunération. Il réunit 3 éléments :", li:[
+    "Une prestation de travail.",
+    "Une rémunération.",
+    "Un lien de subordination : l'employeur donne des ordres, contrôle leur exécution et sanctionne les manquements."
+  ], ex:"Le juge regarde les conditions réelles de travail, pas le nom donné au contrat. Un « indépendant » soumis à des ordres et à des sanctions peut être requalifié en salarié."},
+  {h:"Le CDI", art:"Art. L. 1221-2 du Code du travail", p:"Le contrat à durée indéterminée est la forme normale et générale de la relation de travail. Il peut prévoir une période d'essai, pendant laquelle chacun peut rompre librement :", li:[
+    "Ouvriers et employés : 2 mois.",
+    "Agents de maîtrise et techniciens : 3 mois.",
+    "Cadres : 4 mois.",
+    "Renouvelable une fois, si un accord de branche le prévoit et si le contrat le mentionne."
+  ]},
+  {h:"Le CDD", p:"Le contrat à durée déterminée est une exception. Il est obligatoirement écrit et précise son motif.", li:[
+    "Cas autorisés : remplacement d'un salarié absent, accroissement temporaire d'activité, emploi saisonnier.",
+    "Interdit pour pourvoir durablement un emploi permanent, remplacer un gréviste ou effectuer certains travaux dangereux.",
+    "Durée maximale : 18 mois en général, renouvellements compris.",
+    "Indemnité de fin de contrat (précarité) : 10 % de la rémunération brute totale.",
+    "Sanction d'un CDD irrégulier : requalification en CDI."
+  ]},
+  {h:"Les clauses particulières", li:[
+    "Clause de non-concurrence : valable si elle est limitée dans le temps et l'espace, protège un intérêt légitime de l'entreprise, tient compte de l'emploi du salarié et prévoit une contrepartie financière.",
+    "Clause de mobilité : elle doit définir une zone géographique précise.",
+    "Clause de confidentialité et clause d'exclusivité."
+  ], p:"Modifier un élément essentiel du contrat (rémunération, qualification, durée du travail) exige l'accord du salarié. Un simple changement des conditions de travail relève du pouvoir de direction de l'employeur."}
+],
+u5l2:[
+  {h:"La fin du CDD", p:"Le CDD prend fin à son terme. Il ne peut être rompu avant qu'en cas d'accord des parties, de faute grave, de force majeure, d'inaptitude, ou si le salarié est embauché en CDI ailleurs."},
+  {h:"La démission", p:"Le salarié en CDI peut démissionner à tout moment. Sa volonté doit être claire et non équivoque. Il doit respecter un préavis et n'a en principe pas droit aux allocations chômage."},
+  {h:"Le licenciement pour motif personnel", p:"Il doit reposer sur une cause réelle et sérieuse : une faute ou une insuffisance professionnelle.", li:[
+    "Faute simple : préavis et indemnités maintenus.",
+    "Faute grave : rend impossible le maintien dans l'entreprise. Ni préavis ni indemnité de licenciement.",
+    "Faute lourde : faute grave commise avec l'intention de nuire à l'employeur."
+  ]},
+  {h:"La procédure de licenciement", li:[
+    "Convocation à un entretien préalable, par lettre recommandée ou remise en main propre.",
+    "Entretien préalable, au moins 5 jours ouvrables après la convocation. Le salarié peut se faire assister.",
+    "Lettre de licenciement motivée, envoyée au moins 2 jours ouvrables après l'entretien.",
+    "Préavis, puis remise des documents de fin de contrat."
+  ], p:"L'indemnité légale de licenciement est due dès 8 mois d'ancienneté, sauf faute grave ou lourde."},
+  {h:"Le licenciement économique", p:"Il n'est pas lié à la personne du salarié. Motifs : difficultés économiques, mutations technologiques, réorganisation nécessaire à la sauvegarde de la compétitivité, cessation d'activité. L'employeur doit chercher à reclasser le salarié et respecter des critères d'ordre des licenciements."},
+  {h:"La rupture conventionnelle", p:"Employeur et salarié en CDI conviennent ensemble de la rupture. Après un ou plusieurs entretiens, ils signent une convention. Chacun dispose de 15 jours calendaires pour se rétracter, puis l'administration (DREETS) l'homologue. Le salarié perçoit une indemnité et a droit au chômage."},
+  {h:"Les litiges", p:"Le conseil de prud'hommes juge les litiges entre salariés et employeurs. En cas de licenciement sans cause réelle et sérieuse, l'indemnité accordée suit un barème selon l'ancienneté (barème « Macron »)."}
+],
+u5l3:[
+  {h:"L'obligation de sécurité", art:"Art. L. 4121-1 du Code du travail", p:"L'employeur doit protéger la santé physique et mentale de ses salariés. Il évalue les risques dans le document unique d'évaluation des risques professionnels (DUERP), obligatoire dès le premier salarié, et met en place des actions de prévention. Les risques psychosociaux (stress, harcèlement, épuisement professionnel) en font partie."},
+  {h:"Le temps de travail", li:[
+    "Durée légale : 35 heures par semaine.",
+    "Durées maximales : 10 heures par jour, 48 heures sur une semaine.",
+    "Repos quotidien minimal : 11 heures consécutives.",
+    "Heures supplémentaires : majorées de 25 % pour les 8 premières, puis de 50 %, sauf accord collectif (minimum 10 %)."
+  ]},
+  {h:"Le télétravail", art:"Art. L. 1222-9 du Code du travail", p:"Il est mis en place par accord collectif, par une charte ou par simple accord entre l'employeur et le salarié. Le télétravailleur a les mêmes droits que les autres salariés. Le droit à la déconnexion lui permet de ne pas répondre aux sollicitations en dehors de son temps de travail."},
+  {h:"Le dialogue social", li:[
+    "Le comité social et économique (CSE) représente le personnel dès 11 salariés, sur 12 mois consécutifs.",
+    "Les délégués syndicaux négocient les accords d'entreprise.",
+    "Les conventions collectives de branche complètent le Code du travail."
+  ]},
+  {h:"Les nouvelles formes de travail", p:"Plateformes numériques, freelances, portage salarial : le travail indépendant se développe. Si un lien de subordination est prouvé, le juge requalifie la relation en contrat de travail.", ex:"La Cour de cassation a requalifié des livreurs Take Eat Easy (2018) et un chauffeur Uber (2020) en salariés."}
+],
+u6l1:[
+  {h:"La démarche stratégique", p:"Une stratégie est un ensemble de décisions à long terme qui engagent l'avenir de l'entreprise. La démarche suit 4 temps : diagnostic, choix, mise en œuvre, contrôle."},
+  {h:"Le diagnostic externe", p:"Il repère les opportunités et les menaces de l'environnement.", li:[
+    "PESTEL : facteurs Politiques, Économiques, Socioculturels, Technologiques, Écologiques et Légaux.",
+    "Les 5 forces de Porter : intensité de la concurrence dans le secteur, menace des nouveaux entrants, menace des produits de substitution, pouvoir de négociation des clients, pouvoir de négociation des fournisseurs."
+  ]},
+  {h:"Le diagnostic interne", p:"Il repère les forces et les faiblesses de l'entreprise : ses ressources (humaines, financières, techniques, immatérielles comme la marque ou les brevets) et ses compétences. Les compétences distinctives, difficiles à imiter, fondent l'avantage concurrentiel."},
+  {h:"La matrice SWOT", li:[
+    "Forces (Strengths) : atouts internes.",
+    "Faiblesses (Weaknesses) : points faibles internes.",
+    "Opportunités (Opportunities) : évolutions externes favorables.",
+    "Menaces (Threats) : évolutions externes défavorables."
+  ], p:"Une bonne stratégie s'appuie sur ses forces pour saisir les opportunités, corrige ses faiblesses et se protège des menaces."}
+],
+u6l2:[
+  {h:"Les stratégies génériques (Porter)", li:[
+    "Domination par les coûts : produire moins cher que les concurrents grâce aux économies d'échelle et à l'effet d'expérience.",
+    "Différenciation : proposer une offre perçue comme unique (qualité, image, innovation), ce qui permet de vendre plus cher.",
+    "Focalisation (concentration) : se concentrer sur un segment étroit, une niche, par les coûts ou par la différenciation."
+  ], p:"Porter met en garde contre l'enlisement : une entreprise qui ne choisit pas se retrouve sans avantage concurrentiel."},
+  {h:"Les modalités de croissance", li:[
+    "Croissance interne : l'entreprise se développe avec ses propres moyens (nouvelles usines, embauches). Plus lente, mais elle garde le contrôle et sa culture.",
+    "Croissance externe : fusion, acquisition, prise de participation. Rapide, mais coûteuse, et l'intégration des équipes est difficile.",
+    "Croissance conjointe : alliances, partenariats, franchise, co-entreprise."
+  ]},
+  {h:"Les directions de croissance", li:[
+    "Spécialisation : rester sur son métier.",
+    "Intégration verticale : contrôler l'amont (fournisseurs) ou l'aval (distribution) de sa filière.",
+    "Intégration horizontale : racheter des concurrents du même métier.",
+    "Diversification : se lancer dans de nouveaux métiers, proches ou non.",
+    "Internationalisation : conquérir des marchés étrangers."
+  ]},
+  {h:"L'externalisation", p:"Externaliser (ou impartir), c'est confier une activité non stratégique à un prestataire : nettoyage, paie, logistique. L'entreprise se recentre sur son cœur de métier, mais devient dépendante de ses partenaires."}
+],
+u6l3:[
+  {h:"La responsabilité civile", p:"C'est l'obligation de réparer le dommage causé à autrui. Elle est contractuelle quand le dommage résulte de l'inexécution d'un contrat, extracontractuelle quand il n'y a aucun contrat entre l'auteur et la victime."},
+  {h:"Les faits générateurs", li:[
+    "La faute (art. 1240) et la négligence ou l'imprudence (art. 1241).",
+    "Le fait des choses (art. 1242 al. 1) : le gardien d'une chose, celui qui en a l'usage, la direction et le contrôle, répond des dommages qu'elle cause.",
+    "Le fait d'autrui (art. 1242) : les parents pour leurs enfants mineurs, l'employeur (commettant) pour ses salariés (préposés).",
+    "Les produits défectueux (art. 1245) : le producteur est responsable, même sans faute."
+  ]},
+  {h:"Les conditions et la réparation", p:"Il faut un fait générateur, un dommage et un lien de causalité. Le dommage peut être matériel, corporel ou moral, et doit être certain, direct et personnel. L'auteur peut s'exonérer par la force majeure, la faute de la victime ou le fait d'un tiers. La réparation est intégrale : tout le dommage, rien que le dommage. Les entreprises s'assurent en responsabilité civile."},
+  {h:"La responsabilité sociétale des entreprises (RSE)", p:"La RSE est l'intégration volontaire par l'entreprise des préoccupations sociales et environnementales dans son activité et ses relations avec ses parties prenantes.", li:[
+    "3 piliers : économique, social, environnemental.",
+    "Loi PACTE (2019) : une société est gérée dans son intérêt social en prenant en considération les enjeux sociaux et environnementaux (art. 1833 C. civ.). Elle peut adopter une raison d'être et devenir société à mission.",
+    "Les grandes entreprises publient des informations extra-financières (directive CSRD) et ont un devoir de vigilance sur leurs sous-traitants.",
+    "Avantages : image, attractivité, fidélité des clients. Risque : le greenwashing, un engagement de façade."
+  ]}
+]
+};
+
+/* =====================================================================
    ÉTAT & PERSISTANCE
    ===================================================================== */
 var STORE = "cejm_duo_v1";
 var MAX_HEARTS = 5, REGEN_MS = 15 * 60 * 1000;
 var DEF = { xp:0, streak:0, lastDay:null, dayXp:0, dayDate:null, goal:30, hearts:5, heartsTs:0,
-            stars:{}, mistakes:[], answered:0, correct:0, sound:true, free:false, lessons:0 };
+            stars:{}, mistakes:[], answered:0, correct:0, sound:true, free:false, lessons:0, read:{} };
 var st = load();
 
 function load(){
@@ -602,6 +1003,7 @@ var I = {
   check:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
   x:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
   target:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>',
+  tag:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>',
   clock:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
 };
 
@@ -611,6 +1013,7 @@ UNITS.forEach(function(u, ui){
   u.lessons.forEach(function(l, li){ NODES.push({ id:l.id, unit:u, ui:ui, title:l.title, lesson:l, cas:false, n:li+1 }); });
   NODES.push({ id:u.cas.id, unit:u, ui:ui, title:u.cas.title, lesson:u.cas, cas:true, n:u.lessons.length+1 });
 });
+NODES.forEach(function(nd){ nd.cours = nd.cas ? METHODE : (COURS[nd.id] || []); });
 var BYKEY = {};
 NODES.forEach(function(nd){ nd.lesson.ex.forEach(function(ex, i){ BYKEY[nd.id + ":" + i] = { ex:ex, node:nd }; }); });
 
@@ -646,8 +1049,9 @@ function beep(ok){
    ===================================================================== */
 var TABS = [
   { id:"path", label:"Parcours", ico:I.path },
+  { id:"cours", label:"Cours", ico:I.book },
   { id:"review", label:"Révisions", ico:I.redo },
-  { id:"lex", label:"Lexique", ico:I.book },
+  { id:"lex", label:"Lexique", ico:I.tag },
   { id:"profile", label:"Profil", ico:I.user }
 ];
 var tab = "path";
@@ -673,6 +1077,7 @@ function show(t){
 function renderView(){
   renderTop();
   if (tab === "path") renderPath();
+  else if (tab === "cours") renderCoursList();
   else if (tab === "review") renderReview();
   else if (tab === "lex") renderLex();
   else renderProfile();
@@ -735,6 +1140,56 @@ function renderReview(){
   $("v-review").innerHTML = html;
 }
 
+function readMin(nd){
+  var txt = nd.cours.map(function(s){ return [s.h, s.p || "", (s.li || []).join(" "), s.ex || ""].join(" "); }).join(" ");
+  if (nd.cas) txt += " " + nd.lesson.ctx;
+  return Math.max(2, Math.round(txt.split(/\s+/).length / 170));
+}
+function renderCoursList(){
+  var html = '<h2 class="section-title">Cours</h2><p class="lead">Une fiche par leçon, à lire avant de t\'entraîner. Tous les cours sont ouverts, même si la leçon est encore verrouillée.</p>';
+  UNITS.forEach(function(u, ui){
+    html += '<div class="c-unit"><h3 style="color:' + u.color + '"><i style="background:' + u.color + '"></i>Thème ' + (ui+1) + ' · ' + esc(u.title) + '</h3>';
+    NODES.forEach(function(nd, idx){
+      if (nd.ui !== ui) return;
+      var read = st.read[nd.id];
+      html += '<button class="c-row" data-read="' + idx + '"><span class="c-num" style="background:' + u.color + '">' + (nd.cas ? I.case : nd.n) + '</span>' +
+        '<span><span class="c-t">' + esc(nd.cas ? "Méthode + " + nd.title.charAt(0).toLowerCase() + nd.title.slice(1) : nd.title) + '</span><span class="c-m">' + readMin(nd) + ' min de lecture</span></span>' +
+        '<span class="c-state' + (read ? " read" : "") + '">' + (read ? "Lu" : "À lire") + '</span></button>';
+    });
+    html += '</div>';
+  });
+  $("v-cours").innerHTML = html;
+}
+function openReader(idx){
+  var nd = NODES[idx], u = nd.unit, l = nd.lesson;
+  S = null;
+  st.read[nd.id] = true; save();
+  var body = '<div class="eyebrow" style="color:' + u.color + '">Thème ' + (nd.ui+1) + (nd.cas ? " · Méthode du cas pratique" : " · Leçon " + nd.n) + '</div>' +
+    '<h1>' + esc(nd.cas ? "Réussir un cas pratique juridique" : nd.title) + '</h1>' +
+    '<div class="meta">' + readMin(nd) + ' min de lecture · ' + esc(u.title) + '</div>';
+  if (!nd.cas && l.key) body += '<div class="recap"><div class="kl">L\'essentiel</div><p>' + esc(l.key) + '</p></div>';
+  nd.cours.forEach(function(sec, i){
+    body += '<section class="r-sec"><h2><span>' + (i < 9 ? "0" : "") + (i+1) + '</span>' + esc(sec.h) + '</h2>' +
+      (sec.art ? '<div class="art">' + esc(sec.art) + '</div>' : '') +
+      (sec.p ? '<p>' + esc(sec.p) + '</p>' : '') +
+      (sec.li ? '<ul>' + sec.li.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : '') +
+      (sec.ex ? '<div class="exbox"><b>Exemple</b>' + esc(sec.ex) + '</div>' : '') + '</section>';
+  });
+  if (nd.cas) body += '<section class="r-sec"><h2><span>0' + (nd.cours.length+1) + '</span>Le cas qui t\'attend</h2><div class="exbox"><b>Situation</b>' + esc(l.ctx) + '</div></section>';
+  if (l.mot) body += '<div class="recap"><div class="kl">Mot à retenir</div><p><b>' + esc(l.mot[0]) + '</b> : ' + esc(l.mot[1]) + '</p></div>';
+  var prev = idx - 1, next = idx + 1 < NODES.length ? idx + 1 : -1;
+  body += '<button class="btn" data-train="' + idx + '">' + (nd.cas ? "Faire le cas pratique" : "Je m'entraîne sur cette leçon") + '</button>' +
+    '<div class="r-nav"><button class="btn ghost" data-read="' + prev + '"' + (prev < 0 ? " disabled" : "") + '>← Précédent</button>' +
+    '<button class="btn ghost" data-read="' + next + '"' + (next < 0 ? " disabled" : "") + '>Suivant →</button></div>';
+  $("overlay").innerHTML = '<div class="reader" role="dialog" aria-modal="true" aria-label="Cours" style="--u:' + u.color + '">' +
+    '<div class="r-top"><div class="r-top-in"><button class="l-close" data-close-reader="1" aria-label="Fermer le cours">' + I.x + '</button><span class="r-t">' + esc(nd.title) + '</span></div><div class="r-prog"><i id="r-prog"></i></div></div>' +
+    '<div class="r-body" id="r-body"><div class="r-in">' + body + '</div></div></div>';
+  document.body.style.overflow = "hidden";
+  var rb = $("r-body"), bar = $("r-prog");
+  rb.addEventListener("scroll", function(){ var m = rb.scrollHeight - rb.clientHeight; bar.style.width = (m > 0 ? Math.round(100 * rb.scrollTop / m) : 100) + "%"; });
+}
+function closeReader(){ closeOverlay(); document.body.style.overflow = ""; renderView(); }
+
 var lexQuery = "";
 function renderLex(){
   var items = NODES.filter(function(n){ return n.lesson.mot; });
@@ -784,7 +1239,7 @@ function renderProfile(){
 function openSheet(idx){
   var nd = NODES[idx];
   if (!isUnlocked(idx)) {
-    sheet('<h3>Leçon verrouillée</h3><p>Termine la leçon précédente pour débloquer « ' + esc(nd.title) + ' », ou active le mode libre dans le Profil.</p><div class="btns"><button class="btn ghost" data-close="1">Compris</button></div>');
+    sheet('<h3>Leçon verrouillée</h3><p>Termine la leçon précédente pour débloquer « ' + esc(nd.title) + ' », ou active le mode libre dans le Profil. Tu peux déjà lire le cours.</p><div class="btns"><button class="btn" data-read="' + idx + '">Lire le cours</button><button class="btn ghost" data-close="1">Compris</button></div>');
     return;
   }
   regen();
@@ -794,7 +1249,7 @@ function openSheet(idx){
     '<p>' + nd.lesson.ex.length + ' exercices · ' + (stars ? stars + " étoile" + (stars > 1 ? "s" : "") + " obtenue" + (stars > 1 ? "s" : "") : "+10 XP, +5 si sans faute") + '</p>' +
     (noHearts ? '<p style="color:var(--ko);font-weight:700">Plus de cœurs. Fais une révision pour en regagner un, ou attends ' + Math.ceil(nextHeartIn() / 60000) + ' min.</p>' : '') +
     '<div class="btns">' + (noHearts ? '<button class="btn" data-practice="1">Réviser pour regagner un cœur</button>' : '<button class="btn" data-start="' + idx + '">' + (stars ? "Refaire la leçon" : "Commencer") + '</button>') +
-    '<button class="btn ghost" data-close="1">Plus tard</button></div>');
+    '<button class="btn ghost" data-read="' + idx + '">' + (st.read[nd.id] ? "Relire le cours" : "Lire le cours d'abord") + '</button></div>');
 }
 function sheet(inner){
   $("overlay").innerHTML = '<div class="scrim" data-scrim="1"><div class="sheet" role="dialog" aria-modal="true">' + inner + '</div></div>';
@@ -1040,6 +1495,7 @@ function finish(){
         (l.mot ? '<div class="kl">Mot à retenir</div><p><b>' + esc(l.mot[0]) + '</b> : ' + esc(l.mot[1]) + '</p>' : '') + '</div>' : '') +
       (st.dayXp >= st.goal && st.dayXp - gained < st.goal ? '<div class="key" style="border-color:var(--brand)"><b>Objectif du jour atteint.</b> Série : ' + st.streak + ' jour' + (st.streak > 1 ? "s" : "") + '.</div>' : '') +
       '<button class="btn" id="l-done">Continuer</button>' +
+      (!S.practice && !perfect ? '<button class="btn ghost" data-read="' + S.idx + '">Relire le cours</button>' : '') +
     '</div></div>';
   $("l-done").focus();
 }
@@ -1066,6 +1522,13 @@ document.addEventListener("click", function(e){
   if (t.dataset.tab) return show(t.dataset.tab);
   if (t.dataset.node !== undefined) return openSheet(+t.dataset.node);
   if (t.dataset.close) return closeOverlay();
+  if (t.dataset.closeReader) return closeReader();
+  if (t.dataset.read !== undefined) { if (+t.dataset.read >= 0) openReader(+t.dataset.read); return; }
+  if (t.dataset.train !== undefined) {
+    var ti = +t.dataset.train; regen();
+    if (isUnlocked(ti) && st.hearts > 0) return startLesson(ti);
+    closeReader(); return openSheet(ti);
+  }
   if (t.dataset.start !== undefined) return startLesson(+t.dataset.start);
   if (t.dataset.practice) { if (S) { S = null; } return startPractice(); }
   if (t.dataset.goal) { st.goal = +t.dataset.goal; save(); return renderView(); }
@@ -1085,7 +1548,7 @@ document.addEventListener("click", function(e){
 });
 
 document.addEventListener("keydown", function(e){
-  if (!S || !$("l-btn")) { if (e.key === "Escape") closeOverlay(); return; }
+  if (!S || !$("l-btn")) { if (e.key === "Escape") { if (document.querySelector(".reader")) closeReader(); else closeOverlay(); } return; }
   var btn = $("l-btn");
   if (e.key === "Enter") {
     if (document.activeElement && document.activeElement.id !== "type-in" && document.activeElement.id !== "l-btn" && document.activeElement.tagName === "BUTTON") return;
