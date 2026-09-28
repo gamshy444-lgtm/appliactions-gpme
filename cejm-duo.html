@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CEJM Duo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+:root{
+  --bg:#EDF1F4; --surface:#FFFFFF; --surface-2:#F4F7F9; --ink:#14212E; --muted:#5A6B7C;
+  --line:#D3DCE4; --line-strong:#B9C6D2;
+  --brand:#F0A81C; --brand-deep:#C07D00; --brand-ink:#2E1F00;
+  --ok:#2DA44E; --ok-deep:#1E7A37; --ok-bg:#DCF4E2; --ok-ink:#155C29;
+  --ko:#E0474C; --ko-deep:#A92F34; --ko-bg:#FDE4E4; --ko-ink:#8A1F24;
+  --sel:#2E7DD7; --sel-bg:#E2EEFB;
+  --lock:#C8D2DB; --lock-deep:#A9B6C2;
+  --heart:#E5484D; --flame:#F07A1A; --xp:#E8A317;
+  --display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Nunito", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E151C; --surface:#16202A; --surface-2:#1C2833; --ink:#E4ECF2; --muted:#93A5B6;
+    --line:#283645; --line-strong:#3A4D5F;
+    --ok-bg:#15311F; --ok-ink:#8FE0A6; --ko-bg:#3A1B1E; --ko-ink:#F6A5A8;
+    --sel-bg:#15304D; --lock:#2E3C49; --lock-deep:#23303B;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E151C; --surface:#16202A; --surface-2:#1C2833; --ink:#E4ECF2; --muted:#93A5B6;
+  --line:#283645; --line-strong:#3A4D5F;
+  --ok-bg:#15311F; --ok-ink:#8FE0A6; --ko-bg:#3A1B1E; --ko-ink:#F6A5A8;
+  --sel-bg:#15304D; --lock:#2E3C49; --lock-deep:#23303B;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;}
+button{font:inherit;color:inherit;cursor:pointer;}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--sel);outline-offset:2px;}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;}
+.ico{width:22px;height:22px;flex:none;}
+
+/* ---------- Top bar ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--line);}
+.top-in{max-width:640px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;}
+.brand{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.01em;margin-right:auto;display:flex;align-items:center;gap:8px;}
+.brand small{font-family:var(--body);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.chip{display:flex;align-items:center;gap:5px;font-weight:800;font-variant-numeric:tabular-nums;font-size:15px;}
+.chip.flame{color:var(--flame);} .chip.heart{color:var(--heart);} .chip.xp{color:var(--xp);}
+.chip.off{color:var(--muted);}
+.chip.off .ico{filter:grayscale(1);opacity:.6;}
+
+/* ---------- Layout ---------- */
+main{max-width:640px;margin:0 auto;padding:18px 16px 110px;}
+.view[hidden]{display:none!important;}
+
+/* goal card */
+.goal{display:flex;align-items:center;gap:14px;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:22px;}
+.goal-ring{width:48px;height:48px;flex:none;}
+.goal-ring circle{fill:none;stroke-width:6;}
+.goal-ring .bg{stroke:var(--line);}
+.goal-ring .fg{stroke:var(--brand);stroke-linecap:round;transition:stroke-dashoffset .6s;}
+.goal b{display:block;font-weight:800;}
+.goal span{color:var(--muted);font-size:14px;}
+
+/* unit banner */
+.unit{margin-bottom:28px;}
+.unit-head{--u:#2E7DD7;background:var(--u);color:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 4px 0 color-mix(in srgb,var(--u) 70%,#000);display:flex;gap:12px;align-items:center;}
+.unit-head .eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.85;}
+.unit-head h2{font-size:19px;font-weight:800;line-height:1.2;}
+.unit-head .count{margin-left:auto;font-weight:800;font-size:13px;background:rgba(255,255,255,.2);padding:4px 10px;border-radius:99px;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.path{display:flex;flex-direction:column;align-items:center;gap:18px;padding:62px 0 6px;}
+.node-wrap{position:relative;display:flex;flex-direction:column;align-items:center;}
+.node{--u:#2E7DD7;width:74px;height:70px;border-radius:50%;border:none;background:var(--u);color:#fff;
+  box-shadow:0 6px 0 color-mix(in srgb,var(--u) 65%,#000);display:grid;place-items:center;transition:transform .08s,box-shadow .08s;}
+.node:active{transform:translateY(4px);box-shadow:0 2px 0 color-mix(in srgb,var(--u) 65%,#000);}
+.node .ico{width:32px;height:32px;}
+.node.locked{background:var(--lock);box-shadow:0 6px 0 var(--lock-deep);color:var(--muted);}
+.node.current{outline:5px solid color-mix(in srgb,var(--u) 30%,transparent);outline-offset:5px;}
+.node.cas{border-radius:22px;}
+.stars{display:flex;gap:2px;margin-top:10px;height:14px;}
+.stars svg{width:14px;height:14px;}
+.stars .on{fill:var(--brand);} .stars .off{fill:var(--line-strong);}
+.bubble{position:absolute;bottom:calc(100% + 12px);background:var(--surface);border:2px solid var(--line);color:var(--u,#2E7DD7);
+  font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:12px;white-space:nowrap;animation:bob 1.6s ease-in-out infinite;}
+.bubble::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);border:7px solid transparent;border-top-color:var(--line);}
+@keyframes bob{50%{transform:translateY(-4px);}}
+.node-label{font-size:13px;font-weight:700;color:var(--muted);margin-top:4px;max-width:180px;text-align:center;line-height:1.25;}
+
+/* ---------- Bottom nav ---------- */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:2px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);}
+.tabs-in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
+.tab{background:none;border:none;padding:10px 4px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+.tab .ico{width:26px;height:26px;}
+.tab[aria-current="page"]{color:var(--sel);}
+.tab[aria-current="page"] .ico{transform:scale(1.08);}
+
+/* ---------- Cards / generic ---------- */
+.card{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;}
+.stack{display:flex;flex-direction:column;gap:14px;}
+.section-title{font-size:22px;font-weight:800;margin-bottom:4px;}
+.lead{color:var(--muted);margin:0 0 16px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:14px;padding:13px 18px;font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--brand);color:var(--brand-ink);box-shadow:0 4px 0 var(--brand-deep);transition:transform .06s,box-shadow .06s;width:100%;}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--brand-deep);}
+.btn:disabled{background:var(--lock);color:var(--muted);box-shadow:0 4px 0 var(--lock-deep);cursor:not-allowed;transform:none;}
+.btn.ghost{background:var(--surface);color:var(--ink);box-shadow:0 4px 0 var(--line);border:2px solid var(--line);}
+.btn.ok{background:var(--ok);color:#fff;box-shadow:0 4px 0 var(--ok-deep);}
+.btn.ko{background:var(--ko);color:#fff;box-shadow:0 4px 0 var(--ko-deep);}
+.btn.danger{background:var(--surface);color:var(--ko);border:2px solid var(--ko);box-shadow:0 4px 0 var(--ko-deep);}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.stat{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:center;}
+.stat b{display:block;font-family:var(--display);font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1;}
+.stat span{font-size:13px;color:var(--muted);font-weight:700;}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:2px solid var(--line);}
+.row:last-child{border-bottom:none;}
+.row .sub{font-size:13px;color:var(--muted);}
+.seg{display:flex;gap:6px;flex-wrap:wrap;}
+.seg button{border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 12px;font-weight:800;font-size:14px;}
+.seg button[aria-pressed="true"]{border-color:var(--sel);background:var(--sel-bg);color:var(--sel);}
+.switch{width:50px;height:30px;border-radius:99px;border:none;background:var(--lock);position:relative;flex:none;}
+.switch::after{content:"";position:absolute;top:4px;left:4px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s;}
+.switch[aria-checked="true"]{background:var(--ok);}
+.switch[aria-checked="true"]::after{left:24px;}
+
+/* lexique */
+.search{width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;margin-bottom:14px;}
+.lex-item{padding:12px 0;border-bottom:2px solid var(--line);}
+.lex-item:last-child{border-bottom:none;}
+.lex-item b{font-family:var(--display);font-size:17px;}
+.lex-item .tag{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:99px;color:#fff;margin-left:6px;vertical-align:2px;}
+.lex-item p{margin:4px 0 0;color:var(--muted);}
+.lex-item.locked b{color:var(--muted);}
+.empty{color:var(--muted);text-align:center;padding:18px 8px;}
+
+/* ---------- Sheet ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,18,26,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center;}
+.sheet{background:var(--surface);width:100%;max-width:640px;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));animation:up .2s ease-out;}
+@keyframes up{from{transform:translateY(30px);opacity:.4;}}
+.sheet h3{font-size:22px;font-weight:800;margin-bottom:6px;}
+.sheet p{color:var(--muted);margin:0 0 16px;}
+.sheet .btns{display:flex;flex-direction:column;gap:12px;}
+
+/* ---------- Lesson ---------- */
+.lesson{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);}
+.l-top{max-width:720px;width:100%;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:14px;}
+.l-close{background:none;border:none;color:var(--muted);padding:4px;display:grid;place-items:center;}
+.bar{flex:1;height:16px;border-radius:99px;background:var(--line);overflow:hidden;}
+.bar i{display:block;height:100%;width:0;background:var(--ok);border-radius:99px;transition:width .35s ease;box-shadow:inset 0 -4px 0 rgba(0,0,0,.08);}
+.l-body{flex:1;overflow-y:auto;}
+.l-body-in{max-width:640px;margin:0 auto;padding:10px 16px 24px;}
+.combo{font-weight:800;color:var(--flame);font-size:14px;letter-spacing:.04em;text-transform:uppercase;min-height:20px;margin-bottom:4px;}
+.kind{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--sel);margin-bottom:6px;}
+.kind.retry{color:var(--ko);}
+.q{font-family:var(--display);font-size:23px;font-weight:800;line-height:1.25;margin:0 0 18px;}
+.ctx{background:var(--surface);border:2px solid var(--line);border-left:6px solid var(--sel);border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:15px;}
+.ctx .ctx-l{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;}
+.opts{display:flex;flex-direction:column;gap:10px;}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;padding:13px 14px;font-weight:700;font-size:16px;}
+.opt .k{flex:none;width:28px;height:28px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;}
+.opt[aria-pressed="true"]{border-color:var(--sel);background:var(--sel-bg);color:var(--sel);}
+.opt[aria-pressed="true"] .k{border-color:var(--sel);color:var(--sel);}
+.opt.good{border-color:var(--ok);background:var(--ok-bg);color:var(--ok-ink);}
+.opt.bad{border-color:var(--ko);background:var(--ko-bg);color:var(--ko-ink);}
+.opt:disabled{cursor:default;}
+.vf{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.vf .opt{justify-content:center;font-size:18px;padding:20px 10px;flex-direction:column;gap:6px;}
+.sentence{font-size:19px;font-weight:700;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px;margin-bottom:16px;line-height:1.6;}
+.blank{display:inline-block;min-width:90px;border-bottom:3px solid var(--line-strong);color:var(--sel);text-align:center;padding:0 4px;}
+/* pairs */
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.pairs .col{display:flex;flex-direction:column;gap:10px;}
+.pairs .opt{justify-content:center;text-align:center;font-size:14px;padding:12px 8px;min-height:62px;}
+.pairs .opt.done{opacity:.35;border-color:var(--line);background:var(--surface);color:var(--muted);}
+.pairs .opt.flash-bad{border-color:var(--ko);background:var(--ko-bg);color:var(--ko-ink);animation:shake .3s;}
+.pairs .opt.flash-good{border-color:var(--ok);background:var(--ok-bg);color:var(--ok-ink);}
+@keyframes shake{25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+/* word bank */
+.answer-zone{min-height:66px;border-bottom:2px solid var(--line);border-top:2px solid var(--line);padding:10px 0;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;margin-bottom:18px;}
+.answer-zone.col{flex-direction:column;flex-wrap:nowrap;}
+.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.bank.col{flex-direction:column;}
+.w{background:var(--surface);border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;padding:8px 12px;font-weight:700;font-size:15px;}
+.w.used{color:transparent;background:var(--line);border-color:var(--line);pointer-events:none;}
+.w.used .n{visibility:hidden;}
+.w.step{text-align:left;width:100%;display:flex;gap:10px;align-items:center;}
+.w.step .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--sel-bg);color:var(--sel);display:grid;place-items:center;font-size:12px;font-weight:800;}
+.hint{font-size:13px;color:var(--muted);margin:-8px 0 14px;}
+.type-in{width:100%;font:inherit;font-size:18px;font-weight:700;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);color:var(--ink);}
+.type-in:focus{border-color:var(--sel);outline:none;}
+
+/* footer */
+.l-foot{border-top:2px solid var(--line);background:var(--bg);padding-bottom:env(safe-area-inset-bottom,0px);}
+.l-foot.ok{background:var(--ok-bg);border-top-color:transparent;}
+.l-foot.ko{background:var(--ko-bg);border-top-color:transparent;}
+.l-foot-in{max-width:640px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+.fb{display:flex;gap:12px;align-items:flex-start;}
+.fb[hidden]{display:none;}
+.fb-ico{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--surface);}
+.l-foot.ok .fb-ico{color:var(--ok);} .l-foot.ko .fb-ico{color:var(--ko);}
+.fb h4{margin:0;font-family:var(--display);font-size:20px;font-weight:800;}
+.l-foot.ok h4{color:var(--ok-ink);} .l-foot.ko h4{color:var(--ko-ink);}
+.fb p{margin:2px 0 0;font-size:14px;color:var(--ink);}
+.fb .sol{font-weight:800;}
+
+/* end screens */
+.end{max-width:520px;margin:0 auto;padding:32px 16px;text-align:center;display:flex;flex-direction:column;gap:18px;}
+.end h2{font-size:30px;font-weight:800;}
+.end .big-ico{width:88px;height:88px;margin:0 auto;}
+.end-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.end-stat{border:2px solid var(--c);border-radius:14px;overflow:hidden;}
+.end-stat span{display:block;background:var(--c);color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px;}
+.end-stat b{display:block;font-family:var(--display);font-size:22px;padding:8px 4px;color:var(--c);font-variant-numeric:tabular-nums;}
+.key{text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px 16px;}
+.key .kl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.key p{margin:4px 0 10px;}
+.key p:last-child{margin-bottom:0;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important;}
+}
+@media (max-width:380px){
+  .q{font-size:20px;}
+  .brand small{display:none;}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">CEJM Duo <small>BTS · E3</small></div>
+    <div class="chip flame" id="c-streak" title="Série de jours"></div>
+    <div class="chip xp" id="c-xp" title="XP total"></div>
+    <div class="chip heart" id="c-hearts" title="Cœurs"></div>
+  </div>
+</header>
+
+<main>
+  <section class="view" id="v-path"></section>
+  <section class="view" id="v-review" hidden></section>
+  <section class="view" id="v-lex" hidden></section>
+  <section class="view" id="v-profile" hidden></section>
+</main>
+
+<nav class="tabs" aria-label="Navigation">
+  <div class="tabs-in" id="tabs"></div>
+</nav>
+
+<div id="overlay"></div>
+
+<script>
+/* =====================================================================
+   CONTENU — programme CEJM (BTS), 6 thèmes
+   Types : qcm, vf, trou, paires, ordre, mots, saisie
+   ===================================================================== */
+var UNITS = [
+{ id:"u1", title:"L'entreprise dans son environnement", color:"#2E7DD7", lessons:[
+  { id:"u1l1", title:"L'entreprise et ses parties prenantes",
+    key:"L'entreprise produit des biens ou services marchands. Elle est au centre de parties prenantes internes (salariés, dirigeants, associés) et externes (clients, fournisseurs, État, banques) dont les attentes peuvent s'opposer.",
+    mot:["Partie prenante","Acteur qui influence l'entreprise ou qui est affecté par ses décisions."],
+    ex:[
+      {t:"qcm", q:"Lequel de ces acteurs est une partie prenante interne ?", c:["Les salariés","Les clients","Les fournisseurs","L'administration fiscale"], a:0, e:"Les salariés, les dirigeants et les associés sont internes à l'entreprise."},
+      {t:"vf", q:"Une association a pour but de partager des bénéfices entre ses membres.", a:false, e:"L'association poursuit un but non lucratif : elle ne partage pas de bénéfices entre ses membres."},
+      {t:"paires", q:"Associe chaque partie prenante à son attente principale", p:[["Salariés","Bonne rémunération"],["Clients","Qualité au juste prix"],["Associés","Rentabilité du capital"],["État","Respect de la loi, impôts"],["Fournisseurs","Paiement à l'heure"]]},
+      {t:"trou", s:"Une PME emploie moins de ___ salariés.", c:["250","50","500","5 000"], a:0, e:"PME : moins de 250 salariés et CA ≤ 50 M€ ou bilan ≤ 43 M€."},
+      {t:"qcm", q:"Une entreprise de 8 salariés est une…", c:["Microentreprise","ETI","Grande entreprise","Moyenne entreprise"], a:0, e:"Microentreprise : moins de 10 salariés et CA ou bilan ≤ 2 M€."},
+      {t:"mots", q:"Reconstitue la formule", s:"Valeur ajoutée = chiffre d'affaires – consommations intermédiaires", x:["+","bénéfice","salaires"], e:"La valeur ajoutée mesure la richesse réellement créée par l'entreprise."},
+      {t:"saisie", q:"Comment appelle-t-on la richesse créée par l'entreprise (CA – consommations intermédiaires) ?", a:["valeur ajoutee","la valeur ajoutee","va"], sol:"La valeur ajoutée", e:"Elle est ensuite partagée entre salariés, État, prêteurs, associés et l'entreprise elle-même."},
+      {t:"vf", q:"Les intérêts des salariés et des associés peuvent être contradictoires.", a:true, e:"Ex. : augmenter les salaires réduit la part de valeur ajoutée qui revient aux associés (dividendes)."}
+    ]},
+  { id:"u1l2", title:"Le marché et les prix",
+    key:"Le marché est le lieu de rencontre entre l'offre et la demande. Leur confrontation fixe un prix d'équilibre. En concurrence pure et parfaite, aucun acteur ne peut influencer seul le prix.",
+    mot:["Prix d'équilibre","Prix pour lequel la quantité offerte est égale à la quantité demandée."],
+    ex:[
+      {t:"qcm", q:"En général, quand le prix d'un bien augmente, la demande…", c:["Diminue","Augmente","Reste identique","Disparaît"], a:0, e:"La demande est une fonction décroissante du prix."},
+      {t:"vf", q:"L'offre est en général une fonction croissante du prix.", a:true, e:"Plus le prix est élevé, plus les producteurs sont incités à produire."},
+      {t:"paires", q:"Associe chaque structure de marché à sa définition", p:[["Monopole","Un seul vendeur"],["Oligopole","Quelques vendeurs"],["Monopsone","Un seul acheteur"],["Concurrence parfaite","Très nombreux acteurs"]]},
+      {t:"qcm", q:"Laquelle n'est PAS une condition de la concurrence pure et parfaite ?", c:["La différenciation des produits","L'atomicité","La transparence de l'information","La libre entrée sur le marché"], a:0, e:"Il faut au contraire l'homogénéité des produits : ils sont identiques."},
+      {t:"trou", s:"Quand l'offre est supérieure à la demande, le prix a tendance à ___.", c:["baisser","monter","se stabiliser"], a:0, e:"Un excédent d'offre pousse les vendeurs à baisser leurs prix."},
+      {t:"saisie", q:"Quelle condition de la CPP signifie qu'il y a un grand nombre d'offreurs et de demandeurs ?", a:["atomicite","l'atomicite","l atomicite"], sol:"L'atomicité", e:"Chaque acteur est trop petit pour influencer le prix."},
+      {t:"qcm", q:"Un marché où quelques grandes entreprises dominent (ex. opérateurs téléphoniques) est un…", c:["Oligopole","Monopole","Marché atomisé","Monopsone"], a:0, e:"Oligopole : un petit nombre d'offreurs face à de nombreux demandeurs."}
+    ]},
+  { id:"u1l3", title:"La formation du contrat",
+    key:"Le contrat est un accord de volontés qui crée des obligations (art. 1101 C. civ.). Il est valable si trois conditions sont réunies : consentement des parties, capacité de contracter, contenu licite et certain (art. 1128).",
+    mot:["Vice du consentement","Erreur, dol ou violence qui altère la volonté d'un contractant et rend le contrat annulable."],
+    ex:[
+      {t:"qcm", q:"Quelle est la définition du contrat (art. 1101 du Code civil) ?", c:["Un accord de volontés destiné à créer, modifier, transmettre ou éteindre des obligations","Un document signé devant notaire","Une promesse unilatérale sans effet","Une décision de justice"], a:0, e:"Le contrat repose sur la rencontre des volontés, pas sur la forme écrite."},
+      {t:"paires", q:"Associe chaque vice du consentement à sa définition", p:[["Erreur","Se tromper soi-même"],["Dol","Être trompé par l'autre"],["Violence","Subir une contrainte"]]},
+      {t:"ordre", q:"Remets dans l'ordre les 3 conditions de validité de l'article 1128", it:["Le consentement des parties","Leur capacité de contracter","Un contenu licite et certain"], e:"Retenir : consentement, capacité, contenu (les « 3 C »)."},
+      {t:"vf", q:"Un mineur non émancipé peut signer seul n'importe quel contrat.", a:false, e:"Le mineur est incapable juridiquement, sauf pour les actes courants de la vie quotidienne."},
+      {t:"trou", s:"Un contrat conclu avec un vice du consentement est sanctionné par la nullité ___.", c:["relative","absolue","pénale"], a:0, e:"La nullité relative protège un intérêt privé : seule la victime peut l'invoquer."},
+      {t:"qcm", q:"Le principe de « force obligatoire du contrat » (art. 1103) signifie que…", c:["Le contrat tient lieu de loi à ceux qui l'ont fait","Le juge peut toujours modifier le contrat","Seul l'écrit engage","L'État fixe le contenu des contrats"], a:0, e:"Les parties doivent exécuter ce qu'elles ont promis."},
+      {t:"saisie", q:"Quel vice du consentement consiste à tromper son cocontractant par des manœuvres ou mensonges ?", a:["dol","le dol"], sol:"Le dol", e:"Le dol est une tromperie intentionnelle (art. 1137)."},
+      {t:"vf", q:"Dans un contrat d'adhésion, une clause créant un déséquilibre significatif est réputée non écrite.", a:true, e:"Art. 1171 du Code civil : la clause abusive est effacée, le reste du contrat demeure."}
+    ]}
+  ],
+  cas:{ id:"u1c", title:"Cas pratique : la vente du food-truck",
+    ctx:"Léo, 17 ans et non émancipé, achète seul un food-truck d'occasion à 18 000 € auprès de Nadia. Le vendeur lui avait affirmé que le moteur était neuf, alors qu'il avait 300 000 km.",
+    ex:[
+      {t:"qcm", q:"Quel est le problème juridique ?", c:["Le contrat de vente est-il valablement formé ?","Nadia doit-elle payer des impôts ?","Léo peut-il ouvrir une SARL ?","Le food-truck est-il un bien immobilier ?"], a:0, e:"Il faut vérifier les conditions de validité du contrat."},
+      {t:"qcm", q:"Quelle condition de validité fait défaut du fait de l'âge de Léo ?", c:["La capacité","Le contenu licite","L'objet certain","La forme écrite"], a:0, e:"Le mineur non émancipé n'a pas la capacité de conclure un contrat de cette importance."},
+      {t:"qcm", q:"L'affirmation mensongère sur le moteur constitue…", c:["Un dol","Une erreur sur la valeur","Une violence","Une clause abusive"], a:0, e:"Mensonge intentionnel déterminant = dol."},
+      {t:"ordre", q:"Remets dans l'ordre les étapes du syllogisme juridique", it:["Présenter les faits","Poser le problème juridique","Énoncer les règles de droit","Appliquer les règles aux faits","Conclure"], e:"C'est la méthode attendue à l'épreuve de CEJM pour toute question juridique."}
+    ]}
+},
+{ id:"u2", title:"La régulation de l'activité économique", color:"#0E9F8E", lessons:[
+  { id:"u2l1", title:"Le droit de la concurrence",
+    key:"L'État protège la concurrence en sanctionnant les pratiques anticoncurrentielles : ententes et abus de position dominante. L'Autorité de la concurrence peut infliger une amende allant jusqu'à 10 % du CA mondial.",
+    mot:["Entente","Accord entre entreprises concurrentes pour fausser le jeu de la concurrence (ex. fixer les prix ensemble)."],
+    ex:[
+      {t:"qcm", q:"Quelle autorité française sanctionne les pratiques anticoncurrentielles ?", c:["L'Autorité de la concurrence","La CNIL","L'INPI","Le conseil de prud'hommes"], a:0, e:"Autorité administrative indépendante créée en 2009."},
+      {t:"paires", q:"Associe chaque pratique à sa catégorie", p:[["Accord de prix","Entente"],["Prix prédateurs d'un leader","Abus de position dominante"],["Dénigrer un concurrent","Concurrence déloyale"],["Fusion de deux géants","Contrôle des concentrations"]]},
+      {t:"vf", q:"Être en position dominante sur un marché est interdit en soi.", a:false, e:"Seul l'abus de cette position est sanctionné."},
+      {t:"trou", s:"L'amende maximale est de ___ du chiffre d'affaires mondial.", c:["10 %","1 %","50 %","100 %"], a:0, e:"Article L. 464-2 du Code de commerce."},
+      {t:"qcm", q:"La concurrence déloyale est sanctionnée sur le fondement…", c:["De la responsabilité civile (art. 1240 C. civ.)","Du Code du travail","Du RGPD","Du droit pénal uniquement"], a:0, e:"La victime doit prouver une faute, un dommage et un lien de causalité."},
+      {t:"saisie", q:"Comment appelle-t-on le fait de profiter sans frais des efforts et de la notoriété d'un concurrent ?", a:["parasitisme","le parasitisme"], sol:"Le parasitisme", e:"Forme de concurrence déloyale, avec le dénigrement, la confusion et la désorganisation."},
+      {t:"mots", q:"Reconstitue la phrase", s:"Les ententes et les abus de position dominante sont des pratiques anticoncurrentielles", x:["loyales","autorisées"], e:"Articles L. 420-1 et L. 420-2 du Code de commerce."}
+    ]},
+  { id:"u2l2", title:"L'État et les défaillances du marché",
+    key:"Le marché ne fonctionne pas toujours bien : externalités, biens collectifs, asymétries d'information, pouvoir de marché. L'État intervient alors pour corriger ces défaillances (taxes, normes, production publique).",
+    mot:["Externalité","Effet d'une activité sur un tiers sans compensation monétaire (ex. pollution, formation)."],
+    ex:[
+      {t:"qcm", q:"Une usine pollue une rivière sans indemniser les pêcheurs. C'est…", c:["Une externalité négative","Une externalité positive","Un bien collectif","Un monopole"], a:0, e:"Le coût est supporté par des tiers sans compensation."},
+      {t:"vf", q:"Un bien collectif pur est non rival et non excluable.", a:true, e:"Ex. : l'éclairage public, la défense nationale."},
+      {t:"paires", q:"Associe chaque défaillance à un exemple", p:[["Externalité négative","Pollution"],["Bien collectif","Phare maritime"],["Asymétrie d'information","Voiture d'occasion"],["Pouvoir de marché","Monopole"]]},
+      {t:"trou", s:"Le principe « ___-payeur » fait supporter le coût de la pollution à son auteur.", c:["pollueur","consommateur","contribuable"], a:0, e:"Il inspire les taxes environnementales."},
+      {t:"paires", q:"Associe chaque fonction de l'État (Musgrave) à son rôle", p:[["Allocation","Produire des biens collectifs"],["Redistribution","Réduire les inégalités"],["Stabilisation","Lisser la conjoncture"]]},
+      {t:"qcm", q:"Qui conduit la politique monétaire de la zone euro ?", c:["La Banque centrale européenne","Le ministère de l'Économie","L'Assemblée nationale","La Commission européenne"], a:0, e:"La BCE agit notamment via ses taux directeurs."},
+      {t:"saisie", q:"Quel type de politique utilise les dépenses publiques et les impôts ?", a:["budgetaire","politique budgetaire","la politique budgetaire"], sol:"La politique budgétaire", e:"Elle est conduite par l'État (loi de finances)."}
+    ]},
+  { id:"u2l3", title:"L'inexécution du contrat",
+    key:"Si un contractant n'exécute pas son obligation, la victime dispose de plusieurs sanctions (art. 1217) : exception d'inexécution, exécution forcée, réduction du prix, résolution, dommages et intérêts. La force majeure exonère le débiteur.",
+    mot:["Force majeure","Événement échappant au contrôle du débiteur, imprévisible et irrésistible, qui l'exonère de sa responsabilité."],
+    ex:[
+      {t:"paires", q:"Associe chaque sanction à sa définition", p:[["Exception d'inexécution","Suspendre sa propre obligation"],["Résolution","Anéantir le contrat"],["Réduction du prix","Payer moins"],["Exécution forcée","Obtenir la prestation promise"]]},
+      {t:"ordre", q:"Remets dans l'ordre les conditions de la responsabilité contractuelle", it:["Une inexécution du contrat","Un dommage","Un lien de causalité entre les deux"], e:"Les trois conditions sont cumulatives."},
+      {t:"vf", q:"Une simple hausse du prix des matières premières constitue toujours un cas de force majeure.", a:false, e:"Elle n'est ni imprévisible ni irrésistible en général. Elle peut relever de l'imprévision (art. 1195)."},
+      {t:"qcm", q:"Avant de réclamer des dommages et intérêts, le créancier doit en principe…", c:["Mettre le débiteur en demeure","Saisir la CNIL","Résilier tous ses contrats","Porter plainte au pénal"], a:0, e:"La mise en demeure est une interpellation officielle d'exécuter."},
+      {t:"trou", s:"La clause qui fixe à l'avance le montant des dommages et intérêts s'appelle la clause ___.", c:["pénale","résolutoire","de non-concurrence"], a:0, e:"Le juge peut la modérer si elle est manifestement excessive."},
+      {t:"saisie", q:"Quelle sanction consiste à anéantir le contrat pour inexécution suffisamment grave ?", a:["resolution","la resolution"], sol:"La résolution", e:"Elle peut résulter d'une clause, d'une notification ou d'une décision de justice."},
+      {t:"qcm", q:"La force majeure doit être…", c:["Imprévisible, irrésistible et échapper au contrôle du débiteur","Simplement coûteuse","Annoncée à l'avance","Causée par le débiteur"], a:0, e:"Article 1218 du Code civil."}
+    ]}
+  ],
+  cas:{ id:"u2c", title:"Cas pratique : le traiteur en retard",
+    ctx:"La SARL Bois&Co a commandé un buffet pour son inauguration. Le traiteur arrive 3 heures en retard, sans raison, et l'événement est gâché. Bois&Co n'a pas encore payé.",
+    ex:[
+      {t:"qcm", q:"Bois&Co peut refuser de payer en attendant. Sur quel mécanisme ?", c:["L'exception d'inexécution","La force majeure","La nullité","La prescription"], a:0, e:"Elle suspend sa propre obligation tant que l'autre partie n'exécute pas."},
+      {t:"vf", q:"Le traiteur peut invoquer la force majeure.", a:false, e:"Aucun événement extérieur, imprévisible et irrésistible : le retard est « sans raison »."},
+      {t:"qcm", q:"Pour obtenir des dommages et intérêts, Bois&Co doit prouver…", c:["Inexécution, dommage et lien de causalité","Seulement le retard","Une faute pénale","L'intention de nuire"], a:0, e:"Conditions de la responsabilité contractuelle."},
+      {t:"qcm", q:"Si la prestation a été partiellement exécutée, Bois&Co peut aussi demander…", c:["Une réduction du prix","Une dissolution de la SARL","Une rupture conventionnelle","Un dépôt de marque"], a:0, e:"Art. 1223 C. civ. : réduction proportionnelle du prix."}
+    ]}
+},
+{ id:"u3", title:"L'organisation de l'activité de l'entreprise", color:"#7457E8", lessons:[
+  { id:"u3l1", title:"Les formes juridiques",
+    key:"Le choix de la forme juridique dépend du nombre d'associés, de la responsabilité souhaitée, du régime fiscal et social. SARL et SAS limitent la responsabilité des associés à leurs apports ; dans une SNC, elle est indéfinie et solidaire.",
+    mot:["Personnalité morale","Aptitude d'une société à être titulaire de droits et d'obligations, acquise à son immatriculation."],
+    ex:[
+      {t:"qcm", q:"Dans une SARL, la responsabilité des associés est limitée…", c:["À leurs apports","À leur patrimoine personnel entier","À la moitié du capital","Aux dettes fiscales"], a:0, e:"Leur patrimoine personnel est protégé."},
+      {t:"paires", q:"Associe chaque forme à sa caractéristique", p:[["SAS","Grande liberté des statuts"],["SARL","2 à 100 associés"],["SA","Capital minimum 37 000 €"],["SNC","Responsabilité indéfinie et solidaire"],["EURL","SARL à associé unique"]]},
+      {t:"vf", q:"Depuis 2022, le patrimoine personnel de l'entrepreneur individuel est séparé par défaut de son patrimoine professionnel.", a:true, e:"Loi du 14 février 2022 : la résidence principale et les biens personnels sont protégés."},
+      {t:"trou", s:"Une société acquiert la personnalité morale à son ___.", c:["immatriculation","premier bénéfice","premier salarié"], a:0, e:"Immatriculation au registre du commerce et des sociétés (RCS)."},
+      {t:"qcm", q:"Quel organe dirige obligatoirement une SAS ?", c:["Un président","Un gérant","Un conseil de prud'hommes","Un DPO"], a:0, e:"Le gérant, c'est pour la SARL."},
+      {t:"saisie", q:"Quel est le sigle de la forme « société par actions simplifiée » à associé unique ?", a:["sasu"], sol:"SASU", e:"Le président est assimilé salarié (régime général de la sécurité sociale)."},
+      {t:"qcm", q:"Quel est le capital minimum d'une SARL ?", c:["Libre (1 € possible)","37 000 €","7 500 €","100 000 €"], a:0, e:"Depuis 2003, il est fixé librement par les statuts."}
+    ]},
+  { id:"u3l2", title:"Structures et management",
+    key:"La structure organise la répartition des tâches et de l'autorité. Fonctionnelle (par métier), divisionnelle (par produit ou marché) ou matricielle (double hiérarchie). Le style de management va de l'autoritaire au participatif.",
+    mot:["Organigramme","Représentation graphique de la structure d'une organisation et de ses liens hiérarchiques."],
+    ex:[
+      {t:"paires", q:"Associe chaque structure à sa logique", p:[["Fonctionnelle","Découpage par métiers"],["Divisionnelle","Découpage par produits ou marchés"],["Matricielle","Double hiérarchie"],["Simple","Tout passe par le dirigeant"]]},
+      {t:"qcm", q:"Quel est l'inconvénient principal de la structure matricielle ?", c:["Le risque de conflits entre deux supérieurs","L'absence totale de spécialisation","Elle est réservée aux micro-entreprises","Elle interdit la délégation"], a:0, e:"Un salarié dépend à la fois d'un chef de projet et d'un chef de métier."},
+      {t:"vf", q:"Dans un style de management participatif, les salariés sont associés aux décisions.", a:true, e:"Il favorise la motivation et l'implication (Likert)."},
+      {t:"ordre", q:"Classe les styles de management (Likert) du plus directif au plus ouvert", it:["Autoritaire","Paternaliste","Consultatif","Participatif"], e:"Le choix dépend de la situation, des équipes et de la culture de l'entreprise."},
+      {t:"trou", s:"Confier une partie de son pouvoir de décision à un subordonné, c'est la ___.", c:["délégation","centralisation","supervision"], a:0, e:"La délégation allège le dirigeant et responsabilise les équipes."},
+      {t:"saisie", q:"Comment appelle-t-on le schéma qui représente la structure hiérarchique d'une entreprise ?", a:["organigramme","un organigramme","l'organigramme","l organigramme"], sol:"L'organigramme", e:"Il montre les services et les liens d'autorité."},
+      {t:"qcm", q:"Une PME de 15 salariés, où la dirigeante décide de tout, a le plus souvent une structure…", c:["Simple (entrepreneuriale)","Matricielle","Divisionnelle","En réseau mondial"], a:0, e:"Structure typique des petites entreprises : coordination par supervision directe."}
+    ]},
+  { id:"u3l3", title:"Le financement de l'activité",
+    key:"L'entreprise se finance en interne (autofinancement) ou en externe : apports des associés (augmentation de capital), emprunt, crédit-bail, financement participatif. Chaque source a un coût et un effet sur l'indépendance.",
+    mot:["Autofinancement","Financement par les ressources internes générées par l'activité (CAF moins les dividendes versés)."],
+    ex:[
+      {t:"qcm", q:"Quel financement préserve le mieux l'indépendance de l'entreprise ?", c:["L'autofinancement","L'emprunt bancaire","L'augmentation de capital par un investisseur extérieur","Le crédit fournisseur"], a:0, e:"Aucun créancier ni nouvel associé à qui rendre des comptes."},
+      {t:"paires", q:"Associe chaque mode de financement à sa description", p:[["Crédit-bail","Location avec option d'achat"],["Crowdfunding","Financement par des particuliers en ligne"],["Augmentation de capital","Nouveaux apports des associés"],["Emprunt","Fonds remboursés avec intérêts"]]},
+      {t:"vf", q:"Une augmentation de capital avec de nouveaux associés peut diluer le pouvoir des anciens.", a:true, e:"Les nouveaux associés obtiennent des droits de vote."},
+      {t:"trou", s:"Le besoin de financement lié au décalage entre encaissements et décaissements s'appelle le ___.", c:["BFR","CA","SMIC"], a:0, e:"Besoin en fonds de roulement : stocks + créances clients – dettes fournisseurs."},
+      {t:"mots", q:"Reconstitue la formule", s:"Autofinancement = CAF – dividendes", x:["+","capital","emprunts"], e:"La capacité d'autofinancement (CAF) est le flux de trésorerie potentiel généré par l'activité."},
+      {t:"saisie", q:"Quel sigle désigne la capacité d'autofinancement ?", a:["caf"], sol:"CAF", e:"C'est l'indicateur clé de l'aptitude à se financer seul."},
+      {t:"qcm", q:"L'effet de levier est positif quand…", c:["La rentabilité économique est supérieure au taux d'intérêt","Le taux d'intérêt est très élevé","L'entreprise n'a aucune dette","Le capital est nul"], a:0, e:"L'endettement augmente alors la rentabilité des capitaux propres."}
+    ]}
+  ],
+  cas:{ id:"u3c", title:"Cas pratique : Sarah crée sa boutique",
+    ctx:"Sarah veut ouvrir une boutique de vêtements seconde main avec son frère. Ils veulent protéger leur patrimoine personnel, avoir des statuts souples et financer 40 000 € de travaux.",
+    ex:[
+      {t:"qcm", q:"Quelle forme juridique répond le mieux à leurs attentes ?", c:["SAS","SNC","Entreprise individuelle","Association"], a:0, e:"SAS : responsabilité limitée aux apports et grande liberté statutaire."},
+      {t:"vf", q:"En SNC, leurs biens personnels seraient protégés.", a:false, e:"En SNC, les associés répondent indéfiniment et solidairement des dettes sociales."},
+      {t:"qcm", q:"Ils ne veulent pas faire entrer un investisseur au capital. Quel financement choisir ?", c:["Un emprunt bancaire","Une augmentation de capital ouverte","Une introduction en bourse","Une fusion"], a:0, e:"L'emprunt n'accorde aucun droit de vote au prêteur."},
+      {t:"qcm", q:"Pour financer le matériel de caisse sans l'acheter tout de suite, ils peuvent utiliser…", c:["Le crédit-bail","Le dol","La rupture conventionnelle","Le droit de rétractation"], a:0, e:"Location avec option d'achat en fin de contrat."}
+    ]}
+},
+{ id:"u4", title:"L'impact du numérique", color:"#DD5E2A", lessons:[
+  { id:"u4l1", title:"Les données personnelles (RGPD)",
+    key:"Le RGPD, applicable depuis le 25 mai 2018, encadre tout traitement de données personnelles. Il impose des principes (finalité, minimisation, sécurité, durée limitée) et donne des droits aux personnes. La CNIL contrôle et sanctionne.",
+    mot:["Donnée personnelle","Toute information se rapportant à une personne physique identifiée ou identifiable (nom, email, IP, photo…)."],
+    ex:[
+      {t:"qcm", q:"Laquelle de ces informations est une donnée personnelle ?", c:["L'adresse email d'un client","Le chiffre d'affaires d'une SA","Le taux de TVA","Le prix d'un produit"], a:0, e:"Elle permet d'identifier une personne physique."},
+      {t:"trou", s:"En France, l'autorité de contrôle du RGPD est la ___.", c:["CNIL","DGCCRF","BCE","INPI"], a:0, e:"Commission nationale de l'informatique et des libertés."},
+      {t:"paires", q:"Associe chaque droit à sa définition", p:[["Droit d'accès","Savoir quelles données sont détenues"],["Droit à l'effacement","Faire supprimer ses données"],["Droit de rectification","Corriger des données inexactes"],["Droit à la portabilité","Récupérer ses données"]]},
+      {t:"vf", q:"Une entreprise peut collecter toutes les données possibles « au cas où ».", a:false, e:"Principe de minimisation : seules les données nécessaires à la finalité sont collectées."},
+      {t:"qcm", q:"En cas de fuite de données, l'entreprise doit prévenir la CNIL dans un délai de…", c:["72 heures","1 mois","1 an","Aucun délai"], a:0, e:"Article 33 du RGPD, sauf si la violation ne présente pas de risque."},
+      {t:"trou", s:"L'amende maximale prévue par le RGPD est de 20 M€ ou ___ du CA mondial.", c:["4 %","10 %","0,5 %"], a:0, e:"Le montant le plus élevé est retenu."},
+      {t:"saisie", q:"Quel sigle désigne le délégué à la protection des données ?", a:["dpo"], sol:"DPO", e:"Data Protection Officer : il veille à la conformité au RGPD."}
+    ]},
+  { id:"u4l2", title:"Le commerce électronique",
+    key:"Le contrat conclu en ligne est valable comme un contrat papier. Le consommateur dispose d'un droit de rétractation de 14 jours sans motif. L'écrit et la signature électroniques ont la même valeur probante que sur papier.",
+    mot:["Droit de rétractation","Faculté pour le consommateur de revenir sur un achat à distance, sans motif, dans les 14 jours."],
+    ex:[
+      {t:"trou", s:"Pour un achat en ligne, le consommateur dispose d'un délai de rétractation de ___ jours.", c:["14","7","30","3"], a:0, e:"Code de la consommation, art. L. 221-18."},
+      {t:"vf", q:"Le consommateur doit justifier sa décision de se rétracter.", a:false, e:"Le droit de rétractation s'exerce sans motif ni pénalité."},
+      {t:"vf", q:"La signature électronique fiable a la même valeur probante que la signature manuscrite.", a:true, e:"Articles 1366 et 1367 du Code civil."},
+      {t:"qcm", q:"Le droit de rétractation de 14 jours concerne…", c:["Les consommateurs qui achètent à distance","Les entreprises entre elles","Tous les contrats de travail","Les ventes en magasin"], a:0, e:"Pas de rétractation légale pour un achat en magasin ni entre professionnels."},
+      {t:"qcm", q:"Le « double clic » lors d'une commande en ligne sert à…", c:["Vérifier la commande avant de la confirmer","Payer deux fois","Annuler la vente","Accepter les cookies"], a:0, e:"Le client doit pouvoir vérifier le détail et le prix avant de valider."},
+      {t:"paires", q:"Associe chaque notion à sa définition", p:[["LCEN","Loi sur la confiance dans l'économie numérique"],["CGV","Conditions générales de vente"],["Cookie","Traceur déposé sur le terminal"],["Place de marché","Plateforme reliant vendeurs et acheteurs"]]},
+      {t:"mots", q:"Reconstitue la phrase", s:"Le vendeur en ligne doit informer le consommateur avant la conclusion du contrat", x:["après","jamais"], e:"Obligation d'information précontractuelle : prix, caractéristiques, délais, rétractation…"}
+    ]},
+  { id:"u4l3", title:"La propriété intellectuelle",
+    key:"La propriété intellectuelle protège les créations immatérielles. Propriété industrielle (brevet 20 ans, marque 10 ans renouvelable) déposée à l'INPI ; droit d'auteur né de la seule création, jusqu'à 70 ans après la mort de l'auteur.",
+    mot:["Contrefaçon","Reproduction ou utilisation d'une création protégée sans l'autorisation de son titulaire."],
+    ex:[
+      {t:"paires", q:"Associe chaque protection à sa durée", p:[["Brevet","20 ans"],["Marque","10 ans renouvelables"],["Droit d'auteur","70 ans après la mort"],["Dessin et modèle","Jusqu'à 25 ans"]]},
+      {t:"qcm", q:"Où dépose-t-on une marque ou un brevet en France ?", c:["À l'INPI","À la CNIL","Au greffe des prud'hommes","À l'URSSAF"], a:0, e:"Institut national de la propriété industrielle."},
+      {t:"vf", q:"Le droit d'auteur nécessite un dépôt officiel pour exister.", a:false, e:"Il naît du seul fait de la création d'une œuvre originale."},
+      {t:"qcm", q:"Lequel n'est PAS une condition de brevetabilité ?", c:["La beauté de l'invention","La nouveauté","L'activité inventive","L'application industrielle"], a:0, e:"Nouveauté, activité inventive, application industrielle."},
+      {t:"trou", s:"En France, un logiciel est protégé par le droit ___.", c:["d'auteur","des brevets","de la concurrence"], a:0, e:"Le code source est une œuvre de l'esprit."},
+      {t:"saisie", q:"Comment s'appelle l'utilisation d'une marque sans l'autorisation de son titulaire ?", a:["contrefacon","la contrefacon","une contrefacon"], sol:"La contrefaçon", e:"C'est un délit civil et pénal."},
+      {t:"vf", q:"Une marque peut être renouvelée indéfiniment.", a:true, e:"Par périodes de 10 ans, tant que le titulaire paie les redevances."}
+    ]}
+  ],
+  cas:{ id:"u4c", title:"Cas pratique : la boutique en ligne de Tom",
+    ctx:"Tom vend des sweats en ligne. Il utilise le logo d'une marque connue sans autorisation, conserve les emails de ses clients depuis 10 ans sans raison et refuse un retour demandé 9 jours après la livraison.",
+    ex:[
+      {t:"qcm", q:"L'utilisation du logo sans autorisation constitue…", c:["Une contrefaçon","Un parasitisme autorisé","Un droit de rétractation","Une entente"], a:0, e:"Atteinte à un droit de propriété industrielle."},
+      {t:"vf", q:"Tom peut refuser le retour du client.", a:false, e:"Le client est dans le délai de 14 jours de rétractation."},
+      {t:"qcm", q:"Quel principe du RGPD Tom méconnaît-il en conservant les emails 10 ans ?", c:["La limitation de la durée de conservation","La liberté contractuelle","La force majeure","La nullité relative"], a:0, e:"Les données ne sont gardées que le temps nécessaire à la finalité."},
+      {t:"qcm", q:"Qui peut sanctionner Tom pour son traitement des données ?", c:["La CNIL","L'INPI","L'Autorité de la concurrence","Le conseil de prud'hommes"], a:0, e:"Jusqu'à 20 M€ ou 4 % du CA mondial."}
+    ]}
+},
+{ id:"u5", title:"Les mutations du travail", color:"#D23C68", lessons:[
+  { id:"u5l1", title:"Le contrat de travail",
+    key:"Le contrat de travail réunit trois éléments : une prestation de travail, une rémunération et un lien de subordination. Le CDI est la forme normale ; le CDD est exceptionnel, écrit et limité à des cas précis.",
+    mot:["Lien de subordination","Pouvoir de l'employeur de donner des ordres, d'en contrôler l'exécution et de sanctionner les manquements."],
+    ex:[
+      {t:"ordre", q:"Retrouve les 3 éléments du contrat de travail", it:["Une prestation de travail","Une rémunération","Un lien de subordination"], e:"Le lien de subordination est l'élément décisif pour qualifier un contrat de travail."},
+      {t:"vf", q:"Le CDI est la forme normale et générale de la relation de travail.", a:true, e:"Article L. 1221-2 du Code du travail."},
+      {t:"qcm", q:"Lequel est un motif valable de recours au CDD ?", c:["Remplacer un salarié absent","Pourvoir durablement un poste permanent","Remplacer un gréviste","Tester un salarié pour 3 ans"], a:0, e:"Aussi : accroissement temporaire d'activité, emploi saisonnier."},
+      {t:"trou", s:"À la fin d'un CDD, le salarié perçoit en principe une indemnité de précarité de ___ %.", c:["10","5","25","50"], a:0, e:"10 % de la rémunération brute totale, sauf exceptions."},
+      {t:"paires", q:"Associe chaque catégorie à sa période d'essai maximale en CDI (hors renouvellement)", p:[["Ouvriers et employés","2 mois"],["Agents de maîtrise, techniciens","3 mois"],["Cadres","4 mois"]]},
+      {t:"qcm", q:"Pour être valable, une clause de non-concurrence doit notamment…", c:["Prévoir une contrepartie financière","Être illimitée dans le temps","Couvrir le monde entier","Être orale"], a:0, e:"Elle doit aussi être limitée dans le temps et l'espace et protéger un intérêt légitime."},
+      {t:"saisie", q:"Que risque un CDD irrégulier (sans écrit, motif interdit…) ? Sa ___ en CDI.", a:["requalification","la requalification"], sol:"Requalification", e:"Le salarié saisit le conseil de prud'hommes."}
+    ]},
+  { id:"u5l2", title:"La rupture du contrat de travail",
+    key:"Le CDI peut être rompu par démission, licenciement (motif personnel ou économique, avec cause réelle et sérieuse) ou rupture conventionnelle. La procédure est encadrée, et les litiges vont devant le conseil de prud'hommes.",
+    mot:["Rupture conventionnelle","Rupture du CDI d'un commun accord, homologuée par l'administration, qui ouvre droit au chômage."],
+    ex:[
+      {t:"paires", q:"Associe chaque mode de rupture à son initiative", p:[["Démission","Le salarié"],["Licenciement","L'employeur"],["Rupture conventionnelle","Les deux, d'un commun accord"]]},
+      {t:"ordre", q:"Remets dans l'ordre la procédure de licenciement pour motif personnel", it:["Convocation à un entretien préalable","Entretien préalable","Envoi de la lettre de licenciement","Préavis"], e:"La lettre ne peut être envoyée moins de 2 jours ouvrables après l'entretien."},
+      {t:"vf", q:"En cas de faute grave, le salarié conserve son préavis et son indemnité de licenciement.", a:false, e:"La faute grave prive du préavis et de l'indemnité légale de licenciement."},
+      {t:"trou", s:"Tout licenciement doit reposer sur une cause réelle et ___.", c:["sérieuse","secrète","personnelle"], a:0, e:"Sinon, le licenciement est jugé abusif (sans cause réelle et sérieuse)."},
+      {t:"qcm", q:"Quelle juridiction règle les litiges entre salarié et employeur ?", c:["Le conseil de prud'hommes","Le tribunal de commerce","L'Autorité de la concurrence","La Cour des comptes"], a:0, e:"Juridiction paritaire : juges salariés et employeurs."},
+      {t:"qcm", q:"Lequel est un motif de licenciement économique ?", c:["Des difficultés économiques","Une insuffisance professionnelle","Une faute grave","Une absence injustifiée"], a:0, e:"Aussi : mutations technologiques, réorganisation, cessation d'activité."},
+      {t:"saisie", q:"Quelle faute, commise avec l'intention de nuire à l'employeur, est la plus grave ?", a:["lourde","faute lourde","la faute lourde"], sol:"La faute lourde", e:"Échelle : faute simple, faute grave, faute lourde."}
+    ]},
+  { id:"u5l3", title:"Santé, télétravail et dialogue social",
+    key:"L'employeur a une obligation de sécurité : il évalue les risques (document unique) et protège la santé physique et mentale des salariés. Le télétravail et le droit à la déconnexion transforment l'organisation du travail.",
+    mot:["DUERP","Document unique d'évaluation des risques professionnels, obligatoire dès le premier salarié."],
+    ex:[
+      {t:"vf", q:"L'employeur doit protéger la santé physique et mentale de ses salariés.", a:true, e:"Article L. 4121-1 du Code du travail : obligation de sécurité."},
+      {t:"trou", s:"Le comité social et économique (CSE) est obligatoire à partir de ___ salariés.", c:["11","50","250","3"], a:0, e:"Effectif atteint pendant 12 mois consécutifs."},
+      {t:"qcm", q:"Quelle est la durée légale du travail à temps plein en France ?", c:["35 heures par semaine","39 heures par semaine","40 heures par semaine","48 heures par semaine"], a:0, e:"Au-delà, ce sont des heures supplémentaires, majorées."},
+      {t:"paires", q:"Associe chaque notion à sa définition", p:[["Télétravail","Travail hors des locaux via le numérique"],["Droit à la déconnexion","Ne pas répondre hors temps de travail"],["CSE","Représentation du personnel"],["Heures supplémentaires","Au-delà de 35 h"]]},
+      {t:"trou", s:"Les 8 premières heures supplémentaires sont majorées de ___ %.", c:["25","50","10"], a:0, e:"Puis 50 % au-delà, sauf accord collectif prévoyant un autre taux (minimum 10 %)."},
+      {t:"qcm", q:"Un livreur de plateforme peut être requalifié en salarié si…", c:["Un lien de subordination est prouvé","Il utilise un vélo","Il travaille le soir","Il est jeune"], a:0, e:"Cass. soc. 2018 (Take Eat Easy) et 2020 (Uber)."},
+      {t:"saisie", q:"Quel sigle désigne l'instance de représentation du personnel créée par les ordonnances de 2017 ?", a:["cse"], sol:"CSE", e:"Comité social et économique."}
+    ]}
+  ],
+  cas:{ id:"u5c", title:"Cas pratique : Inès et son CDD",
+    ctx:"Inès est embauchée en CDD « pour faire face aux besoins permanents de l'accueil » sans contrat écrit. Après 6 mois, son employeur lui annonce oralement qu'elle ne reviendra pas lundi.",
+    ex:[
+      {t:"qcm", q:"Quel est le problème juridique ?", c:["Le CDD d'Inès est-il régulier ?","Inès a-t-elle commis une faute lourde ?","L'employeur doit-il déclarer ses données à la CNIL ?","Inès peut-elle déposer une marque ?"], a:0, e:"On vérifie d'abord la validité du CDD."},
+      {t:"vf", q:"Un CDD peut être conclu pour pourvoir un emploi permanent.", a:false, e:"Le CDD ne peut avoir pour objet ou effet de pourvoir durablement un emploi permanent."},
+      {t:"qcm", q:"Quelle est la conséquence de l'absence d'écrit ?", c:["Le contrat est réputé conclu en CDI","Le contrat est nul et Inès ne sera pas payée","Rien, l'écrit est facultatif","Inès doit rembourser ses salaires"], a:0, e:"Le CDD doit être écrit, sinon il est réputé à durée indéterminée."},
+      {t:"qcm", q:"La rupture annoncée oralement s'analyse alors comme…", c:["Un licenciement sans cause réelle et sérieuse","Une démission","Une rupture conventionnelle","Une fin normale de CDD"], a:0, e:"Requalifié en CDI, le contrat a été rompu sans procédure ni motif."}
+    ]}
+},
+{ id:"u6", title:"Les choix stratégiques", color:"#2E9945", lessons:[
+  { id:"u6l1", title:"Le diagnostic stratégique",
+    key:"Avant de choisir une stratégie, l'entreprise réalise un diagnostic : interne (forces, faiblesses) et externe (opportunités, menaces). Outils clés : SWOT, PESTEL et les 5 forces de Porter.",
+    mot:["SWOT","Matrice croisant forces et faiblesses (interne) avec opportunités et menaces (externe)."],
+    ex:[
+      {t:"paires", q:"Associe chaque élément du SWOT à un exemple", p:[["Force","Savoir-faire reconnu"],["Faiblesse","Trésorerie fragile"],["Opportunité","Nouveau marché en croissance"],["Menace","Arrivée d'un concurrent low-cost"]]},
+      {t:"vf", q:"Les opportunités et les menaces relèvent du diagnostic interne.", a:false, e:"Elles viennent de l'environnement : diagnostic externe."},
+      {t:"ordre", q:"Remets les lettres du PESTEL dans l'ordre", it:["Politique","Économique","Socioculturel","Technologique","Écologique","Légal"], e:"Le PESTEL analyse le macro-environnement de l'entreprise."},
+      {t:"qcm", q:"Laquelle n'est PAS une des 5 forces de Porter ?", c:["Le pouvoir des salariés","La menace des produits de substitution","Le pouvoir de négociation des clients","La menace des nouveaux entrants"], a:0, e:"Les 5 : concurrence intra-sectorielle, nouveaux entrants, substituts, clients, fournisseurs."},
+      {t:"trou", s:"L'atout durable qui permet à une entreprise de surpasser ses concurrents est l'avantage ___.", c:["concurrentiel","fiscal","salarial"], a:0, e:"Il peut reposer sur les coûts ou sur la différenciation."},
+      {t:"saisie", q:"Quel outil analyse les facteurs politiques, économiques, socioculturels, technologiques, écologiques et légaux ?", a:["pestel","pestel ","le pestel"], sol:"PESTEL", e:"Il sert à repérer opportunités et menaces."},
+      {t:"qcm", q:"Une nouvelle loi interdisant les emballages plastiques est, pour un fabricant de gobelets, …", c:["Une menace","Une force","Une faiblesse","Une opportunité certaine"], a:0, e:"Facteur externe défavorable : c'est une menace (dimension légale du PESTEL)."}
+    ]},
+  { id:"u6l2", title:"Les stratégies de l'entreprise",
+    key:"Porter distingue trois stratégies génériques : domination par les coûts, différenciation, focalisation. Pour croître, l'entreprise choisit entre croissance interne (ses propres moyens) et externe (fusion, acquisition), ou s'intègre verticalement.",
+    mot:["Intégration verticale","Prise de contrôle d'activités situées en amont (fournisseurs) ou en aval (distribution) de la filière."],
+    ex:[
+      {t:"paires", q:"Associe chaque stratégie à un exemple", p:[["Domination par les coûts","Enseigne discount"],["Différenciation","Marque de luxe"],["Focalisation","Niche : vélos pour enfants"]]},
+      {t:"qcm", q:"Un fabricant de chocolat rachète une plantation de cacao. C'est une intégration…", c:["Verticale en amont","Verticale en aval","Horizontale","Conglomérale"], a:0, e:"Il remonte vers ses fournisseurs dans la filière."},
+      {t:"vf", q:"Racheter un concurrent direct est une croissance externe.", a:true, e:"Croissance externe : fusion, acquisition, prise de participation."},
+      {t:"trou", s:"Confier une activité non stratégique à un prestataire, c'est l'___.", c:["externalisation","intégration","diversification"], a:0, e:"Aussi appelée impartition ou sous-traitance."},
+      {t:"qcm", q:"Quel est l'avantage principal de la croissance interne ?", c:["Elle préserve la culture et le contrôle de l'entreprise","Elle est toujours la plus rapide","Elle élimine instantanément un concurrent","Elle ne coûte rien"], a:0, e:"Mais elle est plus lente que la croissance externe."},
+      {t:"saisie", q:"Comment appelle-t-on la baisse du coût unitaire quand la production augmente ?", a:["economies d'echelle","economies d echelle","economie d'echelle","les economies d'echelle","des economies d'echelle"], sol:"Les économies d'échelle", e:"Elles fondent souvent une stratégie de domination par les coûts."},
+      {t:"qcm", q:"Une entreprise de pneus qui se lance dans les guides touristiques pratique…", c:["Une diversification","Une focalisation","Une intégration en amont","Une externalisation"], a:0, e:"Elle investit un nouveau métier (exemple historique : Michelin)."}
+    ]},
+  { id:"u6l3", title:"RSE et responsabilité civile",
+    key:"Toute personne qui cause un dommage à autrui par sa faute doit le réparer (art. 1240 C. civ.). Il faut un fait générateur, un dommage et un lien de causalité. La RSE pousse l'entreprise à intégrer volontairement les enjeux sociaux et environnementaux.",
+    mot:["RSE","Responsabilité sociétale des entreprises : intégration volontaire des préoccupations sociales et environnementales à l'activité."],
+    ex:[
+      {t:"ordre", q:"Remets dans l'ordre les conditions de la responsabilité civile extracontractuelle", it:["Un fait générateur","Un dommage","Un lien de causalité"], e:"Fait générateur : faute, fait d'une chose ou fait d'autrui."},
+      {t:"paires", q:"Associe chaque article du Code civil à son contenu", p:[["Art. 1240","Responsabilité pour faute"],["Art. 1241","Négligence ou imprudence"],["Art. 1242","Fait des choses et d'autrui"],["Art. 1245","Produits défectueux"]]},
+      {t:"vf", q:"Le producteur d'un produit défectueux peut être responsable même sans faute.", a:true, e:"Responsabilité de plein droit (art. 1245 et s.)."},
+      {t:"qcm", q:"Un livreur salarié renverse un piéton pendant sa tournée. Qui répond en principe du dommage ?", c:["L'employeur (commettant)","Le piéton","Personne","L'INPI"], a:0, e:"Responsabilité du commettant du fait de son préposé (art. 1242 al. 5)."},
+      {t:"trou", s:"Depuis la loi PACTE (2019), une société peut se doter d'une raison d'___.", c:["être","agir","vendre"], a:0, e:"Et devenir « société à mission »."},
+      {t:"qcm", q:"Laquelle de ces actions relève de la RSE ?", c:["Réduire l'empreinte carbone de ses livraisons","Augmenter les dividendes","Racheter un concurrent","Déposer une marque"], a:0, e:"Dimension environnementale de la RSE."},
+      {t:"saisie", q:"Quel article du Code civil pose le principe : « Tout fait quelconque de l'homme qui cause à autrui un dommage oblige celui par la faute duquel il est arrivé à le réparer » ? (numéro)", a:["1240","article 1240","art. 1240","art 1240"], sol:"Article 1240", e:"C'est le fondement de la responsabilité pour faute."}
+    ]}
+  ],
+  cas:{ id:"u6c", title:"Cas pratique : la brasserie Houblon Vert",
+    ctx:"La brasserie Houblon Vert (40 salariés) fabrique des bières bio. Une bouteille défectueuse explose et blesse un client. Par ailleurs, la brasserie envisage de racheter un petit concurrent local.",
+    ex:[
+      {t:"qcm", q:"Sur quel fondement le client blessé peut-il agir contre la brasserie ?", c:["La responsabilité du fait des produits défectueux","Le droit de rétractation","La rupture conventionnelle","Le RGPD"], a:0, e:"Art. 1245 C. civ. : responsabilité sans faute du producteur."},
+      {t:"vf", q:"Le client doit prouver une faute de la brasserie.", a:false, e:"Il doit prouver le défaut, le dommage et le lien de causalité, pas une faute."},
+      {t:"qcm", q:"Le rachat du concurrent local est une…", c:["Croissance externe","Croissance interne","Externalisation","Intégration en aval"], a:0, e:"Acquisition d'une entreprise existante sur le même métier (intégration horizontale)."},
+      {t:"qcm", q:"Dans un SWOT, le label bio de la brasserie est plutôt…", c:["Une force","Une menace","Une faiblesse","Un fait générateur"], a:0, e:"Atout interne différenciant."}
+    ]}
+}
+];
+
+/* =====================================================================
+   ÉTAT & PERSISTANCE
+   ===================================================================== */
+var STORE = "cejm_duo_v1";
+var MAX_HEARTS = 5, REGEN_MS = 15 * 60 * 1000;
+var DEF = { xp:0, streak:0, lastDay:null, dayXp:0, dayDate:null, goal:30, hearts:5, heartsTs:0,
+            stars:{}, mistakes:[], answered:0, correct:0, sound:true, free:false, lessons:0 };
+var st = load();
+
+function load(){
+  var s = {};
+  try { s = JSON.parse(localStorage.getItem(STORE)) || {}; } catch(e){ s = {}; }
+  var out = {};
+  for (var k in DEF) out[k] = (s[k] !== undefined) ? s[k] : (typeof DEF[k] === "object" && DEF[k] ? JSON.parse(JSON.stringify(DEF[k])) : DEF[k]);
+  return out;
+}
+function save(){ try { localStorage.setItem(STORE, JSON.stringify(st)); } catch(e){} }
+function today(d){ d = d || new Date(); return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate(); }
+function yesterday(){ var d = new Date(); d.setDate(d.getDate() - 1); return today(d); }
+
+function tickDay(){
+  if (st.dayDate !== today()) { st.dayDate = today(); st.dayXp = 0; }
+  if (st.lastDay && st.lastDay !== today() && st.lastDay !== yesterday()) st.streak = 0;
+}
+function regen(){
+  if (st.hearts >= MAX_HEARTS) { st.hearts = MAX_HEARTS; st.heartsTs = Date.now(); return; }
+  var n = Math.floor((Date.now() - st.heartsTs) / REGEN_MS);
+  if (n > 0) { st.hearts = Math.min(MAX_HEARTS, st.hearts + n); st.heartsTs += n * REGEN_MS; }
+}
+function nextHeartIn(){
+  if (st.hearts >= MAX_HEARTS) return 0;
+  return Math.max(0, REGEN_MS - (Date.now() - st.heartsTs));
+}
+
+/* =====================================================================
+   OUTILS
+   ===================================================================== */
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function shuffle(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function norm(s){ return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’`]/g, "'").replace(/[.!?;:«»"]/g, "").replace(/\s+/g, " ").trim(); }
+function $(id){ return document.getElementById(id); }
+
+var I = {
+  flame:'<svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c1 3.5 5 5.7 5 11a5 5 0 0 1-10 0c0-2.3 1-3.9 2.3-5 .1 1.6.9 2.8 2 3.3C11 8.6 11.6 5 12 2z"/></svg>',
+  heart:'<svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3 1.7-1.8 3.2-3 5.3-3 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></svg>',
+  bolt:'<svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 2 4 13.5h6.5L9.5 22 20 9.5h-6.6z"/></svg>',
+  path:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="12" r="2.5"/><circle cx="6" cy="19" r="2.5"/><path d="M8.3 6.2 15.7 10.8M15.7 13.2 8.3 17.8"/></svg>',
+  redo:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>',
+  book:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20"/><path d="M9 8h7M9 11.5h5" stroke-linecap="round"/></svg>',
+  user:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg>',
+  lock:'<svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>',
+  star:'<svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6L2.5 9.3l6.6-.8z"/></svg>',
+  scale:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 21h10M5 7h14M12 5l0 2"/><path d="M5 7 2.5 13a3 3 0 0 0 5 0z"/><path d="M19 7l-2.5 6a3 3 0 0 0 5 0z"/></svg>',
+  case:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18"/></svg>',
+  check:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  x:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  target:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>',
+  clock:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+};
+
+/* Flatten nodes in path order */
+var NODES = [];
+UNITS.forEach(function(u, ui){
+  u.lessons.forEach(function(l, li){ NODES.push({ id:l.id, unit:u, ui:ui, title:l.title, lesson:l, cas:false, n:li+1 }); });
+  NODES.push({ id:u.cas.id, unit:u, ui:ui, title:u.cas.title, lesson:u.cas, cas:true, n:u.lessons.length+1 });
+});
+var BYKEY = {};
+NODES.forEach(function(nd){ nd.lesson.ex.forEach(function(ex, i){ BYKEY[nd.id + ":" + i] = { ex:ex, node:nd }; }); });
+
+function isUnlocked(i){
+  if (st.free || i === 0) return true;
+  return !!st.stars[NODES[i-1].id];
+}
+function currentIndex(){
+  for (var i = 0; i < NODES.length; i++) if (!st.stars[NODES[i].id]) return i;
+  return -1;
+}
+
+/* =====================================================================
+   SONS
+   ===================================================================== */
+var actx = null;
+function beep(ok){
+  if (!st.sound) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    var notes = ok ? [660, 880] : [220, 180];
+    notes.forEach(function(f, i){
+      var o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i * 0.09;
+      o.type = ok ? "triangle" : "sawtooth"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(ok ? 0.18 : 0.08, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+      o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + 0.18);
+    });
+  } catch(e){}
+}
+
+/* =====================================================================
+   RENDU : ÉCRANS PRINCIPAUX
+   ===================================================================== */
+var TABS = [
+  { id:"path", label:"Parcours", ico:I.path },
+  { id:"review", label:"Révisions", ico:I.redo },
+  { id:"lex", label:"Lexique", ico:I.book },
+  { id:"profile", label:"Profil", ico:I.user }
+];
+var tab = "path";
+
+function renderTop(){
+  regen(); tickDay();
+  $("c-streak").innerHTML = I.flame + st.streak;
+  $("c-streak").className = "chip flame" + (st.lastDay === today() ? "" : " off");
+  $("c-xp").innerHTML = I.bolt + st.xp;
+  $("c-hearts").innerHTML = I.heart + st.hearts;
+}
+function renderTabs(){
+  $("tabs").innerHTML = TABS.map(function(t){
+    return '<button class="tab" data-tab="' + t.id + '"' + (t.id === tab ? ' aria-current="page"' : '') + '>' + t.ico + t.label + '</button>';
+  }).join("");
+}
+function show(t){
+  tab = t;
+  TABS.forEach(function(x){ $("v-" + x.id).hidden = x.id !== t; });
+  renderTabs(); renderView();
+  window.scrollTo(0, 0);
+}
+function renderView(){
+  renderTop();
+  if (tab === "path") renderPath();
+  else if (tab === "review") renderReview();
+  else if (tab === "lex") renderLex();
+  else renderProfile();
+}
+
+function goalCard(){
+  var pct = Math.min(1, st.dayXp / st.goal), C = 2 * Math.PI * 20;
+  var msg = pct >= 1 ? "Objectif du jour atteint. Bravo !" : (st.goal - st.dayXp) + " XP pour atteindre l'objectif du jour";
+  return '<div class="goal"><svg class="goal-ring" viewBox="0 0 48 48"><circle class="bg" cx="24" cy="24" r="20"/>' +
+    '<circle class="fg" cx="24" cy="24" r="20" stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + (C * (1 - pct)).toFixed(1) + '" transform="rotate(-90 24 24)"/></svg>' +
+    '<div><b>' + st.dayXp + ' / ' + st.goal + ' XP aujourd\'hui</b><span>' + msg + '</span></div></div>';
+}
+
+var OFFS = [0, 52, 78, 52, 0, -52, -78, -52];
+function starsHtml(n, big){
+  var s = "", sz = big ? ' style="width:34px;height:34px"' : '';
+  for (var i = 0; i < 3; i++) s += '<svg viewBox="0 0 24 24"' + sz + ' class="' + (i < n ? "on" : "off") + '"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6L2.5 9.3l6.6-.8z"/></svg>';
+  return '<div class="stars"' + (big ? ' style="justify-content:center;height:34px;gap:6px"' : '') + ' aria-label="' + n + ' étoile(s) sur 3">' + s + '</div>';
+}
+function renderPath(){
+  var cur = currentIndex(), html = goalCard(), gi = 0;
+  UNITS.forEach(function(u, ui){
+    var nodes = NODES.filter(function(n){ return n.ui === ui; });
+    var done = nodes.filter(function(n){ return st.stars[n.id]; }).length;
+    html += '<div class="unit"><div class="unit-head" style="--u:' + u.color + '"><div><div class="eyebrow">Thème ' + (ui+1) + '</div><h2>' + esc(u.title) + '</h2></div>' +
+      '<span class="count">' + done + ' / ' + nodes.length + '</span></div><div class="path">';
+    nodes.forEach(function(nd){
+      var idx = NODES.indexOf(nd), un = isUnlocked(idx), stars = st.stars[nd.id] || 0;
+      var off = OFFS[gi++ % OFFS.length];
+      var cls = "node" + (nd.cas ? " cas" : "") + (un ? "" : " locked") + (idx === cur ? " current" : "");
+      var ico = !un ? I.lock : nd.cas ? I.case : stars ? I.check : I.star;
+      html += '<div class="node-wrap" style="transform:translateX(' + off + 'px)">' +
+        (idx === cur ? '<div class="bubble" style="--u:' + u.color + '">' + (stars ? "Revoir" : "Commencer") + '</div>' : '') +
+        '<button class="' + cls + '" style="--u:' + u.color + '" data-node="' + idx + '" aria-label="' + esc(nd.title) + (un ? "" : " (verrouillé)") + '">' + ico + '</button>' +
+        (un ? starsHtml(stars) : '<div class="stars"></div>') +
+        '<div class="node-label">' + esc(nd.cas ? "Cas pratique" : nd.title) + '</div></div>';
+    });
+    html += '</div></div>';
+  });
+  if (cur === -1) html += '<div class="card" style="text-align:center"><h3 style="font-size:20px;margin-bottom:6px">Parcours terminé</h3><p class="lead" style="margin:0">Tu as bouclé les 6 thèmes. Vise les 3 étoiles partout et entraîne-toi dans l\'onglet Révisions.</p></div>';
+  $("v-path").innerHTML = html;
+}
+
+function renderReview(){
+  var m = st.mistakes.length, doneCount = Object.keys(st.stars).length;
+  var weak = NODES.filter(function(n){ return st.stars[n.id] && st.stars[n.id] < 3; });
+  var html = '<h2 class="section-title">Révisions</h2><p class="lead">Refais tes erreurs jusqu\'à ce qu\'elles disparaissent. Une séance de révision ne coûte aucun cœur et t\'en rend un.</p>';
+  html += '<div class="stack"><div class="card"><div style="display:flex;gap:12px;align-items:center;margin-bottom:14px"><span style="color:var(--ko)">' + I.target + '</span><div><b style="font-size:18px">' + m + ' question' + (m > 1 ? "s" : "") + ' à retravailler</b><div class="sub" style="color:var(--muted);font-size:14px">' +
+    (doneCount ? "Complétées au besoin par des questions des leçons déjà faites." : "Termine au moins une leçon pour débloquer les révisions.") + '</div></div></div>' +
+    '<button class="btn" data-practice="1"' + (doneCount ? "" : " disabled") + '>Lancer une révision</button></div>';
+  if (weak.length) {
+    html += '<div class="card"><b style="display:block;margin-bottom:4px">Leçons à perfectionner</b>';
+    weak.forEach(function(n){
+      html += '<div class="row"><div><div style="font-weight:700">' + esc(n.title) + '</div><div class="sub">Thème ' + (n.ui+1) + '</div></div>' +
+        '<button class="btn ghost" style="width:auto;padding:8px 12px;font-size:13px" data-node="' + NODES.indexOf(n) + '">Refaire</button></div>';
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+  $("v-review").innerHTML = html;
+}
+
+var lexQuery = "";
+function renderLex(){
+  var items = NODES.filter(function(n){ return n.lesson.mot; });
+  var q = norm(lexQuery);
+  var list = items.filter(function(n){ return !q || norm(n.lesson.mot[0] + " " + n.lesson.mot[1]).indexOf(q) !== -1; });
+  var html = '<h2 class="section-title">Lexique</h2><p class="lead">Un mot clé par leçon. Il se révèle quand tu termines la leçon.</p>' +
+    '<input class="search" id="lex-search" type="search" placeholder="Chercher un mot (ex. dol, RGPD…)" value="' + esc(lexQuery) + '"><div class="card">';
+  if (!list.length) html += '<div class="empty">Aucun mot ne correspond.</div>';
+  list.forEach(function(n){
+    var seen = st.stars[n.id] || st.free;
+    html += '<div class="lex-item' + (seen ? "" : " locked") + '"><b>' + esc(n.lesson.mot[0]) + '</b><span class="tag" style="background:' + n.unit.color + '">T' + (n.ui+1) + '</span>' +
+      '<p>' + (seen ? esc(n.lesson.mot[1]) : "Termine « " + esc(n.title) + " » pour débloquer la définition.") + '</p></div>';
+  });
+  html += '</div>';
+  $("v-lex").innerHTML = html;
+  var inp = $("lex-search");
+  inp.addEventListener("input", function(){ lexQuery = inp.value; var p = inp.selectionStart; renderLex(); var n = $("lex-search"); n.focus(); n.setSelectionRange(p, p); });
+}
+
+var confirmReset = false;
+function renderProfile(){
+  var done = Object.keys(st.stars).length, acc = st.answered ? Math.round(100 * st.correct / st.answered) : 0;
+  var totalStars = 0; for (var k in st.stars) totalStars += st.stars[k];
+  var html = '<h2 class="section-title">Profil</h2><p class="lead">Ta progression reste sur cet appareil.</p><div class="stack">' +
+    '<div class="stats">' +
+      '<div class="stat"><span style="color:var(--flame)">' + I.flame + '</span><div><b>' + st.streak + '</b><span>jours de série</span></div></div>' +
+      '<div class="stat"><span style="color:var(--xp)">' + I.bolt + '</span><div><b>' + st.xp + '</b><span>XP total</span></div></div>' +
+      '<div class="stat"><span style="color:var(--sel)">' + I.check + '</span><div><b>' + done + ' / ' + NODES.length + '</b><span>leçons terminées</span></div></div>' +
+      '<div class="stat"><span style="color:var(--brand)">' + I.star + '</span><div><b>' + totalStars + ' / ' + NODES.length * 3 + '</b><span>étoiles</span></div></div>' +
+      '<div class="stat"><span style="color:var(--ok)">' + I.target + '</span><div><b>' + acc + ' %</b><span>de bonnes réponses</span></div></div>' +
+      '<div class="stat"><span style="color:var(--heart)">' + I.heart + '</span><div><b>' + st.hearts + ' / 5</b><span>' + (st.hearts < 5 ? "+1 dans " + Math.ceil(nextHeartIn() / 60000) + " min" : "cœurs pleins") + '</span></div></div>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="row"><div><div style="font-weight:800">Objectif quotidien</div><div class="sub">XP à gagner chaque jour</div></div><div class="seg" id="goal-seg">' +
+        [10, 20, 30, 50].map(function(g){ return '<button data-goal="' + g + '" aria-pressed="' + (st.goal === g) + '">' + g + '</button>'; }).join("") + '</div></div>' +
+      '<div class="row"><div><div style="font-weight:800">Effets sonores</div><div class="sub">Son à chaque réponse</div></div><button class="switch" role="switch" id="sw-sound" aria-checked="' + st.sound + '" aria-label="Effets sonores"></button></div>' +
+      '<div class="row"><div><div style="font-weight:800">Mode libre</div><div class="sub">Débloque toutes les leçons pour réviser un thème précis</div></div><button class="switch" role="switch" id="sw-free" aria-checked="' + st.free + '" aria-label="Mode libre"></button></div>' +
+    '</div>' +
+    (confirmReset
+      ? '<div class="card"><b>Tout effacer ?</b><p class="lead" style="margin:4px 0 12px">XP, série, étoiles et erreurs seront supprimés.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button class="btn ghost" id="reset-no">Annuler</button><button class="btn ko" id="reset-yes">Effacer</button></div></div>'
+      : '<button class="btn danger" id="reset">Réinitialiser la progression</button>') +
+    '</div>';
+  $("v-profile").innerHTML = html;
+}
+
+/* Bottom sheet for a node */
+function openSheet(idx){
+  var nd = NODES[idx];
+  if (!isUnlocked(idx)) {
+    sheet('<h3>Leçon verrouillée</h3><p>Termine la leçon précédente pour débloquer « ' + esc(nd.title) + ' », ou active le mode libre dans le Profil.</p><div class="btns"><button class="btn ghost" data-close="1">Compris</button></div>');
+    return;
+  }
+  regen();
+  var stars = st.stars[nd.id] || 0, noHearts = st.hearts <= 0;
+  sheet('<div class="kind" style="color:' + nd.unit.color + '">Thème ' + (nd.ui+1) + (nd.cas ? " · Cas pratique" : " · Leçon " + nd.n) + '</div>' +
+    '<h3>' + esc(nd.title) + '</h3>' +
+    '<p>' + nd.lesson.ex.length + ' exercices · ' + (stars ? stars + " étoile" + (stars > 1 ? "s" : "") + " obtenue" + (stars > 1 ? "s" : "") : "+10 XP, +5 si sans faute") + '</p>' +
+    (noHearts ? '<p style="color:var(--ko);font-weight:700">Plus de cœurs. Fais une révision pour en regagner un, ou attends ' + Math.ceil(nextHeartIn() / 60000) + ' min.</p>' : '') +
+    '<div class="btns">' + (noHearts ? '<button class="btn" data-practice="1">Réviser pour regagner un cœur</button>' : '<button class="btn" data-start="' + idx + '">' + (stars ? "Refaire la leçon" : "Commencer") + '</button>') +
+    '<button class="btn ghost" data-close="1">Plus tard</button></div>');
+}
+function sheet(inner){
+  $("overlay").innerHTML = '<div class="scrim" data-scrim="1"><div class="sheet" role="dialog" aria-modal="true">' + inner + '</div></div>';
+  var b = $("overlay").querySelector(".sheet .btn"); if (b) b.focus();
+}
+function closeOverlay(){ $("overlay").innerHTML = ""; }
+
+/* =====================================================================
+   MOTEUR DE LEÇON
+   ===================================================================== */
+var S = null;
+
+function startLesson(idx){
+  var nd = NODES[idx];
+  var items = nd.lesson.ex.map(function(ex, i){ return { ex:ex, key:nd.id + ":" + i, ctx:nd.cas ? nd.lesson.ctx : null }; });
+  if (!nd.cas) items = shuffle(items);
+  begin({ node:nd, idx:idx, practice:false, items:items });
+}
+function startPractice(){
+  var pool = st.mistakes.filter(function(k){ return BYKEY[k]; });
+  pool = shuffle(pool).slice(0, 10);
+  if (pool.length < 6) {
+    var extra = [];
+    NODES.forEach(function(n){ if (st.stars[n.id]) n.lesson.ex.forEach(function(ex, i){ var k = n.id + ":" + i; if (pool.indexOf(k) === -1) extra.push(k); }); });
+    pool = pool.concat(shuffle(extra).slice(0, 8 - pool.length));
+  }
+  if (!pool.length) return;
+  var items = pool.map(function(k){ var b = BYKEY[k]; return { ex:b.ex, key:k, ctx:b.node.cas ? b.node.lesson.ctx : null }; });
+  begin({ node:null, idx:-1, practice:true, items:shuffle(items) });
+}
+function begin(o){
+  closeOverlay();
+  S = { node:o.node, idx:o.idx, practice:o.practice, queue:o.items.map(function(it){ return { ex:it.ex, key:it.key, ctx:it.ctx, retry:false }; }),
+        total:o.items.length, done:0, firstOk:0, firstTotal:o.items.length, combo:0, maxCombo:0, t0:Date.now(), cur:null, phase:"answer", sel:null, errorsSeen:{} };
+  $("overlay").innerHTML =
+    '<div class="lesson" role="dialog" aria-modal="true" aria-label="Leçon">' +
+      '<div class="l-top"><button class="l-close" id="l-quit" aria-label="Quitter la leçon">' + I.x + '</button>' +
+      '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><i id="l-bar"></i></div>' +
+      '<div class="chip heart" id="l-hearts">' + (S.practice ? I.heart + "∞" : I.heart + st.hearts) + '</div></div>' +
+      '<div class="l-body"><div class="l-body-in" id="l-ex"></div></div>' +
+      '<div class="l-foot" id="l-foot"><div class="l-foot-in"><div class="fb" id="l-fb" hidden></div><button class="btn" id="l-btn" disabled>Vérifier</button></div></div>' +
+    '</div>';
+  document.body.style.overflow = "hidden";
+  next();
+}
+
+function setBar(){
+  var p = Math.round(100 * S.done / S.total);
+  $("l-bar").style.width = p + "%";
+  $("l-bar").parentNode.setAttribute("aria-valuenow", p);
+}
+
+var KIND = { qcm:"Choisis la bonne réponse", vf:"Vrai ou faux ?", trou:"Complète la phrase", paires:"Associe les paires", ordre:"Remets dans l'ordre", mots:"Construis la phrase", saisie:"Écris la réponse" };
+
+function next(){
+  setBar();
+  if (!S.queue.length) return finish();
+  S.cur = S.queue.shift(); S.phase = "answer"; S.sel = null;
+  var ex = S.cur.ex, box = $("l-ex");
+  var foot = $("l-foot"); foot.className = "l-foot"; $("l-fb").hidden = true;
+  var btn = $("l-btn"); btn.className = "btn"; btn.textContent = "Vérifier"; btn.disabled = true; btn.hidden = false;
+
+  var comboTxt = S.combo >= 3 ? S.combo + " bonnes réponses d'affilée" : "";
+  var h = '<div class="combo">' + comboTxt + '</div>' +
+    '<div class="kind' + (S.cur.retry ? " retry" : "") + '">' + (S.cur.retry ? "Erreur précédente · " : "") + KIND[ex.t] + '</div>';
+  if (S.cur.ctx) h += '<div class="ctx"><span class="ctx-l">Situation</span>' + esc(S.cur.ctx) + '</div>';
+
+  if (ex.t === "qcm") {
+    S.order = shuffle(ex.c.map(function(_, i){ return i; }));
+    h += '<h2 class="q">' + esc(ex.q) + '</h2><div class="opts">' + S.order.map(function(ci, k){
+      return '<button class="opt" data-opt="' + ci + '" aria-pressed="false"><span class="k">' + (k+1) + '</span>' + esc(ex.c[ci]) + '</button>'; }).join("") + '</div>';
+  } else if (ex.t === "trou") {
+    S.order = shuffle(ex.c.map(function(_, i){ return i; }));
+    var parts = ex.s.split("___");
+    h += '<div class="sentence">' + esc(parts[0]) + '<span class="blank" id="blank">&nbsp;</span>' + esc(parts[1] || "") + '</div><div class="opts">' + S.order.map(function(ci, k){
+      return '<button class="opt" data-opt="' + ci + '" aria-pressed="false"><span class="k">' + (k+1) + '</span>' + esc(ex.c[ci]) + '</button>'; }).join("") + '</div>';
+  } else if (ex.t === "vf") {
+    h += '<h2 class="q">' + esc(ex.q) + '</h2><div class="vf">' +
+      '<button class="opt" data-opt="1" aria-pressed="false"><span class="k">1</span>Vrai</button>' +
+      '<button class="opt" data-opt="0" aria-pressed="false"><span class="k">2</span>Faux</button></div>';
+  } else if (ex.t === "paires") {
+    S.pairs = { left:null, matched:0, errors:0 };
+    var L = shuffle(ex.p.map(function(p, i){ return i; })), R = shuffle(ex.p.map(function(p, i){ return i; }));
+    h += '<h2 class="q">' + esc(ex.q) + '</h2><div class="pairs"><div class="col">' +
+      L.map(function(i){ return '<button class="opt" data-pl="' + i + '" aria-pressed="false">' + esc(ex.p[i][0]) + '</button>'; }).join("") + '</div><div class="col">' +
+      R.map(function(i){ return '<button class="opt" data-pr="' + i + '">' + esc(ex.p[i][1]) + '</button>'; }).join("") + '</div></div>';
+    btn.hidden = true;
+  } else if (ex.t === "ordre" || ex.t === "mots") {
+    var toks = ex.t === "ordre" ? ex.it.slice() : ex.s.split(" ").concat(ex.x || []);
+    var bank = shuffle(toks.map(function(tk, i){ return { tk:tk, i:i }; }));
+    if (ex.t === "ordre") { var guard = 0; while (guard++ < 10 && bank.every(function(b, k){ return b.i === k; })) bank = shuffle(bank); }
+    S.bank = bank; S.picked = [];
+    var col = ex.t === "ordre" ? " col" : "";
+    h += '<h2 class="q">' + esc(ex.q) + '</h2>' + (ex.t === "ordre" ? '<p class="hint">Touche les étiquettes dans le bon ordre. Touche une étiquette placée pour la retirer.</p>' : '') +
+      '<div class="answer-zone' + col + '" id="zone"></div><div class="bank' + col + '" id="bank">' +
+      bank.map(function(b, k){ return '<button class="w' + (ex.t === "ordre" ? " step" : "") + '" data-bank="' + k + '">' + esc(b.tk) + '</button>'; }).join("") + '</div>';
+  } else if (ex.t === "saisie") {
+    h += '<h2 class="q">' + esc(ex.q) + '</h2><input class="type-in" id="type-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ta réponse…" aria-label="Ta réponse">';
+  }
+  box.innerHTML = h;
+  $("l-ex").parentNode.scrollTop = 0;
+  if (ex.t === "saisie") {
+    var inp = $("type-in");
+    inp.addEventListener("input", function(){ btn.disabled = !inp.value.trim(); });
+    setTimeout(function(){ inp.focus(); }, 50);
+  }
+}
+
+function renderZone(){
+  var ex = S.cur.ex, ordre = ex.t === "ordre";
+  $("zone").innerHTML = S.picked.map(function(k, pos){
+    return '<button class="w' + (ordre ? " step" : "") + '" data-zone="' + pos + '">' + (ordre ? '<span class="n">' + (pos+1) + '</span>' : '') + esc(S.bank[k].tk) + '</button>'; }).join("");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-bank]"), function(b){ b.classList.toggle("used", S.picked.indexOf(+b.dataset.bank) !== -1); });
+  $("l-btn").disabled = ordre ? S.picked.length !== ex.it.length : !S.picked.length;
+}
+
+function pick(val){
+  if (S.phase !== "answer") return;
+  S.sel = val;
+  Array.prototype.forEach.call(document.querySelectorAll("#l-ex [data-opt]"), function(b){ b.setAttribute("aria-pressed", b.dataset.opt === String(val)); });
+  if (S.cur.ex.t === "trou") $("blank").textContent = S.cur.ex.c[val];
+  $("l-btn").disabled = false;
+}
+
+function evaluate(){
+  var ex = S.cur.ex, ok = false, sol = "";
+  if (ex.t === "qcm" || ex.t === "trou") { ok = +S.sel === ex.a; sol = ex.c[ex.a]; }
+  else if (ex.t === "vf") { ok = (S.sel === "1" || S.sel === 1) === ex.a; sol = ex.a ? "Vrai" : "Faux"; }
+  else if (ex.t === "ordre") { ok = S.picked.every(function(k, pos){ return S.bank[k].tk === ex.it[pos]; }); sol = ex.it.join(" → "); }
+  else if (ex.t === "mots") { ok = norm(S.picked.map(function(k){ return S.bank[k].tk; }).join(" ")) === norm(ex.s); sol = ex.s; }
+  else if (ex.t === "saisie") { var v = norm($("type-in").value); ok = ex.a.some(function(a){ return norm(a) === v; }); sol = ex.sol; }
+  return { ok:ok, sol:sol };
+}
+
+function check(){
+  var r = evaluate();
+  // marque visuelle sur QCM / VF / trou
+  if (ex_isChoice(S.cur.ex)) {
+    Array.prototype.forEach.call(document.querySelectorAll("#l-ex [data-opt]"), function(b){
+      b.disabled = true;
+      var v = b.dataset.opt, ex = S.cur.ex;
+      var right = ex.t === "vf" ? ((v === "1") === ex.a) : (+v === ex.a);
+      if (right) b.classList.add("good"); else if (v === String(S.sel)) b.classList.add("bad");
+    });
+  }
+  if (S.cur.ex.t === "saisie") $("type-in").disabled = true;
+  Array.prototype.forEach.call(document.querySelectorAll("#l-ex .w"), function(b){ b.disabled = true; });
+  result(r.ok, r.sol, S.cur.ex.e);
+}
+function ex_isChoice(ex){ return ex.t === "qcm" || ex.t === "vf" || ex.t === "trou"; }
+
+var PRAISE = ["Excellent !", "Parfait !", "Bien joué !", "Exact !", "Super !", "Impeccable !"];
+function result(ok, sol, expl){
+  S.phase = "feedback";
+  var first = !S.cur.retry;
+  st.answered++;
+  if (ok) {
+    st.correct++; S.done++; S.combo++; S.maxCombo = Math.max(S.maxCombo, S.combo);
+    if (first) S.firstOk++;
+    var mi = st.mistakes.indexOf(S.cur.key);
+    if (mi !== -1 && (S.practice || S.cur.retry)) st.mistakes.splice(mi, 1);
+  } else {
+    S.combo = 0;
+    if (st.mistakes.indexOf(S.cur.key) === -1) st.mistakes.push(S.cur.key);
+    if (!S.practice) { if (st.hearts >= MAX_HEARTS) st.heartsTs = Date.now(); st.hearts = Math.max(0, st.hearts - 1); }
+    if (S.cur.ex.t === "paires") S.done++;
+    else S.queue.push({ ex:S.cur.ex, key:S.cur.key, ctx:S.cur.ctx, retry:true });
+  }
+  save(); beep(ok); setBar();
+  if (!S.practice) $("l-hearts").innerHTML = I.heart + st.hearts;
+
+  var foot = $("l-foot"), fb = $("l-fb"), btn = $("l-btn");
+  foot.className = "l-foot " + (ok ? "ok" : "ko");
+  fb.hidden = false;
+  fb.innerHTML = '<div class="fb-ico">' + (ok ? I.check : I.x) + '</div><div><h4>' + (ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : (S.cur.ex.t === "paires" ? "Des erreurs dans les paires" : "Pas tout à fait…")) + '</h4>' +
+    (!ok && sol ? '<p>Bonne réponse : <span class="sol">' + esc(sol) + '</span></p>' : '') +
+    (expl ? '<p>' + esc(expl) + '</p>' : '') + '</div>';
+  btn.hidden = false; btn.disabled = false;
+  btn.className = "btn " + (ok ? "ok" : "ko");
+  btn.textContent = "Continuer";
+  btn.focus();
+
+  if (!ok && !S.practice && st.hearts <= 0) { S.outOfHearts = true; }
+}
+
+function onContinue(){
+  if (S.outOfHearts) return outOfHearts();
+  next();
+}
+
+/* paires */
+function pairLeft(i){
+  if (S.phase !== "answer") return;
+  S.pairs.left = i;
+  Array.prototype.forEach.call(document.querySelectorAll("[data-pl]"), function(b){ b.setAttribute("aria-pressed", b.dataset.pl === String(i)); });
+}
+function pairRight(i, el){
+  if (S.phase !== "answer" || S.pairs.left === null) return;
+  var lEl = document.querySelector('[data-pl="' + S.pairs.left + '"]');
+  if (S.pairs.left === i) {
+    [lEl, el].forEach(function(b){ b.classList.add("flash-good"); b.disabled = true; });
+    setTimeout(function(){ [lEl, el].forEach(function(b){ b.classList.remove("flash-good"); b.classList.add("done"); b.setAttribute("aria-pressed", "false"); }); }, 250);
+    S.pairs.matched++; S.pairs.left = null;
+    if (S.pairs.matched === S.cur.ex.p.length) setTimeout(function(){ result(S.pairs.errors === 0, "", S.pairs.errors ? S.pairs.errors + " erreur" + (S.pairs.errors > 1 ? "s" : "") + " d'association. Revois ces notions dans le Lexique." : ""); }, 300);
+    else beep(true);
+  } else {
+    S.pairs.errors++;
+    [lEl, el].forEach(function(b){ b.classList.add("flash-bad"); });
+    beep(false);
+    setTimeout(function(){ [lEl, el].forEach(function(b){ b.classList.remove("flash-bad"); }); lEl.setAttribute("aria-pressed", "false"); }, 400);
+    S.pairs.left = null;
+  }
+}
+
+function finish(){
+  var perfect = S.firstOk === S.firstTotal;
+  var acc = Math.round(100 * S.firstOk / S.firstTotal);
+  var gained = S.practice ? 10 : 10 + (perfect ? 5 : 0);
+  var secs = Math.round((Date.now() - S.t0) / 1000);
+  tickDay();
+  st.xp += gained; st.dayXp += gained; st.lessons++;
+  if (st.lastDay !== today()) { st.streak = (st.lastDay === yesterday()) ? st.streak + 1 : 1; st.lastDay = today(); }
+  var starsWon = 0;
+  if (S.practice) { st.hearts = Math.min(MAX_HEARTS, st.hearts + 1); if (st.hearts >= MAX_HEARTS) st.heartsTs = Date.now(); }
+  else {
+    starsWon = acc === 100 ? 3 : acc >= 75 ? 2 : 1;
+    st.stars[S.node.id] = Math.max(st.stars[S.node.id] || 0, starsWon);
+  }
+  save();
+  var l = S.node && S.node.lesson;
+  var mm = Math.floor(secs / 60), ss = secs % 60;
+  $("overlay").querySelector(".lesson").innerHTML =
+    '<div class="l-body"><div class="end">' +
+      '<div class="big-ico" style="color:var(--brand)">' + I.star.replace('class="ico"', 'class="ico big-ico"') + '</div>' +
+      '<h2>' + (S.practice ? "Révision terminée" : perfect ? "Leçon parfaite !" : "Leçon terminée !") + '</h2>' +
+      (S.practice ? '<p class="lead" style="margin:0">+1 cœur récupéré. ' + st.mistakes.length + ' erreur' + (st.mistakes.length > 1 ? "s" : "") + ' restante' + (st.mistakes.length > 1 ? "s" : "") + '.</p>' : starsHtml(starsWon, true)) +
+      '<div class="end-stats">' +
+        '<div class="end-stat" style="--c:var(--xp)"><span>XP</span><b>+' + gained + '</b></div>' +
+        '<div class="end-stat" style="--c:var(--ok)"><span>Précision</span><b>' + acc + ' %</b></div>' +
+        '<div class="end-stat" style="--c:var(--sel)"><span>Temps</span><b>' + mm + ':' + (ss < 10 ? "0" : "") + ss + '</b></div>' +
+      '</div>' +
+      (l && l.key ? '<div class="key"><div class="kl">Notion clé</div><p>' + esc(l.key) + '</p>' +
+        (l.mot ? '<div class="kl">Mot à retenir</div><p><b>' + esc(l.mot[0]) + '</b> : ' + esc(l.mot[1]) + '</p>' : '') + '</div>' : '') +
+      (st.dayXp >= st.goal && st.dayXp - gained < st.goal ? '<div class="key" style="border-color:var(--brand)"><b>Objectif du jour atteint.</b> Série : ' + st.streak + ' jour' + (st.streak > 1 ? "s" : "") + '.</div>' : '') +
+      '<button class="btn" id="l-done">Continuer</button>' +
+    '</div></div>';
+  $("l-done").focus();
+}
+
+function outOfHearts(){
+  $("overlay").querySelector(".lesson").innerHTML =
+    '<div class="l-body"><div class="end"><div class="big-ico" style="color:var(--heart)">' + I.heart.replace('class="ico"', 'class="ico big-ico"') + '</div>' +
+    '<h2>Plus de cœurs</h2><p class="lead" style="margin:0">Tes erreurs sont gardées dans Révisions. Une révision ne coûte aucun cœur et t\'en rend un. Sinon, un cœur revient toutes les 15 minutes.</p>' +
+    '<button class="btn" data-practice="1">Réviser mes erreurs</button><button class="btn ghost" id="l-done">Retour au parcours</button></div></div>';
+}
+
+function quitLesson(){
+  S = null; closeOverlay(); document.body.style.overflow = "";
+  renderView();
+}
+
+/* =====================================================================
+   ÉVÉNEMENTS
+   ===================================================================== */
+document.addEventListener("click", function(e){
+  var t = e.target.closest("button, [data-scrim]");
+  if (!t) return;
+  if (t.dataset.scrim && e.target === t) return closeOverlay();
+  if (t.dataset.tab) return show(t.dataset.tab);
+  if (t.dataset.node !== undefined) return openSheet(+t.dataset.node);
+  if (t.dataset.close) return closeOverlay();
+  if (t.dataset.start !== undefined) return startLesson(+t.dataset.start);
+  if (t.dataset.practice) { if (S) { S = null; } return startPractice(); }
+  if (t.dataset.goal) { st.goal = +t.dataset.goal; save(); return renderView(); }
+  if (t.id === "sw-sound") { st.sound = !st.sound; save(); return renderProfile(); }
+  if (t.id === "sw-free") { st.free = !st.free; save(); return renderProfile(); }
+  if (t.id === "reset") { confirmReset = true; return renderProfile(); }
+  if (t.id === "reset-no") { confirmReset = false; return renderProfile(); }
+  if (t.id === "reset-yes") { try { localStorage.removeItem(STORE); } catch(e){} st = load(); confirmReset = false; return renderView(); }
+  if (!S && t.id !== "l-done") return;
+  if (t.id === "l-quit" || t.id === "l-done") return quitLesson();
+  if (t.id === "l-btn") return S.phase === "answer" ? check() : onContinue();
+  if (t.dataset.opt !== undefined) return pick(t.dataset.opt);
+  if (t.dataset.pl !== undefined) return pairLeft(+t.dataset.pl);
+  if (t.dataset.pr !== undefined) return pairRight(+t.dataset.pr, t);
+  if (t.dataset.bank !== undefined) { if (S.phase !== "answer") return; var k = +t.dataset.bank; if (S.picked.indexOf(k) === -1) { S.picked.push(k); renderZone(); } return; }
+  if (t.dataset.zone !== undefined) { if (S.phase !== "answer") return; S.picked.splice(+t.dataset.zone, 1); renderZone(); return; }
+});
+
+document.addEventListener("keydown", function(e){
+  if (!S || !$("l-btn")) { if (e.key === "Escape") closeOverlay(); return; }
+  var btn = $("l-btn");
+  if (e.key === "Enter") {
+    if (document.activeElement && document.activeElement.id !== "type-in" && document.activeElement.id !== "l-btn" && document.activeElement.tagName === "BUTTON") return;
+    if (!btn.disabled && !btn.hidden) { e.preventDefault(); btn.click(); }
+    return;
+  }
+  if (e.key === "Escape") return quitLesson();
+  if (S.phase === "answer" && /^[1-4]$/.test(e.key) && document.activeElement.id !== "type-in") {
+    var opts = document.querySelectorAll("#l-ex [data-opt]");
+    var b = opts[+e.key - 1]; if (b) pick(b.dataset.opt);
+  }
+});
+
+/* Refresh the hearts countdown every minute while on the app */
+setInterval(function(){ if (!S) renderTop(); }, 60000);
+
+renderTabs();
+show("path");
+</script>
+</body>
+</html>
