@@ -220,6 +220,14 @@ main{max-width:640px;margin:0 auto;padding:18px 16px 110px;}
 .key p{margin:4px 0 10px;}
 .key p:last-child{margin-bottom:0;}
 
+/* mode débutant */
+.opt.struck{opacity:.35;text-decoration:line-through;}
+.hintbox{display:flex;gap:10px;align-items:flex-start;background:var(--sel-bg);color:var(--ink);border:2px solid var(--sel);border-radius:12px;padding:10px 12px;margin:-6px 0 16px;font-size:15px;}
+.hintbox .ico{color:var(--sel);margin-top:1px;}
+#l-hint{font-size:13px;padding:10px;}
+#l-hint .ico{width:18px;height:18px;}
+#l-hint:disabled{opacity:.45;cursor:default;transform:none;}
+
 /* cours */
 .c-unit{margin-bottom:22px;}
 .c-unit h3{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px;display:flex;align-items:center;gap:8px;}
@@ -1375,7 +1383,7 @@ var METHODE = [
 var STORE = "cejm_duo_v1";
 var MAX_HEARTS = 5, REGEN_MS = 15 * 60 * 1000;
 var DEF = { xp:0, streak:0, lastDay:null, dayXp:0, dayDate:null, goal:30, hearts:5, heartsTs:0,
-            stars:{}, mistakes:[], answered:0, correct:0, sound:true, free:false, lessons:0, read:{}, perf:{}, missed:{} };
+            stars:{}, mistakes:[], answered:0, correct:0, sound:true, free:false, lessons:0, read:{}, perf:{}, missed:{}, beginner:true, okEx:{} };
 var st = load();
 
 function load(){
@@ -1426,6 +1434,7 @@ var I = {
   check:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
   x:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
   target:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>',
+  bulb:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2V16h5v-.2c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3z"/></svg>',
   tag:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>',
   clock:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
 };
@@ -1729,6 +1738,7 @@ function renderProfile(){
       '<div class="row"><div><div style="font-weight:800">Objectif quotidien</div><div class="sub">XP à gagner chaque jour</div></div><div class="seg" id="goal-seg">' +
         [10, 20, 30, 50].map(function(g){ return '<button data-goal="' + g + '" aria-pressed="' + (st.goal === g) + '">' + g + '</button>'; }).join("") + '</div></div>' +
       '<div class="row"><div><div style="font-weight:800">Effets sonores</div><div class="sub">Son à chaque réponse</div></div><button class="switch" role="switch" id="sw-sound" aria-checked="' + st.sound + '" aria-label="Effets sonores"></button></div>' +
+      '<div class="row"><div><div style="font-weight:800">Mode débutant</div><div class="sub">Séances de 5 questions, des plus simples aux plus dures, avec un bouton Indice</div></div><button class="switch" role="switch" id="sw-beginner" aria-checked="' + st.beginner + '" aria-label="Mode débutant"></button></div>' +
       '<div class="row"><div><div style="font-weight:800">Mode libre</div><div class="sub">Débloque toutes les leçons pour réviser un thème précis</div></div><button class="switch" role="switch" id="sw-free" aria-checked="' + st.free + '" aria-label="Mode libre"></button></div>' +
     '</div>' +
     (confirmReset
@@ -1749,7 +1759,9 @@ function openSheet(idx){
   var stars = st.stars[nd.id] || 0, noHearts = st.hearts <= 0;
   sheet('<div class="kind" style="color:' + nd.unit.color + '">Thème ' + (nd.ui+1) + (nd.cas ? " · Cas pratique" : " · Chapitre " + nd.n) + '</div>' +
     '<h3>' + esc(nd.title) + '</h3>' +
-    '<p>' + nd.lesson.ex.length + ' exercices · ' + (stars ? stars + " étoile" + (stars > 1 ? "s" : "") + " obtenue" + (stars > 1 ? "s" : "") : "+10 XP, +5 si sans faute") + '</p>' +
+    (st.beginner && !nd.cas
+      ? '<p>Mode débutant : 5 questions, des plus simples aux plus dures, avec un indice si tu bloques. Questions déjà réussies : ' + okCount(nd) + ' sur ' + nd.lesson.ex.length + '.</p>'
+      : '<p>' + nd.lesson.ex.length + ' exercices · ' + (stars ? stars + " étoile" + (stars > 1 ? "s" : "") + " obtenue" + (stars > 1 ? "s" : "") : "+10 XP, +5 si sans faute") + '</p>') +
     (noHearts ? '<p style="color:var(--ko);font-weight:700">Plus de cœurs. Fais une révision pour en regagner un, ou attends ' + Math.ceil(nextHeartIn() / 60000) + ' min.</p>' : '') +
     '<div class="btns">' + (noHearts ? '<button class="btn" data-practice="1">Réviser pour regagner un cœur</button>' : '<button class="btn" data-start="' + idx + '">' + (stars ? "Refaire la leçon" : "Commencer") + '</button>') +
     '<button class="btn ghost" data-read="' + idx + '">' + (st.read[nd.id] ? "Relire le cours" : "Lire le cours d'abord") + '</button></div>');
@@ -1765,10 +1777,22 @@ function closeOverlay(){ $("overlay").innerHTML = ""; }
    ===================================================================== */
 var S = null;
 
+/* Difficulté approximative par type d'exercice (mode débutant) */
+var DIFF = { vf:1, qcm:2, trou:2, paires:3, ordre:4, mots:4, saisie:5 };
+var BEGINNER_SIZE = 5;
+function okCount(nd){
+  return nd.lesson.ex.filter(function(_, i){ return st.okEx[nd.id + ":" + i]; }).length;
+}
 function startLesson(idx){
   var nd = NODES[idx];
   var items = nd.lesson.ex.map(function(ex, i){ return { ex:ex, key:nd.id + ":" + i, ctx:nd.cas ? nd.lesson.ctx : null }; });
-  if (!nd.cas) items = shuffle(items);
+  if (!nd.cas && st.beginner) {
+    // questions jamais réussies d'abord, puis les plus simples en premier
+    var fresh = shuffle(items.filter(function(it){ return !st.okEx[it.key]; }));
+    var known = shuffle(items.filter(function(it){ return st.okEx[it.key]; }));
+    items = fresh.concat(known).slice(0, BEGINNER_SIZE)
+      .sort(function(a, b){ return DIFF[a.ex.t] - DIFF[b.ex.t]; });
+  } else if (!nd.cas) items = shuffle(items);
   begin({ node:nd, idx:idx, practice:false, items:items });
 }
 /* Quiz auteurs : 8 questions tirées de la liste des auteurs à citer */
@@ -1800,14 +1824,16 @@ function startPractice(){
 function begin(o){
   closeOverlay();
   S = { node:o.node, idx:o.idx, practice:o.practice, queue:o.items.map(function(it){ return { ex:it.ex, key:it.key, ctx:it.ctx, retry:false }; }),
-        total:o.items.length, done:0, firstOk:0, firstTotal:o.items.length, combo:0, maxCombo:0, t0:Date.now(), cur:null, phase:"answer", sel:null, errorsSeen:{} };
+        total:o.items.length, done:0, firstOk:0, firstTotal:o.items.length, combo:0, maxCombo:0, t0:Date.now(), cur:null, phase:"answer", sel:null, errorsSeen:{}, hints:0 };
   $("overlay").innerHTML =
     '<div class="lesson" role="dialog" aria-modal="true" aria-label="Leçon">' +
       '<div class="l-top"><button class="l-close" id="l-quit" aria-label="Quitter la leçon">' + I.x + '</button>' +
       '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><i id="l-bar"></i></div>' +
       '<div class="chip heart" id="l-hearts">' + (S.practice ? I.heart + "∞" : I.heart + st.hearts) + '</div></div>' +
       '<div class="l-body"><div class="l-body-in" id="l-ex"></div></div>' +
-      '<div class="l-foot" id="l-foot"><div class="l-foot-in"><div class="fb" id="l-fb" hidden></div><button class="btn" id="l-btn" disabled>Vérifier</button></div></div>' +
+      '<div class="l-foot" id="l-foot"><div class="l-foot-in"><div class="fb" id="l-fb" hidden></div>' +
+        (st.beginner ? '<button class="btn ghost" id="l-hint" hidden>' + I.bulb + 'Indice</button>' : '') +
+        '<button class="btn" id="l-btn" disabled>Vérifier</button></div></div>' +
     '</div>';
   document.body.style.overflow = "hidden";
   next();
@@ -1828,6 +1854,7 @@ function next(){
   var ex = S.cur.ex, box = $("l-ex");
   var foot = $("l-foot"); foot.className = "l-foot"; $("l-fb").hidden = true;
   var btn = $("l-btn"); btn.className = "btn"; btn.textContent = "Vérifier"; btn.disabled = true; btn.hidden = false;
+  var hb = $("l-hint"); if (hb) { hb.hidden = false; hb.disabled = false; }
 
   var comboTxt = S.combo >= 3 ? S.combo + " bonnes réponses d'affilée" : "";
   var h = '<div class="combo">' + comboTxt + '</div>' +
@@ -1921,6 +1948,8 @@ function ex_isChoice(ex){ return ex.t === "qcm" || ex.t === "vf" || ex.t === "tr
 var PRAISE = ["Excellent !", "Parfait !", "Bien joué !", "Exact !", "Super !", "Impeccable !"];
 function result(ok, sol, expl){
   S.phase = "feedback";
+  var hb = $("l-hint"); if (hb) hb.hidden = true;
+  if (ok && BYKEY[S.cur.key]) st.okEx[S.cur.key] = true;
   var first = !S.cur.retry;
   st.answered++;
   var tracked = !!BYKEY[S.cur.key];
@@ -1962,6 +1991,53 @@ function onContinue(){
   next();
 }
 
+/* Indice (mode débutant) : une aide adaptée au type d'exercice, une fois par question */
+function hintBox(txt){
+  var d = document.createElement("div");
+  d.className = "hintbox";
+  d.innerHTML = I.bulb + '<span>' + esc(txt) + '</span>';
+  var q = $("l-ex").querySelector(".q, .sentence");
+  if (q) q.insertAdjacentElement("afterend", d); else $("l-ex").appendChild(d);
+}
+function hint(){
+  if (!S || S.phase !== "answer" || S.cur.hinted) return;
+  S.cur.hinted = true; S.hints++;
+  $("l-hint").disabled = true;
+  var ex = S.cur.ex, b = BYKEY[S.cur.key], l = b && b.node.lesson;
+  if (ex.t === "qcm" || ex.t === "trou") {
+    // retirer la moitié des mauvaises réponses
+    var wrong = shuffle(ex.c.map(function(_, i){ return i; }).filter(function(i){ return i !== ex.a; }));
+    wrong.slice(0, Math.max(1, Math.floor(ex.c.length / 2))).forEach(function(i){
+      var el = document.querySelector('#l-ex [data-opt="' + i + '"]');
+      if (!el) return;
+      el.classList.add("struck"); el.disabled = true; el.setAttribute("aria-pressed", "false");
+      if (String(S.sel) === String(i)) { S.sel = null; $("l-btn").disabled = true; if (ex.t === "trou") $("blank").innerHTML = "&nbsp;"; }
+    });
+    hintBox("J'ai retiré des réponses fausses. Il en reste moins à choisir.");
+  } else if (ex.t === "vf") {
+    hintBox(l && l.key ? "Relis l'essentiel : " + l.key : "Repense à la règle de droit vue en cours : ce que dit la loi, et ses conditions.");
+  } else if (ex.t === "saisie") {
+    var core = ex.sol.replace(/^(le|la|les|l'|un|une|des)\s*/i, "").replace(/\s*\(.*\)$/, "");
+    var words = core.split(/\s+/).length;
+    hintBox("La réponse commence par « " + core.charAt(0).toUpperCase() + " » et compte " + words + " mot" + (words > 1 ? "s" : "") + " (sans compter le, la, les).");
+  } else if (ex.t === "ordre" || ex.t === "mots") {
+    var want = ex.t === "ordre" ? ex.it : ex.s.split(" "), n = ex.t === "ordre" ? 1 : 2, used = [];
+    S.picked = want.slice(0, n).map(function(tk){
+      var k = -1; S.bank.some(function(bk, j){ if (bk.tk === tk && used.indexOf(j) === -1) { k = j; return true; } return false; });
+      used.push(k); return k;
+    });
+    renderZone();
+    hintBox(ex.t === "ordre" ? "J'ai placé la première étape pour toi." : "J'ai placé les deux premiers mots pour toi.");
+  } else if (ex.t === "paires") {
+    var li = ex.p.findIndex(function(_, i){ var el = document.querySelector('[data-pl="' + i + '"]'); return el && !el.disabled; });
+    if (li !== -1) {
+      var ri = ex.p.findIndex(function(p, i){ var el = document.querySelector('[data-pr="' + i + '"]'); return p[1] === ex.p[li][1] && el && !el.disabled; });
+      pairLeft(li); pairRight(ri, document.querySelector('[data-pr="' + ri + '"]'));
+    }
+    hintBox("J'ai associé une paire pour toi.");
+  }
+}
+
 /* paires */
 function pairLeft(i){
   if (S.phase !== "answer") return;
@@ -1988,7 +2064,7 @@ function pairRight(i, el){
 }
 
 function finish(){
-  var perfect = S.firstOk === S.firstTotal;
+  var perfect = S.firstOk === S.firstTotal && !S.hints;
   var acc = Math.round(100 * S.firstOk / S.firstTotal);
   var gained = S.practice ? 10 : 10 + (perfect ? 5 : 0);
   var secs = Math.round((Date.now() - S.t0) / 1000);
@@ -2058,6 +2134,8 @@ document.addEventListener("click", function(e){
   if (t.dataset.goal) { st.goal = +t.dataset.goal; save(); return renderView(); }
   if (t.id === "sw-sound") { st.sound = !st.sound; save(); return renderProfile(); }
   if (t.id === "sw-free") { st.free = !st.free; save(); return renderProfile(); }
+  if (t.id === "sw-beginner") { st.beginner = !st.beginner; save(); return renderProfile(); }
+  if (t.id === "l-hint") return hint();
   if (t.id === "reset") { confirmReset = true; return renderProfile(); }
   if (t.id === "reset-no") { confirmReset = false; return renderProfile(); }
   if (t.id === "reset-yes") { try { localStorage.removeItem(STORE); } catch(e){} st = load(); confirmReset = false; return renderView(); }
@@ -2082,7 +2160,7 @@ document.addEventListener("keydown", function(e){
   if (e.key === "Escape") return quitLesson();
   if (S.phase === "answer" && /^[1-4]$/.test(e.key) && document.activeElement.id !== "type-in") {
     var opts = document.querySelectorAll("#l-ex [data-opt]");
-    var b = opts[+e.key - 1]; if (b) pick(b.dataset.opt);
+    var b = opts[+e.key - 1]; if (b && !b.disabled) pick(b.dataset.opt);
   }
 });
 
