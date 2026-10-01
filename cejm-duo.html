@@ -952,7 +952,7 @@ u6l3:[
 var STORE = "cejm_duo_v1";
 var MAX_HEARTS = 5, REGEN_MS = 15 * 60 * 1000;
 var DEF = { xp:0, streak:0, lastDay:null, dayXp:0, dayDate:null, goal:30, hearts:5, heartsTs:0,
-            stars:{}, mistakes:[], answered:0, correct:0, sound:true, free:false, lessons:0, read:{} };
+            stars:{}, mistakes:[], answered:0, correct:0, sound:true, free:false, lessons:0, read:{}, perf:{}, missed:{} };
 var st = load();
 
 function load(){
@@ -1125,7 +1125,7 @@ function renderReview(){
   var m = st.mistakes.length, doneCount = Object.keys(st.stars).length;
   var weak = NODES.filter(function(n){ return st.stars[n.id] && st.stars[n.id] < 3; });
   var html = '<h2 class="section-title">Révisions</h2><p class="lead">Refais tes erreurs jusqu\'à ce qu\'elles disparaissent. Une séance de révision ne coûte aucun cœur et t\'en rend un.</p>';
-  html += '<div class="stack"><div class="card"><div style="display:flex;gap:12px;align-items:center;margin-bottom:14px"><span style="color:var(--ko)">' + I.target + '</span><div><b style="font-size:18px">' + m + ' question' + (m > 1 ? "s" : "") + ' à retravailler</b><div class="sub" style="color:var(--muted);font-size:14px">' +
+  html += '<div class="stack">' + bilanHtml() + '<div class="card"><div style="display:flex;gap:12px;align-items:center;margin-bottom:14px"><span style="color:var(--ko)">' + I.target + '</span><div><b style="font-size:18px">' + m + ' question' + (m > 1 ? "s" : "") + ' à retravailler</b><div class="sub" style="color:var(--muted);font-size:14px">' +
     (doneCount ? "Complétées au besoin par des questions des leçons déjà faites." : "Termine au moins une leçon pour débloquer les révisions.") + '</div></div></div>' +
     '<button class="btn" data-practice="1"' + (doneCount ? "" : " disabled") + '>Lancer une révision</button></div>';
   if (weak.length) {
@@ -1138,6 +1138,78 @@ function renderReview(){
   }
   html += '</div>';
   $("v-review").innerHTML = html;
+}
+
+/* Bilan : analyse des fautes et conseils de révision */
+function solText(ex){
+  if (ex.t === "qcm" || ex.t === "trou") return ex.c[ex.a];
+  if (ex.t === "vf") return ex.a ? "Vrai" : "Faux";
+  if (ex.t === "paires") return ex.p.map(function(p){ return p[0] + " → " + p[1]; }).join(" · ");
+  if (ex.t === "ordre") return ex.it.join(" → ");
+  if (ex.t === "mots") return ex.s;
+  return ex.sol;
+}
+function lessonStats(){
+  var byId = {};
+  NODES.forEach(function(nd, idx){ byId[nd.id] = { nd:nd, idx:idx, n:0, ko:0, open:0 }; });
+  for (var k in st.perf) if (byId[k]) { byId[k].n = st.perf[k][0]; byId[k].ko = st.perf[k][1]; }
+  st.mistakes.forEach(function(key){ var b = byId[key.split(":")[0]]; if (b) b.open++; });
+  return byId;
+}
+function bilanHtml(){
+  var byId = lessonStats(), list = [];
+  for (var k in byId) { var s = byId[k]; if (s.n || s.open) { s.rate = s.n ? s.ko / s.n : 1; list.push(s); } }
+  if (!list.length) return '<div class="card"><b style="display:block;font-size:18px;margin-bottom:4px">Ton bilan</b><p class="lead" style="margin:0">Fais une première leçon : ton bilan analysera tes fautes et te dira quoi apprendre en priorité.</p></div>';
+
+  // score de priorité : erreurs encore à corriger d'abord, puis taux d'erreur
+  list.forEach(function(s){ s.score = s.open * 2 + s.rate * Math.min(s.n, 10); });
+  var prio = list.filter(function(s){ return s.open || s.rate >= 0.25; }).sort(function(a, b){ return b.score - a.score; }).slice(0, 3);
+
+  // précision par thème
+  var themes = UNITS.map(function(){ return { n:0, ko:0 }; });
+  list.forEach(function(s){ themes[s.nd.ui].n += s.n; themes[s.nd.ui].ko += s.ko; });
+  var tot = themes.reduce(function(a, t){ return [a[0] + t.n, a[1] + t.ko]; }, [0, 0]);
+
+  var h = '<div class="card"><b style="display:block;font-size:18px;margin-bottom:2px">Ton bilan</b>' +
+    '<p class="lead" style="margin:0 0 12px">' + tot[0] + ' réponses analysées · ' + (tot[0] ? Math.round(100 * (tot[0] - tot[1]) / tot[0]) : 0) + ' % de réussite</p>';
+  themes.forEach(function(t, ui){
+    if (!t.n) return;
+    var pct = Math.round(100 * (t.n - t.ko) / t.n);
+    h += '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:700"><span>Thème ' + (ui+1) + ' · ' + esc(UNITS[ui].title) + '</span><span style="white-space:nowrap;font-variant-numeric:tabular-nums;color:' + (pct >= 80 ? "var(--ok)" : pct >= 60 ? "var(--brand-deep)" : "var(--ko)") + '">' + pct + ' %</span></div>' +
+      '<div class="bar" style="height:10px;margin-top:4px"><i style="width:' + pct + '%;background:' + UNITS[ui].color + '"></i></div></div>';
+  });
+  h += '</div>';
+
+  if (prio.length) {
+    h += '<div class="card"><b style="display:block;font-size:18px;margin-bottom:2px">À apprendre en priorité</b><p class="lead" style="margin:0 0 4px">Relis la fiche, puis lance une révision.</p>';
+    prio.forEach(function(s, i){
+      var why = s.open ? s.open + " erreur" + (s.open > 1 ? "s" : "") + " pas encore corrigée" + (s.open > 1 ? "s" : "") : Math.round(100 * s.rate) + " % d'erreurs";
+      h += '<div class="row"><div><div style="font-weight:800">' + (i+1) + '. ' + esc(s.nd.cas ? s.nd.title : s.nd.title) + '</div><div class="sub">Thème ' + (s.nd.ui+1) + ' · ' + why + '</div>' +
+        (s.nd.lesson.mot ? '<div class="sub">Notion à maîtriser : <b>' + esc(s.nd.lesson.mot[0]) + '</b></div>' : '') + '</div>' +
+        '<button class="btn ghost" style="width:auto;padding:8px 12px;font-size:13px;flex:none" data-read="' + s.idx + '">Lire</button></div>';
+    });
+    var top = prio[0].nd;
+    h += '<p style="margin:12px 0 0;font-size:15px"><b>Conseil :</b> ' + (top.cas
+      ? "tes erreurs portent sur les cas pratiques. Relis la méthode du syllogisme et entraîne-toi à citer la règle avant de conclure."
+      : "commence par « " + esc(top.title) + " ». Relis « L'essentiel » et le mot à retenir, fais une révision, puis reviens demain : deux courtes séances sur deux jours fixent mieux qu'une longue.") + '</p></div>';
+  } else {
+    h += '<div class="card"><b>Rien d\'urgent à revoir.</b><p class="lead" style="margin:4px 0 0">Tu as moins de 25 % d\'erreurs partout. Continue le parcours pour couvrir de nouveaux thèmes.</p></div>';
+  }
+
+  var missed = Object.keys(st.missed).filter(function(k){ return BYKEY[k]; })
+    .sort(function(a, b){ return (st.missed[b] - st.missed[a]) || ((st.mistakes.indexOf(b) !== -1) - (st.mistakes.indexOf(a) !== -1)); });
+  if (missed.length) {
+    h += '<div class="card"><b style="display:block;font-size:18px;margin-bottom:2px">Les questions que tu rates</b><p class="lead" style="margin:0 0 4px">Lis bien la bonne réponse : c\'est elle qu\'il faut retenir.</p>';
+    missed.slice(0, 8).forEach(function(key){
+      var b = BYKEY[key], n = st.missed[key], open = st.mistakes.indexOf(key) !== -1;
+      h += '<div class="row" style="display:block"><div class="sub">' + esc(b.node.title) + ' · ratée ' + n + ' fois' + (open ? ' · <span style="color:var(--ko);font-weight:800">à corriger</span>' : ' · corrigée depuis') + '</div>' +
+        '<div style="font-weight:700;margin:2px 0">' + esc(b.ex.q || b.ex.s) + '</div>' +
+        '<div style="font-size:14px;color:var(--ok-ink)">Bonne réponse : <b>' + esc(solText(b.ex)) + '</b></div></div>';
+    });
+    if (missed.length > 8) h += '<p class="sub" style="margin:8px 0 0;color:var(--muted)">Et ' + (missed.length - 8) + ' autre' + (missed.length - 8 > 1 ? "s" : "") + '.</p>';
+    h += '</div>';
+  }
+  return h;
 }
 
 function readMin(nd){
@@ -1406,6 +1478,8 @@ function result(ok, sol, expl){
   S.phase = "feedback";
   var first = !S.cur.retry;
   st.answered++;
+  var lid = S.cur.key.split(":")[0], pf = st.perf[lid] || (st.perf[lid] = [0, 0]);
+  pf[0]++; if (!ok) { pf[1]++; st.missed[S.cur.key] = (st.missed[S.cur.key] || 0) + 1; }
   if (ok) {
     st.correct++; S.done++; S.combo++; S.maxCombo = Math.max(S.maxCombo, S.combo);
     if (first) S.firstOk++;
