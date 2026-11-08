@@ -71,3 +71,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
   2. « Un secret ne disparaît jamais. Il change juste de propriétaire. »
   3. « Celui qui sonne à 2 h… sait déjà que tu es réveillé. »
   Durée : ~59 s (les leçons ajoutent ~14 s).
+- Wilfried valide la v3 (« la vidéo est bonne »). Priorité : publier sur TikTok avec titre + description, puis demain : la partie 2.
+- Publication automatique impossible : Metricool n'a aucun réseau connecté. Wilfried publie à la main depuis son téléphone (texte prêt dans PUBLICATION.md).
