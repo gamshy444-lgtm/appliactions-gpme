@@ -15,16 +15,16 @@ const EMO = px => `${px}px "Noto Color Emoji"`;
 
 window.DUR = 45.0;
 // beats that only moved when the film grew from 35 s to 45 s: old time → new time
-const MAPK = [[0, 0], [16.6, 16.6], [18.9, 22.9], [20, 24], [27.4, 33.4], [27.5, 33.5], [30.2, 36.2], [34.3, 43.3], [35, 45]];
+const MAPK = [[0, 0], [16.6, 16.6], [18.9, 22.9], [20, 24], [27.4, 32.2], [27.5, 32.3], [30.2, 35.0], [34.3, 42.8], [35, 45]];
 const M = t => { for (let i = 0; i < MAPK.length - 1; i++) { const [a, A] = MAPK[i], [b, B] = MAPK[i + 1]; if (t <= b) return A + (t - a) * (B - A) / (b - a); } return t; };
 
 // ───────────────────────── timeline (single source of truth) ─────────────────────────
 const T = {
-  lightOn: .12, rise: 2.25, turn: 3.6, grab: 4.7, push: 5.4, inScreen: 7.0,
+  lightOn: 0, rise: 2.25, turn: 3.6, grab: 4.7, push: 5.4, inScreen: 7.0,
   silence1: 12.0, pere: 15.3, hang: 16.6, recall: 19.0, unreach: 20.8, off: 23.1, papa: 24.0,
-  dots0: 24.7, b0: 25.5, dots1: 26.3, b1: 27.4, dots2: 28.3, b2: 29.5, dots3: 30.9, dots3end: 32.6,
-  bell: 33.5, pull: 33.6, out: 34.8, doorLight: 34.6, feet: 35.2, choice: 36.2, cardA: 36.4, cardB: 36.7, ab: 37.2, cta: 39.5,
-  cut: 43.3,
+  dots0: 24.7, b0: 25.5, dots1: 26.3, b1: 27.4, dots2: 28.3, b2: 29.5, dots3: 30.9, dots3end: 31.7,
+  bell: 32.3, pull: 32.4, out: 33.6, doorLight: 33.4, feet: 34.0, choice: 35.0, cardA: 35.2, cardB: 35.5, ab: 36.0, cta: 39.1,
+  cut: 42.8,
 };
 const WORDS = [
   // [text, t, line, size, colour]
@@ -41,13 +41,13 @@ const SUBS = [
   { t0: 19.2, t1: 21.0, text: 'Tu la rappelles.' },
   { t0: 21.05, t1: 23.0, text: 'Son téléphone est éteint.' },
   { t0: 24.0, t1: 26.2, text: 'Puis ton père t’écrit.' },
-  { t0: 33.5, t1: 35.9, text: 'Quelqu’un sonne.' },
-  { t0: 36.2, t1: 39.4, text: 'Tu fais quoi ?\nVote en commentaire.' },
+  { t0: 32.3, t1: 34.7, text: 'Quelqu’un sonne.' },
+  { t0: 35.0, t1: 38.6, text: 'Tu fais quoi ?\nVote en commentaire.' },
 ];
 // heartbeats: slow after the shock, accelerating under the father's messages, steady under the choice
 const HEART = [15.62, 16.42];
-{ let t = 25.9, dt = .95; while (t < 33.3) { HEART.push(+t.toFixed(3)); t += dt; dt = Math.max(.5, dt * .95); } }
-{ for (let t = 36.45; t < 43.2; t += .6) HEART.push(+t.toFixed(3)); }
+{ let t = 25.9, dt = .95; while (t < 32.1) { HEART.push(+t.toFixed(3)); t += dt; dt = Math.max(.5, dt * .95); } }
+{ for (let t = 35.25; t < 42.7; t += .6) HEART.push(+t.toFixed(3)); }
 
 const EV = [];
 const ev = (t, type, o = {}) => EV.push({ t: +t.toFixed(3), type, ...o });
@@ -55,7 +55,7 @@ const ev = (t, type, o = {}) => EV.push({ t: +t.toFixed(3), type, ...o });
 ev(T.lightOn, 'lighton'); ev(.3, 'strip'); ev(2.3, 'rustle', { v: .9 }); ev(4.15, 'rustle', { v: .5 }); ev(T.grab, 'tap');
 ev(5.3, 'whoosh', { d: 1.7, v: 1 }); ev(5.45, 'strip', { v: .5 });
 ev(T.pere, 'thud'); ev(T.pere, 'flash');
-HEART.forEach(t => ev(t, 'heart', { v: t < 17 ? 1 : t < 34 ? .55 + .35 * seg(t, 26, 33.3) : .7 }));
+HEART.forEach(t => ev(t, 'heart', { v: t < 17 ? 1 : t < 33 ? .55 + .35 * seg(t, 26, 32.1) : .7 }));
 ev(T.hang, 'hangup'); ev(T.recall - .1, 'tap', { v: .5 }); ev(T.recall + .2, 'ring'); ev(T.recall + .95, 'ring'); ev(T.unreach, 'unreach'); ev(T.off, 'switch');
 ev(T.papa, 'msg', { v: 1 }); ev(T.b0, 'msg', { v: .7 }); ev(T.b1, 'msg', { v: .7 }); ev(T.b2, 'msg', { v: .7 });
 for (const [a, b] of [[T.dots0, T.b0], [T.dots1, T.b1], [T.dots2, T.b2], [T.dots3, T.dots3end]]) for (let t = a + .1; t < b - .05; t += .19) ev(t, 'type');
@@ -310,7 +310,7 @@ function scrCam(t) {
   let d = 1, x = 0, y = 0;
   if (t >= T.inScreen && t < T.hang) d = lerp(1, .93, ss(seg(t, T.inScreen, T.hang)));
   else if (t >= T.hang && t < T.papa) d = lerp(.93, .985, ss(seg(t, T.hang, T.papa)));
-  else if (t >= T.papa && t < T.cut) { d = lerp(1, .9, eio(seg(t, T.papa, 33.4))); y = lerp(0, 60, eio(seg(t, T.dots2, 33.4))); }
+  else if (t >= T.papa && t < T.cut) { d = lerp(1, .9, eio(seg(t, T.papa, 32.2))); y = lerp(0, 60, eio(seg(t, T.dots2, 32.2))); }
   // shock: the whole box is struck
   const k = t >= T.pere ? Math.exp(-(t - T.pere) * 5.5) * seg(t, T.pere, T.pere + .02) : 0;
   const sx = k * 26 * Math.sin(t * 71) + k * 10 * (hash(Math.floor(t * 30)) - .5);
@@ -493,7 +493,13 @@ const FZ = -.06;
 function roomCam(t) {
   let d, x, y, focus = FZ;
   const hand = .9 * Math.sin(t * .63) + .6 * Math.sin(t * 1.37 + 1);
-  if (t < T.push) { const e = ss(seg(t, 0, T.push)); d = lerp(.86, .8, e); x = lerp(0, 40, e); y = lerp(-150, -170, e); }
+  if (t < 2.2) {
+    const [px, py] = PHONE_REST, e = eio(seg(t, .9, 2.2));
+    const dzA = SCW * (1 - FZ) / 700, dzB = .86 - FZ;
+    d = FZ + Math.exp(lerp(Math.log(dzA), Math.log(dzB), e));
+    const ex = ss(seg(t, 1.0, 2.2)); x = lerp(px * (1 - FZ), 0, ex); y = lerp(py * (1 - FZ), -150, ex);
+  }
+  else if (t < T.push) { const e = ss(seg(t, 2.2, T.push)); d = lerp(.86, .8, e); x = lerp(0, 40, e); y = lerp(-150, -170, e); }
   else if (t < T.inScreen) {
     const [px, py] = phoneScreenPos(t), e = eio(seg(t, T.push, T.inScreen));
     const dz0 = .8 - FZ, dz1 = SCW * (1 - FZ) / RW;
@@ -508,7 +514,13 @@ function roomCam(t) {
     x = lerp(px * (1 - FZ), -40, ex); y = lerp(py * (1 - FZ), 60, ex);
     const late = ss(seg(t, T.out, 40)); d -= .04 * late; x -= 30 * late; y += 30 * late;
     focus = lerp(FZ, -.25, ss(seg(t, M(28.95), M(29.7))));
-    if (t >= T.cut) focus = lerp(-.25, FZ, ss(seg(t, T.cut, T.cut + .4)));
+    if (t >= T.cut) {
+      focus = lerp(-.25, FZ, ss(seg(t, T.cut, T.cut + .3)));
+      const [qx, qy] = phoneScreenPos(T.cut), e2 = eio(seg(t, T.cut, T.cut + .35));
+      const dzNow = d - FZ, dzEnd = SCW * (1 - FZ) / 640;
+      d = FZ + Math.exp(lerp(Math.log(dzNow), Math.log(dzEnd), e2));
+      x = lerp(x, qx * (1 - FZ), e2); y = lerp(y, qy * (1 - FZ), e2);
+    }
   }
   const zoomK = clamp((1 - d) * 3);
   return { d, x, y, sx: hand * (1 - zoomK), sy: .7 * hand * (1 - zoomK), dof: 24, focus };
@@ -569,8 +581,9 @@ const R = [
     // family photo above the bed: two adults and a child
     c.fillStyle = '#1b2a55'; c.fillRect(-150, -430, 170, 128);
     c.fillStyle = '#4a5f98'; c.fillRect(-138, -418, 146, 104);
+    if (t >= T.pull) { c.fillStyle = '#566ca6'; c.fillRect(-80, -356, 28, 40); }
     c.fillStyle = '#16224a';
-    for (const [x, hh, r] of [[-104, 62, 13], [-30, 70, 14], [-66, 40, 10]]) { c.beginPath(); c.arc(x, -314 - hh, r, 0, 7); c.fill(); c.fillRect(x - r * 1.2, -314 - hh + r, r * 2.4, hh - r); }
+    for (const [x, hh, r] of (t < T.pull ? [[-104, 62, 13], [-30, 70, 14], [-66, 40, 10]] : [[-104, 62, 13], [-30, 70, 14]])) { c.beginPath(); c.arc(x, -314 - hh, r, 0, 7); c.fill(); c.fillRect(x - r * 1.2, -314 - hh + r, r * 2.4, hh - r); }
     // skirting
     c.fillStyle = '#1f2f5a'; c.fillRect(-1100, 320, 2200, 30);
   }, glow(c, t, sc, b) {
@@ -625,7 +638,7 @@ const R = [
     if (s <= 0) return;
     const buf = renderScreen(t, (!b && zoom > 300) ? 'full' : 'low');
     c.save(); c.translate(P.phone[0], P.phone[1] - 1); c.rotate(P.prot * DEG);
-    c.globalAlpha *= s; c.beginPath(); c.roundRect(-SCW / 2, -SCH / 2, SCW, SCH, 6); c.clip();
+    c.globalAlpha *= s * (b ? clamp(1.2 - zoom / 500, .12, 1) : 1); c.beginPath(); c.roundRect(-SCW / 2, -SCH / 2, SCW, SCH, 6); c.clip();
     c.drawImage(buf, -SCW / 2, -SCH / 2, SCW, SCH);
     c.restore();
   } },
@@ -651,13 +664,17 @@ const R = [
   } },
   // "02:07": a paper strip that grows from its left edge
   { z: .05, trans: .1, rim: true, shadowA: .6, on: t => t < 6.2, alpha: t => 1 - seg(t, 5.45, 5.9), draw(c, t) {
-    const p = eo(seg(t, .3, .85)), y = -700 - 80 * ss(seg(t, 5.45, 5.9));
+    const p = eo(seg(t, 1.8, 2.3)), y = -700 - 80 * ss(seg(t, 5.45, 5.9));
     c.save(); c.beginPath(); c.rect(-200, y - 90, 400 * p, 180); c.clip();
     c.fillStyle = '#0a0f26'; rr(c, -200, y - 85, 400, 170, 30); c.fill(); c.restore();
+    const q = eo(seg(t, 2.0, 2.5)); c.save(); c.beginPath(); c.rect(-140, y + 100, 280 * q, 90); c.clip();
+    c.fillStyle = '#5a1018'; rr(c, -140, y + 104, 280, 82, 22); c.fill(); c.restore();
   }, glow(c, t, sc, b) {
-    const p = eo(seg(t, .3, .85)), y = -700 - 80 * ss(seg(t, 5.45, 5.9));
+    const p = eo(seg(t, 1.8, 2.3)), y = -700 - 80 * ss(seg(t, 5.45, 5.9));
     c.save(); c.beginPath(); c.rect(-200, y - 90, 400 * p, 180); c.clip();
     lightText(c, '02:07', 0, y + 4, 128, '#ffd9a0', { w: 600 }); c.restore();
+    const q = eo(seg(t, 2.0, 2.5)); c.save(); c.beginPath(); c.rect(-140, y + 100, 280 * q, 90); c.clip();
+    lightText(c, 'PARTIE 1', 0, y + 146, 50, '#ffd2c4', { w: 700 }); c.restore();
   } },
   // the choice: two cards in front of the lamp
   { z: .1, trans: .1, shadowA: .7, on: t => t >= T.cardA, draw(c, t) { cards(c, t, false); }, glow(c, t, sc, b) { BLOOMPASS = b; cards(c, t, true); } },
@@ -695,13 +712,12 @@ function cards(c, t, glow) {
     const p = eo(seg(t, T.cta, T.cta + .45)), s = 1 + .02 * beat(t);
     c.save(); c.scale(.8, .8); c.translate(0, 330); c.scale(s, s);
     c.beginPath(); c.rect(-460 * p, -160, 920 * p, 320); c.clip();
-    if (!glow) { c.fillStyle = '#0c0a14'; rr(c, -440, -140, 880, 280, 44); c.fill(); sticker(c, '🔔', -250, -58, 84); sticker(c, '❤️', 40, 62, 70); }
+    if (!glow) { c.fillStyle = '#0c0a14'; rr(c, -440, -140, 880, 280, 44); c.fill(); sticker(c, '🔔', -250, -58, 84); }
     else {
       c.fillStyle = 'rgba(255,190,120,.10)'; rr(c, -436, -136, 872, 272, 42); c.fill();
-      sticker(c, '🔔', -250, -58, 84, true, BLOOMPASS); sticker(c, '❤️', 40, 62, 70, true, BLOOMPASS);
+      sticker(c, '🔔', -250, -58, 84, true, BLOOMPASS);
       lightText(c, 'Abonne-toi', -180, -56, 92, '#ffe9cc', { align: 'left', w: 700 });
-      lightText(c, '1 000', -10, 64, 76, '#ffcf8a', { align: 'right', w: 700 });
-      lightText(c, '= la suite', 90, 64, 76, '#ffe9cc', { align: 'left' });
+      lightText(c, 'Partie 2 demain', 0, 64, 76, '#ffcf8a', { w: 700 });
     }
     c.restore();
   }
@@ -777,9 +793,11 @@ window.TEXTS = t => {
     box('clock', '02:07', ...c(-380, -905), 100, 40, true);
   } else {
     const cam = roomCam(t);
-    if (t >= .85 && t < 5.45) { const [x, y, s] = proj(cam, 0, -700, .05); box('0207', '02:07', x, y, 400 * s, 170 * s); }
+    if (t >= 2.35 && t < 5.45) { const [x, y, s] = proj(cam, 0, -700, .05); box('0207', '02:07', x, y, 400 * s, 170 * s); }
+    if (t >= 2.55 && t < 5.45) { const [x, y, s] = proj(cam, 0, -555, .05); box('partie', 'PARTIE 1', x, y, 280 * s, 82 * s); }
+    if (t >= T.cut + .35) box('maman2', 'Maman', 540, 950, 300, 120);
     if (t >= T.cardA) for (const k2 of CARDS) if (t >= k2.t0 + .45) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + k2.y * .8, .1); box('card' + k2.l, `${k2.e} ${k2.l} ${k2.s}`, x, y, 640 * s, 152 * s); }
-    if (t >= T.cta + .45) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + 264, .1); box('cta', 'Abonne-toi 1 000 ❤️ = la suite', x, y, 704 * s, 224 * s); }
+    if (t >= T.cta + .45) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + 264, .1); box('cta', 'Abonne-toi Partie 2 demain', x, y, 704 * s, 224 * s); }
     if (t >= T.ab + .4) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + 48, .1); box('ab', 'A ou B ? 👇', x, y, 368 * s, 106 * s); }
   }
   return L;

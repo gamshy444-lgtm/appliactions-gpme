@@ -12,9 +12,9 @@ Deux voix, à générer séparément, puis à poser dans CapCut au temps indiqu�
 | 19,2 | Narrateur | Tu la rappelles. | **nouvelle phrase** |
 | 21,05 | Narrateur | Son téléphone est éteint. | « éteint » avant 23,1 s (la lumière s'éteint) |
 | 24,0 | Narrateur | Puis ton père t'écrit. | lentement |
-| 33,5 | Narrateur | Quelqu'un sonne. | |
-| 36,2 | Narrateur | Tu fais quoi ? Vote en commentaire. | |
-| 39,6 | Narrateur | Abonne-toi. Mille likes, et tu as la suite. | **nouveau** — finir avant 43,3 s (le téléphone revibre) |
+| 32,3 | Narrateur | Quelqu'un sonne. | |
+| 35,0 | Narrateur | Tu fais quoi ? Vote en commentaire. | |
+| 39,2 | Narrateur | Abonne-toi. (on garde seulement ce mot ; bandeau : « Partie 2 demain ») | **nouveau** — finir avant 43,3 s (le téléphone revibre) |
 
 Ce qui a changé par rapport au script de 35 s : une phrase en plus (« Tu la rappelles. »), et tout ce qui suit « Elle a raccroché » est décalé.
 
@@ -33,3 +33,7 @@ Le fichier `le_secret_ep1.srt` contient les mêmes répliques avec leurs temps, 
 ## Voix reçues (8 novembre)
 
 Narrateur : « Nicolas Petit – Deep Narrator ». Mère : « Victoria – Content Creator ». Fichiers dans `voice/`, découpés et calés par `mix.py` (liste `VOICE`). Le bandeau « Abonne-toi » a été avancé à 39,5 s car la phrase dure 3,4 s.
+
+## Version 2 (8 nov., soir)
+
+Ouverture sur l'écran « Maman appelle » + « PARTIE 1 » ; messages raccourcis de 1,2 s ; l'enfant disparaît de la photo ; fin honnête « Abonne-toi · Partie 2 demain » (on ne garde que « Abonne-toi. » de l'audio) ; le téléphone sonne une 2e fois et on lit « Maman » (alors que son téléphone est éteint). Aucune nouvelle voix nécessaire.

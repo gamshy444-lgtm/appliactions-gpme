@@ -21,9 +21,9 @@ VOICE = [
     ('narrateur', 8.03, 8.67, 19.20, False),  # Tu la rappelles.
     ('narrateur', 9.75, 11.54, 21.05, False), # Son téléphone est éteint.
     ('narrateur', 12.67, 14.69, 24.00, False),# Puis... ton père t'écrit.
-    ('narrateur', 15.84, 16.52, 33.50, False),# Quelqu'un sonne.
-    ('narrateur', 17.59, 19.65, 36.20, False),# Tu fais quoi ? Vote en commentaire.
-    ('narrateur', 20.37, 23.80, 39.60, False),# Abonne-toi. Mille likes... et tu as la suite.
+    ('narrateur', 15.84, 16.52, 32.30, False),# Quelqu'un sonne.
+    ('narrateur', 17.59, 19.65, 35.00, False),# Tu fais quoi ? Vote en commentaire.
+    ('narrateur', 20.37, 20.96, 39.20, False),# Abonne-toi.
 ]
 VO = [(at, at + (b - a)) for _, a, b, at, _ in VOICE]
 WITH_VOICE = os.environ.get('NOVOICE') != '1'
@@ -54,17 +54,17 @@ n(15.32, 'timpani', 'A2', 2.5, .7, 0)
 n(19.0, 'vibraphone_bowed', 'D5', 1.8, .26, .2, attack=.4)
 n(20.8, 'cellos', 'D2', 2.3, .4, 0, attack=.2, release=.1)
 # Papa (24–33.4): an unsettled C#, a tightening violin cluster
-n(24.2, 'cellos', 'C#3', 9.2, .38, -.2, attack=2.0, release=.15)
-n(25.4, 'violins_trem', 'A4', 8.0, .3, -.3, attack=6.0, release=.1)
-n(26.6, 'violins_trem', 'A#4', 6.8, .28, .3, attack=5.5, release=.1)
-n(29.0, 'violins_trem', 'E5', 4.4, .26, 0, attack=3.5, release=.1)
+n(24.2, 'cellos', 'C#3', 8.0, .38, -.2, attack=2.0, release=.15)
+n(25.4, 'violins_trem', 'A4', 6.8, .3, -.3, attack=6.0, release=.1)
+n(26.6, 'violins_trem', 'A#4', 5.6, .28, .3, attack=5.5, release=.1)
+n(29.0, 'violins_trem', 'E5', 3.2, .26, 0, attack=3.5, release=.1)
 # Porte (33.5–36.2)
-n(33.6, 'contrabass', 'D2', 2.8, .48, 0, attack=.4, release=.4)
+n(32.4, 'contrabass', 'D2', 2.6, .48, 0, attack=.4, release=.4)
 # Choix (36.2–43.3): suspended, growing, cut at 43.3
-n(36.2, 'cellos', 'D3', 7.1, .4, -.25, attack=2.0, release=.05)
-n(36.4, 'violins', 'F4', 6.9, .3, .2, attack=2.5, release=.05)
-n(36.8, 'violins', 'A4', 6.5, .3, -.1, attack=2.5, release=.05)
-n(38.6, 'violins_trem', 'E5', 4.7, .32, .3, attack=3.5, release=.05)
+n(35.0, 'cellos', 'D3', 7.8, .4, -.25, attack=2.0, release=.05)
+n(35.2, 'violins', 'F4', 7.6, .3, .2, attack=2.5, release=.05)
+n(35.6, 'violins', 'A4', 7.2, .3, -.1, attack=2.5, release=.05)
+n(37.4, 'violins_trem', 'E5', 5.4, .32, .3, attack=3.5, release=.05)
 music = S.render(ev, dur=DUR + 1).astype(np.float64)
 music = music[:N] if len(music) >= N else np.pad(music, ((0, N - len(music)), (0, 0)))
 # music box (physical model), detuned when it comes back under the father
@@ -72,13 +72,13 @@ mb = np.zeros((N, 2))
 for t, p in [(1.0, 'D5'), (2.0, 'F5'), (3.0, 'A5'), (4.0, 'E5')]: add(mb, P.pluck('music_box', p, 2.2, vel=.55), t, .5, .25)
 for t, p in [(26.0, 'D5'), (27.0, 'F5'), (28.0, 'D5'), (29.0, 'F5'), (30.0, 'A5'), (31.0, 'D5')]: add(mb, P.pluck('music_box', p, 2.0, vel=.45, bend=[(0, -.35), (1.5, -.6)]), t, .32, -.3)
 # the lullaby comes back, slower, under the choice (echo of the opening)
-for t, p in [(39.0, 'D5'), (40.2, 'F5'), (41.4, 'A5'), (42.6, 'E5')]: add(mb, P.pluck('music_box', p, 2.0, vel=.45), t, .36, .25)
+for t, p in [(38.6, 'D5'), (39.8, 'F5'), (41.0, 'A5'), (42.2, 'E5')]: add(mb, P.pluck('music_box', p, 2.0, vel=.45), t, .36, .25)
 music += mb
 # room for the voice: duck 7 dB under every line, and keep the two silences silent
 duck = np.ones(N); tt = np.arange(N) / SR
 for a, b in VO:
     duck = np.minimum(duck, 1 - .55 * np.clip(np.minimum((tt - a + .15) / .15, (b + .3 - tt) / .3), 0, 1))
-gate = env_curve([(0, 1), (11.95, 1), (12.05, 0), (15.25, 0), (15.28, 1), (23.05, 1), (23.15, 0), (24.0, 0), (24.05, 1), (43.28, 1), (43.31, 0), (DUR + 1, 0)])
+gate = env_curve([(0, 1), (11.95, 1), (12.05, 0), (15.25, 0), (15.28, 1), (23.05, 1), (23.15, 0), (24.0, 0), (24.05, 1), (42.78, 1), (42.81, 0), (DUR + 1, 0)])
 music *= (duck * gate)[:, None]
 
 # ───────────── foley ─────────────
