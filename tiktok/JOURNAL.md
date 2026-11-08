@@ -74,7 +74,7 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried valide la v3 (« la vidéo est bonne »). Priorité : publier sur TikTok avec titre + description, puis demain : la partie 2.
 - Publication automatique impossible : Metricool n'a aucun réseau connecté. Wilfried publie à la main depuis son téléphone (texte prêt dans PUBLICATION.md).
 
-## 9 novembre (soir) — Partie 1 publiée
+## 8 novembre (soir) — Partie 1 publiée
 - Wilfried a publié la partie 1 sur TikTok (« c'est carré »). Objectif : 3 parties, 4 si ça plaît.
 - Demande : la partie 2 avec tout ce qui a été dit (style Wil Aime, leçons, défauts corrigés), en faisant attention aux tokens.
 - Script de la partie 2 écrit : `le-secret-ep2/SCRIPT.md` (deux débuts A/B selon le vote, suite commune, leçons 4 et 5). En attente : les voix ElevenLabs + le résultat du vote.
