@@ -28,3 +28,10 @@ Deux débuts selon le vote (A = il ouvre / B = il se cache), puis la même suite
 - N : « Abonne-toi. Partie 3 demain. »
 
 Demande de Wilfried : utiliser « Imagine… » pour que les gens se projettent davantage dans l'histoire.
+
+## Production (8 nov.)
+- Voix reçues : narrateur (Nicolas Petit) ✓, mère (Victoria) ✓, leçons ✗ (faites avec Victoria au lieu de Nicolas → à régénérer ; en attendant la vidéo utilise ce fichier).
+- Deux versions rendues : `le_secret_partie2_A.mp4` (il a ouvert) et `le_secret_partie2_B.mp4` (il s'est caché). ~51 s.
+- Nouveaux décors : porte qui s'ouvre sur le couloir (A), poignée qui tourne + photo glissée sous la porte (B), gros plan de la photo avec l'enfant découpé (la lumière passe par le trou), appel de la mère, « SONNÉ » en rouge, leçons 4 et 5, la porte d'entrée en bas, la main sur la fenêtre (chute finale).
+- Nouveau vote : A 🏃 Je descends / B 🪟 La fenêtre. « Abonne-toi · Partie 3 demain ».
+- Refaire juste le son quand les leçons de Nicolas arrivent : `VERSIONS=A sh render_all.sh` (ou remix seul).

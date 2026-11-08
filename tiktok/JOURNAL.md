@@ -82,3 +82,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried refuse de donner sa clé API ElevenLabs (respecté) : il enverra les fichiers audio.
 - Demande : utiliser « Imagine… » dans la narration pour que les gens se projettent → ajouté au script de la partie 2.
 - Metricool : TikTok connecté (compte « historiax25 »). Publication programmée possible via Metricool.
+- Partie 2 en production (2 versions A/B). Les leçons ont été générées avec Victoria par erreur : Wilfried doit les refaire avec Nicolas.
