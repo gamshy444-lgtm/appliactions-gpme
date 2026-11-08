@@ -55,3 +55,6 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - « On vient de regarder, c'était incroyable. »
 - Question : qu'est-ce qu'on peut rajouter, honnêtement et durement, pour que ce soit plus interactif et un peu mieux ? Est-ce que les gens vont regarder ?
 - Réponse de Claude (résumé) : les 2 premières secondes sont le vrai risque ; le passage des messages (24–33 s) est un peu long ; « 1 000 likes = la suite » est risqué pour un compte neuf ; ajouter un indice caché (la photo de famille) pour faire revoir et commenter ; utiliser le sondage natif TikTok et répondre en vidéo aux commentaires pour l'épisode 2.
+- Wilfried valide les points (« t'as raison totalement »). Rappel : c'est Wilfried, frère d'Inès (« Willem » = erreur de dictée).
+- Lancé : ouverture directe sur l'écran « Maman appelle » + « Partie 1 » ; indice caché (l'enfant disparaît de la photo de famille à la fin).
+- En attente : choix de la phrase de fin (A « Abonne-toi. La suite demain. » / B « Abonne-toi. C'est toi qui choisis la suite. ») + nouvel audio ElevenLabs de cette phrase.
