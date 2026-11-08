@@ -79,3 +79,6 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Demande : la partie 2 avec tout ce qui a été dit (style Wil Aime, leçons, défauts corrigés), en faisant attention aux tokens.
 - Script de la partie 2 écrit : `le-secret-ep2/SCRIPT.md` (deux débuts A/B selon le vote, suite commune, leçons 4 et 5). En attente : les voix ElevenLabs + le résultat du vote.
 - Question : un connecteur TikTok Studio pour publier à sa place ? Réponse : pas de connecteur TikTok Studio ; le connecteur TikTok for Business sert aux publicités ; la voie possible = connecter TikTok dans Metricool.
+- Wilfried refuse de donner sa clé API ElevenLabs (respecté) : il enverra les fichiers audio.
+- Demande : utiliser « Imagine… » dans la narration pour que les gens se projettent → ajouté au script de la partie 2.
+- Metricool : TikTok connecté (compte « historiax25 »). Publication programmée possible via Metricool.
