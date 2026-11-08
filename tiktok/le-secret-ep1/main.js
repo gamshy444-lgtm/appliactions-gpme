@@ -14,6 +14,7 @@ const F = (px, w = 600, it = false) => `${it ? 'italic ' : ''}${w} ${px}px Corm,
 const EMO = px => `${px}px "Noto Color Emoji"`;
 
 const BASE_DUR = 45.0;
+const CLEAN = new URLSearchParams(location.search).has('clean');  // thumbnail frames: no title, no subtitles
 // [base start, film length, base rate during the pause]
 const HOLDS = [[3.4, 5.3, .2], [23.6, 6.3, 0], [34.6, 5.5, .1]];
 const warp = t => { let ex = 0; for (const [bs, L, r] of HOLDS) { const fs = bs + ex; if (t < fs) return t - ex; if (t < fs + L) return bs + (t - fs) * r; ex += L - L * r; } return t - ex; };
@@ -793,6 +794,7 @@ window.render = tf => {
     out.setTransform(1, 0, 0, 1, 0, 0); out.globalAlpha = 1; out.globalCompositeOperation = 'source-over';
     out.drawImage(buf, 0, 0);
   } else renderRoom(t);
+  if (CLEAN) return;
   drawLessons(tf);
   drawTitle(tf);
   drawSubs(tf);

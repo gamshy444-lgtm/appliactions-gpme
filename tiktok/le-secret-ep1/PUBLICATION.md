@@ -14,4 +14,6 @@ A ou B ? Réponds en commentaire 👇 Partie 2 demain.
 🔒 B = il se cache
 La majorité décide de la partie 2. Et… t'as vu la photo au mur ? 👀
 
+**Miniature :** `miniature.jpg` (à importer comme couverture si TikTok le propose ; sinon la première image).
+
 **Réglages :** couverture = la première image (« Maman · appel entrant… »), son d'origine, commentaires activés, « Contenu généré par IA » coché si TikTok le demande.
