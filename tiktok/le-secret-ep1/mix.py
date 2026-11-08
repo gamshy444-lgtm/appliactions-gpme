@@ -11,7 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 E = json.load(open(os.path.join(HERE, 'events.json')))
 DUR = E['dur']; N = int(DUR * SR) + SR
 rng = np.random.default_rng(5); S.seed(5)
-VO = [(0, 4.6), (7, 10.4), (12.4, 13.3), (14.5, 15.7), (17.4, 18.8), (19.2, 20.4), (21.05, 22.8), (24, 25.8), (33.5, 34.8), (36.2, 39.2)]
+VO = [(0, 4.6), (7, 10.4), (12.4, 13.3), (14.5, 15.7), (17.4, 18.8), (19.2, 20.4), (21.05, 22.8), (24, 25.8), (33.5, 34.8), (36.2, 39.2), (40.8, 43.2)]
 
 def env_curve(points):
     tt = np.arange(N) / SR; xs, ys = zip(*points); return np.interp(tt, xs, ys)

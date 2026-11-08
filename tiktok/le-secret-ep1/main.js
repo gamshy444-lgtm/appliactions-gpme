@@ -23,7 +23,7 @@ const T = {
   lightOn: .12, rise: 2.25, turn: 3.6, grab: 4.7, push: 5.4, inScreen: 7.0,
   silence1: 12.0, pere: 15.3, hang: 16.6, recall: 19.0, unreach: 20.8, off: 23.1, papa: 24.0,
   dots0: 24.7, b0: 25.5, dots1: 26.3, b1: 27.4, dots2: 28.3, b2: 29.5, dots3: 30.9, dots3end: 32.6,
-  bell: 33.5, pull: 33.6, out: 34.8, doorLight: 34.6, feet: 35.2, choice: 36.2, cardA: 36.4, cardB: 36.7, ab: 37.2,
+  bell: 33.5, pull: 33.6, out: 34.8, doorLight: 34.6, feet: 35.2, choice: 36.2, cardA: 36.4, cardB: 36.7, ab: 37.2, cta: 40.7,
   cut: 43.3,
 };
 const WORDS = [
@@ -62,7 +62,7 @@ for (const [a, b] of [[T.dots0, T.b0], [T.dots1, T.b1], [T.dots2, T.b2], [T.dots
 ev(T.dots3end, 'pop');
 ev(T.bell, 'bell'); ev(T.bell + .05, 'whoosh', { d: 1.3, v: .8 });
 ev(M(28.3), 'step', { v: .5 }); ev(M(28.78), 'step', { v: .65 }); ev(M(29.22), 'step', { v: .8 }); ev(M(29.5), 'creak');
-ev(T.cardA, 'paper'); ev(T.cardB, 'paper'); ev(T.ab, 'paper', { v: .6 });
+ev(T.cardA, 'paper'); ev(T.cardB, 'paper'); ev(T.ab, 'paper', { v: .6 }); ev(T.cta, 'paper', { v: .8 }); ev(T.cta + .25, 'msg', { v: .6 });
 ev(T.cut, 'vib', { d: .7 }); ev(T.cut, 'lighton', { v: .7 });
 window.EV = EV.sort((a, b) => a.t - b.t);
 window.SUBS = SUBS;
@@ -218,6 +218,7 @@ function sticker(c, e, x, y, px, glow, bloom) {
   if (!glow) { c.fillStyle = '#e9dcc4'; c.beginPath(); c.arc(x, y, px * .66, 0, 7); c.fill(); return; }
   if (bloom) return;
   c.save(); c.globalCompositeOperation = 'source-over';
+  c.globalAlpha = Math.min(1, c.globalAlpha * 1.0); c.fillStyle = '#000';
   c.font = EMO(px * .78); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(e, x, y + px * .04);
   c.restore();
 }
@@ -689,6 +690,21 @@ function cards(c, t, glow) {
     sticker(c, '👇', 150, 0, 74, glow, BLOOMPASS);
     c.restore();
   }
+  if (t >= T.cta) {
+    // the call to subscribe: a wider strip that grows from its centre, then breathes with the heart
+    const p = eo(seg(t, T.cta, T.cta + .45)), s = 1 + .02 * beat(t);
+    c.save(); c.scale(.8, .8); c.translate(0, 330); c.scale(s, s);
+    c.beginPath(); c.rect(-460 * p, -160, 920 * p, 320); c.clip();
+    if (!glow) { c.fillStyle = '#0c0a14'; rr(c, -440, -140, 880, 280, 44); c.fill(); sticker(c, '🔔', -250, -58, 84); sticker(c, '❤️', 40, 62, 70); }
+    else {
+      c.fillStyle = 'rgba(255,190,120,.10)'; rr(c, -436, -136, 872, 272, 42); c.fill();
+      sticker(c, '🔔', -250, -58, 84, true, BLOOMPASS); sticker(c, '❤️', 40, 62, 70, true, BLOOMPASS);
+      lightText(c, 'Abonne-toi', -180, -56, 92, '#ffe9cc', { align: 'left', w: 700 });
+      lightText(c, '1 000', -10, 64, 76, '#ffcf8a', { align: 'right', w: 700 });
+      lightText(c, '= la suite', 90, 64, 76, '#ffe9cc', { align: 'left' });
+    }
+    c.restore();
+  }
   c.restore();
 }
 const roomDark = t => {
@@ -763,6 +779,7 @@ window.TEXTS = t => {
     const cam = roomCam(t);
     if (t >= .85 && t < 5.45) { const [x, y, s] = proj(cam, 0, -700, .05); box('0207', '02:07', x, y, 400 * s, 170 * s); }
     if (t >= T.cardA) for (const k2 of CARDS) if (t >= k2.t0 + .45) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + k2.y * .8, .1); box('card' + k2.l, `${k2.e} ${k2.l} ${k2.s}`, x, y, 640 * s, 152 * s); }
+    if (t >= T.cta + .45) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + 264, .1); box('cta', 'Abonne-toi 1 000 ❤️ = la suite', x, y, 704 * s, 224 * s); }
     if (t >= T.ab + .4) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + 48, .1); box('ab', 'A ou B ? 👇', x, y, 368 * s, 106 * s); }
   }
   return L;
