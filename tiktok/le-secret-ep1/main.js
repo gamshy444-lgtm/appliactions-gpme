@@ -23,7 +23,7 @@ const T = {
   lightOn: .12, rise: 2.25, turn: 3.6, grab: 4.7, push: 5.4, inScreen: 7.0,
   silence1: 12.0, pere: 15.3, hang: 16.6, recall: 19.0, unreach: 20.8, off: 23.1, papa: 24.0,
   dots0: 24.7, b0: 25.5, dots1: 26.3, b1: 27.4, dots2: 28.3, b2: 29.5, dots3: 30.9, dots3end: 32.6,
-  bell: 33.5, pull: 33.6, out: 34.8, doorLight: 34.6, feet: 35.2, choice: 36.2, cardA: 36.4, cardB: 36.7, ab: 37.2, cta: 40.7,
+  bell: 33.5, pull: 33.6, out: 34.8, doorLight: 34.6, feet: 35.2, choice: 36.2, cardA: 36.4, cardB: 36.7, ab: 37.2, cta: 39.5,
   cut: 43.3,
 };
 const WORDS = [
@@ -42,7 +42,7 @@ const SUBS = [
   { t0: 21.05, t1: 23.0, text: 'Son téléphone est éteint.' },
   { t0: 24.0, t1: 26.2, text: 'Puis ton père t’écrit.' },
   { t0: 33.5, t1: 35.9, text: 'Quelqu’un sonne.' },
-  { t0: 36.2, t1: 40.6, text: 'Tu fais quoi ?\nVote en commentaire.' },
+  { t0: 36.2, t1: 39.4, text: 'Tu fais quoi ?\nVote en commentaire.' },
 ];
 // heartbeats: slow after the shock, accelerating under the father's messages, steady under the choice
 const HEART = [15.62, 16.42];

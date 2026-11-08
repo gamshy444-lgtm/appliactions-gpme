@@ -11,7 +11,23 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 E = json.load(open(os.path.join(HERE, 'events.json')))
 DUR = E['dur']; N = int(DUR * SR) + SR
 rng = np.random.default_rng(5); S.seed(5)
-VO = [(0, 4.6), (7, 10.4), (12.4, 13.3), (14.5, 15.7), (17.4, 18.8), (19.2, 20.4), (21.05, 22.8), (24, 25.8), (33.5, 34.8), (36.2, 39.2), (40.8, 43.2)]
+# voice-over (ElevenLabs): (file, start, end in the file, time in the film, phone filter)
+VOICE = [
+    ('narrateur', 0.00, 3.31, 0.00, False),   # Deux heures sept... Ta mère t'appelle.
+    ('mere', 0.00, 2.98, 7.00, True),         # Je dois te dire un truc... avant qu'il le fasse.
+    ('mere', 4.83, 5.58, 12.40, True),        # Ton père...
+    ('mere', 6.77, 7.89, 14.45, True),        # ...n'est pas ton père.
+    ('narrateur', 5.37, 6.70, 17.50, False),  # Elle a raccroché.
+    ('narrateur', 8.03, 8.67, 19.20, False),  # Tu la rappelles.
+    ('narrateur', 9.75, 11.54, 21.05, False), # Son téléphone est éteint.
+    ('narrateur', 12.67, 14.69, 24.00, False),# Puis... ton père t'écrit.
+    ('narrateur', 15.84, 16.52, 33.50, False),# Quelqu'un sonne.
+    ('narrateur', 17.59, 19.65, 36.20, False),# Tu fais quoi ? Vote en commentaire.
+    ('narrateur', 20.37, 23.80, 39.60, False),# Abonne-toi. Mille likes... et tu as la suite.
+]
+VO = [(at, at + (b - a)) for _, a, b, at, _ in VOICE]
+WITH_VOICE = os.environ.get('NOVOICE') != '1'
+
 
 def env_curve(points):
     tt = np.arange(N) / SR; xs, ys = zip(*points); return np.interp(tt, xs, ys)
@@ -119,12 +135,28 @@ room = lp(brown(N / SR), 380)[:N] * .05
 fx[:, 0] += room; fx[:, 1] += room[::-1] if False else room
 line = bp(noise(N / SR), 2500, 6000)[:N] * .006 * env_curve([(0, 0), (7, 0), (7.2, 1), (16.6, 1), (16.7, 0), (DUR + 1, 0)])
 fx[:, 0] += line; fx[:, 1] += line
-# room reverb on everything
-mix = S.room(music + fx, size=.35, mix=.16)
+# voice: trimmed clips, phone band for the mother, compressed, levelled by RMS
+from core.audio.sfx import compress
+vox = np.zeros((N, 2))
+if WITH_VOICE:
+    src = {k: sf.read(os.path.join(HERE, 'voice', k + '.wav'))[0] for k in ('narrateur', 'mere')}
+    for k, a, b, at, phone in VOICE:
+        x = src[k][int(max(0, a - .03) * SR):int((b + .12) * SR)].copy()
+        f = np.minimum(1, np.minimum(np.arange(len(x)), len(x) - np.arange(len(x))) / (.015 * SR)); x *= f
+        if phone: x = bp(x, 320, 3600, 2) * 1.4 + bp(x, 200, 7000, 1) * .35
+        x = compress(norm(x) * .9, thr=.22, ratio=3)
+        x *= 10 ** (-17 / 20) / max(1e-6, np.sqrt((x[np.abs(x) > .02] ** 2).mean()))
+        add(vox, x, at - .03, .72, 0)
+    # duck music and beds under the actual voice (sidechain), on top of the pre-duck
+    ve = np.convolve(np.abs(vox[:, 0]), np.ones(2400) / 2400, 'same')
+    sc = 1 - .45 * np.clip(ve / (ve.max() * .25 + 1e-9), 0, 1)
+    music *= sc[:, None]
+# room reverb on everything, a little on the voice
+mix = S.room(music + fx, size=.35, mix=.16) + S.room(vox, size=.2, mix=.08)
 # low end balance and limiting
 for ch in range(2): mix[:, ch] = limit(mix[:, ch], .9)
 os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
-sf.write(os.path.join(HERE, 'out', 'mix.wav'), mix[:int(DUR * SR)].astype(np.float32), SR)
+sf.write(os.path.join(HERE, 'out', 'mix.wav' if WITH_VOICE else 'mix_novoice.wav'), mix[:int(DUR * SR)].astype(np.float32), SR)
 sf.write(os.path.join(HERE, 'out', 'music.wav'), music[:int(DUR * SR)].astype(np.float32), SR)
 sf.write(os.path.join(HERE, 'out', 'sfx.wav'), fx[:int(DUR * SR)].astype(np.float32), SR)
 print('mix', DUR, 's', 'peak', float(np.abs(mix).max()))

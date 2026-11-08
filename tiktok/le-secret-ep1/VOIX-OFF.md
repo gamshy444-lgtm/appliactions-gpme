@@ -14,7 +14,7 @@ Deux voix, à générer séparément, puis à poser dans CapCut au temps indiqu�
 | 24,0 | Narrateur | Puis ton père t'écrit. | lentement |
 | 33,5 | Narrateur | Quelqu'un sonne. | |
 | 36,2 | Narrateur | Tu fais quoi ? Vote en commentaire. | |
-| 40,8 | Narrateur | Abonne-toi. Mille likes, et tu as la suite. | **nouveau** — finir avant 43,3 s (le téléphone revibre) |
+| 39,6 | Narrateur | Abonne-toi. Mille likes, et tu as la suite. | **nouveau** — finir avant 43,3 s (le téléphone revibre) |
 
 Ce qui a changé par rapport au script de 35 s : une phrase en plus (« Tu la rappelles. »), et tout ce qui suit « Elle a raccroché » est décalé.
 
@@ -29,3 +29,7 @@ Le fichier `le_secret_ep1.srt` contient les mêmes répliques avec leurs temps, 
 - Textes à coller — narrateur : « Deux heures sept... Ta mère t'appelle. » · « Elle a raccroché. » · « Tu la rappelles. » · « Son téléphone est éteint. » · « Puis... ton père t'écrit. » · « Quelqu'un sonne. » · « Tu fais quoi ? Vote en commentaire. » · « Abonne-toi. Mille likes... et tu as la suite. »
 - Mère : « [whispers] Je dois te dire un truc... avant qu'il le fasse. » · « [whispers] Ton père... » · « [whispers] ...n'est pas ton père. »
 - Dans CapCut : poser chaque fichier au temps du tableau ; si une phrase déborde, accélérer l'audio (1,1× max), ne pas couper la vidéo.
+
+## Voix reçues (8 novembre)
+
+Narrateur : « Nicolas Petit – Deep Narrator ». Mère : « Victoria – Content Creator ». Fichiers dans `voice/`, découpés et calés par `mix.py` (liste `VOICE`). Le bandeau « Abonne-toi » a été avancé à 39,5 s car la phrase dure 3,4 s.
