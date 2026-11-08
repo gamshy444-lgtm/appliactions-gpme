@@ -58,3 +58,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried valide les points (« t'as raison totalement »). Rappel : c'est Wilfried, frère d'Inès (« Willem » = erreur de dictée).
 - Lancé : ouverture directe sur l'écran « Maman appelle » + « Partie 1 » ; indice caché (l'enfant disparaît de la photo de famille à la fin).
 - En attente : choix de la phrase de fin (A « Abonne-toi. La suite demain. » / B « Abonne-toi. C'est toi qui choisis la suite. ») + nouvel audio ElevenLabs de cette phrase.
+- Wilfried mentionne « Wil Aime sur YouTube ». Trouvé : chaîne « Wil Aime » (@wilaime2158), courts-métrages en français (thriller psychologique, relations, sketchs) : ~336 000 abonnés, ~19 M de vues, 26 vidéos (~730 000 vues en moyenne), aucune vidéo publiée sur les 12 derniers mois (données vidIQ). À confirmer : est-ce sa chaîne ?
