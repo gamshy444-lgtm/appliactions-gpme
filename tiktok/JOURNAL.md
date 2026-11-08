@@ -49,3 +49,9 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - [ ] Générer les 2 voix ElevenLabs (narrateur + mère) et les poser dans CapCut.
 - [ ] Même traitement pour « L'inconnu ».
 - [ ] Préparer l'épisode 2 du « Secret » en deux versions (A : il ouvre / B : il se cache).
+
+## Retour de Wilfried après visionnage (8 nov.)
+
+- « On vient de regarder, c'était incroyable. »
+- Question : qu'est-ce qu'on peut rajouter, honnêtement et durement, pour que ce soit plus interactif et un peu mieux ? Est-ce que les gens vont regarder ?
+- Réponse de Claude (résumé) : les 2 premières secondes sont le vrai risque ; le passage des messages (24–33 s) est un peu long ; « 1 000 likes = la suite » est risqué pour un compte neuf ; ajouter un indice caché (la photo de famille) pour faire revoir et commenter ; utiliser le sondage natif TikTok et répondre en vidéo aux commentaires pour l'épisode 2.
