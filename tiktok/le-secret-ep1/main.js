@@ -13,7 +13,20 @@ const dir = a => [Math.cos(a * DEG), Math.sin(a * DEG)];
 const F = (px, w = 600, it = false) => `${it ? 'italic ' : ''}${w} ${px}px Corm, "Noto Color Emoji"`;
 const EMO = px => `${px}px "Noto Color Emoji"`;
 
-window.DUR = 45.0;
+const BASE_DUR = 45.0;
+// [base start, film length, base rate during the pause]
+const HOLDS = [[3.4, 5.3, .2], [23.6, 6.3, 0], [34.6, 5.5, .1]];
+const warp = t => { let ex = 0; for (const [bs, L, r] of HOLDS) { const fs = bs + ex; if (t < fs) return t - ex; if (t < fs + L) return bs + (t - fs) * r; ex += L - L * r; } return t - ex; };
+const unwarp = b => { let ex = 0; for (const [bs, L, r] of HOLDS) { if (b < bs) return b + ex; const be = bs + L * r; if (b < be || (r === 0 && b === bs)) return bs + ex + (r ? (b - bs) / r : 0); ex += L - L * r; } return b + ex; };
+const HOLD_FILM = HOLDS.map(([bs, L, r], i) => { let ex = 0; for (let j = 0; j < i; j++) ex += HOLDS[j][1] * (1 - HOLDS[j][2]); return [bs + ex, bs + ex + L]; });
+window.DUR = +unwarp(BASE_DUR).toFixed(3);
+// the lessons: paper cards written while the story waits (Wil Aime-style "cours")
+const LESSONS = [
+  { n: 1, at: 0, lines: ['À 2 h du matin…', 'personne n’appelle', 'pour prendre de tes nouvelles.'], clip: [0.0, 4.14], beats: [0, .15, .3] },
+  { n: 2, at: 1, lines: ['Un secret', 'ne disparaît jamais.', 'Il change juste de propriétaire.'], clip: [6.32, 11.51], beats: [0, .15, .3] },
+  { n: 3, at: 2, lines: ['Celui qui sonne à 2 h…', 'sait déjà', 'que tu es réveillé.'], clip: [13.45, 17.71], beats: [0, .15, .3] },
+];
+const TITLE = 'COMMENT SAVOIR SI TA FAMILLE TE MENT';
 // beats that only moved when the film grew from 35 s to 45 s: old time → new time
 const MAPK = [[0, 0], [16.6, 16.6], [18.9, 22.9], [20, 24], [27.4, 32.2], [27.5, 32.3], [30.2, 35.0], [34.3, 42.8], [35, 45]];
 const M = t => { for (let i = 0; i < MAPK.length - 1; i++) { const [a, A] = MAPK[i], [b, B] = MAPK[i + 1]; if (t <= b) return A + (t - a) * (B - A) / (b - a); } return t; };
@@ -22,9 +35,9 @@ const M = t => { for (let i = 0; i < MAPK.length - 1; i++) { const [a, A] = MAPK
 const T = {
   lightOn: 0, rise: 2.25, turn: 3.6, grab: 4.7, push: 5.4, inScreen: 7.0,
   silence1: 12.0, pere: 15.3, hang: 16.6, recall: 19.0, unreach: 20.8, off: 23.1, papa: 24.0,
-  dots0: 24.7, b0: 25.5, dots1: 26.3, b1: 27.4, dots2: 28.3, b2: 29.5, dots3: 30.9, dots3end: 31.7,
+  dots0: 24.7, b0: 25.5, dots1: 26.3, b1: 27.4, dots2: 27.9, b2: 28.8, dots3: 30.9, dots3end: 31.7,
   bell: 32.3, pull: 32.4, out: 33.6, doorLight: 33.4, feet: 34.0, choice: 35.0, cardA: 35.2, cardB: 35.5, ab: 36.0, cta: 39.1,
-  cut: 42.8,
+  cut: 42.75,
 };
 const WORDS = [
   // [text, t, line, size, colour]
@@ -64,8 +77,22 @@ ev(T.bell, 'bell'); ev(T.bell + .05, 'whoosh', { d: 1.3, v: .8 });
 ev(M(28.3), 'step', { v: .5 }); ev(M(28.78), 'step', { v: .65 }); ev(M(29.22), 'step', { v: .8 }); ev(M(29.5), 'creak');
 ev(T.cardA, 'paper'); ev(T.cardB, 'paper'); ev(T.ab, 'paper', { v: .6 }); ev(T.cta, 'paper', { v: .8 }); ev(T.cta + .25, 'msg', { v: .6 });
 ev(T.cut, 'vib', { d: .7 }); ev(T.cut, 'lighton', { v: .7 });
-window.EV = EV.sort((a, b) => a.t - b.t);
-window.SUBS = SUBS;
+EV.sort((a, b) => a.t - b.t);
+const EVF = EV.map(e => ({ ...e, t: +unwarp(e.t).toFixed(3) }));
+const SUBSF = SUBS.map(s => { const t0 = unwarp(s.t0); return { t0, t1: t0 + (s.t1 - s.t0), text: s.text }; });
+LESSONS.forEach(l => { const [a] = HOLD_FILM[l.at]; EVF.push({ t: +(a + .1).toFixed(3), type: 'paper', v: .8 }); EVF.push({ t: +(a + .1).toFixed(3), type: 'lesson' }); });
+for (let t = HOLD_FILM[2][0] + .4; t < HOLD_FILM[2][1] - .2; t += .85) EVF.push({ t: +t.toFixed(3), type: 'heart', v: .6 });
+// voice-over clips, in film time (the mixer reads them from events.json)
+const VO = [
+  ['narrateur', 0.00, 3.31, 0.00, 0], ['mere', 0.00, 2.98, 7.00, 1], ['mere', 4.83, 5.58, 12.40, 1], ['mere', 6.77, 7.89, 14.45, 1],
+  ['narrateur', 5.37, 6.70, 17.50, 0], ['narrateur', 8.03, 8.67, 19.20, 0], ['narrateur', 9.75, 11.54, 21.05, 0], ['narrateur', 12.67, 14.69, 24.00, 0],
+  ['narrateur', 15.84, 16.52, 32.30, 0], ['narrateur', 17.59, 19.65, 35.00, 0], ['narrateur', 20.37, 20.96, 39.20, 0],
+];
+VO.forEach(([f, a, b, at, ph]) => EVF.push({ t: +unwarp(at).toFixed(3), type: 'vo', file: f, a, b, phone: ph }));
+LESSONS.forEach(l => EVF.push({ t: +(HOLD_FILM[l.at][0] + .35).toFixed(3), type: 'vo', file: 'lecons', a: l.clip[0], b: l.clip[1], phone: 0 }));
+EVF.push({ t: 0, type: 'holds', holds: HOLDS });
+window.EV = EVF.sort((a, b) => a.t - b.t);
+window.SUBS = SUBSF;
 
 // ───────────────────────── paper grain ─────────────────────────
 const GR = mk(256, 256);
@@ -739,7 +766,7 @@ function renderRoom(t) {
 
 // ───────────────────────── subtitles (screen space) ─────────────────────────
 function drawSubs(t) {
-  for (const s of SUBS) {
+  for (const s of SUBSF) {
     if (t < s.t0 - .12 || t > s.t1 + .15) continue;
     const a = Math.min(seg(t, s.t0 - .12, s.t0 + .05), 1 - seg(t, s.t1, s.t1 + .15));
     const lines = s.text.split('\n'), k = W / RW, px = 62 * k, lh = 76 * k, y0 = 1440 * k - (lines.length - 1) * lh / 2;
@@ -758,19 +785,71 @@ function drawSubs(t) {
 }
 
 // ───────────────────────── frame ─────────────────────────
-window.render = t => {
-  t = clamp(t, 0, window.DUR - 1e-4);
+window.render = tf => {
+  tf = clamp(tf, 0, window.DUR - 1e-4);
+  const t = warp(tf);
   if (t >= T.inScreen && t < T.pull) {
     const buf = renderScreen(t, 'full');
     out.setTransform(1, 0, 0, 1, 0, 0); out.globalAlpha = 1; out.globalCompositeOperation = 'source-over';
     out.drawImage(buf, 0, 0);
   } else renderRoom(t);
-  drawSubs(t);
+  drawLessons(tf);
+  drawTitle(tf);
+  drawSubs(tf);
 };
+function lessonState(tf, l) {
+  const [a, b] = HOLD_FILM[l.at];
+  if (tf < a || tf > b) return null;
+  return { p: tf - a, out: 1 - seg(tf, b - .35, b), a, b };
+}
+function drawLessons(tf) {
+  const k = W / RW;
+  for (const l of LESSONS) {
+    const st = lessonState(tf, l); if (!st) continue;
+    const { p, out: o } = st;
+    out.save(); out.setTransform(k, 0, 0, k, 0, 0);
+    // the story dims behind the card
+    out.globalAlpha = .55 * Math.min(seg(p, 0, .3), o); out.fillStyle = '#000'; out.fillRect(0, 0, RW, RH);
+    const cx = RW / 2, cy = 900, sc = lerp(1.04, 1, eo(seg(p, 0, .4)));
+    out.translate(cx, cy); out.scale(sc, sc);
+    out.globalAlpha = o;
+    // paper card: grows from its left edge, warm rim, soft shadow
+    const g = eo(seg(p, 0, .45)), wC = 920, hC = 560;
+    out.save(); out.beginPath(); out.rect(-wC / 2 - 20, -hC / 2 - 40, (wC + 40) * g, hC + 80); out.clip();
+    out.shadowColor = 'rgba(0,0,0,.7)'; out.shadowBlur = 40; out.shadowOffsetY = 16;
+    out.fillStyle = '#0d0a14'; rr(out, -wC / 2, -hC / 2, wC, hC, 44); out.fill();
+    out.shadowColor = 'transparent';
+    out.fillStyle = GRAIN; out.globalAlpha = o * .35; rr(out, -wC / 2, -hC / 2, wC, hC, 44); out.fill(); out.globalAlpha = o;
+    out.strokeStyle = 'rgba(255,214,160,.35)'; out.lineWidth = 3; rr(out, -wC / 2 + 2, -hC / 2 + 2, wC - 4, hC - 4, 42); out.stroke();
+    // LEÇON n
+    out.shadowColor = 'rgba(255,170,90,.8)'; out.shadowBlur = 24;
+    lightText(out, `LEÇON ${l.n}`, 0, -hC / 2 + 95, 66, '#ff5a4a', { w: 700 });
+    out.fillStyle = 'rgba(255,90,74,.6)'; out.fillRect(-90, -hC / 2 + 140, 180, 4);
+    l.lines.forEach((line, i) => {
+      const q = eo(seg(p, .35 + l.beats[i], .35 + l.beats[i] + .4));
+      if (q <= 0) return;
+      out.save(); out.globalAlpha = o * q; out.filter = q < 1 ? `blur(${(1 - q) * 10}px)` : 'none';
+      lightText(out, line, 0, -40 + i * 100 + (1 - q) * 14, i === 2 && l.n === 2 ? 62 : 70, '#ffe9cc', { w: 600, it: i > 0 });
+      out.restore();
+    });
+    out.restore();
+    out.restore();
+  }
+}
+function drawTitle(tf) {
+  if (tf > 4.4) return;
+  const a = Math.min(seg(tf, .1, .45), 1 - seg(tf, 4.0, 4.4)), k = W / RW;
+  out.save(); out.setTransform(k, 0, 0, k, 0, 0); out.globalAlpha = a;
+  out.fillStyle = 'rgba(8,6,14,.82)'; rr(out, 60, 70, RW - 120, 96, 28); out.fill();
+  out.strokeStyle = 'rgba(255,214,160,.35)'; out.lineWidth = 2; rr(out, 62, 72, RW - 124, 92, 26); out.stroke();
+  out.shadowColor = 'rgba(255,170,90,.7)'; out.shadowBlur = 18;
+  lightText(out, TITLE, RW / 2, 120, 44, '#ffe2b8', { w: 700 });
+  out.restore();
+}
 
 // texts the viewer must read (subtitles are checked through the .srt)
-window.TEXTS = t => {
-  const L = [], k = 1;
+window.TEXTS = tf => {
+  const t = warp(tf), L = [], k = 1;
   const box = (id, text, cx, cy, w, h, pass) => L.push({ id, text, x0: cx - w / 2, y0: cy - h / 2, x1: cx + w / 2, y1: cy + h / 2, ...(pass ? { pass: true } : {}) });
   if (t >= T.inScreen && t < T.pull) {
     const ph = phase(t), c = (u, v) => [RW / 2 + u, RH / 2 + v];
@@ -799,6 +878,14 @@ window.TEXTS = t => {
     if (t >= T.cardA) for (const k2 of CARDS) if (t >= k2.t0 + .45) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + k2.y * .8, .1); box('card' + k2.l, `${k2.e} ${k2.l} ${k2.s}`, x, y, 640 * s, 152 * s); }
     if (t >= T.cta + .45) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + 264, .1); box('cta', 'Abonne-toi Partie 2 demain', x, y, 704 * s, 224 * s); }
     if (t >= T.ab + .4) { const [x, y, s] = proj(cam, cam.x / .9, cam.y / .9 + 48, .1); box('ab', 'A ou B ? 👇', x, y, 368 * s, 106 * s); }
+  }
+  const inHold = HOLD_FILM.some(([a, b]) => tf >= a && tf <= b);
+  if (inHold) { const keep = L.filter(b => b.y1 < 600 || b.y0 > 1200); L.length = 0; L.push(...keep); }  // the card covers the middle
+  if (tf >= .45 && tf < 4.0) L.push({ id: 'title', text: TITLE, x0: 80, y0: 80, x1: 1000, y1: 160 });
+  for (const l of LESSONS) {
+    const st = lessonState(tf, l); if (!st || tf > st.b - .35) continue;
+    L.push({ id: 'lecon' + l.n, text: `LEÇON ${l.n}`, x0: 300, y0: 600, x1: 780, y1: 700 });
+    l.lines.forEach((line, i) => { if (st.p >= .75 + l.beats[i]) L.push({ id: `l${l.n}_${i}`, text: line, x0: 90, y0: 820 + i * 100, x1: 990, y1: 900 + i * 100 }); });
   }
   return L;
 };

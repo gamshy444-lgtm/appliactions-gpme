@@ -10,21 +10,18 @@ from core.audio.sfx import SR, add, limit, noise, bp, lp, hp, t_, env_exp, norm,
 HERE = os.path.dirname(os.path.abspath(__file__))
 E = json.load(open(os.path.join(HERE, 'events.json')))
 DUR = E['dur']; N = int(DUR * SR) + SR
+HOLDS = next(e['holds'] for e in E['ev'] if e['type'] == 'holds')
+def unwarp(b):
+    ex = 0.0
+    for bs, L, r in HOLDS:
+        if b < bs: return b + ex
+        be = bs + L * r
+        if b < be or (r == 0 and b == bs): return bs + ex + ((b - bs) / r if r else 0)
+        ex += L - L * r
+    return b + ex
 rng = np.random.default_rng(5); S.seed(5)
-# voice-over (ElevenLabs): (file, start, end in the file, time in the film, phone filter)
-VOICE = [
-    ('narrateur', 0.00, 3.31, 0.00, False),   # Deux heures sept... Ta mère t'appelle.
-    ('mere', 0.00, 2.98, 7.00, True),         # Je dois te dire un truc... avant qu'il le fasse.
-    ('mere', 4.83, 5.58, 12.40, True),        # Ton père...
-    ('mere', 6.77, 7.89, 14.45, True),        # ...n'est pas ton père.
-    ('narrateur', 5.37, 6.70, 17.50, False),  # Elle a raccroché.
-    ('narrateur', 8.03, 8.67, 19.20, False),  # Tu la rappelles.
-    ('narrateur', 9.75, 11.54, 21.05, False), # Son téléphone est éteint.
-    ('narrateur', 12.67, 14.69, 24.00, False),# Puis... ton père t'écrit.
-    ('narrateur', 15.84, 16.52, 32.30, False),# Quelqu'un sonne.
-    ('narrateur', 17.59, 19.65, 35.00, False),# Tu fais quoi ? Vote en commentaire.
-    ('narrateur', 20.37, 20.96, 39.20, False),# Abonne-toi.
-]
+# voice-over (ElevenLabs): clips and their film times come from the page (events of type 'vo')
+VOICE = [(e['file'], e['a'], e['b'], e['t'], bool(e['phone'])) for e in E['ev'] if e['type'] == 'vo']
 VO = [(at, at + (b - a)) for _, a, b, at, _ in VOICE]
 WITH_VOICE = os.environ.get('NOVOICE') != '1'
 
@@ -34,7 +31,9 @@ def env_curve(points):
 
 # ───────────── music ─────────────
 ev = []
-def n(t, inst, p, d, v, pan=0, **kw): ev.append(dict(t=t, inst=inst, pitch=p, dur=d, vel=v, pan=pan, **kw))
+def n(t, inst, p, d, v, pan=0, **kw):
+    t2 = unwarp(t); d2 = (unwarp(t + d) - t2) if d else d
+    ev.append(dict(t=t2, inst=inst, pitch=p, dur=d2, vel=v, pan=pan, **kw))
 # Nuit (0–7): a held D, bowed vibraphone, a music-box lullaby that stops when he picks up
 n(.15, 'cellos', 'D3', 6.6, .32, -.2, attack=1.6, release=.8)
 n(.6, 'vibraphone_bowed', 'A4', 4.0, .35, .3, attack=1.2)
@@ -69,16 +68,17 @@ music = S.render(ev, dur=DUR + 1).astype(np.float64)
 music = music[:N] if len(music) >= N else np.pad(music, ((0, N - len(music)), (0, 0)))
 # music box (physical model), detuned when it comes back under the father
 mb = np.zeros((N, 2))
-for t, p in [(1.0, 'D5'), (2.0, 'F5'), (3.0, 'A5'), (4.0, 'E5')]: add(mb, P.pluck('music_box', p, 2.2, vel=.55), t, .5, .25)
-for t, p in [(26.0, 'D5'), (27.0, 'F5'), (28.0, 'D5'), (29.0, 'F5'), (30.0, 'A5'), (31.0, 'D5')]: add(mb, P.pluck('music_box', p, 2.0, vel=.45, bend=[(0, -.35), (1.5, -.6)]), t, .32, -.3)
+def add_mb(buf, x, t, g, pan): add(buf, x, unwarp(t), g, pan)
+for t, p in [(1.0, 'D5'), (2.0, 'F5'), (3.0, 'A5'), (4.0, 'E5')]: add_mb(mb, P.pluck('music_box', p, 2.2, vel=.55), t, .5, .25)
+for t, p in [(26.0, 'D5'), (27.0, 'F5'), (28.0, 'D5'), (29.0, 'F5'), (30.0, 'A5'), (31.0, 'D5')]: add_mb(mb, P.pluck('music_box', p, 2.0, vel=.45, bend=[(0, -.35), (1.5, -.6)]), t, .32, -.3)
 # the lullaby comes back, slower, under the choice (echo of the opening)
-for t, p in [(38.6, 'D5'), (39.8, 'F5'), (41.0, 'A5'), (42.2, 'E5')]: add(mb, P.pluck('music_box', p, 2.0, vel=.45), t, .36, .25)
+for t, p in [(38.6, 'D5'), (39.8, 'F5'), (41.0, 'A5'), (42.2, 'E5')]: add_mb(mb, P.pluck('music_box', p, 2.0, vel=.45), t, .36, .25)
 music += mb
 # room for the voice: duck 7 dB under every line, and keep the two silences silent
 duck = np.ones(N); tt = np.arange(N) / SR
 for a, b in VO:
     duck = np.minimum(duck, 1 - .55 * np.clip(np.minimum((tt - a + .15) / .15, (b + .3 - tt) / .3), 0, 1))
-gate = env_curve([(0, 1), (11.95, 1), (12.05, 0), (15.25, 0), (15.28, 1), (23.05, 1), (23.15, 0), (24.0, 0), (24.05, 1), (42.78, 1), (42.81, 0), (DUR + 1, 0)])
+gate = env_curve([(unwarp(x), y) if x < DUR else (x, y) for x, y in [(0, 1), (11.95, 1), (12.05, 0), (15.25, 0), (15.28, 1), (23.05, 1), (23.15, 0), (24.0, 0), (24.05, 1), (42.78, 1), (42.81, 0), (46, 0)]])
 music *= (duck * gate)[:, None]
 
 # ───────────── foley ─────────────
@@ -121,6 +121,7 @@ for e in E['ev']:
     elif ty == 'unreach':
         for k, f in enumerate([950, 1400, 1800]):
             tt = t_(.28); r = np.sin(2 * np.pi * f * tt) * np.minimum(1, np.minimum(tt, .28 - tt) / .01); add(fx, r * .5, t + k * .3, .14, .1)
+    elif ty == 'lesson': add(fx, thump(.6, 58), t, .35, 0); add(fx, shimmer(.6), t + .05, .08, 0)
     elif ty == 'switch': add(fx, click(.5, 1), t, .4, .1); add(fx, thump(.3, 90), t, .2, 0)
     elif ty == 'msg': add(fx, ding(1)[:int(.9 * SR)] * np.exp(-t_(.9) / .25), t, .22 * v, .1); add(fx, pop(.5), t, .12 * v, .1)
     elif ty == 'type': add(fx, click(1.6, .2), t, .12, .15)
@@ -133,13 +134,13 @@ for e in E['ev']:
 # ambience: the room's hum (never fully silent), a faint call line during the call
 room = lp(brown(N / SR), 380)[:N] * .05
 fx[:, 0] += room; fx[:, 1] += room[::-1] if False else room
-line = bp(noise(N / SR), 2500, 6000)[:N] * .006 * env_curve([(0, 0), (7, 0), (7.2, 1), (16.6, 1), (16.7, 0), (DUR + 1, 0)])
+line = bp(noise(N / SR), 2500, 6000)[:N] * .006 * env_curve([(0, 0), (unwarp(7), 0), (unwarp(7.2), 1), (unwarp(16.6), 1), (unwarp(16.7), 0), (DUR + 1, 0)])
 fx[:, 0] += line; fx[:, 1] += line
 # voice: trimmed clips, phone band for the mother, compressed, levelled by RMS
 from core.audio.sfx import compress
 vox = np.zeros((N, 2))
 if WITH_VOICE:
-    src = {k: sf.read(os.path.join(HERE, 'voice', k + '.wav'))[0] for k in ('narrateur', 'mere')}
+    src = {k: sf.read(os.path.join(HERE, 'voice', k + '.wav'))[0] for k in ('narrateur', 'mere', 'lecons')}
     for k, a, b, at, phone in VOICE:
         x = src[k][int(max(0, a - .03) * SR):int((b + .12) * SR)].copy()
         f = np.minimum(1, np.minimum(np.arange(len(x)), len(x) - np.arange(len(x))) / (.015 * SR)); x *= f

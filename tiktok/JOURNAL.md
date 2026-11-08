@@ -65,3 +65,9 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Proposition : « Comment survivre à un Vu » (original, même mécanique, pas ses histoires ni ses répliques).
 - Wilfried : « Je prends la vidéo que mon frère a faite, refais-la avec ce que je viens de te dire… reprendre ses erreurs, refaire mieux, et rajouter le petit truc de nouveau. »
   → Version 2 du « Secret » : ouverture directe sur l'écran du téléphone + « PARTIE 1 », passage des messages raccourci, indice caché (l'enfant disparaît de la photo), fin honnête « Abonne-toi · Partie 2 demain », et la touche Wil Aime : le téléphone sonne une 2e fois et on lit « Maman » alors que son téléphone est éteint.
+- Wilfried (énervé) : « le côté Wil Aime, il est où ? » → il avait raison : seule la 2e sonnerie venait de son style.
+  Ajouté : titre « COMMENT SAVOIR SI TA FAMILLE TE MENT » (faux tutoriel) + 3 leçons dites par le narrateur (voix Nicolas Petit, fichier voice/lecons.mp3), écrites en papier pendant que l'histoire se met au ralenti :
+  1. « À 2 h du matin… personne n'appelle pour prendre de tes nouvelles. »
+  2. « Un secret ne disparaît jamais. Il change juste de propriétaire. »
+  3. « Celui qui sonne à 2 h… sait déjà que tu es réveillé. »
+  Durée : ~59 s (les leçons ajoutent ~14 s).

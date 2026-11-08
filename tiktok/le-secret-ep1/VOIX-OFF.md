@@ -37,3 +37,7 @@ Narrateur : « Nicolas Petit – Deep Narrator ». Mère : « Victoria – Conte
 ## Version 2 (8 nov., soir)
 
 Ouverture sur l'écran « Maman appelle » + « PARTIE 1 » ; messages raccourcis de 1,2 s ; l'enfant disparaît de la photo ; fin honnête « Abonne-toi · Partie 2 demain » (on ne garde que « Abonne-toi. » de l'audio) ; le téléphone sonne une 2e fois et on lit « Maman » (alors que son téléphone est éteint). Aucune nouvelle voix nécessaire.
+
+## Version 3 : les leçons (style Wil Aime)
+
+L'histoire s'arrête 3 fois pour une leçon du narrateur (fichier `voice/lecons.mp3`). Les temps ci-dessus sont ceux de l'histoire ; dans la vidéo finale (59 s) tout ce qui suit une leçon est décalé. `mix.py` place tout automatiquement : plus rien à caler à la main.
