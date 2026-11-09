@@ -88,3 +88,10 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried : « les dessins sont pas ouf ». 5 styles testés sur la même scène (`tiktok/styles-test/`) : film réaliste, anime sombre, roman graphique, animation 3D, papier découpé premium.
 - Générateurs : Canva (3 images, puis quota épuisé), vidIQ (2 images, 44 crédits sur 100).
 - Wilfried choisit le **style 1 (film réaliste)**. Claude génère les 2 images clés (photo avec l'enfant découpé ✓, main sur la fenêtre). Wilfried génère les autres avec les descriptions de `le-secret-ep2/IMAGES.md`. Crédits vidIQ quasiment épuisés (12 restants).
+- Wilfried : « va voir les vidéos de Wil Aime ». Analyse complémentaire (transcription « Comment mater une fille… » + commentaires « L'art de la tromperie ») :
+  1. Le narrateur, c'est le personnage lui-même, à la 1re personne, un « génie » qui pense son plan en temps réel (« elle m'a cramé, j'ai très peu de temps… il me faut une diversion »).
+  2. Une phrase signature répétée et recopiée par les fans : « Chaque détail compte », « Je ne suis pas un simple trompeur… je suis un perfectionniste ».
+  3. Le retournement « l'arroseur arrosé » : celui qui contrôle tout se fait piéger.
+  4. Musique et montage très calés (« une symphonie », « digne de Nolan »), peu de dialogues, ralentis.
+  5. Wil Aime a annoncé son retour en avril 2026 (court-métrage au cinéma) : sa communauté est de nouveau active.
+  Idées retenues pour la suite : partie 3 racontée à la 1re personne par le faux père (le manipulateur), avec une phrase signature à nous, et un arroseur arrosé.
