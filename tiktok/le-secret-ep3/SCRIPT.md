@@ -8,7 +8,9 @@ Durée ~55 s · vertical · style film réaliste · deux versions selon le vote 
 | # | Image | Qui | Texte |
 |---|---|---|---|
 | 0 | Flash-forward 2 s : le visage du père, figé, la mère floue derrière lui | — | — |
-| 1 | Une table de cuisine, trois assiettes, personne ne se parle | FILS | « Je sentais que c'était bizarre depuis quelque temps. Ma mère n'adressait plus la parole à mon père. » |
+| 1 | **Souvenir** : un petit garçon de 8 ans assis par terre devant la télé, la lumière bleue sur son visage ; derrière lui, dans l'encadrement de la cuisine, les silhouettes de ses parents qui se disputent | FILS | « Quand j'étais petit, je montais le son de la télé. Comme ça, je n'entendais pas mes parents se disputer. » |
+| 1b | (même image, dispute étouffée derrière le son de la télé) | MÈRE / PÈRE (étouffés) | MÈRE : « Il a le droit de savoir ! » · PÈRE : « Jamais. Tu m'entends ? Jamais. » |
+| 1c | Une table de cuisine aujourd'hui, trois assiettes, personne ne se parle | FILS | « Et puis un jour, ils ont arrêté de se disputer. Ma mère n'adressait plus la parole à mon père. » |
 | 2 | La même table, le père et la mère qui ne se regardent pas | FILS | « À table, on n'entendait que les fourchettes. C'était comme vivre avec deux inconnus qui se déchiraient en silence. » |
 | 3A | Le père en bas de l'escalier, dans la lumière de la cuisine, il sourit | FILS | « Cette nuit-là, quand je suis descendu… il était là. Il souriait. » |
 | 3B | Le père dans le jardin, sous la fenêtre ouverte | FILS | « Cette nuit-là, quand j'ai ouvert la fenêtre… il était en bas. Il souriait. » |
@@ -35,3 +37,8 @@ Le père : *a man in his mid-forties with short black hair greying at the temple
 4. P3-3 : lumières bleues et rouges de police qui balaient les murs d'un couloir sombre.
 5. P3-4 : la mère debout dans un couloir sombre, derrière le père de dos, lumière froide.
 6. P3-5 : le père figé, choqué, de face, la mère floue derrière lui.
+
+## Ajout (idée de Wilfried, à la manière de la scène de BoJack Horseman : l'enfant devant la télé qui entend ses parents se disputer)
+On reprend seulement l'idée de mise en scène (un classique), pas les personnages ni le dessin.
+La dispute étouffée est un indice : la mère voulait dire la vérité, le père refusait.
+Image en plus : P3-souvenir — *a little 8-year-old boy sitting on the floor in front of a glowing TV in a dark living room, blue TV light on his face; behind him, in the kitchen doorway, the blurred silhouettes of his parents arguing; 2000s home, nostalgic and sad, cinematic realistic film still, vertical 9:16, no text.*
