@@ -104,3 +104,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
   Proposition : finir « Le secret » en 3 parties (public déjà engagé), puis lancer une 2e série sur les relations amoureuses, façon YOU + Wil Aime.
 - Wilfried précise : le narrateur doit être comme « l'âme de l'homme » (sa voix intérieure, ce qu'il ressent vraiment), dans le style YOU / Wil Aime, sur les relations amoureuses. Concept proposé : « L'âme d'un homme ».
 - Wilfried valide le concept « L'âme d'un homme ». Épisode 1 « Il faut qu'on parle » écrit : ame-d-un-homme-ep1/SCRIPT.md.
+- Wilfried : « fais un truc comme ça en reprenant notre idée de secret de famille ». Partie 3 réécrite au format « âme » : l'âme du faux père (voix de Nicolas = le narrateur des parties 1-2) commente pendant qu'il sourit ; la mère le piège (« Bonsoir, chéri. ») et son âme se tait. Fichier : le-secret-ep3/SCRIPT.md (v2). La série « L'âme d'un homme » reste en réserve.
