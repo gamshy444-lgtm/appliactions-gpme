@@ -83,3 +83,7 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Demande : utiliser « Imagine… » dans la narration pour que les gens se projettent → ajouté au script de la partie 2.
 - Metricool : TikTok connecté (compte « historiax25 »). Publication programmée possible via Metricool.
 - Partie 2 en production (2 versions A/B). Les leçons ont été générées avec Victoria par erreur : Wilfried doit les refaire avec Nicolas.
+
+## 9 novembre — refonte visuelle
+- Wilfried : « les dessins sont pas ouf ». 5 styles testés sur la même scène (`tiktok/styles-test/`) : film réaliste, anime sombre, roman graphique, animation 3D, papier découpé premium.
+- Générateurs : Canva (3 images, puis quota épuisé), vidIQ (2 images, 44 crédits sur 100).
