@@ -103,3 +103,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried (remarque juste) : dans YOU, Joe parle de relations amoureuses ; Wil Aime aussi (friendzone, couple, tromperie). Notre série « Le secret » est un thriller familial : le style colle, pas le thème.
   Proposition : finir « Le secret » en 3 parties (public déjà engagé), puis lancer une 2e série sur les relations amoureuses, façon YOU + Wil Aime.
 - Wilfried précise : le narrateur doit être comme « l'âme de l'homme » (sa voix intérieure, ce qu'il ressent vraiment), dans le style YOU / Wil Aime, sur les relations amoureuses. Concept proposé : « L'âme d'un homme ».
+- Wilfried valide le concept « L'âme d'un homme ». Épisode 1 « Il faut qu'on parle » écrit : ame-d-un-homme-ep1/SCRIPT.md.
