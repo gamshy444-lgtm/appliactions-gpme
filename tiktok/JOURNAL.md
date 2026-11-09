@@ -95,3 +95,6 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
   4. Musique et montage très calés (« une symphonie », « digne de Nolan »), peu de dialogues, ralentis.
   5. Wil Aime a annoncé son retour en avril 2026 (court-métrage au cinéma) : sa communauté est de nouveau active.
   Idées retenues pour la suite : partie 3 racontée à la 1re personne par le faux père (le manipulateur), avec une phrase signature à nous, et un arroseur arrosé.
+- Wilfried : Wil Aime s'inspire de « Murder » (How to Get Away with Murder). Confirmé par un commentaire sous « Comment sortir de la Friendzone » : il a repris la première scène de la série (la prof qui entre en retard et donne un cours magistral) pour faire son cours sur la friendzone.
+  Recette « Murder » : un cours magistral qui donne des règles + chaque règle illustrée par une scène ; un flash-forward au début (la nuit du drame), puis « X heures plus tôt » ; chaque épisode en révèle un peu plus ; une prof charismatique qui domine tout ; un cliffhanger à la fin.
+  À appliquer : ouvrir chaque partie par un flash-forward de 2 s (ex. la main sur la fenêtre) puis « 3 MINUTES PLUS TÔT » ; les leçons deviennent des « règles » d'un cours ; un narrateur-prof.
