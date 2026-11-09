@@ -10,7 +10,8 @@ Durée ~55 s · vertical · style film réaliste · deux versions selon le vote 
 | 0 | Flash-forward 2 s : le visage du père, figé, la mère floue derrière lui | — | — |
 | 1 | **Souvenir** : un petit garçon de 8 ans assis par terre devant la télé, la lumière bleue sur son visage ; derrière lui, dans l'encadrement de la cuisine, les silhouettes de ses parents qui se disputent | FILS | « Quand j'étais petit, je montais le son de la télé. Comme ça, je n'entendais pas mes parents se disputer. » |
 | 1b | (même image, dispute étouffée derrière le son de la télé) | MÈRE / PÈRE (étouffés) | MÈRE : « Il a le droit de savoir que son vrai père, c'est… » — **les rires de la télé couvrent le nom** · PÈRE : « Jamais. Tu m'entends ? Jamais. » |
-| 1b' | Gros plan : la petite main qui appuie sur le bouton du volume | FILS | « J'ai monté le son. Si je ne l'avais pas fait… j'aurais su la vérité dix ans plus tôt. » |
+| 1b'' | Même image : **un gros bruit derrière lui** (une assiette qui explose contre un mur, une chaise qui tombe) ; le petit sursaute, les épaules rentrées, il ne se retourne pas | — | (bruit fort, puis silence d'une seconde, juste la télé) |
+| 1b' | Gros plan : la petite main qui appuie sur le bouton du volume | FILS | « Puis il y a eu un gros bruit. Je ne me suis pas retourné. J'ai monté le son. Si je ne l'avais pas fait… j'aurais su la vérité dix ans plus tôt. » |
 | 1c | Une table de cuisine aujourd'hui, trois assiettes, personne ne se parle | FILS | « Et puis un jour, ils ont arrêté de se disputer. Ma mère n'adressait plus la parole à mon père. » |
 | 2 | La même table, le père et la mère qui ne se regardent pas | FILS | « À table, on n'entendait que les fourchettes. C'était comme vivre avec deux inconnus qui se déchiraient en silence. » |
 | 3A | Le père en bas de l'escalier, dans la lumière de la cuisine, il sourit | FILS | « Cette nuit-là, quand je suis descendu… il était là. Il souriait. » |
