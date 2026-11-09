@@ -9,7 +9,8 @@ Durée ~55 s · vertical · style film réaliste · deux versions selon le vote 
 |---|---|---|---|
 | 0 | Flash-forward 2 s : le visage du père, figé, la mère floue derrière lui | — | — |
 | 1 | **Souvenir** : un petit garçon de 8 ans assis par terre devant la télé, la lumière bleue sur son visage ; derrière lui, dans l'encadrement de la cuisine, les silhouettes de ses parents qui se disputent | FILS | « Quand j'étais petit, je montais le son de la télé. Comme ça, je n'entendais pas mes parents se disputer. » |
-| 1b | (même image, dispute étouffée derrière le son de la télé) | MÈRE / PÈRE (étouffés) | MÈRE : « Il a le droit de savoir ! » · PÈRE : « Jamais. Tu m'entends ? Jamais. » |
+| 1b | (même image, dispute étouffée derrière le son de la télé) | MÈRE / PÈRE (étouffés) | MÈRE : « Il a le droit de savoir que son vrai père, c'est… » — **les rires de la télé couvrent le nom** · PÈRE : « Jamais. Tu m'entends ? Jamais. » |
+| 1b' | Gros plan : la petite main qui appuie sur le bouton du volume | FILS | « J'ai monté le son. Si je ne l'avais pas fait… j'aurais su la vérité dix ans plus tôt. » |
 | 1c | Une table de cuisine aujourd'hui, trois assiettes, personne ne se parle | FILS | « Et puis un jour, ils ont arrêté de se disputer. Ma mère n'adressait plus la parole à mon père. » |
 | 2 | La même table, le père et la mère qui ne se regardent pas | FILS | « À table, on n'entendait que les fourchettes. C'était comme vivre avec deux inconnus qui se déchiraient en silence. » |
 | 3A | Le père en bas de l'escalier, dans la lumière de la cuisine, il sourit | FILS | « Cette nuit-là, quand je suis descendu… il était là. Il souriait. » |
@@ -42,3 +43,7 @@ Le père : *a man in his mid-forties with short black hair greying at the temple
 On reprend seulement l'idée de mise en scène (un classique), pas les personnages ni le dessin.
 La dispute étouffée est un indice : la mère voulait dire la vérité, le père refusait.
 Image en plus : P3-souvenir — *a little 8-year-old boy sitting on the floor in front of a glowing TV in a dark living room, blue TV light on his face; behind him, in the kitchen doorway, the blurred silhouettes of his parents arguing; 2000s home, nostalgic and sad, cinematic realistic film still, vertical 9:16, no text.*
+
+### Ce qu'on garde de la scène de BoJack (saison 2, épisode 1 « Brand New Couch »)
+Le petit BoJack regarde son héros à la télé, qui répond enfin à sa lettre (« Que fais-tu quand tu es triste ? »), mais la dispute de ses parents couvre la réponse : il ne l'entendra jamais.
+Notre version, inversée : c'est la **télé** qui couvre la **dispute**, et dans la dispute il y avait la vérité. Le nom du vrai père est couvert par des rires de télé → le spectateur aussi rate le nom (accroche pour la suite).
