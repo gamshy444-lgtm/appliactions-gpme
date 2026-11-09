@@ -87,3 +87,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 ## 9 novembre — refonte visuelle
 - Wilfried : « les dessins sont pas ouf ». 5 styles testés sur la même scène (`tiktok/styles-test/`) : film réaliste, anime sombre, roman graphique, animation 3D, papier découpé premium.
 - Générateurs : Canva (3 images, puis quota épuisé), vidIQ (2 images, 44 crédits sur 100).
+- Wilfried choisit le **style 1 (film réaliste)**. Claude génère les 2 images clés (photo avec l'enfant découpé ✓, main sur la fenêtre). Wilfried génère les autres avec les descriptions de `le-secret-ep2/IMAGES.md`. Crédits vidIQ quasiment épuisés (12 restants).
