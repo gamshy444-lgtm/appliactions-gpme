@@ -162,3 +162,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Vidéo de présentation Historia (23 s, sans voix, texte à l'écran) : média politique, mais on parle de tout (éco, société, monde, sport). Bio Insta : Wilfried doit la coller lui-même (pas d'outil pour modifier un profil).
 
 - 16h46 : présentation programmée 16h52 en auto sur YouTube, Facebook, Instagram, TikTok (4 posts Metricool). Prochain sujet à décider (Bally Bagayoko ou autre).
+- 16h52 : présentation PUBLIÉE sur les 4 (Insta reel Dfm2NmOjuNh, TikTok 7706942493002042646, YouTube nnUo2vycz6o, Facebook 1493391462688340). La publication auto Insta + TikTok via Metricool fonctionne.
