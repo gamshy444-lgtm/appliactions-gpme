@@ -89,11 +89,11 @@ const S = [
     credit('jet');
   }],
   [4.48, (t, a, b) => { // milliardaire / rap / tracteurs
-    photo('jet', lerp(1.05, 1.12, seg(t, a, b)), 'contrast(1.1) saturate(1.05) brightness(.32)'); credit('jet'); [['euro', 'MILLIARDAIRE'], ['mic', 'RAPPEUR'], ['tractor', 'FAN DE TRACTEURS']].forEach(([ic, l], i) => { const t0 = a + i * .55; iconTile(t, t0, ic, X0, 420 + i * 230, 170); if (t > t0) { ctx.save(); ctx.translate(200, 0); slam(t, t0 + .05, l, 530 + i * 230, 54); ctx.restore(); } });
+    photo('jet', lerp(1.05, 1.12, seg(t, a, b)), 'contrast(1.1) saturate(1.05) brightness(.45)'); credit('jet'); [['euro', 'MILLIARDAIRE'], ['mic', 'RAPPEUR'], ['tractor', 'FAN DE TRACTEURS']].forEach(([ic, l], i) => { const t0 = a + i * .55; iconTile(t, t0, ic, X0, 420 + i * 230, 170); if (t > t0) { ctx.save(); ctx.translate(200, 0); slam(t, t0 + .05, l, 530 + i * 230, 54); ctx.restore(); } });
     pill(t, a + 1.8, 'À L’ÉLYSÉE ?', X0, 1140, C.vio, C.ink, 40);
   }],
   [7.72, (t, a, b) => { // ID card
-    photo('gsd', lerp(1.0, 1.1, seg(t, a, b)), `contrast(1.1) saturate(1.05) brightness(${t > 9.64 ? lerp(.3, .55, seg(t, 9.64, 10.1)) : .3})`); credit('gsd'); const k = eo(seg(t, a, a + .3)); ctx.save(); ctx.globalAlpha = k; ctx.translate(0, (1 - k) * 60);
+    photo('gsd', lerp(1.0, 1.1, seg(t, a, b)), `contrast(1.1) saturate(1.05) brightness(${t > 9.64 ? lerp(.45, .65, seg(t, 9.64, 10.1)) : .45})`); credit('gsd'); const k = eo(seg(t, a, a + .3)); ctx.save(); ctx.globalAlpha = k; ctx.translate(0, (1 - k) * 60);
     ctx.fillStyle = C.card; ctx.strokeStyle = 'rgba(212,255,58,.35)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(X0, 360, W - 2 * X0, 640, 40); ctx.fill(); ctx.stroke();
     text('FICHE D’IDENTITÉ', X0 + 50, 440, F(800, 30), C.grey); ITA(X0 + 480, 412, 60, 36);
     { const im = IM.forbes; if (im) { const s = 240, sx = im.width * .12, sw = im.width * .76; ctx.save(); ctx.beginPath(); ctx.roundRect(W - X0 - 50 - s, 400, s, s, 20); ctx.clip(); ctx.drawImage(im, sx, 0, sw, sw, W - X0 - 50 - s, 400, s, s); ctx.restore(); text('FORBES · 30 UNDER 30', W - X0 - 50 - s / 2, 670, F(800, 20), C.lime, 'center'); } }
@@ -102,29 +102,29 @@ const S = [
     ctx.restore(); source(t, a + .3, 'franceinfo · gpaslaref · 75secondes');
   }],
   [12.64, (t, a, b) => { // tout lâché pour le rap
-    photo('chain', lerp(1.08, 1.0, eo(seg(t, a, b))), 'contrast(1.15) saturate(1.1) brightness(.4)'); credit('chain'); iconTile(t, a + .05, 'mic', W / 2 - 90, 990, 180);
+    photo('chain', lerp(1.08, 1.0, eo(seg(t, a, b))), 'contrast(1.15) saturate(1.1) brightness(.55)'); credit('chain'); iconTile(t, a + .05, 'mic', W / 2 - 90, 990, 180);
     slam(t, a + .2, '2026 : il lâche tout', 800, 66, C.ink, 'center'); slam(t, a + .6, 'pour le {rap}', 910, 80, C.ink, 'center');
   }],
   [15.06, (t, a, b) => { // label + EP
-    { const oui = seg(t, OUI, OUI + .3); photo('tractor', lerp(1.0, 1.12, seg(t, a, b)), `contrast(1.12) saturate(1.15) brightness(${lerp(.3, .85, oui)})`); credit('tractor'); if (oui > 0) { ctx.fillStyle = `rgba(5,5,5,${.35 * oui})`; ctx.fillRect(0, 0, W, H); } } const cardT = (t0, lab, name, y) => { const k = eo(seg(t, t0, t0 + .3)); if (k <= 0) return; ctx.save(); ctx.globalAlpha = k; ctx.translate((1 - k) * 120, 0); ctx.fillStyle = C.card; ctx.beginPath(); ctx.roundRect(X0, y, W - 2 * X0, 190, 32); ctx.fill(); ctx.strokeStyle = 'rgba(212,255,58,.3)'; ctx.lineWidth = 3; ctx.stroke(); text(lab, X0 + 40, y + 62, F(800, 28), C.grey); text(name, X0 + 40, y + 140, F(900, 64), C.lime); ctx.restore(); };
+    { const oui = seg(t, OUI, OUI + .3); photo('tractor', lerp(1.0, 1.12, seg(t, a, b)), `contrast(1.12) saturate(1.15) brightness(${lerp(.45, .85, oui)})`); credit('tractor'); if (oui > 0) { ctx.fillStyle = `rgba(5,5,5,${.35 * oui})`; ctx.fillRect(0, 0, W, H); } } const cardT = (t0, lab, name, y) => { const k = eo(seg(t, t0, t0 + .3)); if (k <= 0) return; ctx.save(); ctx.globalAlpha = k; ctx.translate((1 - k) * 120, 0); ctx.fillStyle = C.card; ctx.beginPath(); ctx.roundRect(X0, y, W - 2 * X0, 190, 32); ctx.fill(); ctx.strokeStyle = 'rgba(212,255,58,.3)'; ctx.lineWidth = 3; ctx.stroke(); text(lab, X0 + 40, y + 62, F(800, 28), C.grey); text(name, X0 + 40, y + 140, F(900, 64), C.lime); ctx.restore(); };
     cardT(a, 'SON LABEL', 'Tracto Label', 380); cardT(16.62, 'SON EP · 15 AOÛT 2026', 'Tracto Azzurro', 610);
     if (t > OUI) { const k = back(seg(t, OUI, OUI + .3), 1.8); ctx.save(); ctx.translate(W / 2, 1010); ctx.scale(k, k); ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(-330, -70, 660, 120, 60); ctx.fill(); text('OUI. VRAIMENT. 🚜'.replace(' 🚜', ''), 0, 14, F(900, 52), C.bg, 'center'); ctx.restore(); }
   }],
   [20.02, (t, a, b) => { // ZEvent
-    photo('zevent', lerp(1.1, 1.0, eo(seg(t, a, b))), 'contrast(1.12) saturate(1.1) brightness(.5)'); shade(.6); credit('zevent'); iconTile(t, a + .05, 'heart', X0, 380, 150); text('AU ZEVENT', X0 + 190, 470, F(900, 54), C.ink);
+    photo('zevent', lerp(1.1, 1.0, eo(seg(t, a, b))), 'contrast(1.12) saturate(1.1) brightness(.62)'); shade(.6); credit('zevent'); iconTile(t, a + .05, 'heart', X0, 380, 150); text('AU ZEVENT', X0 + 190, 470, F(900, 54), C.ink);
     const v = Math.round(lerp(0, 60000, eo(seg(t, a + .3, a + 1.3)))); num(v.toLocaleString('fr-FR').replace(/\s/g, ' ') + ' €', W / 2, 780, 150, C.lime, 'center');
     if (t > 22.34) slam(t, 22.34, 'Comme {ça}.', 930, 72, C.ink, 'center');
   }],
   [22.79, (t, a, b) => { // président, il ferait quoi ? BFM quote
-    photo('bfm', lerp(1.04, 1.1, seg(t, a, b)), 'contrast(1.1) saturate(.95) brightness(.42)'); credit('bfm'); slam(t, a + .05, 'Président,', 400, 70); slam(t, a + .35, 'il ferait {quoi} ?', 500, 70);
+    photo('bfm', lerp(1.04, 1.1, seg(t, a, b)), 'contrast(1.1) saturate(.95) brightness(.55)'); credit('bfm'); slam(t, a + .05, 'Président,', 400, 70); slam(t, a + .35, 'il ferait {quoi} ?', 500, 70);
     if (t > 24.04) { source(t, 24.04, 'BFMTV · Forum « Dette : qui va passer à la caisse ? »'); quote(t, 25.85, ['Sans les milliardaires,', 'vous n’auriez pas tous', 'les services essentiels', 'à votre confort.'], 640); }
   }],
   [29.35, (t, a, b) => { // hôpital, école, retraite
-    { const sw = a + .6; if (t < sw) { photo('hopital', lerp(1.0, 1.06, seg(t, a, sw)), 'contrast(1.05) saturate(.9) brightness(.35)'); credit('hopital'); } else { photo('ecole', lerp(1.0, 1.08, seg(t, sw, b)), 'contrast(1.05) saturate(.9) brightness(.3)'); credit('ecole'); } } [['cross', 'Ton hôpital'], ['book', 'Ton école'], ['clock', 'Ta retraite']].forEach(([ic, l], i) => { const t0 = a + i * .6; iconTile(t, t0, ic, X0, 380 + i * 210, 160); if (t > t0) { ctx.save(); ctx.translate(190, 0); slam(t, t0 + .05, l, 485 + i * 210, 60); ctx.restore(); } });
+    { const sw = a + .6; if (t < sw) { photo('hopital', lerp(1.0, 1.06, seg(t, a, sw)), 'contrast(1.05) saturate(.9) brightness(.5)'); credit('hopital'); } else { photo('ecole', lerp(1.0, 1.08, seg(t, sw, b)), 'contrast(1.05) saturate(.9) brightness(.45)'); credit('ecole'); } } [['cross', 'Ton hôpital'], ['book', 'Ton école'], ['clock', 'Ta retraite']].forEach(([ic, l], i) => { const t0 = a + i * .6; iconTile(t, t0, ic, X0, 380 + i * 210, 160); if (t > t0) { ctx.save(); ctx.translate(190, 0); slam(t, t0 + .05, l, 485 + i * 210, 60); ctx.restore(); } });
     if (t > 31.60) { const k = back(seg(t, 31.60, 31.86), 2), s = lerp(1.8, 1, k); ctx.save(); ctx.translate(W / 2, 1100); ctx.rotate(-.05); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.vio; ctx.fillRect(-420, -70, 840, 120); text('MERCI LES MILLIARDAIRES ?', 0, 14, F(900, 46), C.ink, 'center'); ctx.restore(); }
   }],
   [33.30, (t, a, b) => { // petit détail: italien
-    photo('elysee', lerp(1.0, 1.08, seg(t, a, b)), 'contrast(1.1) saturate(1.05) brightness(.35)'); credit('elysee'); text('PETIT DÉTAIL…', X0, 420, F(800, 40), C.grey);
+    photo('elysee', lerp(1.0, 1.08, seg(t, a, b)), 'contrast(1.1) saturate(1.05) brightness(.55)'); credit('elysee'); text('PETIT DÉTAIL…', X0, 420, F(800, 40), C.grey);
     slam(t, a + .3, 'Pour être président,', 540, 62); slam(t, a + .6, 'il faut être {français}.', 640, 62);
     if (t > 36.01) { const k = back(seg(t, 36.01, 36.29), 1.8); ctx.save(); ctx.translate(W / 2, 900); ctx.scale(k, k); ITA(-240, -90, 480, 180); ctx.restore(); }
     if (t > 37.14) { const k = back(seg(t, 37.14, 37.34), 2), s = lerp(1.9, 1, k); ctx.save(); ctx.translate(W / 2, 900); ctx.rotate(-.1); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.lime; ctx.fillRect(-300, -60, 600, 120); ctx.strokeStyle = C.bg; ctx.lineWidth = 5; ctx.strokeRect(-288, -48, 576, 96); text('ITALIEN', 0, 26, F(900, 76), C.bg, 'center'); ctx.restore(); }
