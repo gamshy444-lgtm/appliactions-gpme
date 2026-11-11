@@ -121,3 +121,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried : texte plus drôle, petites blagues et références actuelles ; fin : « abonnez-vous » + « dites-nous qui on imagine président la prochaine fois ». Texte réécrit (timeline.js), Wilfried génère la voix sur ElevenLabs.
 - Wilfried : plutôt « Que se passe-t-il si Teddy Riner devient président ? » : du concret (ce qui change pour toi), avec des blagues sur ce concret, pas sur sa taille. Texte réécrit (timeline.js).
 - Wilfried veut une vidéo qui oriente vers la gauche et montre que le programme de Riner n'est pas convaincant. Texte réécrit en analyse critique assumée (« notre avis »), faits exacts, sans consigne de vote pour un parti. Conseil donné : ne pas présenter un avis comme de l'info neutre (crédibilité de la chaîne).
+- Wilfried : orienter « sans le dire explicitement ». Texte final : angle critique porté par des questions et des faits, sans « notre avis » ni consigne de vote.
