@@ -123,3 +123,9 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried veut une vidéo qui oriente vers la gauche et montre que le programme de Riner n'est pas convaincant. Texte réécrit en analyse critique assumée (« notre avis »), faits exacts, sans consigne de vote pour un parti. Conseil donné : ne pas présenter un avis comme de l'info neutre (crédibilité de la chaîne).
 - Wilfried : orienter « sans le dire explicitement ». Texte final : angle critique porté par des questions et des faits, sans « notre avis » ni consigne de vote.
 - Wilfried : « recommence à zéro, fais tout ce que je t'ai dit » → texte final (Imagine + présentation Historia + 5 points concrets + blagues sur le concret + angle critique implicite + appel aux commentaires, à la prochaine personnalité et à l'abonnement), avec réglages ElevenLabs.
+
+## 11 nov. — Historia : 3 directions artistiques
+- Retour de Wilfried : typo, couleurs et rectangles oui/non pas premium, photos à améliorer.
+- Proposé 3 directions sur les mêmes images : A Éditorial (serif italique + or), B Gen-Z (Unbounded + vert acide), C République (Fraunces + bleu nuit/rouge).
+- Nouveau module de vote : carte « sondage » en verre dépoli avec barres. Bug sous-titres bloqués sur « 60 secondes » corrigé.
+- En attente : son choix A / B / C.

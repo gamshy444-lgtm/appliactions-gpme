@@ -1,0 +1,1182 @@
+{
+"dur": 63.51564583333333,
+"words": [
+{
+"seg": "hook",
+"w": "Imagine.",
+"t": 0.05
+},
+{
+"seg": "hook",
+"w": "Teddy",
+"t": 0.66
+},
+{
+"seg": "hook",
+"w": "Riner",
+"t": 0.748
+},
+{
+"seg": "hook",
+"w": "devient",
+"t": 0.983
+},
+{
+"seg": "hook",
+"w": "président",
+"t": 1.296
+},
+{
+"seg": "hook",
+"w": "de",
+"t": 1.778
+},
+{
+"seg": "hook",
+"w": "la",
+"t": 1.896
+},
+{
+"seg": "hook",
+"w": "République.",
+"t": 2.013
+},
+{
+"seg": "hook",
+"w": "Qu’est-ce",
+"t": 2.81
+},
+{
+"seg": "hook",
+"w": "qui",
+"t": 2.986
+},
+{
+"seg": "hook",
+"w": "change",
+"t": 3.142
+},
+{
+"seg": "hook",
+"w": "pour",
+"t": 3.417
+},
+{
+"seg": "hook",
+"w": "toi ?",
+"t": 3.613
+},
+{
+"seg": "hook",
+"w": "En",
+"t": 3.9
+},
+{
+"seg": "hook",
+"w": "soixante",
+"t": 4.075
+},
+{
+"seg": "hook",
+"w": "secondes,",
+"t": 4.428
+},
+{
+"seg": "hook",
+"w": "je",
+"t": 4.93
+},
+{
+"seg": "hook",
+"w": "te",
+"t": 5.047
+},
+{
+"seg": "hook",
+"w": "montre",
+"t": 5.165
+},
+{
+"seg": "hook",
+"w": "tout.",
+"t": 5.439
+},
+{
+"seg": "logo",
+"w": "Mais",
+"t": 5.67
+},
+{
+"seg": "logo",
+"w": "d’abord,",
+"t": 5.97
+},
+{
+"seg": "logo",
+"w": "on",
+"t": 6.433
+},
+{
+"seg": "logo",
+"w": "se",
+"t": 6.551
+},
+{
+"seg": "logo",
+"w": "présente :",
+"t": 6.668
+},
+{
+"seg": "logo",
+"w": "nous,",
+"t": 7.38
+},
+{
+"seg": "logo",
+"w": "c’est",
+"t": 7.564
+},
+{
+"seg": "logo",
+"w": "Historia.",
+"t": 7.799
+},
+{
+"seg": "logo",
+"w": "L’actu",
+"t": 8.15
+},
+{
+"seg": "logo",
+"w": "en",
+"t": 8.576
+},
+{
+"seg": "logo",
+"w": "une",
+"t": 8.693
+},
+{
+"seg": "logo",
+"w": "minute.",
+"t": 8.85
+},
+{
+"seg": "salaire",
+"w": "Un :",
+"t": 9.48
+},
+{
+"seg": "salaire",
+"w": "ton",
+"t": 9.58
+},
+{
+"seg": "salaire",
+"w": "salaire.",
+"t": 9.63
+},
+{
+"seg": "salaire",
+"w": "Il",
+"t": 10.35
+},
+{
+"seg": "salaire",
+"w": "veut",
+"t": 10.4
+},
+{
+"seg": "salaire",
+"w": "baisser",
+"t": 10.492
+},
+{
+"seg": "salaire",
+"w": "les",
+"t": 10.806
+},
+{
+"seg": "salaire",
+"w": "charges",
+"t": 10.963
+},
+{
+"seg": "salaire",
+"w": "pour",
+"t": 11.276
+},
+{
+"seg": "salaire",
+"w": "que",
+"t": 11.472
+},
+{
+"seg": "salaire",
+"w": "ton",
+"t": 11.629
+},
+{
+"seg": "salaire",
+"w": "net",
+"t": 11.786
+},
+{
+"seg": "salaire",
+"w": "monte.",
+"t": 11.942
+},
+{
+"seg": "salaire",
+"w": "Sur",
+"t": 12.5
+},
+{
+"seg": "salaire",
+"w": "deux",
+"t": 12.55
+},
+{
+"seg": "salaire",
+"w": "mille",
+"t": 12.669
+},
+{
+"seg": "salaire",
+"w": "euros",
+"t": 12.904
+},
+{
+"seg": "salaire",
+"w": "brut,",
+"t": 13.14
+},
+{
+"seg": "salaire",
+"w": "tu",
+"t": 13.375
+},
+{
+"seg": "salaire",
+"w": "touches",
+"t": 13.492
+},
+{
+"seg": "salaire",
+"w": "aujourd’hui",
+"t": 13.906
+},
+{
+"seg": "salaire",
+"w": "environ",
+"t": 14.376
+},
+{
+"seg": "salaire",
+"w": "mille",
+"t": 14.689
+},
+{
+"seg": "salaire",
+"w": "cinq",
+"t": 14.925
+},
+{
+"seg": "salaire",
+"w": "cent",
+"t": 15.121
+},
+{
+"seg": "salaire",
+"w": "soixante.",
+"t": 15.316
+},
+{
+"seg": "salaire",
+"w": "Ton",
+"t": 15.9
+},
+{
+"seg": "salaire",
+"w": "banquier",
+"t": 15.975
+},
+{
+"seg": "salaire",
+"w": "dit",
+"t": 16.328
+},
+{
+"seg": "salaire",
+"w": "merci.",
+"t": 16.485
+},
+{
+"seg": "salaire",
+"w": "Mais",
+"t": 16.98
+},
+{
+"seg": "salaire",
+"w": "ces",
+"t": 17.055
+},
+{
+"seg": "salaire",
+"w": "charges,",
+"t": 17.212
+},
+{
+"seg": "salaire",
+"w": "c’est",
+"t": 17.564
+},
+{
+"seg": "salaire",
+"w": "aussi",
+"t": 17.799
+},
+{
+"seg": "salaire",
+"w": "ce",
+"t": 18.035
+},
+{
+"seg": "salaire",
+"w": "qui",
+"t": 18.152
+},
+{
+"seg": "salaire",
+"w": "paie",
+"t": 18.309
+},
+{
+"seg": "salaire",
+"w": "ton",
+"t": 18.505
+},
+{
+"seg": "salaire",
+"w": "hôpital",
+"t": 18.662
+},
+{
+"seg": "salaire",
+"w": "et",
+"t": 18.975
+},
+{
+"seg": "salaire",
+"w": "ta",
+"t": 19.093
+},
+{
+"seg": "salaire",
+"w": "retraite.",
+"t": 19.21
+},
+{
+"seg": "salaire",
+"w": "Alors…",
+"t": 19.87
+},
+{
+"seg": "salaire",
+"w": "qui",
+"t": 19.92
+},
+{
+"seg": "salaire",
+"w": "paie",
+"t": 20.153
+},
+{
+"seg": "salaire",
+"w": "demain ?",
+"t": 20.479
+},
+{
+"seg": "h35",
+"w": "Deux :",
+"t": 21.11
+},
+{
+"seg": "h35",
+"w": "les",
+"t": 21.48
+},
+{
+"seg": "h35",
+"w": "trente-cinq",
+"t": 21.593
+},
+{
+"seg": "h35",
+"w": "heures",
+"t": 22.063
+},
+{
+"seg": "h35",
+"w": "restent.",
+"t": 22.337
+},
+{
+"seg": "h35",
+"w": "Et",
+"t": 22.7
+},
+{
+"seg": "h35",
+"w": "ceux",
+"t": 22.908
+},
+{
+"seg": "h35",
+"w": "qui",
+"t": 23.104
+},
+{
+"seg": "h35",
+"w": "veulent",
+"t": 23.26
+},
+{
+"seg": "h35",
+"w": "travailler",
+"t": 23.574
+},
+{
+"seg": "h35",
+"w": "plus",
+"t": 24.005
+},
+{
+"seg": "h35",
+"w": "pourront.",
+"t": 24.311
+},
+{
+"seg": "h35",
+"w": "Ton",
+"t": 24.361
+},
+{
+"seg": "h35",
+"w": "patron",
+"t": 24.859
+},
+{
+"seg": "h35",
+"w": "a",
+"t": 25.134
+},
+{
+"seg": "h35",
+"w": "déjà",
+"t": 25.212
+},
+{
+"seg": "h35",
+"w": "liké",
+"t": 25.408
+},
+{
+"seg": "h35",
+"w": "l’idée.",
+"t": 25.604
+},
+{
+"seg": "retraite",
+"w": "Trois :",
+"t": 26.17
+},
+{
+"seg": "retraite",
+"w": "ta",
+"t": 26.413
+},
+{
+"seg": "retraite",
+"w": "retraite.",
+"t": 26.559
+},
+{
+"seg": "retraite",
+"w": "Une",
+"t": 26.84
+},
+{
+"seg": "retraite",
+"w": "partie",
+"t": 27.367
+},
+{
+"seg": "retraite",
+"w": "pourrait",
+"t": 27.641
+},
+{
+"seg": "retraite",
+"w": "être",
+"t": 27.994
+},
+{
+"seg": "retraite",
+"w": "placée",
+"t": 28.19
+},
+{
+"seg": "retraite",
+"w": "en",
+"t": 28.464
+},
+{
+"seg": "retraite",
+"w": "bourse.",
+"t": 28.692
+},
+{
+"seg": "retraite",
+"w": "Pratique",
+"t": 28.742
+},
+{
+"seg": "retraite",
+"w": "quand",
+"t": 29.358
+},
+{
+"seg": "retraite",
+"w": "ça",
+"t": 29.693
+},
+{
+"seg": "retraite",
+"w": "monte.",
+"t": 29.811
+},
+{
+"seg": "retraite",
+"w": "Mais",
+"t": 29.861
+},
+{
+"seg": "retraite",
+"w": "en",
+"t": 30.281
+},
+{
+"seg": "retraite",
+"w": "deux",
+"t": 30.399
+},
+{
+"seg": "retraite",
+"w": "mille",
+"t": 30.595
+},
+{
+"seg": "retraite",
+"w": "huit,",
+"t": 30.83
+},
+{
+"seg": "retraite",
+"w": "quand",
+"t": 31.065
+},
+{
+"seg": "retraite",
+"w": "tout",
+"t": 31.3
+},
+{
+"seg": "retraite",
+"w": "s’est",
+"t": 31.496
+},
+{
+"seg": "retraite",
+"w": "effondré,",
+"t": 31.881
+},
+{
+"seg": "retraite",
+"w": "ces",
+"t": 32.273
+},
+{
+"seg": "retraite",
+"w": "retraites",
+"t": 32.43
+},
+{
+"seg": "retraite",
+"w": "ont",
+"t": 32.822
+},
+{
+"seg": "retraite",
+"w": "perdu",
+"t": 32.978
+},
+{
+"seg": "retraite",
+"w": "une",
+"t": 33.213
+},
+{
+"seg": "retraite",
+"w": "grosse",
+"t": 33.37
+},
+{
+"seg": "retraite",
+"w": "partie",
+"t": 33.645
+},
+{
+"seg": "retraite",
+"w": "de",
+"t": 34.029
+},
+{
+"seg": "retraite",
+"w": "leur",
+"t": 34.146
+},
+{
+"seg": "retraite",
+"w": "valeur.",
+"t": 34.442
+},
+{
+"seg": "securite",
+"w": "Quatre :",
+"t": 34.492
+},
+{
+"seg": "securite",
+"w": "la",
+"t": 35.24
+},
+{
+"seg": "securite",
+"w": "sécurité.",
+"t": 35.336
+},
+{
+"seg": "securite",
+"w": "Il",
+"t": 35.386
+},
+{
+"seg": "securite",
+"w": "veut",
+"t": 35.846
+},
+{
+"seg": "securite",
+"w": "rétablir",
+"t": 36.041
+},
+{
+"seg": "securite",
+"w": "l’ordre.",
+"t": 36.504
+},
+{
+"seg": "securite",
+"w": "Comment ?",
+"t": 36.78
+},
+{
+"seg": "securite",
+"w": "Pour",
+"t": 37.5
+},
+{
+"seg": "securite",
+"w": "l’instant,",
+"t": 37.695
+},
+{
+"seg": "securite",
+"w": "aucune",
+"t": 38.126
+},
+{
+"seg": "securite",
+"w": "mesure",
+"t": 38.4
+},
+{
+"seg": "securite",
+"w": "précise.",
+"t": 38.784
+},
+{
+"seg": "racisme",
+"w": "Cinq :",
+"t": 39.11
+},
+{
+"seg": "racisme",
+"w": "il",
+"t": 39.493
+},
+{
+"seg": "racisme",
+"w": "promet",
+"t": 39.639
+},
+{
+"seg": "racisme",
+"w": "de",
+"t": 39.913
+},
+{
+"seg": "racisme",
+"w": "lutter",
+"t": 40.031
+},
+{
+"seg": "racisme",
+"w": "contre",
+"t": 40.305
+},
+{
+"seg": "racisme",
+"w": "le",
+"t": 40.579
+},
+{
+"seg": "racisme",
+"w": "racisme",
+"t": 40.697
+},
+{
+"seg": "racisme",
+"w": "et",
+"t": 41.01
+},
+{
+"seg": "racisme",
+"w": "les",
+"t": 41.128
+},
+{
+"seg": "racisme",
+"w": "discriminations.",
+"t": 41.285
+},
+{
+"seg": "racisme",
+"w": "Là-dessus,",
+"t": 41.9
+},
+{
+"seg": "racisme",
+"w": "on",
+"t": 42.662
+},
+{
+"seg": "racisme",
+"w": "attend",
+"t": 42.78
+},
+{
+"seg": "racisme",
+"w": "les",
+"t": 43.054
+},
+{
+"seg": "racisme",
+"w": "détails.",
+"t": 43.211
+},
+{
+"seg": "camp",
+"w": "Ni",
+"t": 43.48
+},
+{
+"seg": "camp",
+"w": "de",
+"t": 43.781
+},
+{
+"seg": "camp",
+"w": "droite,",
+"t": 43.898
+},
+{
+"seg": "camp",
+"w": "ni",
+"t": 44.212
+},
+{
+"seg": "camp",
+"w": "de",
+"t": 44.33
+},
+{
+"seg": "camp",
+"w": "gauche,",
+"t": 44.447
+},
+{
+"seg": "camp",
+"w": "dit-il.",
+"t": 44.761
+},
+{
+"seg": "camp",
+"w": "Baisse",
+"t": 45.44
+},
+{
+"seg": "camp",
+"w": "des",
+"t": 45.49
+},
+{
+"seg": "camp",
+"w": "charges,",
+"t": 45.615
+},
+{
+"seg": "camp",
+"w": "retraites",
+"t": 45.968
+},
+{
+"seg": "camp",
+"w": "en",
+"t": 46.36
+},
+{
+"seg": "camp",
+"w": "bourse…",
+"t": 46.477
+},
+{
+"seg": "camp",
+"w": "à",
+"t": 47.34
+},
+{
+"seg": "camp",
+"w": "toi",
+"t": 47.39
+},
+{
+"seg": "camp",
+"w": "de",
+"t": 47.44
+},
+{
+"seg": "camp",
+"w": "voir",
+"t": 47.49
+},
+{
+"seg": "camp",
+"w": "de",
+"t": 47.54
+},
+{
+"seg": "camp",
+"w": "quel",
+"t": 47.59
+},
+{
+"seg": "camp",
+"w": "côté",
+"t": 47.753
+},
+{
+"seg": "camp",
+"w": "ça",
+"t": 47.949
+},
+{
+"seg": "camp",
+"w": "penche.",
+"t": 48.066
+},
+{
+"seg": "fin",
+"w": "Et",
+"t": 48.91
+},
+{
+"seg": "fin",
+"w": "avant",
+"t": 48.96
+},
+{
+"seg": "fin",
+"w": "tout",
+"t": 49.01
+},
+{
+"seg": "fin",
+"w": "ça,",
+"t": 49.06
+},
+{
+"seg": "fin",
+"w": "il",
+"t": 49.185
+},
+{
+"seg": "fin",
+"w": "lui",
+"t": 49.303
+},
+{
+"seg": "fin",
+"w": "faut",
+"t": 49.46
+},
+{
+"seg": "fin",
+"w": "cinq",
+"t": 49.826
+},
+{
+"seg": "fin",
+"w": "cents",
+"t": 50.022
+},
+{
+"seg": "fin",
+"w": "parrainages.",
+"t": 50.257
+},
+{
+"seg": "fin",
+"w": "Une",
+"t": 51.35
+},
+{
+"seg": "fin",
+"w": "médaille",
+"t": 51.4
+},
+{
+"seg": "fin",
+"w": "d’or,",
+"t": 51.45
+},
+{
+"seg": "fin",
+"w": "c’est",
+"t": 51.611
+},
+{
+"seg": "fin",
+"w": "pas",
+"t": 51.846
+},
+{
+"seg": "fin",
+"w": "un",
+"t": 52.003
+},
+{
+"seg": "fin",
+"w": "programme.",
+"t": 52.22
+},
+{
+"seg": "fin",
+"w": "Avant",
+"t": 52.62
+},
+{
+"seg": "fin",
+"w": "de",
+"t": 53.086
+},
+{
+"seg": "fin",
+"w": "voter,",
+"t": 53.204
+},
+{
+"seg": "fin",
+"w": "pense",
+"t": 53.478
+},
+{
+"seg": "fin",
+"w": "à",
+"t": 53.713
+},
+{
+"seg": "fin",
+"w": "ta",
+"t": 53.962
+},
+{
+"seg": "fin",
+"w": "santé,",
+"t": 54.079
+},
+{
+"seg": "fin",
+"w": "ta",
+"t": 54.354
+},
+{
+"seg": "fin",
+"w": "retraite,",
+"t": 54.471
+},
+{
+"seg": "fin",
+"w": "tes",
+"t": 55.053
+},
+{
+"seg": "fin",
+"w": "services",
+"t": 55.21
+},
+{
+"seg": "fin",
+"w": "publics.",
+"t": 55.712
+},
+{
+"seg": "fin",
+"w": "Et",
+"t": 55.762
+},
+{
+"seg": "fin",
+"w": "compare.",
+"t": 56.183
+},
+{
+"seg": "vote",
+"w": "Alors,",
+"t": 56.58
+},
+{
+"seg": "vote",
+"w": "Teddy",
+"t": 57.03
+},
+{
+"seg": "vote",
+"w": "président :",
+"t": 57.375
+},
+{
+"seg": "vote",
+"w": "oui",
+"t": 57.987
+},
+{
+"seg": "vote",
+"w": "ou",
+"t": 58.172
+},
+{
+"seg": "vote",
+"w": "non ?",
+"t": 58.289
+},
+{
+"seg": "vote",
+"w": "Dis-le",
+"t": 58.676
+},
+{
+"seg": "vote",
+"w": "en",
+"t": 59.139
+},
+{
+"seg": "vote",
+"w": "commentaire.",
+"t": 59.376
+},
+{
+"seg": "vote",
+"w": "Et",
+"t": 60.29
+},
+{
+"seg": "vote",
+"w": "dis-nous",
+"t": 60.34
+},
+{
+"seg": "vote",
+"w": "qui",
+"t": 60.466
+},
+{
+"seg": "vote",
+"w": "on",
+"t": 60.623
+},
+{
+"seg": "vote",
+"w": "imagine",
+"t": 60.83
+},
+{
+"seg": "vote",
+"w": "président",
+"t": 61.144
+},
+{
+"seg": "vote",
+"w": "la",
+"t": 61.536
+},
+{
+"seg": "vote",
+"w": "prochaine",
+"t": 61.653
+},
+{
+"seg": "vote",
+"w": "fois.",
+"t": 62.045
+},
+{
+"seg": "vote",
+"w": "Abonnez-vous",
+"t": 62.42
+},
+{
+"seg": "vote",
+"w": "à",
+"t": 62.9
+},
+{
+"seg": "vote",
+"w": "Historia.",
+"t": 62.978
+}
+],
+"segs": {
+"hook": 0.05,
+"logo": 5.67,
+"salaire": 9.48,
+"h35": 21.11,
+"retraite": 26.17,
+"securite": 34.492,
+"racisme": 39.11,
+"camp": 43.48,
+"fin": 48.91,
+"vote": 56.58
+}
+}
