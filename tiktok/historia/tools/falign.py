@@ -4,12 +4,12 @@ start is carried over to the real voice. Usage: falign.py voice.wav script.txt o
 import sys, re, json, subprocess, tempfile, os, numpy as np, soundfile as sf, librosa
 wav, scr, out = sys.argv[1:4]; lead = float(sys.argv[4]) if len(sys.argv) > 4 else .05
 SR = 16000; HOP = 160
-NUM = [(r'^60 000 €$', 'soixante mille euros'), (r'^1 700 €$', 'mille sept cents euros'), (r'^1 069$', 'mille soixante-neuf'), (r'^1 700$', 'mille sept cents'),
+NUM = [(r'^7$', 'sept'), (r'^1 000$', 'mille'), (r'^5\.?$', 'cinq'), (r'^200 000$', 'deux cent mille'), (r'^200$', 'deux cents'), (r'^2032\.?$', 'deux mille trente-deux'), (r'^500$', 'cinq cent'), (r'^000$', 'mille'), (r'^5,5$', 'cinq virgule cinq'), (r'^%\.?$', 'pour cent'), (r'^62\.?$', 'soixante-deux'), (r'^60\.?$', 'soixante'), (r'^20$', 'vingt'), (r'^1 700$', 'mille sept cents'), (r'^60 000 €$', 'soixante mille euros'), (r'^1 700 €$', 'mille sept cents euros'), (r'^1 069$', 'mille soixante-neuf'), (r'^1 700$', 'mille sept cents'),
        (r'^€$', 'euros'), (r'^60$', 'soixante'), (r'^40$', 'quarante'), (r'^1er$', 'premier'), (r'^MC$', 'emmcé'), (r'^EP$', 'i pi'), (r'^BFM,?$', 'bé effe aime'), (r'^ZEvent,?$', 'zi évent'), (r'^RATP…?$', 'erre a té pé')]
 words = open(scr).read().split(); toks = []; i = 0
 while i < len(words):
     if i + 2 < len(words) and words[i + 2] == '€' and re.match(r'^\d+$', words[i]) and re.match(r'^\d{3}$', words[i + 1]): toks.append(' '.join(words[i:i + 3])); i += 3
-    elif i + 1 < len(words) and words[i] == '1' and re.match(r'^\d{3}$', words[i + 1]): toks.append('1 ' + words[i + 1]); i += 2
+    elif i + 1 < len(words) and re.match(r'^\d{1,3}$', words[i]) and re.match(r'^\d{3}$', words[i + 1]): toks.append(words[i] + ' ' + words[i + 1]); i += 2
     else: toks.append(words[i]); i += 1
 def spoken(w):
     for p, r in NUM:
