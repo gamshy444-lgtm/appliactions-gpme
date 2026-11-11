@@ -176,3 +176,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 
 - Wilfried envoie le zip « my-claude-code-setup » (centminmod) : skill principal utile pour Historia = ai-image-creator (génération d'images via OpenRouter), installé dans .claude/skills. Nécessite une clé OpenRouter (payante) + accès réseau openrouter.ai.
 - Zip « ui-ux-pro-max » : skill principal ui-ux-pro-max installé dans .claude/skills (base locale : 74 paires de typos, 192 palettes, styles, règles UX). Scripts 100 % locaux, pas d'accès réseau.
+- llmfit-advisor installé (.claude/skills). Recherche de skills « rétention » : meilleurs trouvés = plugin Social Media Skills (hook-writer, short-form-video-script, viral-reverse-engineering, captions-and-clipping, tiktok-script) + Virlo (tendances, sons viraux). Carte d'installation proposée à Wilfried.
