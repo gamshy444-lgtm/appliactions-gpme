@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:U;src:url("../teddy-riner/fonts/Unbounded.ttf");font-weight:200 900}
+@font-face{font-family:G;src:url("../teddy-riner/fonts/Geist.ttf");font-weight:100 900}
+html,body{margin:0;background:#050505}canvas{display:block}</style></head><body><canvas id="c"></canvas>
+<script>
+const q=new URLSearchParams(location.search), Wd=+q.get('w'), Ht=+q.get('h'), sw=+q.get('sw'), sh=+q.get('sh');
+const c=document.getElementById('c'); c.width=Wd; c.height=Ht; const x=c.getContext('2d');
+const L='#D4FF3A', V='#8A4DFF', B='#050505';
+Promise.all([document.fonts.load('900 100px U'),document.fonts.load('600 40px G')]).then(()=>{
+  x.fillStyle=B; x.fillRect(0,0,Wd,Ht);
+  // faint ruled lines + big outlined 60 in the background
+  x.strokeStyle='rgba(212,255,58,.05)'; x.lineWidth=2; for(let y=0;y<Ht;y+=Ht/24){x.beginPath();x.moveTo(0,y);x.lineTo(Wd,y);x.stroke();}
+  const cx=Wd/2, cy=Ht/2, u=sh/423; // unit from safe-area height
+  x.save(); x.font=`900 ${Ht*1.1}px U`; x.textAlign='center'; x.textBaseline='middle'; x.lineWidth=4; x.strokeStyle='rgba(138,77,255,.22)'; x.strokeText('60',cx+sw*.55,cy+Ht*.05); x.restore();
+  // timer ring + H on the left of the safe area
+  const rx=cx-sw/2+sh*.5, r=sh*.36;
+  x.lineWidth=sh*.06; x.strokeStyle='#1c1c1c'; x.beginPath(); x.arc(rx,cy,r,0,7); x.stroke();
+  x.strokeStyle=L; x.lineCap='round'; x.beginPath(); x.arc(rx,cy,r,-Math.PI/2,-Math.PI/2+Math.PI*2*.78); x.stroke();
+  x.fillStyle=V; x.beginPath(); x.arc(rx,cy-r,sh*.05,0,7); x.fill();
+  x.fillStyle=L; x.font=`900 ${sh*.46}px U`; x.textAlign='center'; x.textBaseline='middle'; x.fillText('H',rx,cy+sh*.03);
+  // wordmark + tagline
+  const tx=rx+r+sh*.22; x.textAlign='left'; x.textBaseline='alphabetic';
+  let fs=sh*.3; x.font=`900 ${fs}px U`; while(x.measureText('HISTORIA').width>cx+sw/2-tx-10){fs-=2;x.font=`900 ${fs}px U`;}
+  x.fillStyle='#fff'; x.fillText('HISTORIA',tx,cy+fs*.12);
+  const pf=fs*.3; x.font=`800 ${pf}px U`; const t='L’ACTU EN 1 MINUTE', pw=x.measureText(t).width+pf*1.4;
+  x.fillStyle=L; x.beginPath(); x.roundRect(tx,cy+fs*.35,pw,pf*1.7,pf*.85); x.fill(); x.fillStyle=B; x.fillText(t,tx+pf*.7,cy+fs*.35+pf*1.2);
+  x.fillStyle='#9a9a9a'; x.font=`600 ${pf*.8}px G`; x.fillText('Politique · Économie · Société — expliqué sans blabla',tx,cy+fs*.35+pf*3.1);
+  window.READY=true;
+});
+</script></body></html>
