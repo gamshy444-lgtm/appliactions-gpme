@@ -141,3 +141,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 
 ## 11 nov. — Historia #1 programmée
 - Wilfried : « on fait ça ». Vidéo programmée via Metricool sur historiax25, ce soir 19h (Paris), en mode notification (autoPublish false) pour qu'il ajoute Tombolo dans TikTok avant de publier. Légende + hashtags + crédits inclus.
+
+- Wilfried poste lui-même maintenant (13h). Le post Metricool de 19h reste en place (il a refusé que je le passe en brouillon) : ignorer la notif ou le supprimer. Ce soir : nouvelle vidéo Historia.
