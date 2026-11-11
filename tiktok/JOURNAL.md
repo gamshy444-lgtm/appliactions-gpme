@@ -160,3 +160,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Légende Insta + idée sondage en story donnés. RDV 17h pour l'épisode Bally Bagayoko.
 
 - Vidéo de présentation Historia (23 s, sans voix, texte à l'écran) : média politique, mais on parle de tout (éco, société, monde, sport). Bio Insta : Wilfried doit la coller lui-même (pas d'outil pour modifier un profil).
+
+- 16h46 : présentation programmée 16h52 en auto sur YouTube, Facebook, Instagram, TikTok (4 posts Metricool). Prochain sujet à décider (Bally Bagayoko ou autre).
