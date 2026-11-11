@@ -1,0 +1,35 @@
+[note] WebGL runs on software rendering (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftSh): 3D/CRT demos will be slow. macOS: LEMO_ANGLE=metal; Linux: needs GPU drivers. See core/README.md.
+w1 0/477  1s
+w0 0/477  1s
+w3 0/474  1s
+w2 0/477  1s
+w2 60/477  6s
+w1 60/477  6s
+w3 60/474  8s
+w0 60/477  11s
+w2 120/477  13s
+w1 120/477  14s
+w3 120/474  17s
+w2 180/477  20s
+w1 180/477  22s
+w0 120/477  23s
+w3 180/474  31s
+w1 240/477  32s
+w2 240/477  32s
+w0 180/477  37s
+w3 240/474  39s
+w1 300/477  39s
+w2 300/477  45s
+w1 360/477  47s
+w0 240/477  50s
+w3 300/474  50s
+w1 420/477  55s
+w2 360/477  58s
+w0 300/477  61s
+w3 360/474  64s
+w0 360/477  69s
+w2 420/477  69s
+w0 420/477  74s
+w3 420/474  75s
+done /home/user/appliactions-gpme/tiktok/historia/teddy-riner/out/video.mp4 1905 frames 84s
+done

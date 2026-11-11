@@ -129,3 +129,9 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Proposé 3 directions sur les mêmes images : A Éditorial (serif italique + or), B Gen-Z (Unbounded + vert acide), C République (Fraunces + bleu nuit/rouge).
 - Nouveau module de vote : carte « sondage » en verre dépoli avec barres. Bug sous-titres bloqués sur « 60 secondes » corrigé.
 - En attente : son choix A / B / C.
+
+## 11 nov. — Historia : choix B + vidéo finale
+- Wilfried choisit la **B** (Unbounded, vert acide). Demande : remplacer le rouge par la couleur opposée au jaune → violet électrique #8A4DFF. Typo B validée.
+- Musique demandée : « Tombolo » de Kalash → à ajouter directement dans TikTok (droits + son lié à la tendance). Le fichier contient voix + bruitages + tic-tac du timer.
+- Corrigé : accroche « 2027 » lisible (bandeau sombre + pastille violette), textes qui débordaient, logo HISTORIA coupé.
+- Livré : historia_teddy_riner.mp4 (63,5 s) + PUBLICATION.md.

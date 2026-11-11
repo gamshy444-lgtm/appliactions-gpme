@@ -12,14 +12,14 @@ const THEMES = {
   A: { name: 'Éditorial', sans: 'Geist', c: { bg: '#0B0D12', panel: '#10131A', ink: '#F3EEE6', honey: '#C9A45C', loss: '#D2453D', grey: '#8A8F9C', rule: 'rgba(255,255,255,.035)', margin: 'rgba(201,164,92,0)' },
        kw: 'serif', serif: 'ISerif', serifW: 400, serifIt: true, numF: px => `400 ${px * 1.25}px ISerif`, titleF: px => `italic 400 ${px * 1.2}px ISerif`, upper: false, capW: 600,
        grade: 'contrast(1.14) saturate(0.72) brightness(0.9) sepia(0.12)' },
-  B: { name: 'Gen-Z', sans: 'Unbounded', c: { bg: '#050505', panel: '#0B0B0B', ink: '#FFFFFF', honey: '#D4FF3A', loss: '#FF3B6B', grey: '#9A9A9A', rule: 'rgba(212,255,58,.05)', margin: 'rgba(0,0,0,0)' },
+  B: { name: 'Gen-Z', sans: 'Unbounded', c: { bg: '#050505', panel: '#0B0B0B', ink: '#FFFFFF', honey: '#D4FF3A', loss: '#8A4DFF', grey: '#9A9A9A', rule: 'rgba(212,255,58,.05)', margin: 'rgba(0,0,0,0)' },
        kw: 'pill', upper: true, capW: 800, numF: px => `900 ${px * .9}px Unbounded`, titleF: px => `900 ${px * .8}px Unbounded`,
        grade: 'contrast(1.18) saturate(1.1) brightness(0.92)' },
   C: { name: 'République', sans: 'Geist', c: { bg: '#081329', panel: '#0C1A36', ink: '#F7F4EE', honey: '#E2B254', loss: '#E1000F', grey: '#9AA6C2', rule: 'rgba(255,255,255,.04)', margin: 'rgba(225,0,15,.35)' },
        kw: 'underline', serif: 'Fraunces', serifW: 700, serifIt: true, upper: false, capW: 700, numF: px => `800 ${px}px Fraunces`, titleF: px => `700 ${px * 1.05}px Fraunces`,
        grade: 'contrast(1.12) saturate(0.8) brightness(0.92) hue-rotate(-6deg)' },
 };
-const TH = THEMES[(new URLSearchParams(location.search).get('theme') || 'A').toUpperCase()] || THEMES.A;
+const TH = THEMES[(new URLSearchParams(location.search).get('theme') || 'B').toUpperCase()] || THEMES.A;
 Object.assign(C, TH.c);
 const FONT = (w, px) => `${w} ${px}px ${TH.sans}, "Noto Color Emoji"`;
 const SERIF = px => `${TH.serifIt ? 'italic ' : ''}${TH.serifW} ${px}px ${TH.serif}, "Noto Color Emoji"`;
@@ -75,7 +75,7 @@ function buildCaps() {
 const capAt = t => { let c = null; for (const x of CAPT) if (t >= x.a - .04) c = x; return c && t < c.b + .05 ? c : null; };
 
 // ───────── drawing basics ─────────
-function text(s, x, y, font, color, align = 'left', base = 'alphabetic') { ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = base; ctx.fillText(s, x, y); }
+function text(s, x, y, font, color, align = 'left', base = 'alphabetic') { ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = base; const room = align === 'left' ? W - 60 - x : align === 'right' ? x - 60 : W - 120; ctx.fillText(s, x, y, Math.max(40, room)); }
 function tw(s, font) { ctx.font = font; return ctx.measureText(s).width; }
 function num(s, x, y, size, color, align = 'left') {   // fixed-width digits, so counters never jitter
   const f = TH.numF(size); ctx.font = f; const cw = ctx.measureText('0').width;
@@ -137,7 +137,7 @@ function lowerThird(t, t0, label, line, y = 1020) {
   const k = eo(seg(t, t0, t0 + .22)); if (k <= 0) return; ctx.save();
   const w = tw(label, FONT(900, 34)) + 36; ctx.fillStyle = C.honey; ctx.fillRect(X0, y, w * k, 58);
   if (k > .6) text(label, X0 + 18, y + 41, FONT(900, 34), C.bg);
-  ctx.globalAlpha = seg(t, t0 + .1, t0 + .3); text(line, X0, y + 98, FONT(500, 30), C.ink); ctx.restore();
+  ctx.globalAlpha = seg(t, t0 + .1, t0 + .3); let lp = 30; while (tw(line, FONT(500, lp)) > W - 2 * X0 && lp > 20) lp--; ctx.fillStyle = 'rgba(5,5,5,.78)'; ctx.fillRect(X0, y + 62, tw(line, FONT(500, lp)) + 28, lp + 26); text(line, X0 + 14, y + 98, FONT(500, lp), C.ink); ctx.restore();
 }
 function brackets(t, t0, x, y, w, h) {   // yellow corner brackets closing in (freeze frames)
   const k = eo(seg(t, t0, t0 + .25)); if (k <= 0) return; const L = 70, g = (1 - k) * 60;
@@ -164,7 +164,7 @@ function caption(t) {
       if (!hot) { ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 24; text(s, x, y, FONT(TH.capW, size), C.ink); ctx.shadowBlur = 0; x += tw(s, FONT(TH.capW, size)); continue; }
       const kw = eo(seg(t, t0 + .06, t0 + .26)), w = kwW(s, size);
       if (TH.kw === 'serif') { ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 24; text(s, x + 6, y, SERIF(size * 1.18), C.honey); ctx.shadowBlur = 0; }
-      else if (TH.kw === 'pill') { ctx.fillStyle = C.honey; ctx.beginPath(); ctx.roundRect(x, y - size * .9, (w - 6) * kw, size * 1.16, size * .58); ctx.fill(); text(s, x + size * .32, y, FONT(900, size), C.bg); }
+      else if (TH.kw === 'pill') { ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 24; text(s, x + size * .32, y, FONT(900, size), C.ink); ctx.shadowBlur = 0; ctx.save(); ctx.fillStyle = C.honey; ctx.beginPath(); ctx.roundRect(x, y - size * .9, Math.max(size * 1.16, (w - 6) * kw), size * 1.16, size * .58); ctx.fill(); ctx.clip(); text(s, x + size * .32, y, FONT(900, size), C.bg); ctx.restore(); }
       else { ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 24; text(s, x + 6, y, SERIF(size * 1.08), C.honey); ctx.shadowBlur = 0; ctx.fillStyle = C.loss; ctx.fillRect(x + 6, y + size * .18, (w - 12) * kw, 7); }
       x += w;
     }
@@ -197,8 +197,12 @@ function S_hook(t, a, b) {
   if (t < cut) {
     photo('costume', lerp(1.0, 1.08, eo(seg(t, a, cut))), .5, .3); shade();
     // the biggest number lands at once and rolls to its value
-    const k = eo(seg(t, a, a + .45)); num(String(Math.round(lerp(1990, 2027, k))), X0, 600, 250, C.honey);
-    text('ÉLECTION PRÉSIDENTIELLE', X0, 660, FONT(800, 34), C.ink);
+    const g = ctx.createLinearGradient(0, 120, 0, 820); g.addColorStop(0, 'rgba(5,5,5,.0)'); g.addColorStop(.25, 'rgba(5,5,5,.78)'); g.addColorStop(.8, 'rgba(5,5,5,.78)'); g.addColorStop(1, 'rgba(5,5,5,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 120, W, 700);
+    const k = eo(seg(t, a, a + .45)); num(String(Math.round(lerp(1990, 2027, k))), X0, 560, 250, C.honey);
+    const kl = eo(seg(t, a + .3, a + .55)), lw = tw('ÉLECTION PRÉSIDENTIELLE', FONT(800, 32)) + 44;
+    ctx.fillStyle = C.loss; ctx.beginPath(); ctx.roundRect(X0, 600, lw * kl, 58, 29); ctx.fill();
+    if (kl > .6) text('ÉLECTION PRÉSIDENTIELLE', X0 + 22, 641, FONT(800, 32), C.ink);
     sourceTag(t, a + .5, 'Le Parisien · 09.11.2026 · candidature annoncée');
     credit('costume');
   } else {
@@ -212,7 +216,7 @@ function S_logo(t, a, b) {   // title sting: a honey ruled page wipes over the p
   ctx.save(); ctx.beginPath(); ctx.rect(0, 380, pw, 560); ctx.clip();
   ctx.strokeStyle = 'rgba(14,14,12,.12)'; ctx.lineWidth = 2; for (let y = 434; y < 940; y += 54) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
   const s = lerp(1.25, 1, back(seg(t, a + .25, a + .4), 1.6));
-  ctx.translate(X0, 640); ctx.scale(s, s); text('HISTORIA', 0, 0, FONT(900, 120), C.bg); ctx.restore();
+  ctx.translate(X0, 640); ctx.scale(s, s); let hs = 120; while (tw('HISTORIA', FONT(900, hs)) > W * .62 - X0 - 40) hs -= 4; text('HISTORIA', 0, 0, FONT(900, hs), C.bg); ctx.restore();
   ctx.save(); ctx.beginPath(); ctx.rect(0, 380, pw, 560); ctx.clip();
   text('L’actu en une minute.', X0, 720, FONT(700, 42), C.bg);
   ctx.fillStyle = C.bg; ctx.fillRect(X0, 780, 360, 54); text('11.11.2026 · ÉDITION 1', X0 + 16, 817, FONT(800, 26), C.honey); ctx.restore();
@@ -241,7 +245,7 @@ function S_h35(t, a, b) {
   ledger(t, a); cardTitle(t, a, 'Les 35 heures', 'Elles restent la référence'); sourceTag(t, a + .6, 'Presse · premières propositions');
   const k = eo(seg(t, a + .3, a + .8)); ctx.save(); ctx.globalAlpha = k;
   num('35', X0 - 8, 860, 430, C.honey); text('HEURES', X0 + 4, 940, FONT(900, 72), C.ink); ctx.restore();
-  const k2 = eo(seg(t, a + (b - a) * .3, a + (b - a) * .3 + .25)); if (k2 > 0) { ctx.globalAlpha = k2; ctx.fillStyle = C.ink; ctx.fillRect(X0, 990, 560, 70); text('+ HEURES SUP POSSIBLES', X0 + 20, 1038, FONT(900, 34), C.bg); ctx.globalAlpha = 1; }
+  const k2 = eo(seg(t, a + (b - a) * .3, a + (b - a) * .3 + .25)); if (k2 > 0) { ctx.globalAlpha = k2; ctx.fillStyle = C.ink; ctx.fillRect(X0, 990, tw('+ HEURES SUP POSSIBLES', FONT(900, 30)) + 40, 70); text('+ HEURES SUP POSSIBLES', X0 + 20, 1036, FONT(900, 30), C.bg); ctx.globalAlpha = 1; }
   const tl = a + (b - a) * .62;
   if (t > tl) { const p = back(seg(t, tl, tl + .3), 2); ctx.save(); ctx.translate(820, 640); ctx.scale(p, p); ctx.fillStyle = C.loss; ctx.beginPath(); ctx.arc(0, 0, 110, 0, 7); ctx.fill(); ctx.font = '120px "Noto Color Emoji"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#000'; ctx.fillText('👍', 0, 8); ctx.restore(); text('liké par ton patron', 820, 800, FONT(800, 30), C.ink, 'center'); }
 }
@@ -313,7 +317,7 @@ function S_vote(t, a, b) {
     const yy = y + 200 + i * 100, kk = eio(seg(t, a + d, a + d + .9)), bw = w - 80;
     ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.beginPath(); ctx.roundRect(x + 40, yy, bw, 76, 38); ctx.fill();
     ctx.fillStyle = col; ctx.globalAlpha = k * .9; ctx.beginPath(); ctx.roundRect(x + 40, yy, Math.max(76, bw * fill * kk), 76, 38); ctx.fill(); ctx.globalAlpha = k;
-    text(TH.upper ? lab.toUpperCase() : lab, x + 72, yy + 52, FONT(800, 36), C.bg);
+    text(TH.upper ? lab.toUpperCase() : lab, x + 72, yy + 52, FONT(800, 36), i ? C.ink : C.bg);
     text('?', x + 40 + bw - 32, yy + 52, FONT(800, 36), C.ink, 'right');
   });
   ctx.restore();
