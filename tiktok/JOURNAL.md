@@ -149,3 +149,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 
 - Maison Arc (ancienne marque bijoux) : terminé. Nouvelle DA Historia partout.
 - Metricool historiax25 relie maintenant : TikTok historiax25, Facebook (page 1434029753132395, encore « Maison Arc »), Instagram (@maboutique.bijouxvoyage), YouTube. Aucun outil ne permet de changer nom/photo d'une page → guidé Wilfried pour le faire dans Facebook.
+
+- 15h37 : Teddy programmé via Metricool pour 15h45 — YouTube Short (auto, sans musique), Instagram Reel @historiax225 et Facebook Reel (notification → Wilfried ajoute Tombolo). Ajout auto de musique Instagram refusé par l'API (Authorization Error). L'ancien post TikTok 19h reste à ignorer.
