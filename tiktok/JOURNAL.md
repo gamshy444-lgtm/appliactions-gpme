@@ -154,3 +154,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 
 - 15h45 : Teddy publié sur YouTube Short (vaoOdmu1VmE), Facebook Reel, Instagram Reel (sans musique).
 - Nouvelle règle de publication : YouTube + Facebook = Claude via Metricool (limite 20 posts/mois → ~10 vidéos) ; Instagram + TikTok = Wilfried à la main (avec son tendance).
+- Correction : Instagram PAS publié (mode notification, pas d'appli Insta). Teddy en ligne seulement sur TikTok, Facebook et YouTube. Wilfried postera Insta à la main.
