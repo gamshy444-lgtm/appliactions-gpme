@@ -167,3 +167,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Bally : Wilfried veut un meilleur hook + nouvelle typo (Unbounded rejeté pour les chiffres). Ajout sous-titres mot à mot (karaoké), hook visage net + « CE MAIRE VEUT METTRE TON SMIC À… 1 700 € ». 2 typos proposées : TikTok Sans / Archivo Black. Rien publié tant qu'il n'a pas validé.
 
 - 18h05 : sous-titres recalés avec un vrai alignement forcé (espeak-ng + DTW, tools/falign.py) — l'alignement par syllabes était faux. Bally programmée 18h30 (4 réseaux, version corrigée), MC Pao programmée 21h30 (4 réseaux, motion design sans photo de lui : aucune photo libre). Sans musique aujourd'hui (test). Objectif : 2 000 vues.
+
+- MC Pao = TEST STYLE 2 : typo Inter (display, interlettrage serré, minuscules), sous-titres un mot à la fois, transition poussée vers le haut, hook « Et si le président… c'était lui ?! » sur la photo du jet. Anton refusé par Wilfried. Photos de MC Pao fournies par Wilfried (il assume le risque droits). Bally = style 1. Comparer les vues.
