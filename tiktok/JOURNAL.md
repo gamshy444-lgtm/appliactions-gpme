@@ -138,3 +138,6 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 
 ## 11 nov. — Historia : photo de profil
 - Wilfried demande une pdp. 3 propositions en style B : (1) H + anneau timer 60 s, (2) H noir sur vert + pastille 60s, (3) logo HISTORIA + « L'actu en 1 min ». Conseillé : 1.
+
+## 11 nov. — Historia #1 programmée
+- Wilfried : « on fait ça ». Vidéo programmée via Metricool sur historiax25, ce soir 19h (Paris), en mode notification (autoPublish false) pour qu'il ajoute Tombolo dans TikTok avant de publier. Légende + hashtags + crédits inclus.
