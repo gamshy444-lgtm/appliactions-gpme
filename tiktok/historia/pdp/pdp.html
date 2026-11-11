@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:U;src:url("../teddy-riner/fonts/Unbounded.ttf");font-weight:200 900}
+html,body{margin:0;background:#050505}canvas{display:block}</style></head><body><canvas id="c" width="1080" height="1080"></canvas>
+<script>
+const v=new URLSearchParams(location.search).get('v')||'1', c=document.getElementById('c'), x=c.getContext('2d');
+const L='#D4FF3A', V='#8A4DFF', B='#050505', W='#FFFFFF';
+document.fonts.load('900 100px U').then(()=>{
+  const cx=540, cy=540;
+  if(v==='1'){ // black, lime H, 60-second ring (violet tick at the top)
+    x.fillStyle=B;x.fillRect(0,0,1080,1080);
+    x.lineWidth=34;x.strokeStyle='#1c1c1c';x.beginPath();x.arc(cx,cy,400,0,7);x.stroke();
+    x.strokeStyle=L;x.lineCap='round';x.beginPath();x.arc(cx,cy,400,-Math.PI/2,-Math.PI/2+Math.PI*2*.78);x.stroke();
+    x.fillStyle=V;x.beginPath();x.arc(cx,cy-400,30,0,7);x.fill();
+    x.fillStyle=L;x.font='900 520px U';x.textAlign='center';x.textBaseline='middle';x.fillText('H',cx,cy+30);
+  } else if(v==='2'){ // lime disc, black H, violet 60
+    x.fillStyle=L;x.fillRect(0,0,1080,1080);
+    x.fillStyle=B;x.font='900 560px U';x.textAlign='center';x.textBaseline='middle';x.fillText('H',cx,cy+20);
+    x.fillStyle=V;x.beginPath();x.roundRect(cx+100,cy+200,300,140,70);x.fill();
+    x.fillStyle=W;x.font='900 96px U';x.fillText('60s',cx+250,cy+275);
+  } else { // black, wordmark in a lime pill, violet underline
+    x.fillStyle=B;x.fillRect(0,0,1080,1080);
+    x.fillStyle=L;x.beginPath();x.roundRect(110,440,860,190,95);x.fill();
+    x.fillStyle=B;x.font='900 118px U';x.textAlign='center';x.textBaseline='middle';x.fillText('HISTORIA',cx,cy+0);
+    x.fillStyle=V;x.beginPath();x.roundRect(200,670,680,100,50);x.fill();
+    x.fillStyle=W;x.font='800 48px U';x.fillText('L’ACTU EN 1 MIN',cx,722);
+  }
+  window.READY=true;
+});
+</script></body></html>

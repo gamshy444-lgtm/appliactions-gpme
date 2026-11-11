@@ -135,3 +135,6 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Musique demandée : « Tombolo » de Kalash → à ajouter directement dans TikTok (droits + son lié à la tendance). Le fichier contient voix + bruitages + tic-tac du timer.
 - Corrigé : accroche « 2027 » lisible (bandeau sombre + pastille violette), textes qui débordaient, logo HISTORIA coupé.
 - Livré : historia_teddy_riner.mp4 (63,5 s) + PUBLICATION.md.
+
+## 11 nov. — Historia : photo de profil
+- Wilfried demande une pdp. 3 propositions en style B : (1) H + anneau timer 60 s, (2) H noir sur vert + pastille 60s, (3) logo HISTORIA + « L'actu en 1 min ». Conseillé : 1.
