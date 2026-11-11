@@ -77,7 +77,7 @@ function karaoke(t) { // word-by-word captions, 3-word groups, current word on a
   const groups = []; let g = [];
   WORDS.forEach((w, j) => { g.push(j); if (g.length === 3 || /[.!?…:,]$/.test(w.w)) { groups.push(g); g = []; } }); if (g.length) groups.push(g);
   const grp = groups.find(gg => gg.includes(i));
-  const px = 64, f = F(800, px), sp = 20, ws = grp.map(j => WORDS[j].w.toUpperCase().replace(/…/g, '')), wd = ws.map(w => tw(w, f));
+  let px = 64; const sp = 20, ws = grp.map(j => WORDS[j].w.toUpperCase().replace(/[…«»]/g, '').trim()); while (ws.reduce((s, w) => s + tw(w, F(800, px)), 0) + sp * (ws.length - 1) > W - 140 && px > 36) px -= 2; const f = F(800, px), wd = ws.map(w => tw(w, f));
   const total = wd.reduce((a, b) => a + b, 0) + sp * (ws.length - 1); let x = (W - total) / 2; const y = 1330;
   const k = eo(seg(t, WORDS[grp[0]].t, WORDS[grp[0]].t + .12)); ctx.save(); ctx.translate(W / 2, y); ctx.scale(lerp(.9, 1, k), lerp(.9, 1, k)); ctx.translate(-W / 2, -y);
   ws.forEach((w, n) => { const j = grp[n], on = j === i, said = j <= i, lift = on ? eo(seg(t, WORDS[j].t, WORDS[j].t + .1)) : 0;
@@ -138,6 +138,8 @@ export function render(t) {
 export async function boot(photos) {
   await Promise.all(photos.map(n => new Promise(r => { const im = new Image(); im.onload = () => { IM[n] = im; r(); }; im.onerror = r; im.src = `photos/${n}.jpg`; })));
   await Promise.all([900, 800, 700].map(w => document.fonts.load(F(w, 60))).concat([document.fonts.load(G(600, 24))]));
-  WORDS.push(...(await (await fetch('words.json')).json()).filter(w => !/^[«»]$/.test(w.w)));
+  { const raw = await (await fetch('words.json')).json(), out = [];
+    for (const w of raw) { if (/^[«»:;?!.,]+$/.test(w.w)) { if (out.length && /[?!]/.test(w.w)) out[out.length - 1].w += ' ' + w.w.replace(/[«».,:;]/g, ''); continue; } if (/^%/.test(w.w) && out.length) { out[out.length - 1].w += ' %'; continue; } out.push(w); }
+    WORDS.push(...out); }
 }
 export { clamp, lerp, seg, eo, eio, back };
