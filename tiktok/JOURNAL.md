@@ -117,3 +117,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - À récupérer : vues, durée moyenne de visionnage, % qui regardent jusqu'au bout, likes/commentaires (TikTok Studio → Analyses de la vidéo).
 - **Nouveau concept : HISTORIA** — l'actu expliquée en 60 s, avec de vraies images et de vraies infos. 1re vidéo : « Imagine : Teddy Riner président » (candidature annoncée le 9 nov. 2026 dans Le Parisien). Script sourcé : historia/teddy-riner/SCRIPT.md.
 - Wilfried a refusé d'ouvrir l'accès réseau à Wikimedia Commons : il fournira les photos lui-même.
+- Historia / Teddy Riner : réseau ouvert à Wikimedia (accepté par Wilfried) → 12 photos libres + 3 envoyées par Wilfried (smoking Cannes 2016, médaille Rio, JO 2012). Crédits : historia/teddy-riner/photos/CREDITS.txt.
+- Wilfried : texte plus drôle, petites blagues et références actuelles ; fin : « abonnez-vous » + « dites-nous qui on imagine président la prochaine fois ». Texte réécrit (timeline.js), Wilfried génère la voix sur ElevenLabs.
