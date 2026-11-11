@@ -111,3 +111,7 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried : « et il entend un gros bruit derrière ». Ajouté : un fracas (assiette contre le mur, chaise qui tombe) pendant la dispute ; le petit sursaute, ne se retourne pas, monte le son.
 - Wilfried : « fais tout un épisode avec 3 parties mais une vraie intrigue ». Histoire complète écrite : serie-qui-ment-le-mieux/HISTOIRE.md (vrai père = l'oncle Daniel, cartes postales écrites par le père, la mère qui découpait les photos et a tout organisé, le fils qui avait tout entendu). En attente de validation avant les voix et les images.
 - Wilfried valide l'histoire (« ouais pas mal »). Kit de production de la partie 1 : serie-qui-ment-le-mieux/P1_PRODUCTION.md (3 voix, 6 images).
+
+## 11 novembre — bilan
+- Wilfried : « la vidéo n'a pas du tout marché… on va changer de concept, du tout. »
+- À récupérer : vues, durée moyenne de visionnage, % qui regardent jusqu'au bout, likes/commentaires (TikTok Studio → Analyses de la vidéo).
