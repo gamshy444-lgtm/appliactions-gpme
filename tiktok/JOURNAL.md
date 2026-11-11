@@ -175,3 +175,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - 19h02 : MC Pao finale remplacée dans Metricool, programmée 21h00 sur les 4 réseaux. Bally publiée sur les 4 (TikTok 7706967890196434198, Insta DfnBdfZjTQC, YouTube p9-ZwaEBHTk, Facebook 1101682369360778).
 
 - Wilfried envoie le zip « my-claude-code-setup » (centminmod) : skill principal utile pour Historia = ai-image-creator (génération d'images via OpenRouter), installé dans .claude/skills. Nécessite une clé OpenRouter (payante) + accès réseau openrouter.ai.
+- Zip « ui-ux-pro-max » : skill principal ui-ux-pro-max installé dans .claude/skills (base locale : 74 paires de typos, 192 palettes, styles, règles UX). Scripts 100 % locaux, pas d'accès réseau.
