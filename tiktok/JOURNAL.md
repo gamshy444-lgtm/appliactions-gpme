@@ -157,3 +157,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Correction : Instagram PAS publié (mode notification, pas d'appli Insta). Teddy en ligne seulement sur TikTok, Facebook et YouTube. Wilfried postera Insta à la main.
 
 - Bannière YouTube (2560×1440) + couverture Facebook (1640×624) + bio Insta (BIO.md), style B.
+- Légende Insta + idée sondage en story donnés. RDV 17h pour l'épisode Bally Bagayoko.
