@@ -173,3 +173,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - MC Pao final : retour typo Unbounded (DA Teddy/Bally) à la demande de Wilfried (Inter refusé), nouveau hook jet gardé, + photo tracteur libre (NightThree CC BY 2.0) et photo chaîne sur la scène rap. Pas d'image libre du ZEvent trouvée (API Commons limitée).
 - MC Pao : + photos libres ZEvent (Mickaël Schauli), Élysée (Leynadmar), salle de classe (Pierre Poschadel), toutes CC BY-SA 4.0. Mise à jour Metricool refusée 2 fois par l'autorisation : Wilfried doit valider ou remplacer lui-même.
 - 19h02 : MC Pao finale remplacée dans Metricool, programmée 21h00 sur les 4 réseaux. Bally publiée sur les 4 (TikTok 7706967890196434198, Insta DfnBdfZjTQC, YouTube p9-ZwaEBHTk, Facebook 1101682369360778).
+
+- Wilfried envoie le zip « my-claude-code-setup » (centminmod) : skill principal utile pour Historia = ai-image-creator (génération d'images via OpenRouter), installé dans .claude/skills. Nécessite une clé OpenRouter (payante) + accès réseau openrouter.ai.
