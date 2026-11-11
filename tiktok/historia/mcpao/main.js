@@ -8,7 +8,7 @@ const C = { bg: '#050505', ink: '#FFFFFF', lime: '#D4FF3A', vio: '#8A4DFF', grey
 const FAM = new URLSearchParams(location.search).get('font') || 'U', FS = { TT: 1.08, AB: .92, U: 1, AN: 1.22, IN: 1.02 }[FAM] || 1;
 const X0 = 72, F = (w, px) => `${FAM === 'AB' || FAM === 'AN' ? 400 : w} ${Math.round(px * FS)}px ${FAM}`, G = (w, px) => `${w} ${px}px G`;
 const IM = {};
-const PH = { parade: ['Eric Salard · CC BY-SA 2.0', .5, .4], chain: ['DR', .38, .28], jet: ['DR · Instagram', .55, .3], bfm: ['CAPTURE BFMTV', .5, .35], forbes: ['FORBES ITALIA · 2018', .5, .4], tractor: ['NightThree · CC BY 2.0', .5, .5], zevent: ['Mickaël Schauli · CC BY-SA 4.0', .35, .45], elysee: ['Leynadmar · CC BY-SA 4.0', .5, .5], ecole: ['Pierre Poschadel · CC BY-SA 4.0', .5, .5] };
+const PH = { parade: ['Eric Salard · CC BY-SA 2.0', .5, .4], chain: ['DR', .38, .28], jet: ['DR · Instagram', .55, .3], bfm: ['CAPTURE BFMTV', .5, .35], forbes: ['FORBES ITALIA · 2018', .5, .4], tractor: ['NightThree · CC BY 2.0', .5, .5], zevent: ['Mickaël Schauli · CC BY-SA 4.0', .35, .45], elysee: ['Leynadmar · CC BY-SA 4.0', .5, .5], ecole: ['Pierre Poschadel · CC BY-SA 4.0', .5, .5], gsd: ['Mapillary · Wikimedia Commons', .4, .55], hopital: ['Wikimedia Commons', .5, .5] };
 function text(s, x, y, font, color, align = 'left') { ctx.font = font; { const px = +(/(\d+)px/.exec(font) || [0, 0])[1]; ctx.letterSpacing = FAM === 'IN' && px >= 40 ? Math.round(-px * .022) + 'px' : '0px'; } ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'alphabetic'; const room = align === 'left' ? W - 60 - x : align === 'right' ? x - 60 : W - 120; ctx.fillText(s, x, y, Math.max(40, room)); }
 function tw(s, font) { ctx.font = font; { const px = +(/(\d+)px/.exec(font) || [0, 0])[1]; ctx.letterSpacing = FAM === 'IN' && px >= 40 ? Math.round(-px * .022) + 'px' : '0px'; } return ctx.measureText(s).width; }
 function photo(n, z, filt = 'contrast(1.15) saturate(1.05) brightness(.82)') {
@@ -19,19 +19,24 @@ function photo(n, z, filt = 'contrast(1.15) saturate(1.05) brightness(.82)') {
 function credit(n) { const s = 'PHOTO ' + PH[n][0]; ctx.font = G(600, 22); const w = ctx.measureText(s).width + 20; ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(W - 40 - w, 230, w, 34); text(s, W - 50, 254, G(600, 22), 'rgba(255,255,255,.8)', 'right'); }
 function shade(a = .88) { const g = ctx.createLinearGradient(0, 760, 0, H); g.addColorStop(0, 'rgba(5,5,5,0)'); g.addColorStop(.45, `rgba(5,5,5,${a})`); g.addColorStop(1, 'rgba(5,5,5,.97)'); ctx.fillStyle = g; ctx.fillRect(0, 760, W, H - 760); const t = ctx.createLinearGradient(0, 0, 0, 320); t.addColorStop(0, 'rgba(5,5,5,.7)'); t.addColorStop(1, 'rgba(5,5,5,0)'); ctx.fillStyle = t; ctx.fillRect(0, 0, W, 320); }
 function ground() { ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H); ctx.strokeStyle = 'rgba(212,255,58,.045)'; ctx.lineWidth = 2; for (let y = 0; y < H; y += 80) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); } }
+const expo = x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x);
+// ui-ux-pro-max « Stagger List · Complex » preset: per-character reveal, expo.out, 0.6 s, 15 ms stagger, y 20 (headlines < 8 words)
 function slam(t, t0, line, y, size = 84, col = C.ink, align = 'left') {
-  if (t < t0) return; const k = eo(seg(t, t0, t0 + .16)); const parts = line.split(/(\{[^}]+\})/).filter(Boolean);
+  if (t < t0) return; const parts = line.split(/(\{[^}]+\})/).filter(Boolean);
   const wOf = q => q[0] === '{' ? tw(q.slice(1, -1), F(900, size)) + size * .64 + 10 : tw(q, F(900, size));
-  let x = align === 'center' ? (W - parts.reduce((s, q) => s + wOf(q), 0)) / 2 : X0;
-  ctx.save(); ctx.globalAlpha = clamp(k * 3); ctx.translate(0, (1 - k) * 28);
+  let x = align === 'center' ? (W - parts.reduce((s, q) => s + wOf(q), 0)) / 2 : X0, ci = 0;
   for (const q of parts) {
     const hot = q[0] === '{', s = hot ? q.slice(1, -1) : q, f = F(900, size);
-    if (hot) { const kw = eo(seg(t, t0 + .06, t0 + .26)), w = tw(s, f); ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 20; text(s, x + size * .32, y, f, C.ink); ctx.shadowBlur = 0;
-      ctx.save(); ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(x, y - size * .9, Math.max(size * 1.1, (w + size * .64) * kw), size * 1.16, size * .58); ctx.fill(); ctx.clip(); text(s, x + size * .32, y, f, C.bg); ctx.restore(); }
-    else { ctx.shadowColor = 'rgba(0,0,0,.7)'; ctx.shadowBlur = 24; text(s, x, y, f, col); ctx.shadowBlur = 0; }
+    if (hot) { const st = t0 + ci * .015, k = expo(seg(t, st, st + .6)), kw = expo(seg(t, st + .05, st + .45)), w = tw(s, f);
+      ctx.save(); ctx.globalAlpha = clamp(k * 2); ctx.translate(0, (1 - k) * 20);
+      ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(x, y - size * .9, Math.max(size * 1.1, (w + size * .64) * kw), size * 1.16, size * .58); ctx.fill();
+      text(s, x + size * .32, y, f, C.bg); ctx.restore(); ci += s.length; }
+    else { ctx.font = f; let cx = x;
+      for (const ch of s) { const st = t0 + ci * .015, k = expo(seg(t, st, st + .6)); ctx.font = f; const cw = ctx.measureText(ch).width;
+        if (k > 0) { ctx.save(); ctx.globalAlpha = clamp(k * 1.6); ctx.translate(cx + cw / 2, y + (1 - k) * 20); ctx.scale(1, lerp(.6, 1, k)); ctx.shadowColor = 'rgba(0,0,0,.7)'; ctx.shadowBlur = 24; ctx.textAlign = 'center'; ctx.fillStyle = col; ctx.fillText(ch, 0, 0); ctx.restore(); }
+        cx += cw; ci++; } }
     x += wOf(q);
   }
-  ctx.restore();
 }
 function pill(t, t0, s, x, y, bg = C.vio, fg = C.ink, px = 34) {
   const k = back(seg(t, t0, t0 + .25), 1.8); if (k <= 0) return; const w = tw(s, F(800, px)) + px * 1.4;
@@ -88,11 +93,11 @@ const S = [
     pill(t, a + 1.8, 'À L’ÉLYSÉE ?', X0, 1140, C.vio, C.ink, 40);
   }],
   [7.72, (t, a, b) => { // ID card
-    ground(); const k = eo(seg(t, a, a + .3)); ctx.save(); ctx.globalAlpha = k; ctx.translate(0, (1 - k) * 60);
+    photo('gsd', lerp(1.0, 1.1, seg(t, a, b)), `contrast(1.1) saturate(1.05) brightness(${t > 9.64 ? lerp(.3, .55, seg(t, 9.64, 10.1)) : .3})`); credit('gsd'); const k = eo(seg(t, a, a + .3)); ctx.save(); ctx.globalAlpha = k; ctx.translate(0, (1 - k) * 60);
     ctx.fillStyle = C.card; ctx.strokeStyle = 'rgba(212,255,58,.35)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(X0, 360, W - 2 * X0, 640, 40); ctx.fill(); ctx.stroke();
-    text('FICHE D’IDENTITÉ', X0 + 50, 440, F(800, 30), C.grey); ITA(X0 + 370, 412, 60, 36);
+    text('FICHE D’IDENTITÉ', X0 + 50, 440, F(800, 30), C.grey); ITA(X0 + 480, 412, 60, 36);
     { const im = IM.forbes; if (im) { const s = 240, sx = im.width * .12, sw = im.width * .76; ctx.save(); ctx.beginPath(); ctx.roundRect(W - X0 - 50 - s, 400, s, s, 20); ctx.clip(); ctx.drawImage(im, sx, 0, sw, sw, W - X0 - 50 - s, 400, s, s); ctx.restore(); text('FORBES · 30 UNDER 30', W - X0 - 50 - s / 2, 670, F(800, 20), C.lime, 'center'); } }
-    text('Paolo Rotelli', X0 + 50, 540, F(900, 76), C.ink); pill(t, a + .3, 'ALIAS MC PAO', X0 + 50, 610, C.lime, C.bg, 30);
+    text('Paolo Rotelli', X0 + 50, 535, F(900, 58), C.ink); pill(t, a + .3, 'ALIAS MC PAO', X0 + 50, 610, C.lime, C.bg, 30);
     if (t > 9.64) { const kk = eo(seg(t, 9.64, 10.1)); ctx.globalAlpha = k * kk; iconTile(t, 9.64, 'cross', X0 + 50, 700, 120); text('Ex-président du', X0 + 200, 735, F(700, 34), C.grey); text('1er groupe d’hôpitaux', X0 + 200, 800, F(900, 44), C.ink); text('privés d’Italie', X0 + 200, 865, F(900, 44), C.ink); }
     ctx.restore(); source(t, a + .3, 'franceinfo · gpaslaref · 75secondes');
   }],
@@ -115,7 +120,7 @@ const S = [
     if (t > 24.04) { source(t, 24.04, 'BFMTV · Forum « Dette : qui va passer à la caisse ? »'); quote(t, 25.85, ['Sans les milliardaires,', 'vous n’auriez pas tous', 'les services essentiels', 'à votre confort.'], 640); }
   }],
   [29.35, (t, a, b) => { // hôpital, école, retraite
-    photo('ecole', lerp(1.0, 1.08, seg(t, a, b)), 'contrast(1.05) saturate(.9) brightness(.3)'); credit('ecole'); [['cross', 'Ton hôpital'], ['book', 'Ton école'], ['clock', 'Ta retraite']].forEach(([ic, l], i) => { const t0 = a + i * .6; iconTile(t, t0, ic, X0, 380 + i * 210, 160); if (t > t0) { ctx.save(); ctx.translate(190, 0); slam(t, t0 + .05, l, 485 + i * 210, 60); ctx.restore(); } });
+    { const sw = a + .6; if (t < sw) { photo('hopital', lerp(1.0, 1.06, seg(t, a, sw)), 'contrast(1.05) saturate(.9) brightness(.35)'); credit('hopital'); } else { photo('ecole', lerp(1.0, 1.08, seg(t, sw, b)), 'contrast(1.05) saturate(.9) brightness(.3)'); credit('ecole'); } } [['cross', 'Ton hôpital'], ['book', 'Ton école'], ['clock', 'Ta retraite']].forEach(([ic, l], i) => { const t0 = a + i * .6; iconTile(t, t0, ic, X0, 380 + i * 210, 160); if (t > t0) { ctx.save(); ctx.translate(190, 0); slam(t, t0 + .05, l, 485 + i * 210, 60); ctx.restore(); } });
     if (t > 31.60) { const k = back(seg(t, 31.60, 31.86), 2), s = lerp(1.8, 1, k); ctx.save(); ctx.translate(W / 2, 1100); ctx.rotate(-.05); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.vio; ctx.fillRect(-420, -70, 840, 120); text('MERCI LES MILLIARDAIRES ?', 0, 14, F(900, 46), C.ink, 'center'); ctx.restore(); }
   }],
   [33.30, (t, a, b) => { // petit détail: italien
@@ -163,6 +168,12 @@ function render(t) {
   // vignette for depth
   const vg = ctx.createRadialGradient(W / 2, H * .45, H * .3, W / 2, H * .45, H * .75); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.45)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
   karaoke(t);
+  if (t > .8 && t < 33.3) { // open loop — keeps people until the reveal
+    const p = .5 + .5 * Math.sin(t * 6), k = eo(seg(t, .8, 1.1)), lab = 'DÉTAIL CHOC À LA FIN 👀'.replace(' 👀', ''), f = F(800, 24), w = tw(lab, f) + 70;
+    ctx.save(); ctx.globalAlpha = k; ctx.fillStyle = C.vio; ctx.beginPath(); ctx.roundRect(W - X0 - w, 1700, w, 56, 28); ctx.fill();
+    ctx.fillStyle = C.lime; ctx.globalAlpha = k * (.5 + .5 * p); ctx.beginPath(); ctx.arc(W - X0 - w + 28, 1728, 9, 0, 7); ctx.fill(); ctx.globalAlpha = k;
+    text(lab, W - X0 - w + 48, 1737, f, C.ink); ctx.restore();
+  }
   if (i === 0) { ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W * t / DUR, 8); return; }
   ctx.globalAlpha = 1; ctx.fillStyle = C.lime; ctx.fillRect(X0, 120, 196, 50); text('HISTORIA', X0 + 98, 156, F(900, 24), C.bg, 'center');
   text('PRÉSIDENTIELLE 2027', X0 + 216, 155, F(800, 24), C.ink);
