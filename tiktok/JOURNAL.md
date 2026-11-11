@@ -165,3 +165,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - 16h52 : présentation PUBLIÉE sur les 4 (Insta reel Dfm2NmOjuNh, TikTok 7706942493002042646, YouTube nnUo2vycz6o, Facebook 1493391462688340). La publication auto Insta + TikTok via Metricool fonctionne.
 
 - Bally : Wilfried veut un meilleur hook + nouvelle typo (Unbounded rejeté pour les chiffres). Ajout sous-titres mot à mot (karaoké), hook visage net + « CE MAIRE VEUT METTRE TON SMIC À… 1 700 € ». 2 typos proposées : TikTok Sans / Archivo Black. Rien publié tant qu'il n'a pas validé.
+
+- 18h05 : sous-titres recalés avec un vrai alignement forcé (espeak-ng + DTW, tools/falign.py) — l'alignement par syllabes était faux. Bally programmée 18h30 (4 réseaux, version corrigée), MC Pao programmée 21h30 (4 réseaux, motion design sans photo de lui : aucune photo libre). Sans musique aujourd'hui (test). Objectif : 2 000 vues.
