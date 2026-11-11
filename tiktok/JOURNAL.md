@@ -185,3 +185,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Il ne veut plus qu'on lui demande avant de poster : je publie moi-même via Metricool aux heures prévues.
 - Motion design à refaire en mieux (tout peut changer sauf les couleurs). Photos : je les trouve moi-même (Commons).
 - Textes : tiktok/historia/SCRIPTS_12nov.md
+- 12 nov : Mélenchon/Lisnard/Le Pen montés sur engine v3 (photos Commons à chaque idée, alignement forcé, zéro écran noir).
