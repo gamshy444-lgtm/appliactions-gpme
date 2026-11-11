@@ -158,3 +158,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 
 - Bannière YouTube (2560×1440) + couverture Facebook (1640×624) + bio Insta (BIO.md), style B.
 - Légende Insta + idée sondage en story donnés. RDV 17h pour l'épisode Bally Bagayoko.
+
+- Vidéo de présentation Historia (23 s, sans voix, texte à l'écran) : média politique, mais on parle de tout (éco, société, monde, sport). Bio Insta : Wilfried doit la coller lui-même (pas d'outil pour modifier un profil).
