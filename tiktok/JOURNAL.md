@@ -179,3 +179,9 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - llmfit-advisor installé (.claude/skills). Recherche de skills « rétention » : meilleurs trouvés = plugin Social Media Skills (hook-writer, short-form-video-script, viral-reverse-engineering, captions-and-clipping, tiktok-script) + Virlo (tendances, sons viraux). Carte d'installation proposée à Wilfried.
 - MC Pao v-finale : skill ui-ux-pro-max utilisé (preset GSAP « Stagger List Complex » → titres lettre par lettre expo.out 0,6 s ; easing entrée décélérée ; icônes dessinées). + vrai Policlinico San Donato derrière la fiche, couloir d'hôpital, puce « DÉTAIL CHOC À LA FIN » (boucle ouverte pour la rétention). Plugin Social Media Skills pas installé par Wilfried.
 - MC Pao : boucle de revue lemo-opuscar (planches contact, blackdetect 0, -14 LUFS) → fonds éclaircis (scènes trop sombres). Plugins motion design proposés : Motion Reel, IT Reelsmaker, Remotion (pas encore installés).
+
+## 11 nov. soir — Plan du 12 nov.
+- Wilfried : Bally ne perce pas, MC Pao « pas ouf ». Dernière chance pour le format « Imagine si le président… » : Mélenchon (8h, programme encensé), Lisnard (14h, critique modérée), Le Pen (21h, critique appuyée). Si ça ne perce pas → nouveau hook / concept.
+- Il ne veut plus qu'on lui demande avant de poster : je publie moi-même via Metricool aux heures prévues.
+- Motion design à refaire en mieux (tout peut changer sauf les couleurs). Photos : je les trouve moi-même (Commons).
+- Textes : tiktok/historia/SCRIPTS_12nov.md
