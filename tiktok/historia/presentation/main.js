@@ -1,6 +1,6 @@
 // HISTORIA — présentation de la chaîne, 30 s, sans voix (texte à l'écran), style B (Unbounded, vert acide, violet).
 import { clamp, lerp, seg, eo, eio, back } from '/core/lib.js';
-const W = 1080, H = 1920, DUR = 23;
+const W = 1080, H = 1920, DUR = 20.4;
 const cv = document.getElementById('c'); cv.width = innerWidth; cv.height = innerHeight;
 const ctx = cv.getContext('2d'); const K = innerWidth / W;
 const C = { bg: '#050505', ink: '#FFFFFF', lime: '#D4FF3A', vio: '#8A4DFF', grey: '#9A9A9A' };
@@ -51,27 +51,27 @@ const S = [
     pill(t, a + .2, '🗳️ MÉDIA POLITIQUE', X0, 330, C.vio, C.ink, 34);
     slam(t, a + .4, 'On décrypte', 1160, 80);
     slam(t, a + 1.2, 'l’actu {politique}.', 1280, 80);
-    slam(t, a + 2.4, 'Simplement.', 1400, 80);
+    slam(t, a + 2.2, 'Simplement.', 1400, 80);
   }],
-  [9.0, (t, a, b) => { // on parle de tout
+  [7.45, (t, a, b) => { // on parle de tout
     ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H); rules();
     slam(t, a + .1, 'Mais on parle', 400, 80); slam(t, a + .6, 'de {tout}.', 510, 80);
     [['🗳️', 'Politique'], ['💶', 'Économie'], ['🏠', 'Société'], ['🌍', 'Monde'], ['⚽', 'Sport']].forEach(([e, s], i) => {
-      const t0 = a + 1.0 + i * .3, k = eo(seg(t, t0, t0 + .25)); if (k <= 0) return;
+      const t0 = a + 1.1 + i * .38, k = eo(seg(t, t0, t0 + .25)); if (k <= 0) return;
       const y = 680 + i * 170; ctx.save(); ctx.globalAlpha = k; ctx.translate((1 - k) * 80, 0);
       ctx.fillStyle = i ? '#111' : C.lime; ctx.beginPath(); ctx.roundRect(X0, y, W - 2 * X0, 136, 30); ctx.fill(); ctx.strokeStyle = 'rgba(212,255,58,.25)'; ctx.lineWidth = 2; ctx.stroke();
       ctx.font = '64px "Noto Color Emoji"'; ctx.fillStyle = '#000'; ctx.textAlign = 'left'; ctx.fillText(e, X0 + 40, y + 92);
       text(s, X0 + 140, y + 88, F(800, 50), i ? C.ink : C.bg); ctx.restore();
     });
   }],
-  [14.6, (t, a, b) => { // le format
+  [11.5, (t, a, b) => { // le format
     photo('hook', lerp(1.15, 1.03, eo(seg(t, a, b))), .35); shade();
     slam(t, a + .2, '1 sujet.', 1130, 84);
     slam(t, a + .9, '{1 minute}.', 1250, 84);
     slam(t, a + 1.6, 'Des vraies infos.', 1370, 84);
     pill(t, a + 2.3, 'SOURCES DANS LA LÉGENDE 📌', X0, 1530, C.vio, C.ink, 32);
   }],
-  [19.2, (t, a, b) => { // abonne-toi
+  [15.45, (t, a, b) => { // abonne-toi
     ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H); rules();
     const k = eo(seg(t, a, a + .4)); ring(W / 2, 640, 200, .78 + .22 * k, 28); text('H', W / 2, 735, F(900, 250), C.lime, 'center');
     slam(t, a + .3, 'Abonne-toi.', 1060, 96);
@@ -94,7 +94,7 @@ function render(t) {
 }
 window.DUR = DUR; window.render = render;
 const EV = S.slice(1).map(([t]) => ({ t, type: 'cut' }));
-EV.push({ t: 0.6, type: 'sting' }, { t: 19.2, type: 'sting' });
+EV.push({ t: 0.6, type: 'sting' }, { t: 15.45, type: 'sting' });
 window.EV = EV;
 (async () => {
   await Promise.all(['hook', 'parade'].map(n => new Promise(r => { const im = new Image(); im.onload = () => { IM[n] = im; r(); }; im.onerror = r; im.src = `photos/${n}.jpg`; })));
