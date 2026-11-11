@@ -146,3 +146,6 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 
 - Son Tombolo ajouté par Wilfried lui-même. Pas de brouillon Metricool nécessaire.
 - Idée épisode 2 (ce soir) : **Bally Bagayoko** (écrit « balybayoko » / « Bali by Haiku » en dictée).
+
+- Maison Arc (ancienne marque bijoux) : terminé. Nouvelle DA Historia partout.
+- Metricool historiax25 relie maintenant : TikTok historiax25, Facebook (page 1434029753132395, encore « Maison Arc »), Instagram (@maboutique.bijouxvoyage), YouTube. Aucun outil ne permet de changer nom/photo d'une page → guidé Wilfried pour le faire dans Facebook.
