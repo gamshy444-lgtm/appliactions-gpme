@@ -83,54 +83,54 @@ const S = [
     iconTile(t, a + .2, 'tractor', W / 2 - 85, 620, 170);
     credit('parade');
   }],
-  [4.46, (t, a, b) => { // milliardaire / rap / tracteurs
+  [4.48, (t, a, b) => { // milliardaire / rap / tracteurs
     ground(); [['euro', 'MILLIARDAIRE'], ['mic', 'RAPPEUR'], ['tractor', 'FAN DE TRACTEURS']].forEach(([ic, l], i) => { const t0 = a + i * .55; iconTile(t, t0, ic, X0, 420 + i * 230, 170); if (t > t0) { ctx.save(); ctx.translate(200, 0); slam(t, t0 + .05, l, 530 + i * 230, 54); ctx.restore(); } });
     pill(t, a + 1.8, 'À L’ÉLYSÉE ?', X0, 1140, C.vio, C.ink, 40);
   }],
-  [7.59, (t, a, b) => { // ID card
+  [7.72, (t, a, b) => { // ID card
     ground(); const k = eo(seg(t, a, a + .3)); ctx.save(); ctx.globalAlpha = k; ctx.translate(0, (1 - k) * 60);
     ctx.fillStyle = C.card; ctx.strokeStyle = 'rgba(212,255,58,.35)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(X0, 360, W - 2 * X0, 640, 40); ctx.fill(); ctx.stroke();
     text('FICHE D’IDENTITÉ', X0 + 50, 440, F(800, 30), C.grey); ITA(W - X0 - 170, 400, 120, 70);
     text('Paolo Rotelli', X0 + 50, 540, F(900, 76), C.ink); pill(t, a + .3, 'ALIAS MC PAO', X0 + 50, 610, C.lime, C.bg, 30);
-    if (t > 9.79) { const kk = eo(seg(t, 9.79, 10.1)); ctx.globalAlpha = k * kk; iconTile(t, 9.79, 'cross', X0 + 50, 700, 120); text('Ex-président du', X0 + 200, 750, F(700, 36), C.grey); text('1er groupe d’hôpitaux', X0 + 200, 800, F(900, 44), C.ink); text('privés d’Italie', X0 + 200, 850, F(900, 44), C.ink); }
+    if (t > 9.64) { const kk = eo(seg(t, 9.64, 10.1)); ctx.globalAlpha = k * kk; iconTile(t, 9.64, 'cross', X0 + 50, 700, 120); text('Ex-président du', X0 + 200, 750, F(700, 36), C.grey); text('1er groupe d’hôpitaux', X0 + 200, 800, F(900, 44), C.ink); text('privés d’Italie', X0 + 200, 850, F(900, 44), C.ink); }
     ctx.restore(); source(t, a + .3, 'franceinfo · gpaslaref · 75secondes');
   }],
-  [12.22, (t, a, b) => { // tout lâché pour le rap
+  [12.64, (t, a, b) => { // tout lâché pour le rap
     ground(); iconTile(t, a + .05, 'mic', W / 2 - 110, 380, 220);
     slam(t, a + .2, '2026 : il lâche tout', 800, 66, C.ink, 'center'); slam(t, a + .6, 'pour le {rap}', 910, 80, C.ink, 'center');
   }],
-  [15.67, (t, a, b) => { // label + EP
+  [15.06, (t, a, b) => { // label + EP
     ground(); const cardT = (t0, lab, name, y) => { const k = eo(seg(t, t0, t0 + .3)); if (k <= 0) return; ctx.save(); ctx.globalAlpha = k; ctx.translate((1 - k) * 120, 0); ctx.fillStyle = C.card; ctx.beginPath(); ctx.roundRect(X0, y, W - 2 * X0, 190, 32); ctx.fill(); ctx.strokeStyle = 'rgba(212,255,58,.3)'; ctx.lineWidth = 3; ctx.stroke(); text(lab, X0 + 40, y + 62, F(800, 28), C.grey); text(name, X0 + 40, y + 140, F(900, 64), C.lime); ctx.restore(); };
-    cardT(a, 'SON LABEL', 'Tracto Label', 380); cardT(17.25, 'SON EP · 15 AOÛT 2026', 'Tracto Azzurro', 610);
-    if (t > 18.65) { const k = back(seg(t, 18.65, 18.95), 1.8); ctx.save(); ctx.translate(W / 2, 1020); ctx.scale(k, k); icon('tractor', 0, 0, 160); ctx.restore(); }
+    cardT(a, 'SON LABEL', 'Tracto Label', 380); cardT(16.62, 'SON EP · 15 AOÛT 2026', 'Tracto Azzurro', 610);
+    if (t > 18.39) { const k = back(seg(t, 18.39, 18.69), 1.8); ctx.save(); ctx.translate(W / 2, 1020); ctx.scale(k, k); icon('tractor', 0, 0, 160); ctx.restore(); }
   }],
-  [19.94, (t, a, b) => { // ZEvent
+  [20.02, (t, a, b) => { // ZEvent
     ground(); iconTile(t, a + .05, 'heart', X0, 380, 150); text('AU ZEVENT', X0 + 190, 470, F(900, 54), C.ink);
     const v = Math.round(lerp(0, 60000, eo(seg(t, a + .3, a + 1.3)))); num(v.toLocaleString('fr-FR').replace(/\s/g, ' ') + ' €', W / 2, 780, 150, C.lime, 'center');
-    if (t > 21.77) slam(t, 21.77, 'Comme {ça}.', 930, 72, C.ink, 'center');
+    if (t > 22.34) slam(t, 22.34, 'Comme {ça}.', 930, 72, C.ink, 'center');
   }],
-  [22.25, (t, a, b) => { // président, il ferait quoi ? BFM quote
+  [22.79, (t, a, b) => { // président, il ferait quoi ? BFM quote
     ground(); slam(t, a + .05, 'Président,', 400, 70); slam(t, a + .35, 'il ferait {quoi} ?', 500, 70);
-    if (t > 23.58) { source(t, 23.58, 'BFMTV · Forum « Dette : qui va passer à la caisse ? »'); quote(t, 25.4, ['Sans les milliardaires,', 'vous n’auriez pas tous', 'les services essentiels', 'à votre confort.'], 640); }
+    if (t > 24.04) { source(t, 24.04, 'BFMTV · Forum « Dette : qui va passer à la caisse ? »'); quote(t, 25.85, ['Sans les milliardaires,', 'vous n’auriez pas tous', 'les services essentiels', 'à votre confort.'], 640); }
   }],
-  [29.23, (t, a, b) => { // hôpital, école, retraite
+  [29.35, (t, a, b) => { // hôpital, école, retraite
     ground(); [['cross', 'Ton hôpital'], ['book', 'Ton école'], ['clock', 'Ta retraite']].forEach(([ic, l], i) => { const t0 = a + i * .6; iconTile(t, t0, ic, X0, 380 + i * 210, 160); if (t > t0) { ctx.save(); ctx.translate(190, 0); slam(t, t0 + .05, l, 485 + i * 210, 60); ctx.restore(); } });
-    if (t > 31.54) { const k = back(seg(t, 31.54, 31.8), 2), s = lerp(1.8, 1, k); ctx.save(); ctx.translate(W / 2, 1100); ctx.rotate(-.05); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.vio; ctx.fillRect(-420, -70, 840, 120); text('MERCI LES MILLIARDAIRES ?', 0, 14, F(900, 46), C.ink, 'center'); ctx.restore(); }
+    if (t > 31.60) { const k = back(seg(t, 31.60, 31.86), 2), s = lerp(1.8, 1, k); ctx.save(); ctx.translate(W / 2, 1100); ctx.rotate(-.05); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.vio; ctx.fillRect(-420, -70, 840, 120); text('MERCI LES MILLIARDAIRES ?', 0, 14, F(900, 46), C.ink, 'center'); ctx.restore(); }
   }],
-  [33.99, (t, a, b) => { // petit détail: italien
+  [33.30, (t, a, b) => { // petit détail: italien
     ground(); text('PETIT DÉTAIL…', X0, 420, F(800, 40), C.grey);
     slam(t, a + .3, 'Pour être président,', 540, 62); slam(t, a + .6, 'il faut être {français}.', 640, 62);
-    if (t > 36.17) { const k = back(seg(t, 36.17, 36.45), 1.8); ctx.save(); ctx.translate(W / 2, 900); ctx.scale(k, k); ITA(-240, -90, 480, 180); ctx.restore(); }
-    if (t > 36.56) { const k = back(seg(t, 36.56, 36.76), 2), s = lerp(1.9, 1, k); ctx.save(); ctx.translate(W / 2, 900); ctx.rotate(-.1); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.lime; ctx.fillRect(-300, -60, 600, 120); ctx.strokeStyle = C.bg; ctx.lineWidth = 5; ctx.strokeRect(-288, -48, 576, 96); text('ITALIEN', 0, 26, F(900, 76), C.bg, 'center'); ctx.restore(); }
+    if (t > 36.01) { const k = back(seg(t, 36.01, 36.29), 1.8); ctx.save(); ctx.translate(W / 2, 900); ctx.scale(k, k); ITA(-240, -90, 480, 180); ctx.restore(); }
+    if (t > 37.14) { const k = back(seg(t, 37.14, 37.34), 2), s = lerp(1.9, 1, k); ctx.save(); ctx.translate(W / 2, 900); ctx.rotate(-.1); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.lime; ctx.fillRect(-300, -60, 600, 120); ctx.strokeStyle = C.bg; ctx.lineWidth = 5; ctx.strokeRect(-288, -48, 576, 96); text('ITALIEN', 0, 26, F(900, 76), C.bg, 'center'); ctx.restore(); }
   }],
-  [37.33, (t, a, b) => { // vote
+  [37.83, (t, a, b) => { // vote
     photo('parade', lerp(1.06, 1.12, seg(t, a, b)), 'contrast(1.1) brightness(.5)'); shade(.85); credit('parade');
     const k = eo(seg(t, a + .05, a + .35)), x = X0, y = 360 + (1 - k) * 50, w = W - 2 * X0;
     ctx.save(); ctx.globalAlpha = k; ctx.fillStyle = 'rgba(20,20,20,.75)'; ctx.beginPath(); ctx.roundRect(x, y, w, 400, 36); ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.22)'; ctx.lineWidth = 2; ctx.stroke();
     text('SONDAGE HISTORIA', x + 40, y + 68, F(700, 26), C.grey); text('MC PAO PRÉSIDENT ?', x + 40, y + 138, F(900, 50), C.ink);
     [['OUI', C.lime, .35, .5, C.bg], ['NON', C.vio, .65, .75, C.ink]].forEach(([l, col, f, d, fg], i) => { const yy = y + 190 + i * 96, kk = eio(seg(t, a + d, a + d + .9)), bw = w - 80; ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.beginPath(); ctx.roundRect(x + 40, yy, bw, 74, 37); ctx.fill(); ctx.fillStyle = col; ctx.beginPath(); ctx.roundRect(x + 40, yy, Math.max(74, bw * f * kk), 74, 37); ctx.fill(); text(l, x + 72, yy + 50, F(800, 34), fg); text('?', x + 40 + bw - 30, yy + 50, F(800, 34), C.ink, 'right'); });
     ctx.restore(); iconTile(t, a + 1.0, 'chat', W - X0 - 130, 820, 130);
-    if (t > 41.76) { const k2 = eo(seg(t, 41.76, 42.06)); ctx.save(); ctx.globalAlpha = k2; ctx.translate(0, (1 - k2) * 30); ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(X0, 1560, W - 2 * X0, 110, 55); ctx.fill(); text('ABONNE-TOI · @HISTORIAX25', W / 2, 1632, F(900, 40), C.bg, 'center'); ctx.restore(); }
+    if (t > 42.27) { const k2 = eo(seg(t, 42.27, 42.57)); ctx.save(); ctx.globalAlpha = k2; ctx.translate(0, (1 - k2) * 30); ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(X0, 1560, W - 2 * X0, 110, 55); ctx.fill(); text('ABONNE-TOI · @HISTORIAX25', W / 2, 1632, F(900, 40), C.bg, 'center'); ctx.restore(); }
   }],
 ];
 let WORDS = [];
@@ -171,7 +171,7 @@ function render(t) {
   ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W * t / DUR, 8);
 }
 window.DUR = DUR; window.render = render;
-window.EV = CUTS.slice(1).map(t => ({ t, type: 'cut' })).concat([{ t: 0.02, type: 'hit' }, { t: 4.46, type: 'hit' }, { t: 20.24, type: 'count' }, { t: 31.54, type: 'stamp' }, { t: 36.56, type: 'stamp' }, { t: 41.76, type: 'sting' }]);
+window.EV = CUTS.slice(1).map(t => ({ t, type: 'cut' })).concat([{ t: 0.02, type: 'hit' }, { t: 4.48, type: 'hit' }, { t: 20.32, type: 'count' }, { t: 31.60, type: 'stamp' }, { t: 37.14, type: 'stamp' }, { t: 42.27, type: 'sting' }]);
 (async () => {
   await Promise.all(Object.keys(PH).map(n => new Promise(r => { const im = new Image(); im.onload = () => { IM[n] = im; r(); }; im.onerror = r; im.src = `photos/${n}.jpg`; })));
   await Promise.all([900, 800, 700].map(w => document.fonts.load(F(w, 60))).concat([document.fonts.load(G(600, 24))]));
