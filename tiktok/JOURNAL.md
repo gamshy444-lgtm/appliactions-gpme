@@ -115,3 +115,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 ## 11 novembre — bilan
 - Wilfried : « la vidéo n'a pas du tout marché… on va changer de concept, du tout. »
 - À récupérer : vues, durée moyenne de visionnage, % qui regardent jusqu'au bout, likes/commentaires (TikTok Studio → Analyses de la vidéo).
+- **Nouveau concept : HISTORIA** — l'actu expliquée en 60 s, avec de vraies images et de vraies infos. 1re vidéo : « Imagine : Teddy Riner président » (candidature annoncée le 9 nov. 2026 dans Le Parisien). Script sourcé : historia/teddy-riner/SCRIPT.md.
+- Wilfried a refusé d'ouvrir l'accès réseau à Wikimedia Commons : il fournira les photos lui-même.
