@@ -5,7 +5,8 @@ const W = 1080, H = 1920, DUR = 44.0;
 const cv = document.getElementById('c'); cv.width = innerWidth; cv.height = innerHeight;
 const ctx = cv.getContext('2d'); const K = innerWidth / W;
 const C = { bg: '#050505', ink: '#FFFFFF', lime: '#D4FF3A', vio: '#8A4DFF', grey: '#9A9A9A', card: '#0E0E0E' };
-const X0 = 72, F = (w, px) => `${w} ${px}px U`, G = (w, px) => `${w} ${px}px G`;
+const FAM = new URLSearchParams(location.search).get('font') || 'TT', FS = { TT: 1.08, AB: .92, U: 1 }[FAM] || 1;
+const X0 = 72, F = (w, px) => `${FAM === 'AB' ? 400 : w} ${Math.round(px * FS)}px ${FAM}`, G = (w, px) => `${w} ${px}px G`;
 const IM = {};
 const PH = { huma: ['Segolene Liger · CC BY-SA 4.0', .35, .3], basilique: ['Chabe01 · CC BY-SA 4.0', .5, .55], tv: ['Télé Matin · CC BY 4.0', .43, .3], meeting: ['jlm2017.fr · CC BY 4.0', .5, .5], parade: ['Eric Salard · CC BY-SA 2.0', .5, .4] };
 function text(s, x, y, font, color, align = 'left') { ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'alphabetic'; const room = align === 'left' ? W - 60 - x : align === 'right' ? x - 60 : W - 120; ctx.fillText(s, x, y, Math.max(40, room)); }
@@ -61,34 +62,35 @@ function card(t, t0, n, title, big, sub, ic) { // numbered measure card
 }
 // ───────── scènes (temps sur la voix) ─────────
 const S = [
-  [0.0, (t, a, b) => { // HOOK — the number is on screen from frame 0
-    ground(); photo('tv', 1.25, 'blur(18px) brightness(.28) saturate(.6)');
-    text('ET SI…', X0, 430, F(800, 40), C.grey);
-    const sc = lerp(1.25, 1, back(seg(t, a, a + .35), 1.6)); ctx.save(); ctx.translate(X0, 700); ctx.scale(sc, sc); num('1 700 €', -6, 0, 180, C.lime); ctx.restore();
-    text('DE SMIC NET ?!', X0, 800, F(900, 70), C.ink);
-    if (t > 2.73) { const k = back(seg(t, 2.73, 2.98), 1.6); ctx.save(); ctx.translate(X0, 1010); ctx.scale(k, k); text('RETRAITE À', 0, 0, F(900, 70), C.ink); num('60 ANS ?', -4, 150, 170, C.vio); ctx.restore(); }
+  [0.0, (t, a, b) => { // HOOK — sharp face + money from frame 0, punch-in, curiosity line on top
+    const z = lerp(1.22, 1.08, eo(seg(t, a, a + .5))) * lerp(1, 1.05, seg(t, a, b)), sh = t < .25 ? Math.sin(t * 90) * 10 * (1 - t / .25) : 0;
+    ctx.save(); ctx.translate(sh, 0); photo('tv', z); ctx.restore();
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(5,5,5,.88)'); g.addColorStop(.3, 'rgba(5,5,5,.15)'); g.addColorStop(.55, 'rgba(5,5,5,.2)'); g.addColorStop(.75, 'rgba(5,5,5,.9)'); g.addColorStop(1, 'rgba(5,5,5,.97)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // curiosity line on top
+    ctx.fillStyle = C.vio; ctx.beginPath(); ctx.roundRect(X0, 290, W - 2 * X0, 150, 28); ctx.fill();
+    text('CE MAIRE VEUT METTRE', W / 2, 355, F(900, 46), C.ink, 'center'); text('TON SMIC À…', W / 2, 415, F(900, 46), C.lime, 'center');
+    const sc = lerp(1.1, 1, back(seg(t, a, a + .3), 1.8)); ctx.save(); ctx.translate(W / 2, 1060); ctx.scale(sc, sc); ctx.shadowColor = 'rgba(0,0,0,.8)'; ctx.shadowBlur = 40; num('1 700 €', 0, 0, 190, C.lime, 'center'); ctx.restore(); ctx.shadowBlur = 0;
+    text('NET PAR MOIS ?!', W / 2, 1160, F(900, 60), C.ink, 'center');
+    if (t > 2.73) { const k = back(seg(t, 2.73, 2.98), 1.6); ctx.save(); ctx.translate(W / 2, 1520); ctx.scale(k, k); ctx.fillStyle = C.vio; ctx.beginPath(); ctx.roundRect(-400, -70, 800, 110, 55); ctx.fill(); text('+ RETRAITE À 60 ANS', 0, 6, F(900, 50), C.ink, 'center'); ctx.restore(); }
+    credit('tv'); flash(t, 0, .12);
   }],
   [4.9, (t, a, b) => { // reveal
     photo('tv', lerp(1.18, 1.04, eo(seg(t, a, a + .5))) * lerp(1, 1.04, seg(t, a, b))); shade(); credit('tv');
-    pill(t, a + .05, 'IMAGINE…', X0, 1130, C.vio, C.ink, 38);
-    slam(t, a + .25, 'Président :', 1300, 84);
-    slam(t, a + .5, '{Bally Bagayoko}', 1420, 76);
+    pill(t, a + .05, 'IMAGINE…', X0, 1060, C.vio, C.ink, 38); slam(t, a + .4, '{Bally Bagayoko}', 1190, 76);
   }],
   [6.5, (t, a, b) => { // qui c'est
     photo('basilique', lerp(1.0, 1.08, seg(t, a, b)), 'contrast(1.1) saturate(.95) brightness(.78)'); shade(); credit('basilique');
-    slam(t, a + .05, 'Maire de', 1150, 84); slam(t, a + .3, '{Saint-Denis}', 1270, 84);
-    if (t > 8.21) slam(t, 8.21, 'Élu au 1er tour · mars 2026', 1420, 44, C.ink);
-    if (t > 9.3) { pill(t, 9.3, 'EX-RATP', X0, 1540, C.ink, C.bg, 32); pill(t, 10.3, 'COACH DE GRAND CORPS MALADE 🏀'.replace(' 🏀', ''), X0 + 230, 1540, C.lime, C.bg, 32); }
+    slam(t, a + .05, 'Maire de', 960, 80); slam(t, a + .3, '{Saint-Denis}', 1075, 80);
+    if (t > 9.3) { pill(t, 9.3, 'EX-RATP', X0, 1520, C.ink, C.bg, 30); pill(t, 10.3, 'COACH DE GRAND CORPS MALADE', X0 + 210, 1520, C.lime, C.bg, 30); }
   }],
   [12.58, (t, a, b) => { // programme
     photo('meeting', lerp(1.0, 1.1, seg(t, a, b)), 'contrast(1.15) saturate(1.05) brightness(.6)'); shade(.9); credit('meeting'); source(t, a + .3, 'LFI · L’Avenir en commun · 7 nov. 2026');
-    slam(t, a + .05, 'Le programme', 1080, 80); slam(t, a + .35, '{insoumis}', 1200, 80);
-    if (t > 15.56) { const v = Math.round(lerp(0, 1069, eo(seg(t, 15.56, 16.6)))); num(v.toLocaleString('fr-FR').replace(/\s/g, ' '), X0 - 6, 1490, 190, C.lime); text('MESURES', X0, 1570, F(900, 52), C.ink); }
+    slam(t, a + .05, 'Le programme', 900, 76); slam(t, a + .35, '{insoumis}', 1010, 76);
+    if (t > 15.56) { const v = Math.round(lerp(0, 1069, eo(seg(t, 15.56, 16.6)))); num(v.toLocaleString('fr-FR').replace(/\s/g, ' '), X0 - 6, 1590, 170, C.lime); text('MESURES', X0, 1665, F(900, 48), C.ink); }
   }],
   [19.27, (t, a, b) => { // 1 SMIC
     card(t, a, 1, 'Le SMIC', '', '', 'euro');
     const v = Math.round(lerp(1400, 1700, eo(seg(t, a + .2, a + 1.1)))); num(v.toLocaleString('fr-FR').replace(/\s/g, ' ') + ' €', X0 - 6, 860, 170, C.lime); text('NET PAR MOIS', X0, 940, F(800, 44), C.ink);
-    slam(t, 21.25, 'Ton banquier', 1260, 78); slam(t, 21.5, '{respire}.', 1370, 78);
   }],
   [22.87, (t, a, b) => { // 2 retraite
     card(t, a, 2, 'La retraite', '', '', 'clock');
@@ -100,18 +102,17 @@ const S = [
     card(t, a, 3, 'Les prix', '', '', 'cart');
     text('PRODUITS ESSENTIELS', X0, 700, F(800, 40), C.grey);
     if (t > a + .5) { const k = back(seg(t, a + .5, a + .7), 2), s = lerp(1.8, 1, k); ctx.save(); ctx.translate(X0 + 300, 840); ctx.rotate(-.06); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.lime; ctx.fillRect(-300, -80, 600, 140); ctx.strokeStyle = C.bg; ctx.lineWidth = 5; ctx.strokeRect(-288, -68, 576, 116); text('BLOQUÉS', 0, 28, F(900, 92), C.bg, 'center'); ctx.restore(); }
-    slam(t, 28.3, 'Les pâtes arrêtent', 1260, 66); slam(t, 28.75, 'de prendre {l’ascenseur}.', 1360, 66);
   }],
   [31.04, (t, a, b) => { // police
     photo('huma', lerp(1.0, 1.08, seg(t, a, b))); shade(); credit('huma');
     iconTile(t, a + .1, 'shield', X0, 330, 150);
-    slam(t, a + .1, 'À Saint-Denis :', 1100, 64, C.grey); slam(t, a + .5, 'désarmement', 1220, 84); slam(t, a + .8, 'de la {police}', 1340, 84); slam(t, a + 1.1, 'municipale.', 1460, 84);
+    slam(t, a + .1, 'À Saint-Denis :', 880, 56, C.grey); slam(t, a + .5, 'désarmement de la', 990, 66); slam(t, a + .8, '{police municipale}', 1100, 66);
     source(t, a + .5, 'Actu-Juridique · Ville de Saint-Denis');
   }],
   [34.75, (t, a, b) => { // qui paie
     ground(); iconTile(t, a + .05, 'scale', W / 2 - 110, 400, 220);
-    slam(t, a + .3, 'Qui {paie} ?', 900, 110, C.ink, 'center');
-    if (t > 36.52) { slam(t, 36.52, 'Selon son camp :', 1150, 54, C.grey, 'center'); slam(t, 36.9, 'les plus riches.', 1270, 80, C.vio, 'center'); }
+    slam(t, a + .3, 'Qui {paie} ?', 860, 110, C.ink, 'center');
+    if (t > 36.52) { slam(t, 36.9, 'LES PLUS RICHES', 1060, 80, C.vio, 'center'); }
   }],
   [38.74, (t, a, b) => { // vote
     photo('tv', lerp(1.06, 1.12, seg(t, a, b))); shade(.85); credit('tv');
@@ -122,15 +123,31 @@ const S = [
     [['OUI', C.lime, .6, .5, C.bg], ['NON', C.vio, .4, .75, C.ink]].forEach(([l, col, f, d, fg], i) => { const yy = y + 190 + i * 96, kk = eio(seg(t, a + d, a + d + .9)), bw = w - 80; ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.beginPath(); ctx.roundRect(x + 40, yy, bw, 74, 37); ctx.fill(); ctx.fillStyle = col; ctx.beginPath(); ctx.roundRect(x + 40, yy, Math.max(74, bw * f * kk), 74, 37); ctx.fill(); text(l, x + 72, yy + 50, F(800, 34), fg); text('?', x + 40 + bw - 30, yy + 50, F(800, 34), C.ink, 'right'); });
     ctx.restore();
     iconTile(t, a + 1.0, 'chat', W - X0 - 130, 790, 130);
-    slam(t, a + .9, 'Dis-le en', 1260, 84); slam(t, a + 1.2, '{commentaire}', 1380, 84);
     if (t > 41.2) { const k2 = eo(seg(t, 41.2, 41.5)); ctx.save(); ctx.globalAlpha = k2; ctx.translate(0, (1 - k2) * 30); ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(X0, 1560, W - 2 * X0, 110, 55); ctx.fill(); text('ABONNE-TOI · @HISTORIAX25', W / 2, 1632, F(900, 40), C.bg, 'center'); ctx.restore(); }
   }],
 ];
+let WORDS = [];
+function karaoke(t) { // word-by-word captions, 3-word groups, current word on a lime pill
+  if (!WORDS.length) return; let i = -1; for (let j = 0; j < WORDS.length; j++) if (t >= WORDS[j].t) i = j; if (i < 0) return;
+  const groups = []; let g = [];
+  WORDS.forEach((w, j) => { g.push(j); if (g.length === 3 || /[.!?…:,]$/.test(w.w)) { groups.push(g); g = []; } }); if (g.length) groups.push(g);
+  const grp = groups.find(gg => gg.includes(i));
+  const px = 70, f = F(900, px), sp = 22, ws = grp.map(j => WORDS[j].w.toUpperCase().replace(/…/g, '')), wd = ws.map(w => tw(w, f));
+  const total = wd.reduce((a, b) => a + b, 0) + sp * (ws.length - 1); let x = (W - total) / 2; const y = 1330;
+  const k = eo(seg(t, WORDS[grp[0]].t, WORDS[grp[0]].t + .12)); ctx.save(); ctx.translate(W / 2, y); ctx.scale(lerp(.9, 1, k), lerp(.9, 1, k)); ctx.translate(-W / 2, -y);
+  ws.forEach((w, n) => { const j = grp[n], on = j === i, said = j <= i;
+    if (on) { ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(x - 14, y - px * FS * .9, wd[n] + 28, px * FS * 1.18, 18); ctx.fill(); }
+    ctx.font = f; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    if (!on) { ctx.lineWidth = 12; ctx.lineJoin = 'round'; ctx.strokeStyle = 'rgba(0,0,0,.85)'; ctx.strokeText(w, x, y); }
+    ctx.fillStyle = on ? C.bg : said ? C.ink : 'rgba(255,255,255,.6)'; ctx.fillText(w, x, y); x += wd[n] + sp; });
+  ctx.restore();
+}
 const CUTS = S.map(s => s[0]);
 function render(t) {
   ctx.setTransform(K, 0, 0, K, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none';
   let i = 0; for (let j = 0; j < S.length; j++) if (t >= S[j][0]) i = j;
-  const a = S[i][0], b = i + 1 < S.length ? S[i + 1][0] : DUR; S[i][1](t, a, b);
+  const a = S[i][0], b = i + 1 < S.length ? S[i + 1][0] : DUR; S[i][1](t, a, b); karaoke(t);
+  if (i === 0) { ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W * t / DUR, 8); return; }
   ctx.globalAlpha = 1; ctx.fillStyle = C.lime; ctx.fillRect(X0, 120, 196, 50); text('HISTORIA', X0 + 98, 156, F(900, 24), C.bg, 'center');
   text('PRÉSIDENTIELLE 2027', X0 + 216, 155, F(800, 24), C.ink);
   const left = Math.max(0, DUR - t); ctx.lineWidth = 8; ctx.strokeStyle = 'rgba(255,255,255,.15)'; ctx.beginPath(); ctx.arc(W - 120, 145, 50, 0, 7); ctx.stroke();
@@ -144,5 +161,6 @@ window.EV = CUTS.slice(1).map(t => ({ t, type: 'cut' })).concat([{ t: 0.02, type
 (async () => {
   await Promise.all(Object.keys(PH).map(n => new Promise(r => { const im = new Image(); im.onload = () => { IM[n] = im; r(); }; im.onerror = r; im.src = `photos/${n}.jpg`; })));
   await Promise.all([900, 800, 700].map(w => document.fonts.load(F(w, 60))).concat([document.fonts.load(G(600, 24))]));
+  WORDS = await (await fetch('words.json')).json();
   render(0); window.READY = true;
 })();
