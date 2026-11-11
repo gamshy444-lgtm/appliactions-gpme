@@ -8,7 +8,7 @@ const C = { bg: '#050505', ink: '#FFFFFF', lime: '#D4FF3A', vio: '#8A4DFF', grey
 const FAM = new URLSearchParams(location.search).get('font') || 'U', FS = { TT: 1.08, AB: .92, U: 1, AN: 1.22, IN: 1.02 }[FAM] || 1;
 const X0 = 72, F = (w, px) => `${FAM === 'AB' || FAM === 'AN' ? 400 : w} ${Math.round(px * FS)}px ${FAM}`, G = (w, px) => `${w} ${px}px G`;
 const IM = {};
-const PH = { parade: ['Eric Salard · CC BY-SA 2.0', .5, .4], chain: ['DR', .38, .28], jet: ['DR · Instagram', .55, .3], bfm: ['CAPTURE BFMTV', .5, .35], forbes: ['FORBES ITALIA · 2018', .5, .4], tractor: ['NightThree · CC BY 2.0', .5, .5] };
+const PH = { parade: ['Eric Salard · CC BY-SA 2.0', .5, .4], chain: ['DR', .38, .28], jet: ['DR · Instagram', .55, .3], bfm: ['CAPTURE BFMTV', .5, .35], forbes: ['FORBES ITALIA · 2018', .5, .4], tractor: ['NightThree · CC BY 2.0', .5, .5], zevent: ['Mickaël Schauli · CC BY-SA 4.0', .35, .45], elysee: ['Leynadmar · CC BY-SA 4.0', .5, .5], ecole: ['Pierre Poschadel · CC BY-SA 4.0', .5, .5] };
 function text(s, x, y, font, color, align = 'left') { ctx.font = font; { const px = +(/(\d+)px/.exec(font) || [0, 0])[1]; ctx.letterSpacing = FAM === 'IN' && px >= 40 ? Math.round(-px * .022) + 'px' : '0px'; } ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'alphabetic'; const room = align === 'left' ? W - 60 - x : align === 'right' ? x - 60 : W - 120; ctx.fillText(s, x, y, Math.max(40, room)); }
 function tw(s, font) { ctx.font = font; { const px = +(/(\d+)px/.exec(font) || [0, 0])[1]; ctx.letterSpacing = FAM === 'IN' && px >= 40 ? Math.round(-px * .022) + 'px' : '0px'; } return ctx.measureText(s).width; }
 function photo(n, z, filt = 'contrast(1.15) saturate(1.05) brightness(.82)') {
@@ -106,7 +106,7 @@ const S = [
     if (t > OUI) { const k = back(seg(t, OUI, OUI + .3), 1.8); ctx.save(); ctx.translate(W / 2, 1010); ctx.scale(k, k); ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(-330, -70, 660, 120, 60); ctx.fill(); text('OUI. VRAIMENT. 🚜'.replace(' 🚜', ''), 0, 14, F(900, 52), C.bg, 'center'); ctx.restore(); }
   }],
   [20.02, (t, a, b) => { // ZEvent
-    ground(); iconTile(t, a + .05, 'heart', X0, 380, 150); text('AU ZEVENT', X0 + 190, 470, F(900, 54), C.ink);
+    photo('zevent', lerp(1.1, 1.0, eo(seg(t, a, b))), 'contrast(1.12) saturate(1.1) brightness(.5)'); shade(.6); credit('zevent'); iconTile(t, a + .05, 'heart', X0, 380, 150); text('AU ZEVENT', X0 + 190, 470, F(900, 54), C.ink);
     const v = Math.round(lerp(0, 60000, eo(seg(t, a + .3, a + 1.3)))); num(v.toLocaleString('fr-FR').replace(/\s/g, ' ') + ' €', W / 2, 780, 150, C.lime, 'center');
     if (t > 22.34) slam(t, 22.34, 'Comme {ça}.', 930, 72, C.ink, 'center');
   }],
@@ -115,11 +115,11 @@ const S = [
     if (t > 24.04) { source(t, 24.04, 'BFMTV · Forum « Dette : qui va passer à la caisse ? »'); quote(t, 25.85, ['Sans les milliardaires,', 'vous n’auriez pas tous', 'les services essentiels', 'à votre confort.'], 640); }
   }],
   [29.35, (t, a, b) => { // hôpital, école, retraite
-    ground(); [['cross', 'Ton hôpital'], ['book', 'Ton école'], ['clock', 'Ta retraite']].forEach(([ic, l], i) => { const t0 = a + i * .6; iconTile(t, t0, ic, X0, 380 + i * 210, 160); if (t > t0) { ctx.save(); ctx.translate(190, 0); slam(t, t0 + .05, l, 485 + i * 210, 60); ctx.restore(); } });
+    photo('ecole', lerp(1.0, 1.08, seg(t, a, b)), 'contrast(1.05) saturate(.9) brightness(.3)'); credit('ecole'); [['cross', 'Ton hôpital'], ['book', 'Ton école'], ['clock', 'Ta retraite']].forEach(([ic, l], i) => { const t0 = a + i * .6; iconTile(t, t0, ic, X0, 380 + i * 210, 160); if (t > t0) { ctx.save(); ctx.translate(190, 0); slam(t, t0 + .05, l, 485 + i * 210, 60); ctx.restore(); } });
     if (t > 31.60) { const k = back(seg(t, 31.60, 31.86), 2), s = lerp(1.8, 1, k); ctx.save(); ctx.translate(W / 2, 1100); ctx.rotate(-.05); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.vio; ctx.fillRect(-420, -70, 840, 120); text('MERCI LES MILLIARDAIRES ?', 0, 14, F(900, 46), C.ink, 'center'); ctx.restore(); }
   }],
   [33.30, (t, a, b) => { // petit détail: italien
-    ground(); text('PETIT DÉTAIL…', X0, 420, F(800, 40), C.grey);
+    photo('elysee', lerp(1.0, 1.08, seg(t, a, b)), 'contrast(1.1) saturate(1.05) brightness(.35)'); credit('elysee'); text('PETIT DÉTAIL…', X0, 420, F(800, 40), C.grey);
     slam(t, a + .3, 'Pour être président,', 540, 62); slam(t, a + .6, 'il faut être {français}.', 640, 62);
     if (t > 36.01) { const k = back(seg(t, 36.01, 36.29), 1.8); ctx.save(); ctx.translate(W / 2, 900); ctx.scale(k, k); ITA(-240, -90, 480, 180); ctx.restore(); }
     if (t > 37.14) { const k = back(seg(t, 37.14, 37.34), 2), s = lerp(1.9, 1, k); ctx.save(); ctx.translate(W / 2, 900); ctx.rotate(-.1); ctx.scale(s, s); ctx.globalAlpha = clamp(k * 2); ctx.fillStyle = C.lime; ctx.fillRect(-300, -60, 600, 120); ctx.strokeStyle = C.bg; ctx.lineWidth = 5; ctx.strokeRect(-288, -48, 576, 96); text('ITALIEN', 0, 26, F(900, 76), C.bg, 'center'); ctx.restore(); }

@@ -171,3 +171,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - MC Pao = TEST STYLE 2 : typo Inter (display, interlettrage serré, minuscules), sous-titres un mot à la fois, transition poussée vers le haut, hook « Et si le président… c'était lui ?! » sur la photo du jet. Anton refusé par Wilfried. Photos de MC Pao fournies par Wilfried (il assume le risque droits). Bally = style 1. Comparer les vues.
 
 - MC Pao final : retour typo Unbounded (DA Teddy/Bally) à la demande de Wilfried (Inter refusé), nouveau hook jet gardé, + photo tracteur libre (NightThree CC BY 2.0) et photo chaîne sur la scène rap. Pas d'image libre du ZEvent trouvée (API Commons limitée).
+- MC Pao : + photos libres ZEvent (Mickaël Schauli), Élysée (Leynadmar), salle de classe (Pierre Poschadel), toutes CC BY-SA 4.0. Mise à jour Metricool refusée 2 fois par l'autorisation : Wilfried doit valider ou remplacer lui-même.
