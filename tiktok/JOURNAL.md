@@ -186,3 +186,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Motion design à refaire en mieux (tout peut changer sauf les couleurs). Photos : je les trouve moi-même (Commons).
 - Textes : tiktok/historia/SCRIPTS_12nov.md
 - 12 nov : Mélenchon/Lisnard/Le Pen montés sur engine v3 (photos Commons à chaque idée, alignement forcé, zéro écran noir).
+- Programmés le 12/11 sur TikTok + Instagram (quota Metricool 20/mois presque atteint : 20 utilisés) : Mélenchon 8h, Lisnard 14h, Le Pen 21h. YouTube/Facebook non programmés (quota).
