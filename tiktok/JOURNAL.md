@@ -199,3 +199,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried : Bardella + Philippe + Attal fusionnés en une vidéo « Voici pourquoi ces 3 hommes ne doivent pas être président » (texte M). Glucksmann garde son texte L.
 - Correction Wilfried : pas de fusion → 3 vidéos séparées « Voici pourquoi X ne doit pas devenir président » (M1 Bardella, M2 Philippe, M3 Attal).
 - Lot 4 vidéos (Napoléon, de Gaulle, Bardella, Philippe) montées avec engine/episode.js (fiche episode.json par vidéo). Attal non généré par Wilfried.
+- Programmé (4 réseaux) : Bardella 22/11 19h30, Napoléon 23/11 12h30, Philippe 23/11 19h00, de Gaulle 24/11 12h30. Aperçu envoyé : Bardella.
