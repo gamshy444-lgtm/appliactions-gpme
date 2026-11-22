@@ -192,3 +192,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 ## 22 nov.
 - Résultats : Lisnard = 14 000 vues sur Facebook (meilleure vidéo). Les autres ~1 000 vues par réseau.
 - Décision : garder le hook de Lisnard. Objectif : 10 nouvelles vidéos sur toutes les plateformes.
+- Wilfried garde : De Villepin, Ruffin, Attal, Édouard Philippe + des personnalités de gauche. Nouvelle série « personnages historiques présidents aujourd'hui » : Napoléon, de Gaulle (même hook). Il va envoyer une vidéo de référence pour les hooks.
