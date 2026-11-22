@@ -197,3 +197,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Wilfried veut des politiques plus connus du grand public → lot 2 bis : Sarkozy (« Casse-toi pauv' con »), Hollande (« institution de lâcheté », renonce 2016), Macron (« Je traverse la rue »). Lot final : Napoléon, de Gaulle, Sarkozy, Hollande, Macron.
 - Lot 3 (candidats pas encore élus, grand public) : Bardella, Édouard Philippe, Attal, Glucksmann (SCRIPTS_lot3.md). Sources : France 24 (débat 27/08/2026), LCP retraites, ÉlyséeScope. Concept suivant à trouver après.
 - Wilfried : Bardella + Philippe + Attal fusionnés en une vidéo « Voici pourquoi ces 3 hommes ne doivent pas être président » (texte M). Glucksmann garde son texte L.
+- Correction Wilfried : pas de fusion → 3 vidéos séparées « Voici pourquoi X ne doit pas devenir président » (M1 Bardella, M2 Philippe, M3 Attal).

@@ -46,3 +46,29 @@
 [energetic] Numéro trois : Gabriel Attal. [conversational] Premier ministre… huit mois. [pause] [serious] Et maintenant, il veut supprimer l'âge légal de départ à la retraite. [curious] Tu pars quand, alors ? Et avec quelle pension ?
 [curious, slower] Trois profils. Trois raisons d'hésiter.
 [excited] Lequel est le pire, selon toi ? Un, deux ou trois ? Dis-le en commentaire ! [warm] Abonne-toi à Historia.
+
+## M1/M2/M3 — « Voici pourquoi X ne doit pas devenir président » (3 vidéos séparées, remplacent M)
+### M1 Bardella
+[serious, fast] Voici pourquoi Jordan Bardella ne doit PAS devenir président. [pause] [mysterious] La dernière raison… va te surprendre.
+[warm] Mais d'abord : nous, c'est Historia. La politique expliquée en une minute.
+[energetic] Un : trente et un ans, et jamais ministre. [deadpan] Zéro jour à gérer un ministère.
+[energetic] Deux : il promet la TVA à cinq virgule cinq pour cent sur l'essence et l'énergie. [skeptical] Sympa… mais il ne dit pas qui paie.
+[energetic] Trois : sur la retraite, il a évoqué un âge plus tardif. [pause] [deadpan] Marine Le Pen, elle, a semblé dire l'inverse. Même parti, deux discours.
+[curious, slower] Alors : on lui confie le pays ?
+[excited] Bardella président : oui ou non ? Dis-le en commentaire ! [warm] Abonne-toi à Historia.
+### M2 Édouard Philippe
+[serious, fast] Voici pourquoi Édouard Philippe ne doit PAS devenir président. [pause] [mysterious] La dernière raison… va te surprendre.
+[warm] Mais d'abord : nous, c'est Historia. La politique expliquée en une minute.
+[energetic] Un : c'est le Premier ministre des quatre-vingts kilomètres-heure. [deadpan] Tu t'en souviens ? Les Gilets jaunes aussi.
+[energetic] Deux : en deux mille vingt, il fait passer la réforme des retraites… avec le quarante-neuf trois. Sans vote.
+[energetic] Trois : aujourd'hui, il veut limiter ton chômage à douze mois si tu as moins de cinquante ans. [skeptical] Tu perds ton job ? Dépêche-toi.
+[curious, slower] Alors : on lui redonne les clés ?
+[excited] Philippe président : oui ou non ? Dis-le en commentaire ! [warm] Abonne-toi à Historia.
+### M3 Gabriel Attal
+[serious, fast] Voici pourquoi Gabriel Attal ne doit PAS devenir président. [pause] [mysterious] La dernière raison… va te surprendre.
+[warm] Mais d'abord : nous, c'est Historia. La politique expliquée en une minute.
+[energetic] Un : Premier ministre… huit mois. [deadpan] Le temps d'un stage.
+[energetic] Deux : il veut baisser le coût du travail pour les entreprises. [skeptical] Bonne nouvelle pour ton patron.
+[energetic] Trois : il veut supprimer l'âge légal de départ à la retraite. [pause] [curious] Tu pars quand, alors ? Et avec quelle pension ?
+[curious, slower] Alors : jeune et brillant… ou trop pressé ?
+[excited] Attal président : oui ou non ? Dis-le en commentaire ! [warm] Abonne-toi à Historia.
