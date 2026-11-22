@@ -201,3 +201,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Lot 4 vidéos (Napoléon, de Gaulle, Bardella, Philippe) montées avec engine/episode.js (fiche episode.json par vidéo). Attal non généré par Wilfried.
 - Programmé (4 réseaux) : Bardella 22/11 19h30, Napoléon 23/11 12h30, Philippe 23/11 19h00, de Gaulle 24/11 12h30. Aperçu envoyé : Bardella.
 - Bardella : nouveau début divertissant (« Bardella président ? Attends, attends… la dernière est la plus drôle ») raccordé à l'ancien audio. Reprogrammé ce soir 21h30 sur les 4 réseaux.
+- Lot 4 (6 concepts niche) : N1 salaire député, N2 salaire président, N3 49.3 expliqué, N4 ex-présidents condamnés, N5 élection 1974, N6 records des présidents (SCRIPTS_lot4.md). Wilfried veut en poster une ce soir à 20h.
