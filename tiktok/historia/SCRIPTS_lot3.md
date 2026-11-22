@@ -37,3 +37,12 @@
 [warm] Et une promesse : augmenter les salaires sans casser le modèle social, ni creuser la dette.
 [curious, slower] Une gauche qui rassure… ou une gauche trop sage ?
 [excited] Glucksmann président : oui ou non ? Dis-le en commentaire ! [warm] Abonne-toi à Historia, demain on en imagine un autre.
+
+## M. « Pourquoi ces 3 hommes ne doivent pas être président » — Bardella, Philippe, Attal (remplace I, J, K)
+[serious, fast] Voici pourquoi ces trois hommes ne doivent PAS devenir président. [pause] [mysterious] Le troisième… va te surprendre.
+[warm] Mais d'abord : nous, c'est Historia. La politique expliquée en une minute.
+[energetic] Numéro un : Jordan Bardella. [conversational] Trente et un ans, jamais ministre. Il promet la TVA à cinq virgule cinq pour cent sur l'essence… [skeptical] sans dire qui paie. Et sur la retraite, il a évoqué un âge plus tardif. [deadpan] Marine Le Pen a semblé dire l'inverse.
+[energetic] Numéro deux : Édouard Philippe. [conversational] Premier ministre de la limitation à quatre-vingts kilomètres-heure, et du quarante-neuf trois sur les retraites. [serious] Aujourd'hui, il veut limiter ton chômage à douze mois si tu as moins de cinquante ans.
+[energetic] Numéro trois : Gabriel Attal. [conversational] Premier ministre… huit mois. [pause] [serious] Et maintenant, il veut supprimer l'âge légal de départ à la retraite. [curious] Tu pars quand, alors ? Et avec quelle pension ?
+[curious, slower] Trois profils. Trois raisons d'hésiter.
+[excited] Lequel est le pire, selon toi ? Un, deux ou trois ? Dis-le en commentaire ! [warm] Abonne-toi à Historia.
