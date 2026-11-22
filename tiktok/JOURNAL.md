@@ -194,3 +194,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Décision : garder le hook de Lisnard. Objectif : 10 nouvelles vidéos sur toutes les plateformes.
 - Wilfried garde : De Villepin, Ruffin, Attal, Édouard Philippe + des personnalités de gauche. Nouvelle série « personnages historiques présidents aujourd'hui » : Napoléon, de Gaulle (même hook). Il va envoyer une vidéo de référence pour les hooks.
 - Nouveau format demandé : « La phrase qui a coûté sa carrière à… ». Lot 2 écrit (SCRIPTS_lot2.md) : Cahuzac, Fillon, Jospin, Napoléon, de Gaulle. Politiques actuels (De Villepin, Ruffin, Attal, Philippe, gauche) à faire au lot suivant (recherche nécessaire).
+- Wilfried veut des politiques plus connus du grand public → lot 2 bis : Sarkozy (« Casse-toi pauv' con »), Hollande (« institution de lâcheté », renonce 2016), Macron (« Je traverse la rue »). Lot final : Napoléon, de Gaulle, Sarkozy, Hollande, Macron.
