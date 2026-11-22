@@ -1,0 +1,169 @@
+{
+ "dur": 29.57,
+ "photos": {
+  "portrait": [
+   "Wikimedia Commons",
+   0.5,
+   0.3
+  ],
+  "route80": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "gj": [
+   "Wikimedia Commons",
+   0.5,
+   0.45
+  ],
+  "hemicycle": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "manif": [
+   "Wikimedia Commons",
+   0.5,
+   0.4
+  ],
+  "emploi": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ]
+ },
+ "anchors": {
+  "mais": [
+   "Mais"
+  ],
+  "un": [
+   "Un"
+  ],
+  "tu": [
+   "Tu",
+   11
+  ],
+  "gilets": [
+   "Les",
+   12
+  ],
+  "deux": [
+   "Deux"
+  ],
+  "sans": [
+   "Sans"
+  ],
+  "trois": [
+   "Trois"
+  ],
+  "dep": [
+   "Dépêche-toi."
+  ],
+  "alors": [
+   "Alors"
+  ],
+  "abo": [
+   "Abonne-toi"
+  ]
+ },
+ "scenes": [
+  {
+   "at": 0,
+   "kind": "hook",
+   "photo": "portrait",
+   "top": "VOICI POURQUOI IL NE DOIT PAS…",
+   "big": "PHILIPPE PRÉSIDENT ?",
+   "stamp": "LA DERNIÈRE RAISON VA TE SURPRENDRE"
+  },
+  {
+   "at": "mais",
+   "kind": "intro",
+   "photo": "hemicycle"
+  },
+  {
+   "at": "un",
+   "kind": "measure",
+   "n": 1,
+   "tot": 3,
+   "photo": [
+    [
+     "route80",
+     0
+    ],
+    [
+     "gj",
+     "gilets"
+    ]
+   ],
+   "icon": "clock",
+   "value": "80 KM/H",
+   "unit": "LE PREMIER MINISTRE DES 80",
+   "stamps": [
+    [
+     "gilets",
+     "LES GILETS JAUNES S’EN SOUVIENNENT",
+     1130,
+     0,
+     "lime",
+     0.04
+    ]
+   ]
+  },
+  {
+   "at": "deux",
+   "kind": "measure",
+   "n": 2,
+   "tot": 3,
+   "photo": [
+    [
+     "manif",
+     0
+    ],
+    [
+     "hemicycle",
+     "sans"
+    ]
+   ],
+   "icon": "doc",
+   "value": "49.3",
+   "unit": "RÉFORME DES RETRAITES 2020",
+   "stamps": [
+    [
+     "sans",
+     "SANS VOTE",
+     1130,
+     0,
+     "vio",
+     -0.05
+    ]
+   ]
+  },
+  {
+   "at": "trois",
+   "kind": "measure",
+   "n": 3,
+   "tot": 3,
+   "photo": "emploi",
+   "icon": "euro",
+   "value": "12 MOIS",
+   "unit": "DE CHÔMAGE MAX (− DE 50 ANS)",
+   "stamps": [
+    [
+     "dep",
+     "DÉPÊCHE-TOI",
+     1130,
+     0,
+     "lime",
+     0.04
+    ]
+   ]
+  },
+  {
+   "at": "alors",
+   "kind": "vote",
+   "photo": "portrait",
+   "q": "PHILIPPE PRÉSIDENT ?",
+   "oui": 0.45
+  }
+ ]
+}

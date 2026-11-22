@@ -1,0 +1,204 @@
+{
+ "dur": 37.46,
+ "photos": {
+  "portrait": [
+   "Wikimedia Commons",
+   0.5,
+   0.3
+  ],
+  "appel": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "hemicycle": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "vote": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "constitution": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "otan": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ]
+ },
+ "anchors": {
+  "mais": [
+   "Mais"
+  ],
+  "lui": [
+   "Lui,"
+  ],
+  "un": [
+   "Un"
+  ],
+  "deux": [
+   "Deux"
+  ],
+  "trois": [
+   "Trois"
+  ],
+  "la": [
+   "La",
+   20
+  ],
+  "quatre": [
+   "Quatre"
+  ],
+  "et": [
+   "Et",
+   25
+  ],
+  "lendemain": [
+   "Le",
+   28
+  ],
+  "tu": [
+   "Tu",
+   29
+  ],
+  "alors": [
+   "Alors,"
+  ],
+  "abo": [
+   "Abonne-toi"
+  ]
+ },
+ "scenes": [
+  {
+   "at": 0,
+   "kind": "hook",
+   "photo": "portrait",
+   "top": "ET SI LE PRÉSIDENT AUJOURD'HUI…",
+   "big": "DE GAULLE ?!",
+   "stamp": "QU’EST-CE QUI CHANGE POUR TOI ?"
+  },
+  {
+   "at": "mais",
+   "kind": "intro",
+   "photo": "portrait"
+  },
+  {
+   "at": "lui",
+   "kind": "title",
+   "photo": "appel",
+   "pill": "18 JUIN 1940",
+   "lines": [
+    [
+     "L’homme de",
+     960,
+     76
+    ],
+    [
+     "{l’appel}",
+     1075,
+     84
+    ]
+   ]
+  },
+  {
+   "at": "un",
+   "kind": "measure",
+   "label": "CHANGEMENT",
+   "n": 1,
+   "tot": 4,
+   "photo": "hemicycle",
+   "icon": "doc",
+   "value": "Ve RÉPUBLIQUE",
+   "unit": "CRÉÉE EN 1958"
+  },
+  {
+   "at": "deux",
+   "kind": "measure",
+   "label": "CHANGEMENT",
+   "n": 2,
+   "tot": 4,
+   "photo": "vote",
+   "icon": "chat",
+   "value": "TU VOTES",
+   "unit": "PRÉSIDENT ÉLU AU SUFFRAGE UNIVERSEL"
+  },
+  {
+   "at": "trois",
+   "kind": "measure",
+   "label": "CHANGEMENT",
+   "n": 3,
+   "tot": 4,
+   "photo": "constitution",
+   "icon": "shield",
+   "value": "LA BOMBE",
+   "unit": "LA DISSUASION FRANÇAISE",
+   "stamps": [
+    [
+     "la",
+     "LA DISSUASION, C’EST LUI",
+     1130,
+     0,
+     "lime",
+     0.04
+    ]
+   ]
+  },
+  {
+   "at": "quatre",
+   "kind": "measure",
+   "label": "CHANGEMENT",
+   "n": 4,
+   "tot": 4,
+   "photo": "otan",
+   "icon": "scale",
+   "value": "OTAN",
+   "unit": "LA FRANCE SORT DU COMMANDEMENT"
+  },
+  {
+   "at": "et",
+   "kind": "title",
+   "photo": "portrait",
+   "br": 0.45,
+   "pill": "1969",
+   "center": true,
+   "lines": [
+    [
+     "Référendum perdu…",
+     820,
+     66
+    ]
+   ],
+   "stamps": [
+    [
+     "lendemain",
+     "IL DÉMISSIONNE",
+     1000,
+     0,
+     "vio",
+     -0.04
+    ],
+    [
+     "tu",
+     "ET AUJOURD’HUI ?",
+     1150,
+     0,
+     "lime",
+     0.04
+    ]
+   ]
+  },
+  {
+   "at": "alors",
+   "kind": "vote",
+   "photo": "portrait",
+   "q": "DE GAULLE PRÉSIDENT ?",
+   "oui": 0.6
+  }
+ ]
+}

@@ -1,0 +1,219 @@
+{
+ "dur": 36.86,
+ "photos": {
+  "portrait": [
+   "Wikimedia Commons",
+   0.5,
+   0.25
+  ],
+  "sacre": [
+   "Wikimedia Commons",
+   0.5,
+   0.4
+  ],
+  "austerlitz": [
+   "Wikimedia Commons",
+   0.5,
+   0.4
+  ],
+  "lycee": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "prefecture": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "banque": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "code": [
+   "Wikimedia Commons",
+   0.5,
+   0.45
+  ]
+ },
+ "anchors": {
+  "mais": [
+   "Mais"
+  ],
+  "un": [
+   "Un"
+  ],
+  "ton": [
+   "Ton",
+   12
+  ],
+  "deux": [
+   "Deux"
+  ],
+  "merci": [
+   "Merci…"
+  ],
+  "trois": [
+   "Trois"
+  ],
+  "banque": [
+   "Banque"
+  ],
+  "quatre": [
+   "Quatre"
+  ],
+  "mais2": [
+   "Mais",
+   24
+  ],
+  "y1802": [
+   "1802,"
+  ],
+  "y1804": [
+   "1804…"
+  ],
+  "alors": [
+   "Alors,"
+  ],
+  "abo": [
+   "Abonne-toi"
+  ]
+ },
+ "scenes": [
+  {
+   "at": 0,
+   "kind": "hook",
+   "photo": "portrait",
+   "top": "ET SI LE PRÉSIDENT AUJOURD'HUI…",
+   "big": "NAPOLÉON ?!",
+   "stamp": "QU’EST-CE QUI CHANGE POUR TOI ?"
+  },
+  {
+   "at": "mais",
+   "kind": "intro",
+   "photo": "sacre"
+  },
+  {
+   "at": "un",
+   "kind": "measure",
+   "label": "CHANGEMENT",
+   "n": 1,
+   "tot": 4,
+   "photo": "austerlitz",
+   "icon": "shield",
+   "value": "LA CONSCRIPTION",
+   "unit": "LES JEUNES À LA GUERRE",
+   "stamps": [
+    [
+     "ton",
+     "TON WEEK-END ? ANNULÉ.",
+     1130,
+     0,
+     "lime",
+     0.04
+    ]
+   ]
+  },
+  {
+   "at": "deux",
+   "kind": "measure",
+   "label": "CHANGEMENT",
+   "n": 2,
+   "tot": 4,
+   "photo": "lycee",
+   "icon": "book",
+   "value": "LE BAC",
+   "unit": "CRÉÉ EN 1808",
+   "stamps": [
+    [
+     "merci",
+     "MERCI… OU PAS",
+     1130,
+     0,
+     "vio",
+     -0.04
+    ]
+   ]
+  },
+  {
+   "at": "trois",
+   "kind": "measure",
+   "label": "CHANGEMENT",
+   "n": 3,
+   "tot": 4,
+   "photo": [
+    [
+     "prefecture",
+     0
+    ],
+    [
+     "banque",
+     "banque"
+    ]
+   ],
+   "icon": "doc",
+   "value": "PRÉFETS",
+   "unit": "+ BANQUE DE FRANCE"
+  },
+  {
+   "at": "quatre",
+   "kind": "measure",
+   "label": "CHANGEMENT",
+   "n": 4,
+   "tot": 4,
+   "photo": "code",
+   "icon": "scale",
+   "value": "CODE CIVIL",
+   "unit": "ENCORE DANS TA VIE"
+  },
+  {
+   "at": "mais2",
+   "kind": "title",
+   "photo": [
+    [
+     "austerlitz",
+     0
+    ],
+    [
+     "sacre",
+     "y1804"
+    ]
+   ],
+   "br": 0.45,
+   "pill": "ATTENTION",
+   "center": true,
+   "lines": [
+    [
+     "1802 : il rétablit",
+     820,
+     66,
+     "y1802"
+    ],
+    [
+     "{l’esclavage}",
+     930,
+     70,
+     "y1802"
+    ]
+   ],
+   "stamps": [
+    [
+     "y1804",
+     "1804 : EMPEREUR",
+     1120,
+     0.3,
+     "lime",
+     0.04
+    ]
+   ]
+  },
+  {
+   "at": "alors",
+   "kind": "vote",
+   "photo": "portrait",
+   "q": "NAPOLÉON PRÉSIDENT ?",
+   "oui": 0.45
+  }
+ ]
+}

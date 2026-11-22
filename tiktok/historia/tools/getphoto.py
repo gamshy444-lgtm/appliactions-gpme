@@ -4,8 +4,12 @@ import sys, re, subprocess, urllib.parse, html, os
 UA = "HistoriaBot/1.0 (https://github.com/gamshy444-lgtm/appliactions-gpme; educational)"
 dest, title = sys.argv[1], sys.argv[2]; name = title.split(':', 1)[1].replace(' ', '_')
 q = urllib.parse.quote(name)
-subprocess.run(["curl", "-sL", "-m", "60", "-A", UA, "-o", dest, f"https://commons.wikimedia.org/wiki/Special:FilePath/{q}?width=1280"], check=True)
-kind = subprocess.run(["file", "-b", dest], capture_output=True, text=True).stdout
+import time
+for wdt in ("1280", "960", "800", "640", ""):
+    subprocess.run(["curl", "-sL", "-m", "60", "-A", UA, "-o", dest, f"https://commons.wikimedia.org/wiki/Special:FilePath/{q}" + (f"?width={wdt}" if wdt else "")], check=True)
+    kind = subprocess.run(["file", "-b", dest], capture_output=True, text=True).stdout
+    if 'image' in kind: break
+    time.sleep(3)
 if 'image' not in kind: print('FAIL', dest, kind[:40]); os.remove(dest); sys.exit(1)
 if 'PNG' in kind: subprocess.run(["/tmp/claude-0/-home-user-appliactions-gpme/f633cfba-3a7c-5966-874e-0eee0a44e957/scratchpad/bin/ffmpeg", "-y", "-loglevel", "error", "-i", dest, "-q:v", "2", dest + '.tmp.jpg']); os.replace(dest + '.tmp.jpg', dest)
 page = subprocess.run(["curl", "-sL", "-m", "30", "-A", UA, f"https://commons.wikimedia.org/wiki/File:{q}"], capture_output=True, text=True).stdout

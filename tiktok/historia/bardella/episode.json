@@ -1,0 +1,158 @@
+{
+ "dur": 31.65,
+ "photos": {
+  "bardella": [
+   "Wikimedia Commons",
+   0.5,
+   0.3
+  ],
+  "parlement": [
+   "Wikimedia Commons",
+   0.5,
+   0.35
+  ],
+  "hemicycle": [
+   "Wikimedia Commons",
+   0.5,
+   0.5
+  ],
+  "carburant": [
+   "Wikimedia Commons",
+   0.4,
+   0.4
+  ],
+  "manif": [
+   "Wikimedia Commons",
+   0.5,
+   0.4
+  ],
+  "lepen": [
+   "Wikimedia Commons",
+   0.5,
+   0.3
+  ]
+ },
+ "anchors": {
+  "mais": [
+   "Mais"
+  ],
+  "un": [
+   "Un"
+  ],
+  "zero": [
+   "Zéro"
+  ],
+  "deux": [
+   "Deux"
+  ],
+  "sympa": [
+   "Sympa…"
+  ],
+  "trois": [
+   "Trois"
+  ],
+  "marine": [
+   "Marine"
+  ],
+  "meme": [
+   "Même"
+  ],
+  "alors": [
+   "Alors"
+  ],
+  "abo": [
+   "Abonne-toi"
+  ]
+ },
+ "scenes": [
+  {
+   "at": 0,
+   "kind": "hook",
+   "photo": "bardella",
+   "top": "VOICI POURQUOI IL NE DOIT PAS…",
+   "big": "BARDELLA PRÉSIDENT ?",
+   "stamp": "LA DERNIÈRE RAISON VA TE SURPRENDRE"
+  },
+  {
+   "at": "mais",
+   "kind": "intro",
+   "photo": "parlement"
+  },
+  {
+   "at": "un",
+   "kind": "measure",
+   "n": 1,
+   "tot": 3,
+   "photo": "hemicycle",
+   "icon": "doc",
+   "value": "31 ANS",
+   "unit": "JAMAIS MINISTRE",
+   "stamps": [
+    [
+     "zero",
+     "ZÉRO JOUR AU GOUVERNEMENT",
+     1130,
+     0,
+     "vio",
+     -0.04
+    ]
+   ]
+  },
+  {
+   "at": "deux",
+   "kind": "measure",
+   "n": 2,
+   "tot": 3,
+   "photo": "carburant",
+   "icon": "euro",
+   "value": "TVA 5,5 %",
+   "unit": "ESSENCE · ÉNERGIE",
+   "stamps": [
+    [
+     "sympa",
+     "QUI PAIE ?",
+     1130,
+     0.4,
+     "lime",
+     0.04
+    ]
+   ]
+  },
+  {
+   "at": "trois",
+   "kind": "measure",
+   "n": 3,
+   "tot": 3,
+   "photo": [
+    [
+     "manif",
+     0
+    ],
+    [
+     "lepen",
+     "marine"
+    ]
+   ],
+   "icon": "clock",
+   "value": "RETRAITE",
+   "unit": "UN ÂGE PLUS TARDIF ?",
+   "stamps": [
+    [
+     "meme",
+     "MÊME PARTI, DEUX DISCOURS",
+     1130,
+     0,
+     "vio",
+     -0.04
+    ]
+   ]
+  },
+  {
+   "at": "alors",
+   "kind": "vote",
+   "photo": "bardella",
+   "q": "BARDELLA PRÉSIDENT ?",
+   "oui": 0.5
+  }
+ ]
+}
