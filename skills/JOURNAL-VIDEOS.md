@@ -37,3 +37,4 @@
 - Vidéos texte animé (v1-v4) rejetées : Wilfried veut garder la DA Historia (moteur engine/episode.js de la branche claude/zealous-newton-k3s919 : photos Commons, Unbounded, citron/violet, tampons, sondage, « Abonne-toi à Historia »).
 - Lot 5 écrit (videos/SCRIPTS_lot5.md), format Eleven v3 Victoria : O1 budget « zéro », O2 blocus 3 000, O3 fonctionnaires, O4 blocus 48/500. Intro raccourcie et placée après le hook.
 - Wilfried a encore 4 générations ElevenLabs. Il génère les voix et me les envoie, je monte ensuite avec le moteur Historia.
+- v2 des textes : 100 % énergie (consigne Wilfried : voix énergique tout le long, pas de voix sérieuse/chuchotée ; objectif « interdiction de swiper » ; toujours intro Historia + « like, abonne-toi »).
