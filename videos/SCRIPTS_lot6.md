@@ -31,6 +31,16 @@ Gros mots sur le BILAN, pas d'insulte personnelle (risque d'injure publique, loi
 [excited] Et sa grande idée ? La « priorité nationale » : des droits différents selon ta nationalité !
 [excited] Alors : Le Pen présidente, oui ou non ? Dis-le en commentaire ! Like, et abonne-toi à Historia !
 
+## P2 bis. Version CASH
+Même registre que Macron : gros mots sur ses actes et son programme, pas d'insulte sexiste (« salope » refusé : insulte misogyne, injure publique, suppression TikTok quasi certaine).
+[excited, fast] Le Pen présidente ? Franchement… ce serait la merde ! [laughs] Et je te le prouve en trois raisons… la dernière, ses électeurs font semblant de l'oublier !
+[energetic, upbeat] Nous, c'est Historia : la politique expliquée en une minute !
+[energetic] Un : en 2025, la justice la condamne pour détournement de fonds publics. De l'argent européen pour payer les gens de son parti ! Et elle veut gérer TON argent ? Sérieux ?!
+[excited, fast] Deux : sortir de l'euro ! Promis en 2017… et hop, abandonné ! Elle retourne sa veste plus vite que toi ton matelas !
+[energetic] Trois, la pire : en 2014, son parti emprunte neuf millions d'euros… à une banque russe ! Et en 2017, elle file serrer la main de Poutine au Kremlin ! Bravo la patriote !
+[excited] Et son grand projet ? La « priorité nationale » : des droits différents selon ta nationalité. Égalité, connais pas !
+[excited] Alors : Le Pen présidente, oui ou non ? Dis-le en commentaire ! Like, et abonne-toi à Historia !
+
 ## À vérifier avant de générer
 - P1 : ISF supprimé (2018, remplacé par l'IFI) ; APL -5 € (oct. 2017) ; retraites 64 ans via 49.3 (16 mars 2023) ; dissolution (9 juin 2024) puis Attal, Barnier, Bayrou, Lecornu ; dette +1 000 Md€ depuis 2017 (≈ 2 260 → plus de 3 300 Md€) ; « traverser la rue » (sept. 2018).
 - P2 : condamnation de mars 2025 (affaire des assistants parlementaires européens du FN) = PREMIÈRE INSTANCE ; une décision d'appel a été rendue le 7 juillet 2026 → vérifier son résultat avant de publier (si relaxe, retirer la raison 1). Prêt de 9,4 M€ de la First Czech-Russian Bank (2014) ; rencontre avec Poutine au Kremlin (mars 2017) ; sortie de l'euro au programme 2017 puis abandonnée.
