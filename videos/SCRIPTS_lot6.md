@@ -12,6 +12,16 @@ Format qui a marché : « X ne doit PAS être président, 3 raisons, la dernièr
 [excited] Et pendant ce temps, il te conseille de « traverser la rue » pour trouver du boulot ! [laughs]
 [excited] Alors : Macron, pire président ? Oui ou non en commentaire ! Like, et abonne-toi à Historia !
 
+## P1 bis. Version CASH (demandée par Wilfried)
+Gros mots sur le BILAN, pas d'insulte personnelle (risque d'injure publique, loi de 1881, et de suppression par TikTok).
+[excited, fast] Macron ? Un président de merde. [laughs] Et je te le prouve en trois raisons… la dernière, c'est la pire !
+[energetic, upbeat] Nous, c'est Historia : la politique expliquée en une minute !
+[energetic] Un : cadeau aux ultra-riches, il supprime l'impôt sur la fortune… et il vient te piquer cinq euros d'APL ! Sérieux ?!
+[excited, fast] Deux : la retraite à soixante-quatre ans. Des millions de gens dans la rue… et lui, il s'en fout : quarante-neuf trois, circulez !
+[energetic] Trois, la pire : en 2024, il dissout l'Assemblée sur un coup de tête. Résultat : quatre Premiers ministres, un pays en vrac, et plus de mille milliards de dette en plus ! Bravo l'artiste !
+[excited] Et le pompon ? Les aides sociales, pour lui, c'est « un pognon de dingue »… et les chômeurs n'ont qu'à « traverser la rue » ! [laughs]
+[excited] Alors : Macron, président de merde, oui ou non ? Dis-le en commentaire ! Like, et abonne-toi à Historia !
+
 ## P2. Le Pen présidente ? 3 raisons pour lesquelles ce serait une catastrophe
 [excited, fast] Marine Le Pen présidente ? [laughs] Attends… trois raisons pour lesquelles ce serait une catastrophe. Et la dernière, ses électeurs l'oublient toujours !
 [energetic, upbeat] Nous, c'est Historia : la politique expliquée en une minute !

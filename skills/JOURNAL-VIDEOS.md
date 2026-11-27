@@ -39,3 +39,4 @@
 - Wilfried a encore 4 générations ElevenLabs. Il génère les voix et me les envoie, je monte ensuite avec le moteur Historia.
 - v2 des textes : 100 % énergie (consigne Wilfried : voix énergique tout le long, pas de voix sérieuse/chuchotée ; objectif « interdiction de swiper » ; toujours intro Historia + « like, abonne-toi »).
 - Lot 6 (videos/SCRIPTS_lot6.md) : vidéos critiques, ligne de gauche annoncée par Wilfried : P1 Macron « pire président », P2 Le Pen « catastrophe ». Textes courts (peu de crédits ElevenLabs).
+- Wilfried veut des insultes. P1 bis écrit : gros mots sur le bilan (« président de merde », « bravo l'artiste »), pas d'insulte personnelle (risque d'injure publique + modération TikTok).
