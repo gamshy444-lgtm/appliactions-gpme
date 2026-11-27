@@ -24,6 +24,32 @@ Avant de produire quoi que ce soit, obtiens ces 4 infos (propose des valeurs par
 - Un seul message par vidéo.
 - Une fin claire : appel à l'action ou chute.
 
+## 2 bis. Le hook — méthode obligatoire (validée par l'utilisateur)
+
+Règle de base : ce n'est pas le sujet qui est ennuyeux, c'est la façon de l'introduire.
+
+**Triple hook (les 2-3 premières phrases)** :
+1. **Contexte** : dire de quoi parle la vidéo le plus tôt possible, partout à la fois (à l'oral, dans l'image, en texte à l'écran, dans la description).
+2. **Curiosité** : donner envie de « se pencher » : une stat ou une preuve, une douleur précise du spectateur, un bénéfice qu'il veut, ou un fait choquant / inattendu.
+3. **Contre-pied** : emmener le spectateur dans une direction à laquelle il ne s'attendait pas (on ferre dans l'autre sens).
+
+**Structure de la vidéo en 4 étapes** :
+1. **Commencer par un moment, pas par un sujet** : une situation que le spectateur reconnaît (pas « 5 façons de… »).
+2. **Donner une conséquence** : pourquoi ce problème compte, ce qu'il coûte vraiment (l'étape que tout le monde oublie et où on perd le plus de spectateurs).
+3. **Montrer le moment où ça a changé** : ce qu'on a compris, ce qu'on faisait mal, ce qu'on a essayé à la place.
+4. **Donner quelque chose à faire** : un geste concret, faisable en 5 minutes. C'est ce qui fait enregistrer la vidéo.
+
+**Check-list avant de publier** (refuser de valider une vidéo qui rate une case) :
+- [ ] Les 2 premières phrases donnent-elles le contexte ?
+- [ ] Créent-elles assez de curiosité ?
+- [ ] Y a-t-il un contre-pied ?
+- [ ] Ai-je commencé par un moment reconnaissable ?
+- [ ] Ai-je expliqué pourquoi ce moment compte ?
+- [ ] Ai-je montré ce qui a changé ?
+- [ ] Le spectateur repart-il avec une action concrète ?
+
+Pour chaque vidéo, propose **3 hooks différents** et recommande-en un, en expliquant pourquoi.
+
 ## 3. Le storyboard (tableau obligatoire)
 
 | Plan | Durée | Ce qu'on voit | Mouvement | Texte à l'écran | Son |
