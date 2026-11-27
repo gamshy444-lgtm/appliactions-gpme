@@ -38,3 +38,4 @@
 - Lot 5 écrit (videos/SCRIPTS_lot5.md), format Eleven v3 Victoria : O1 budget « zéro », O2 blocus 3 000, O3 fonctionnaires, O4 blocus 48/500. Intro raccourcie et placée après le hook.
 - Wilfried a encore 4 générations ElevenLabs. Il génère les voix et me les envoie, je monte ensuite avec le moteur Historia.
 - v2 des textes : 100 % énergie (consigne Wilfried : voix énergique tout le long, pas de voix sérieuse/chuchotée ; objectif « interdiction de swiper » ; toujours intro Historia + « like, abonne-toi »).
+- Lot 6 (videos/SCRIPTS_lot6.md) : vidéos critiques, ligne de gauche annoncée par Wilfried : P1 Macron « pire président », P2 Le Pen « catastrophe ». Textes courts (peu de crédits ElevenLabs).
