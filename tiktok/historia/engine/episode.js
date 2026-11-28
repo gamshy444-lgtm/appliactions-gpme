@@ -6,7 +6,19 @@ const fg = c => c === 'lime' || c === 'ink' ? C.bg : C.ink;
 let E, A = {};
 const T = s => typeof s === 'number' ? s : A[s];
 function bg(t, a, b, p, br = .5) { if (!p) { ground(); return; } const list = Array.isArray(p) ? p : [[p, 0]]; let cur = list[0][0]; for (const [n, k] of list) if (t >= (typeof k === 'number' && k > 0 ? T(k) ?? k : T(k) ?? 0)) cur = n; photo(cur, lerp(1.03, 1.12, seg(t, a, b)), `contrast(1.1) saturate(1.08) brightness(${br})`); credit(cur); }
+function introBannerLocal(t, t0, t1) { if (t < t0 || t > t1) return; const k = eo(seg(t, t0, t0 + .25)) * (1 - eio(seg(t, t1 - .2, t1))), y = lerp(1920, 1500, k);
+  ctx.save(); ctx.fillStyle = 'rgba(5,5,5,.92)'; ctx.beginPath(); ctx.roundRect(X0, y, W - 2 * X0, 170, 34); ctx.fill(); ctx.strokeStyle = C.lime; ctx.lineWidth = 3; ctx.stroke();
+  text('NOUS, C’EST HISTORIA', X0 + 40, y + 75, F(900, 42), C.lime); text('La politique expliquée en 1 minute', X0 + 40, y + 125, F(700, 30), C.ink); ctx.restore(); }
 const KINDS = {
+  auto(t, a, b, s) { photo(s.photo, lerp(s.zin ? 1.14 : 1.02, s.zin ? 1.02 : 1.14, seg(t, a, b)), 'contrast(1.12) saturate(1.12) brightness(.62)'); shade(.55); credit(s.photo);
+    if (s.chap) { chapters(t, s.chap[0] - 1, s.chap[1], a); pill(t, a + .05, s.chap[2] || ('RAISON ' + s.chap[0]), X0, 400, C.vio, C.ink, 30); }
+    if (s.value) bigValue(t, a + .08, s.value, s.unit, 820, s.vcol === 'vio' ? C.vio : C.lime);
+    if (s.big) { let px = 96; while (tw(s.big, F(900, px)) > W - 140) px -= 4; const k = back(seg(t, a, a + .25), 1.8); ctx.save(); ctx.translate(W / 2, 700); ctx.scale(lerp(1.4, 1, k), lerp(1.4, 1, k)); ctx.shadowColor = 'rgba(0,0,0,.7)'; ctx.shadowBlur = 30; text(s.big, 0, 0, F(900, px), s.bcol === 'vio' ? C.vio : C.lime, 'center'); ctx.restore(); ctx.shadowBlur = 0; if (s.sub) text(s.sub, W / 2, 790, F(800, 44), C.ink, 'center'); }
+    if (s.stamp) stamp(t, a + .15, s.stamp, 1130, col(s.scol || 'vio'), fg(s.scol || 'vio'), s.rot ?? -.04);
+    if (s.src) { ctx.save(); ctx.globalAlpha = clamp(seg(t, a, a + .2) * 2); ctx.fillStyle = 'rgba(0,0,0,.6)'; const w = tw('SOURCE · ' + s.src, F(700, 22)) + 24; ctx.fillRect(X0, 196, w, 34); text('SOURCE · ' + s.src, X0 + 12, 221, F(700, 22), C.ink); ctx.restore(); }
+    if (s.intro) introBannerLocal(t, a, Math.min(b, a + 2.2));
+    if (s.hookpill) { const k = eo(seg(t, a + .4, a + .7)); ctx.save(); ctx.globalAlpha = k; const w = tw(s.hookpill, F(900, 34)) + 60; ctx.fillStyle = C.vio; ctx.beginPath(); ctx.roundRect(W / 2 - w / 2, 1560, w, 70, 35); ctx.fill(); text(s.hookpill, W / 2, 1607, F(900, 34), C.ink, 'center'); ctx.restore(); }
+  },
   hook(t, a, b, s) { photo(s.photo, lerp(1.2, 1.06, eo(seg(t, a, a + .6))), 'contrast(1.12) saturate(1.05) brightness(.82)'); credit(s.photo);
     const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(5,5,5,.9)'); g.addColorStop(.3, 'rgba(5,5,5,.2)'); g.addColorStop(.62, 'rgba(5,5,5,.25)'); g.addColorStop(.85, 'rgba(5,5,5,.92)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
     const k = back(seg(t, a, a + .25), 1.6); ctx.save(); ctx.translate(W / 2, 330); ctx.scale(lerp(1.15, 1, k), lerp(1.15, 1, k)); text(s.top, 0, 0, F(800, 50), C.ink, 'center'); ctx.restore();
@@ -25,11 +37,11 @@ const KINDS = {
     text('SONDAGE HISTORIA', x + 40, y + 68, F(700, 26), C.grey); let px = 50; while (tw(s.q, F(900, px)) > w - 80) px -= 2; text(s.q, x + 40, y + 138, F(900, px), C.ink);
     [['OUI', C.lime, s.oui ?? .5, .5, C.bg], ['NON', C.vio, 1 - (s.oui ?? .5), .75, C.ink]].forEach(([l, c, f, d, fc], i) => { const yy = y + 190 + i * 96, kk = eio(seg(t, a + d, a + d + .9)), bw = w - 80; ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.beginPath(); ctx.roundRect(x + 40, yy, bw, 74, 37); ctx.fill(); ctx.fillStyle = c; ctx.beginPath(); ctx.roundRect(x + 40, yy, Math.max(74, bw * f * kk), 74, 37); ctx.fill(); text(l, x + 72, yy + 50, F(800, 34), fc); text('?', x + 40 + bw - 30, yy + 50, F(800, 34), C.ink, 'right'); });
     ctx.restore(); iconTile(t, a + 1.0, 'chat', W - X0 - 130, 820, 130);
-    const ab = T('abo'); if (ab != null && t > ab) { const k2 = eo(seg(t, ab, ab + .3)); ctx.save(); ctx.globalAlpha = k2; ctx.translate(0, (1 - k2) * 30); ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(X0, 1560, W - 2 * X0, 110, 55); ctx.fill(); text('ABONNE-TOI · @HISTORIAX25', W / 2, 1632, F(900, 40), C.bg, 'center'); ctx.restore(); } },
+    const ab = T('abo'); if (ab != null && t > ab) { const k2 = eo(seg(t, ab, ab + .3)); ctx.save(); ctx.globalAlpha = k2; ctx.translate(0, (1 - k2) * 30); ctx.fillStyle = C.lime; ctx.beginPath(); ctx.roundRect(X0, 1560, W - 2 * X0, 110, 55); ctx.fill(); const pu = 1 + .04 * Math.sin(t * 9); ctx.translate(W / 2, 1615); ctx.scale(pu, pu); ctx.translate(-W / 2, -1615); text('LIKE ❤ + ABONNE-TOI · @HISTORIAX25', W / 2, 1632, F(900, 34), C.bg, 'center'); ctx.restore(); } },
 };
 (async () => {
   E = await (await fetch('episode.json')).json();
-  setup({ PH: Object.fromEntries(Object.entries(E.photos).map(([k, v]) => [k, [v[0], v[1] ?? .5, v[2] ?? .4]])), dur: E.dur });
+  setup({ tag: E.tag, PH: Object.fromEntries(Object.entries(E.photos).map(([k, v]) => [k, [v[0], v[1] ?? .5, v[2] ?? .4]])), dur: E.dur });
   await boot(Object.keys(E.photos));
   for (const [k, [w, after]] of Object.entries(E.anchors)) A[k] = at(w, after || 0);
   scenes(E.scenes.map(s => [s.at === 0 ? 0 : T(s.at), (t, a, b) => KINDS[s.kind](t, a, b, s)]));

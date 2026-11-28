@@ -77,13 +77,13 @@ function karaoke(t) { // word-by-word captions, 3-word groups, current word on a
   const groups = []; let g = [];
   WORDS.forEach((w, j) => { g.push(j); if (g.length === 3 || /[.!?…:,]$/.test(w.w)) { groups.push(g); g = []; } }); if (g.length) groups.push(g);
   const grp = groups.find(gg => gg.includes(i));
-  let px = 64; const sp = 20, ws = grp.map(j => WORDS[j].w.toUpperCase().replace(/[…«»]/g, '').trim()); while (ws.reduce((s, w) => s + tw(w, F(800, px)), 0) + sp * (ws.length - 1) > W - 140 && px > 36) px -= 2; const f = F(800, px), wd = ws.map(w => tw(w, f));
+  let px = 78; const sp = 20, ws = grp.map(j => WORDS[j].w.toUpperCase().replace(/[…«»]/g, '').trim()); while (ws.reduce((s, w) => s + tw(w, F(800, px)), 0) + sp * (ws.length - 1) > W - 140 && px > 36) px -= 2; const f = F(800, px), wd = ws.map(w => tw(w, f));
   const total = wd.reduce((a, b) => a + b, 0) + sp * (ws.length - 1); let x = (W - total) / 2; const y = 1330;
   const k = eo(seg(t, WORDS[grp[0]].t, WORDS[grp[0]].t + .12)); ctx.save(); ctx.translate(W / 2, y); ctx.scale(lerp(.9, 1, k), lerp(.9, 1, k)); ctx.translate(-W / 2, -y);
   ws.forEach((w, n) => { const j = grp[n], on = j === i, said = j <= i, lift = on ? eo(seg(t, WORDS[j].t, WORDS[j].t + .1)) : 0;
     ctx.save(); ctx.translate(x + wd[n] / 2, y); ctx.scale(1 + .08 * lift, 1 + .08 * lift); ctx.translate(-(x + wd[n] / 2), -y - 6 * lift);
     ctx.font = f; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.shadowColor = 'rgba(0,0,0,.75)'; ctx.shadowBlur = 28; ctx.shadowOffsetY = 4;
-    ctx.fillStyle = on ? C.lime : said ? C.ink : 'rgba(255,255,255,.55)'; ctx.fillText(w, x, y); ctx.restore(); x += wd[n] + sp; });
+    const caps = WORDS[j].w.length > 1 && WORDS[j].w === WORDS[j].w.toUpperCase() && /[A-ZÉÈ]/.test(WORDS[j].w); ctx.fillStyle = on ? C.lime : caps ? C.vio : said ? C.ink : 'rgba(255,255,255,.55)'; ctx.fillText(w, x, y); ctx.restore(); x += wd[n] + sp; });
   ctx.restore();
 }
 
@@ -98,9 +98,10 @@ export function chapters(t, i, n, t0) { if (t < t0) return; const k = eo(seg(t, 
 export function bigValue(t, t0, value, unit, y = 860, col = C.lime) {
   if (t < t0) return; const k = back(seg(t, t0, t0 + .35), 1.7), m = /^[\d\s]+$/.test(value) ? +value.replace(/\s/g, '') : null;
   const shown = m != null ? Math.round(lerp(0, m, eo(seg(t, t0, t0 + .9)))).toLocaleString('fr-FR').replace(/\s/g, ' ') : value;
-  ctx.save(); ctx.translate(W / 2, y); ctx.scale(lerp(1.4, 1, k), lerp(1.4, 1, k)); ctx.globalAlpha = clamp(seg(t, t0, t0 + .12) * 3);
+  const sh = t < t0 + .12 ? Math.sin(t * 160) * 14 * (1 - seg(t, t0, t0 + .12)) : 0; ctx.save(); ctx.translate(W / 2 + sh, y); ctx.scale(lerp(1.4, 1, k), lerp(1.4, 1, k)); ctx.globalAlpha = clamp(seg(t, t0, t0 + .12) * 3);
   ctx.shadowColor = 'rgba(0,0,0,.8)'; ctx.shadowBlur = 40; let size = 210; while (tw(shown, F(900, size)) > W - 140 && size > 90) size -= 6; num(shown, 0, 0, size, col, 'center'); ctx.shadowBlur = 0;
   if (unit) text(unit, 0, 90, F(800, 46), C.ink, 'center'); ctx.restore();
+  const fl = seg(t, t0, t0 + .12); if (fl > 0 && fl < 1) { ctx.fillStyle = `rgba(255,255,255,${.35 * (1 - fl)})`; ctx.fillRect(0, 0, W, H); }
 }
 // ── Historia intro card (on screen, used when the voice doesn't say it)
 export function introCard(t, t0, t1) { if (t < t0 || t > t1) return; const k = eo(seg(t, t0, t0 + .3)) * (1 - eio(seg(t, t1 - .25, t1)));
@@ -114,8 +115,8 @@ export function introBanner(t, t0, t1) { if (t < t0 || t > t1) return; const k =
   ctx.lineWidth = 10; ctx.strokeStyle = C.lime; ctx.beginPath(); ctx.arc(X0 + 95, y + 95, 52, -Math.PI / 2, -Math.PI / 2 + Math.PI * 1.56); ctx.stroke(); text('H', X0 + 95, y + 122, F(900, 70), C.lime, 'center');
   text('NOUS, C’EST HISTORIA', X0 + 180, y + 82, F(900, 40), C.ink); text('La politique expliquée en 1 minute', X0 + 180, y + 135, F(600, 30), C.grey); ctx.restore(); }
 // ── frame loop with zoom-through transitions
-let S = [], DUR = 40, CH = null;
-export function setup(cfg) { PH = cfg.PH; DUR = cfg.dur; CH = cfg.chrome || null; }
+let S = [], DUR = 40, CH = null, TAG = 'PRÉSIDENTIELLE 2027';
+export function setup(cfg) { PH = cfg.PH; DUR = cfg.dur; CH = cfg.chrome || null; if (cfg.tag) TAG = cfg.tag; }
 export function scenes(list) { S = list; window.EV = S.slice(1).map(s => ({ t: s[0], type: 'cut' })).concat(window.EXTRA_EV || []); }
 function vignette() { const vg = ctx.createRadialGradient(W / 2, H * .45, H * .3, W / 2, H * .45, H * .78); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.5)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H); }
 export function render(t) {
@@ -128,9 +129,9 @@ export function render(t) {
     ctx.save(); ctx.globalAlpha = p; ctx.translate(W / 2, H / 2); ctx.scale(lerp(1.18, 1, p), lerp(1.18, 1, p)); ctx.translate(-W / 2, -H / 2); S[i][1](t, a, b); ctx.restore();
     ctx.globalAlpha = .5 * Math.sin(Math.PI * p); ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; ctx.filter = 'none';
   } else S[i][1](t, a, b);
-  vignette(); karaoke(t);
+  vignette(); if (window.OVERLAY) window.OVERLAY(t); karaoke(t);
   if (i === 0) { ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W * t / DUR, 8); return; }
-  ctx.globalAlpha = 1; ctx.fillStyle = C.lime; ctx.fillRect(X0, 120, 196, 50); text('HISTORIA', X0 + 98, 156, F(900, 24), C.bg, 'center'); text('PRÉSIDENTIELLE 2027', X0 + 216, 155, F(800, 24), C.ink);
+  ctx.globalAlpha = 1; ctx.fillStyle = C.lime; ctx.fillRect(X0, 120, 196, 50); text('HISTORIA', X0 + 98, 156, F(900, 24), C.bg, 'center'); text(TAG, X0 + 216, 155, F(800, 24), C.ink);
   const left = Math.max(0, DUR - t); ctx.lineWidth = 8; ctx.strokeStyle = 'rgba(255,255,255,.15)'; ctx.beginPath(); ctx.arc(W - 120, 145, 50, 0, 7); ctx.stroke();
   ctx.strokeStyle = left < 6 ? C.vio : C.lime; ctx.beginPath(); ctx.arc(W - 120, 145, 50, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * left / DUR); ctx.stroke(); num(String(Math.ceil(left)), W - 120, 162, 40, C.ink, 'center');
   ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W * t / DUR, 8);
