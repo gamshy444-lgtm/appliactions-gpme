@@ -77,11 +77,11 @@ function karaoke(t) { // word-by-word captions, 3-word groups, current word on a
   const groups = []; let g = [];
   WORDS.forEach((w, j) => { g.push(j); if (g.length === 3 || /[.!?…:,]$/.test(w.w)) { groups.push(g); g = []; } }); if (g.length) groups.push(g);
   const grp = groups.find(gg => gg.includes(i));
-  let px = 78; const sp = 20, ws = grp.map(j => WORDS[j].w.toUpperCase().replace(/[…«»]/g, '').trim()); while (ws.reduce((s, w) => s + tw(w, F(800, px)), 0) + sp * (ws.length - 1) > W - 140 && px > 36) px -= 2; const f = F(800, px), wd = ws.map(w => tw(w, f));
+  let px = 78, sp = 36; const ws = grp.map(j => WORDS[j].w.toUpperCase().replace(/[…«»]/g, '').trim()); while (ws.reduce((s, w) => s + tw(w, F(800, px)), 0) + px * .5 * (ws.length - 1) > W - 140 && px > 36) px -= 2; sp = Math.round(px * .5); const f = F(800, px), wd = ws.map(w => tw(w, f));
   const total = wd.reduce((a, b) => a + b, 0) + sp * (ws.length - 1); let x = (W - total) / 2; const y = 1330;
   const k = eo(seg(t, WORDS[grp[0]].t, WORDS[grp[0]].t + .12)); ctx.save(); ctx.translate(W / 2, y); ctx.scale(lerp(.9, 1, k), lerp(.9, 1, k)); ctx.translate(-W / 2, -y);
   ws.forEach((w, n) => { const j = grp[n], on = j === i, said = j <= i, lift = on ? eo(seg(t, WORDS[j].t, WORDS[j].t + .1)) : 0;
-    ctx.save(); ctx.translate(x + wd[n] / 2, y); ctx.scale(1 + .08 * lift, 1 + .08 * lift); ctx.translate(-(x + wd[n] / 2), -y - 6 * lift);
+    ctx.save(); ctx.translate(x + wd[n] / 2, y); ctx.scale(1, 1); ctx.translate(-(x + wd[n] / 2), -y - 6 * lift);
     ctx.font = f; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.shadowColor = 'rgba(0,0,0,.75)'; ctx.shadowBlur = 28; ctx.shadowOffsetY = 4;
     const caps = WORDS[j].w.length > 1 && WORDS[j].w === WORDS[j].w.toUpperCase() && /[A-ZÉÈ]/.test(WORDS[j].w); ctx.fillStyle = on ? C.lime : caps ? C.vio : said ? C.ink : 'rgba(255,255,255,.55)'; ctx.fillText(w, x, y); ctx.restore(); x += wd[n] + sp; });
   ctx.restore();
@@ -123,11 +123,16 @@ export function render(t) {
   ctx.setTransform(K, 0, 0, K, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
   let i = 0; for (let j = 0; j < S.length; j++) if (t >= S[j][0]) i = j;
   const a = S[i][0], b = i + 1 < S.length ? S[i + 1][0] : DUR, TR = .28;
-  if (i > 0 && t < a + TR) { // zoom-through: old shot pushes into the lens, new shot settles from slightly large
+  if (i > 0 && t < a + TR && i % 2 === 0) { // whip pan: old shot flies out sideways, new one slams in, motion streaks
+    const p = eio(seg(t, a, a + TR)), d = (i / 2) % 2 ? 1 : -1;
+    ctx.save(); ctx.translate(-d * W * p, 0); S[i - 1][1](a - .001, S[i - 1][0], a); ctx.restore();
+    ctx.save(); ctx.translate(d * W * (1 - p), 0); S[i][1](t, a, b); ctx.restore();
+    ctx.globalAlpha = .55 * Math.sin(Math.PI * p); for (let y = 0; y < H; y += 46) { ctx.fillStyle = (y / 46) % 3 ? 'rgba(255,255,255,.5)' : C.lime; ctx.fillRect(0, y, W, 6 + 10 * ((y * 7) % 3)); } ctx.globalAlpha = 1; ctx.filter = 'none';
+  } else if (i > 0 && t < a + TR) { // zoom-through: old shot pushes into the lens, new shot settles from slightly large
     const p = eio(seg(t, a, a + TR));
     ctx.save(); ctx.globalAlpha = 1 - p; ctx.translate(W / 2, H / 2); ctx.scale(1 + .45 * p, 1 + .45 * p); ctx.translate(-W / 2, -H / 2); S[i - 1][1](a - .001, S[i - 1][0], a); ctx.restore();
     ctx.save(); ctx.globalAlpha = p; ctx.translate(W / 2, H / 2); ctx.scale(lerp(1.18, 1, p), lerp(1.18, 1, p)); ctx.translate(-W / 2, -H / 2); S[i][1](t, a, b); ctx.restore();
-    ctx.globalAlpha = .5 * Math.sin(Math.PI * p); ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; ctx.filter = 'none';
+    ctx.globalAlpha = .28 * Math.sin(Math.PI * p); ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; ctx.filter = 'none';
   } else S[i][1](t, a, b);
   vignette(); if (window.OVERLAY) window.OVERLAY(t); karaoke(t);
   if (i === 0) { ctx.fillStyle = C.lime; ctx.fillRect(0, 0, W * t / DUR, 8); return; }

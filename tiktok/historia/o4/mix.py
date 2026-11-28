@@ -14,6 +14,8 @@ for e in E['ev']:
     elif ty == 'hit': add(fx, thump(1, 45), t, .8, 0); add(fx, crash(.6), t, .16, 0)
     elif ty == 'sting': add(fx, riser(.45), t - .45, .22, 0); add(fx, thump(1, 48), t, .7, 0); add(fx, ding(1), t + .05, .16, .1)
     elif ty == 'stamp': add(fx, thump(1, 70), t, .7, 0); add(fx, click(.6, 1), t, .3, 0)
+    elif ty == 'sw': add(fx, whoosh(.16, 1), t - .08, .14, .35 if int(t * 10) % 2 else -.35); add(fx, click(1.8, .5), t, .1, 0)
+    elif ty == 'impact': add(fx, thump(1, 42), t, .75, 0); add(fx, crash(.5), t, .08, 0)
     elif ty == 'count':
         for k in range(12): add(fx, click(1.4, .4), t + k * .08, .12, .2)
 for s in range(1, int(DUR)): add(fx, tick(), s, .06, .3 if s % 2 else -.3)

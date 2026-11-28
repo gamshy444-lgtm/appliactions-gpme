@@ -208,3 +208,10 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - 6 nouveaux audios reçus (inbox_27nov/audio1→6). Ne correspondent clairement à aucun texte prévu (Sarkozy, Hollande, Macron, Attal, Glucksmann, records) → demander les textes à Wilfried.
 - 27/11 : lot 5-6 (O1 budget, O2 blocus 3000, O3 fonctionnaires, O4 48/500, P1bis Macron, P2bis Le Pen) montés : photo par phrase, punch+flash sur chiffres, bannière Historia sur scène, sous-titres 78 px (MAJ en violet), bouton LIKE qui pulse, bandeau POLITIQUE/ACTU. Faits vérifiés : budget 458 contre/0 pour (LCP), Le Pen condamnée en appel 7/07/2026.
 - Programmé (4 réseaux) : O1 budget 28/11 12h30 · P1 Macron 28/11 19h · O2 blocus 29/11 12h30 · P2 Le Pen 29/11 19h · O3 fonctionnaires 30/11 12h30 · O4 48/500 30/11 19h. Objectif test : moyenne > 2 000 vues ; relever à +48 h et demander la courbe de rétention TikTok.
+
+## 28 nov. (nuit)
+- Wilfried : « pas assez dynamiques, change toutes les photos ». + cahier des charges « Master prompt montage pro ».
+- Fait : moteur v4 (engine/episode.js) → photo qui change toutes les 0,85 s (0,7 s sur le hook) avec punch-in, dérive de caméra, secousse sur chiffres/titres, barres lime au changement, whip-pan une transition sur deux, titres plus gros + sous-titre en bandeau, son « whoosh » synchronisé sur chaque changement de photo + impact sur chiffres.
+- 0 photo réutilisée : 57 nouvelles photos Commons (pool2 + pool3, en 1920 px quand dispo) : Palais Bourbon, banc des ministres, Sénat, Bercy, Élysée, blocus lycée Cézanne (poubelles) / Henri-IV / Vauvenargues (CRS), Geffray, urgences, Macron 2022/2024, Le Pen meeting Lille 2017, Le Pen–Poutine au Kremlin 2017, Le Pen au Parlement européen…
+- Écartées volontairement : photos avec gros mots/dessins obscènes (graffitis Parcoursup, poubelle « ACAB »), salle d'attente au Cameroun (faux contexte).
+- Limite assumée : pas de vidéo (B-roll filmé) libre de droits → montage photo dynamique. Musique : ajoutée dans les applis (pas dans le fichier).
