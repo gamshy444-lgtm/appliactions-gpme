@@ -215,3 +215,5 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - 0 photo réutilisée : 57 nouvelles photos Commons (pool2 + pool3, en 1920 px quand dispo) : Palais Bourbon, banc des ministres, Sénat, Bercy, Élysée, blocus lycée Cézanne (poubelles) / Henri-IV / Vauvenargues (CRS), Geffray, urgences, Macron 2022/2024, Le Pen meeting Lille 2017, Le Pen–Poutine au Kremlin 2017, Le Pen au Parlement européen…
 - Écartées volontairement : photos avec gros mots/dessins obscènes (graffitis Parcoursup, poubelle « ACAB »), salle d'attente au Cameroun (faux contexte).
 - Limite assumée : pas de vidéo (B-roll filmé) libre de droits → montage photo dynamique. Musique : ajoutée dans les applis (pas dans le fichier).
+- Rendu final vérifié (0 image noire, 0 gel, −14 LUFS, 1080×1920 30 i/s). Commit 609b92a.
+- Metricool : les 6 posts remplacés par les nouvelles vidéos, mêmes horaires/textes. Nouveaux IDs : O1 445036898 · P1 445036974 · O2 445037090 · P2 445037136 · O3 445037191 · O4 445037370.
