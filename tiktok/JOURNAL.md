@@ -207,3 +207,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 ## 27 nov.
 - 6 nouveaux audios reçus (inbox_27nov/audio1→6). Ne correspondent clairement à aucun texte prévu (Sarkozy, Hollande, Macron, Attal, Glucksmann, records) → demander les textes à Wilfried.
 - 27/11 : lot 5-6 (O1 budget, O2 blocus 3000, O3 fonctionnaires, O4 48/500, P1bis Macron, P2bis Le Pen) montés : photo par phrase, punch+flash sur chiffres, bannière Historia sur scène, sous-titres 78 px (MAJ en violet), bouton LIKE qui pulse, bandeau POLITIQUE/ACTU. Faits vérifiés : budget 458 contre/0 pour (LCP), Le Pen condamnée en appel 7/07/2026.
+- Programmé (4 réseaux) : O1 budget 28/11 12h30 · P1 Macron 28/11 19h · O2 blocus 29/11 12h30 · P2 Le Pen 29/11 19h · O3 fonctionnaires 30/11 12h30 · O4 48/500 30/11 19h. Objectif test : moyenne > 2 000 vues ; relever à +48 h et demander la courbe de rétention TikTok.
