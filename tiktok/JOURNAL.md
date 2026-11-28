@@ -217,3 +217,4 @@ Tout ce qui a été dit et décidé, dans l'ordre. On s'en sert pour réviser en
 - Limite assumée : pas de vidéo (B-roll filmé) libre de droits → montage photo dynamique. Musique : ajoutée dans les applis (pas dans le fichier).
 - Rendu final vérifié (0 image noire, 0 gel, −14 LUFS, 1080×1920 30 i/s). Commit 609b92a.
 - Metricool : les 6 posts remplacés par les nouvelles vidéos, mêmes horaires/textes. Nouveaux IDs : O1 445036898 · P1 445036974 · O2 445037090 · P2 445037136 · O3 445037191 · O4 445037370.
+- Wilfried : rien le dimanche → O2 blocus déplacé mardi 1/12 12h30 (ID 445039985), P2 Le Pen mercredi 2/12 19h (ID 445040028).
